@@ -1,0 +1,1281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.timing &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.common.timing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.common.timing</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  This module was originally developed as part of the PyUtilib project</span>
+<span class="c1">#  Copyright (c) 2008 Sandia Corporation.</span>
+<span class="c1">#  This software is distributed under the BSD License.</span>
+<span class="c1">#  Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,</span>
+<span class="c1">#  the U.S. Government retains certain rights in this software.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="sd">&quot;&quot;&quot;A module of utilities for collecting timing information</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    report_timing</span>
+<span class="sd">    TicTocTimer</span>
+<span class="sd">    tic</span>
+<span class="sd">    toc</span>
+<span class="sd">    HierarchicalTimer</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecation_warning</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">NOTSET</span> <span class="k">as</span> <span class="n">_NotSpecified</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.common.timing&#39;</span><span class="p">)</span>
+<span class="n">_logger</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+<span class="n">_construction_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.common.timing.construction&#39;</span><span class="p">)</span>
+<span class="n">_transform_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.common.timing.transformation&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="report_timing"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.report_timing">[docs]</a><span class="k">def</span> <span class="nf">report_timing</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set reporting of Pyomo timing information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stream: bool, TextIOBase</span>
+<span class="sd">        The destination stream to emit timing information.  If ``True``,</span>
+<span class="sd">        defaults to ``sys.stdout``.  If ``False`` or ``None``, disables</span>
+<span class="sd">        reporting of timing information.</span>
+<span class="sd">    level: int</span>
+<span class="sd">        The logging level for the timing logger</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;      </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">handler</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">h</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">GeneralTimer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+
+<span class="k">class</span> <span class="nc">ConstructionTimer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;timer&#39;</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%6.*f</span><span class="s2"> seconds to construct </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s%s</span><span class="s2">&quot;</span>
+    <span class="n">in_progress</span> <span class="o">=</span> <span class="s2">&quot;ConstructionTimer object for </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">; </span><span class="si">%0.3f</span><span class="s2"> elapsed seconds&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="o">-</span><span class="n">default_timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Record the elapsed time, as some log handlers may not</span>
+        <span class="c1"># immediately generate the message string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">+=</span> <span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">_construction_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">local_name</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;(unknown)&#39;</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;(unknown)&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                <span class="c1"># indexed component</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">isfinite</span><span class="p">():</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">index_set</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+                <span class="n">idx_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s1"> indices&#39;</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;1 index&#39;</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;index_set&#39;</span><span class="p">):</span>
+                <span class="c1"># scalar indexed components</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">index_set</span><span class="p">())</span>
+                <span class="n">idx_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s1"> indices&#39;</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;1 index&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># other non-indexed component (e.g., Suffix)</span>
+                <span class="n">idx_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># unknown component</span>
+            <span class="n">idx_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">idx_label</span><span class="p">:</span>
+            <span class="n">idx_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;; </span><span class="si">{</span><span class="n">idx_label</span><span class="si">}</span><span class="s1"> total&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">ctype</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span>
+        <span class="k">if</span> <span class="n">total_time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">total_time</span> <span class="o">+=</span> <span class="n">default_timer</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_progress</span> <span class="o">%</span> <span class="p">(</span><span class="n">_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">total_time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="k">if</span> <span class="n">total_time</span> <span class="o">&gt;=</span> <span class="mf">0.005</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">total_time</span><span class="p">,</span>
+            <span class="n">_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">idx_label</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TransformationTimer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;timer&#39;</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%6.*f</span><span class="s2"> seconds to apply Transformation </span><span class="si">%s%s</span><span class="s2">&quot;</span>
+    <span class="n">in_progress</span> <span class="o">=</span> <span class="s2">&quot;TransformationTimer object for </span><span class="si">%s%s</span><span class="s2">; </span><span class="si">%0.3f</span><span class="s2"> elapsed seconds&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot; (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mode</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="o">-</span><span class="n">default_timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Record the elapsed time, as some log handlers may not</span>
+        <span class="c1"># immediately generate the message string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">+=</span> <span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">_transform_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span>
+        <span class="k">if</span> <span class="n">total_time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">total_time</span> <span class="o">+=</span> <span class="n">default_timer</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_progress</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">total_time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="k">if</span> <span class="n">total_time</span> <span class="o">&gt;=</span> <span class="mf">0.005</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">total_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># Setup the timer</span>
+<span class="c1">#</span>
+<span class="c1"># TODO: Remove this bit for Pyomo 6.0 - we won&#39;t care about older versions</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+    <span class="c1"># perf_counter is guaranteed to be monotonic and the most accurate timer</span>
+    <span class="n">default_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span>
+<span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;win&#39;</span><span class="p">):</span>
+    <span class="c1"># On old Pythons, clock() is more accurate than time() on Windows</span>
+    <span class="c1"># (.35us vs 15ms), but time() is more accurate than clock() on Linux</span>
+    <span class="c1"># (1ns vs 1us).  It is unfortunate that time() is not monotonic, but</span>
+    <span class="c1"># since the TicTocTimer is used for (potentially very accurate)</span>
+    <span class="c1"># timers, we will sacrifice monotonicity on Linux for resolution.</span>
+    <span class="n">default_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">default_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span>
+
+
+<div class="viewcode-block" id="TicTocTimer"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.TicTocTimer">[docs]</a><span class="k">class</span> <span class="nc">TicTocTimer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to calculate and report elapsed time.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">       &gt;&gt;&gt; from pyomo.common.timing import TicTocTimer</span>
+<span class="sd">       &gt;&gt;&gt; timer = TicTocTimer()</span>
+<span class="sd">       &gt;&gt;&gt; timer.tic(&#39;starting timer&#39;) # starts the elapsed time timer (from 0)</span>
+<span class="sd">       [    0.00] starting timer</span>
+<span class="sd">       &gt;&gt;&gt; # ... do task 1</span>
+<span class="sd">       &gt;&gt;&gt; dT = timer.toc(&#39;task 1&#39;)</span>
+<span class="sd">       [+   0.00] task 1</span>
+<span class="sd">       &gt;&gt;&gt; print(&quot;elapsed time: %0.1f&quot; % dT)</span>
+<span class="sd">       elapsed time: 0.0</span>
+
+<span class="sd">    If no ostream or logger is provided, then output is printed to sys.stdout</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ostream (FILE): an optional output stream to print the timing</span>
+<span class="sd">            information</span>
+<span class="sd">        logger (Logger): an optional output stream using the python</span>
+<span class="sd">           logging package. Note: the timing logged using ``logger.info()``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ostream</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="n">_NotSpecified</span> <span class="ow">and</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ostream</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loadTime</span> <span class="o">=</span> <span class="n">default_timer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ostream</span> <span class="o">=</span> <span class="n">ostream</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cumul</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="TicTocTimer.tic"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.TicTocTimer.tic">[docs]</a>    <span class="k">def</span> <span class="nf">tic</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">msg</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">ostream</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the tic/toc delta timer.</span>
+
+<span class="sd">        This resets the reference time from which the next delta time is</span>
+<span class="sd">        calculated to the current time.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            msg (str): The message to print out.  If not specified, then</span>
+<span class="sd">                prints out &quot;Resetting the tic/toc delta timer&quot;; if msg</span>
+<span class="sd">                is None, then no message is printed.</span>
+<span class="sd">            *args (tuple): optional positional arguments used for</span>
+<span class="sd">                %-formatting the `msg`</span>
+<span class="sd">            ostream (FILE): an optional output stream (overrides the ostream</span>
+<span class="sd">                provided when the class was constructed).</span>
+<span class="sd">            logger (Logger): an optional output stream using the python</span>
+<span class="sd">                logging package (overrides the ostream provided when the</span>
+<span class="sd">                class was constructed). Note: timing logged using logger.info</span>
+<span class="sd">            level (int): an optional logging output level.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loadTime</span> <span class="o">=</span> <span class="n">default_timer</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Resetting the tic/toc delta timer&quot;</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span> <span class="ow">and</span> <span class="s1">&#39;%&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+                <span class="c1"># Note: specify the parent module scope for the logger</span>
+                <span class="c1"># so this does not hit (and get handled by) the local</span>
+                <span class="c1"># pyomo.common.timing logger.</span>
+                <span class="n">deprecation_warning</span><span class="p">(</span>
+                    <span class="s2">&quot;tic(): &#39;ostream&#39; and &#39;logger&#39; should be &quot;</span>
+                    <span class="s2">&quot;specified as keyword arguments&quot;</span><span class="p">,</span>
+                    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.4.2&#39;</span><span class="p">,</span>
+                    <span class="n">logger</span><span class="o">=</span><span class="n">__package__</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">ostream</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+                <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="p">(</span>
+                <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ostream</span><span class="o">=</span><span class="n">ostream</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TicTocTimer.toc"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.TicTocTimer.toc">[docs]</a>    <span class="k">def</span> <span class="nf">toc</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">msg</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">ostream</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print out the elapsed time.</span>
+
+<span class="sd">        This resets the reference time from which the next delta time is</span>
+<span class="sd">        calculated to the current time.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            msg (str): The message to print out.  If not specified, then</span>
+<span class="sd">                print out the file name, line number, and function that</span>
+<span class="sd">                called this method; if `msg` is None, then no message is</span>
+<span class="sd">                printed.</span>
+<span class="sd">            *args (tuple): optional positional arguments used for</span>
+<span class="sd">                %-formatting the `msg`</span>
+<span class="sd">            delta (bool): print out the elapsed wall clock time since</span>
+<span class="sd">                the last call to :meth:`tic` (``False``) or since the</span>
+<span class="sd">                most recent call to either :meth:`tic` or :meth:`toc`</span>
+<span class="sd">                (``True`` (default)).</span>
+<span class="sd">            ostream (FILE): an optional output stream (overrides the ostream</span>
+<span class="sd">                provided when the class was constructed).</span>
+<span class="sd">            logger (Logger): an optional output stream using the python</span>
+<span class="sd">                logging package (overrides the ostream provided when the</span>
+<span class="sd">                class was constructed). Note: timing logged using `level`</span>
+<span class="sd">            level (int): an optional logging output level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;File &quot;</span><span class="si">%s</span><span class="s1">&quot;, line </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_stack</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">and</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;%&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="c1"># Note: specify the parent module scope for the logger</span>
+            <span class="c1"># so this does not hit (and get handled by) the local</span>
+            <span class="c1"># pyomo.common.timing logger.</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;toc(): &#39;delta&#39;, &#39;ostream&#39;, and &#39;logger&#39; should be &quot;</span>
+                <span class="s2">&quot;specified as keyword arguments&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.4.2&#39;</span><span class="p">,</span>
+                <span class="n">logger</span><span class="o">=</span><span class="n">__package__</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">delta</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">ostream</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">logger</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+
+        <span class="n">now</span> <span class="o">=</span> <span class="n">default_timer</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_count</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cumul</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">+=</span> <span class="n">default_timer</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span>
+            <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%8.2f</span><span class="s2">|</span><span class="si">%4d</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_count</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">delta</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;[+</span><span class="si">%7.2f</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loadTime</span>
+            <span class="c1"># Even though we are reporting the cumulative time, we will</span>
+            <span class="c1"># still reset the delta timer.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="n">now</span>
+            <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%8.2f</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+                <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span>
+            <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+                    <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">GeneralTimer</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+                <span class="n">ostream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ostream</span>
+                <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">ostream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">ostream</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="n">data</span>
+                <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span> <span class="o">%</span> <span class="n">args</span>
+                <span class="n">ostream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Stopping a TicTocTimer that was already stopped&quot;</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">default_timer</span><span class="p">()</span> <span class="o">-</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cumul</span> <span class="o">+=</span> <span class="n">delta</span>
+        <span class="k">return</span> <span class="n">delta</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastTime</span> <span class="o">=</span> <span class="n">default_timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">ev</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+
+<span class="n">_globalTimer</span> <span class="o">=</span> <span class="n">TicTocTimer</span><span class="p">()</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">TicTocTimer</span><span class="o">.</span><span class="n">tic</span><span class="p">,</span> <span class="n">_globalTimer</span><span class="p">)</span>
+<span class="n">tic</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Reset the global :py:class:`TicTocTimer` instance.</span>
+
+<span class="s2">See :py:meth:`TicTocTimer.tic()`.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">TicTocTimer</span><span class="o">.</span><span class="n">toc</span><span class="p">,</span> <span class="n">_globalTimer</span><span class="p">)</span>
+<span class="n">toc</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Print the elapsed time from the global :py:class:`TicTocTimer` instance.</span>
+
+<span class="s2">See :py:meth:`TicTocTimer.toc()`.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_move_grandchildren_to_root</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A helper function to assist with flattening of HierarchicalTimer</span>
+<span class="sd">    objects</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root: HierarchicalTimer or _HierarchicalHelper</span>
+<span class="sd">        The root node. Children of `child` will become children of</span>
+<span class="sd">        this node</span>
+
+<span class="sd">    child: _HierarchicalHelper</span>
+<span class="sd">        The child node that will be turned into a leaf by moving</span>
+<span class="sd">        its children to the root</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">gchild_key</span><span class="p">,</span> <span class="n">gchild_timer</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># For each grandchild, if this key corresponds to a child,</span>
+        <span class="c1"># combine the information from these timers. Otherwise,</span>
+        <span class="c1"># add the new timer as a child of the root.</span>
+        <span class="k">if</span> <span class="n">gchild_key</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">timers</span><span class="p">:</span>
+            <span class="n">gchild_total_time</span> <span class="o">=</span> <span class="n">gchild_timer</span><span class="o">.</span><span class="n">total_time</span>
+            <span class="n">gchild_n_calls</span> <span class="o">=</span> <span class="n">gchild_timer</span><span class="o">.</span><span class="n">n_calls</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">gchild_key</span><span class="p">]</span><span class="o">.</span><span class="n">total_time</span> <span class="o">+=</span> <span class="n">gchild_total_time</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">gchild_key</span><span class="p">]</span><span class="o">.</span><span class="n">n_calls</span> <span class="o">+=</span> <span class="n">gchild_n_calls</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">gchild_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">gchild_timer</span>
+
+        <span class="c1"># Subtract the grandchild&#39;s total time from the child (which</span>
+        <span class="c1"># will no longer be a parent of the grandchild)</span>
+        <span class="n">child</span><span class="o">.</span><span class="n">total_time</span> <span class="o">-=</span> <span class="n">gchild_timer</span><span class="o">.</span><span class="n">total_time</span>
+
+    <span class="c1"># Clear the child timer&#39;s dict to make it a leaf node</span>
+    <span class="n">child</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_clear_timers_except</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="n">to_retain</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A helper function for removing keys, except for those specified,</span>
+<span class="sd">    from the dictionary of timers</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timer: HierarchicalTimer or _HierarchichalHelper</span>
+<span class="sd">        The timer whose dict of &quot;sub-timers&quot; will be pruned</span>
+
+<span class="sd">    to_retain: set</span>
+<span class="sd">        Set of keys of the &quot;sub-timers&quot; to retain</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_retain</span><span class="p">:</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_HierarchicalHelper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tic_toc</span> <span class="o">=</span> <span class="n">TicTocTimer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_calls</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_calls</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tic_toc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tic_toc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent</span><span class="p">,</span> <span class="n">stage_identifier_lengths</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">underline</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">underline</span>
+            <span class="n">name_formatter</span> <span class="o">=</span> <span class="s1">&#39;{name:&lt;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+            <span class="n">other_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span>
+            <span class="n">sub_stage_identifier_lengths</span> <span class="o">=</span> <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">_percent</span> <span class="o">=</span> <span class="n">timer</span><span class="o">.</span><span class="n">total_time</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">*</span> <span class="mi">100</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_percent</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">indent</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="n">name_formatter</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{ncalls:&gt;9d}</span><span class="s1"> </span><span class="si">{cumtime:&gt;9.3f}</span><span class="s1"> &#39;</span>
+                    <span class="s1">&#39;</span><span class="si">{percall:&gt;9.3f}</span><span class="s1"> </span><span class="si">{percent:&gt;6.1f}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">ncalls</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">n_calls</span><span class="p">,</span>
+                    <span class="n">cumtime</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">total_time</span><span class="p">,</span>
+                    <span class="n">percall</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">total_time</span> <span class="o">/</span> <span class="n">timer</span><span class="o">.</span><span class="n">n_calls</span><span class="p">,</span>
+                    <span class="n">percent</span><span class="o">=</span><span class="n">_percent</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">timer</span><span class="o">.</span><span class="n">to_str</span><span class="p">(</span>
+                    <span class="n">indent</span><span class="o">=</span><span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">stage_identifier_lengths</span><span class="o">=</span><span class="n">sub_stage_identifier_lengths</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">other_time</span> <span class="o">-=</span> <span class="n">timer</span><span class="o">.</span><span class="n">total_time</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">_percent</span> <span class="o">=</span> <span class="n">other_time</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_percent</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">indent</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">name_formatter</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{ncalls:&gt;9}</span><span class="s1"> </span><span class="si">{cumtime:&gt;9.3f}</span><span class="s1"> &#39;</span>
+                <span class="s1">&#39;</span><span class="si">{percall:&gt;9}</span><span class="s1"> </span><span class="si">{percent:&gt;6.1f}</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;other&#39;</span><span class="p">,</span>
+                <span class="n">ncalls</span><span class="o">=</span><span class="s1">&#39;n/a&#39;</span><span class="p">,</span>
+                <span class="n">cumtime</span><span class="o">=</span><span class="n">other_time</span><span class="p">,</span>
+                <span class="n">percall</span><span class="o">=</span><span class="s1">&#39;n/a&#39;</span><span class="p">,</span>
+                <span class="n">percent</span><span class="o">=</span><span class="n">_percent</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">underline</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">get_timers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">_name</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_name</span><span class="p">)</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">get_timers</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Get keys and values so we don&#39;t modify dict while iterating it.</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">child_key</span><span class="p">,</span> <span class="n">child_timer</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="c1"># Flatten the child timer. Now all grandchildren are leaf nodes</span>
+            <span class="n">child_timer</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="c1"># Flatten by removing grandchildren and adding them as children</span>
+            <span class="c1"># of the root.</span>
+            <span class="n">_move_grandchildren_to_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_timer</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clear_except</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">to_retain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">_clear_timers_except</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_retain</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HierarchicalTimer"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer">[docs]</a><span class="k">class</span> <span class="nc">HierarchicalTimer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for collecting and displaying hierarchical timing</span>
+<span class="sd">    information</span>
+
+<span class="sd">    When implementing an iterative algorithm with nested subroutines</span>
+<span class="sd">    (e.g. an optimization solver), we often want to know the cumulative</span>
+<span class="sd">    time spent in each subroutine as well as this time as a proportion</span>
+<span class="sd">    of time spent in the calling routine. This class collects timing</span>
+<span class="sd">    information, for user-specified keys, that accumulates over the life</span>
+<span class="sd">    of the timer object and preserves the hierarchical (nested) structure</span>
+<span class="sd">    of timing categories.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import time</span>
+<span class="sd">    &gt;&gt;&gt; from pyomo.common.timing import HierarchicalTimer</span>
+<span class="sd">    &gt;&gt;&gt; timer = HierarchicalTimer()</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&#39;all&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.2)</span>
+<span class="sd">    &gt;&gt;&gt; for i in range(10):</span>
+<span class="sd">    ...     timer.start(&#39;a&#39;)</span>
+<span class="sd">    ...     time.sleep(0.1)</span>
+<span class="sd">    ...     for i in range(5):</span>
+<span class="sd">    ...         timer.start(&#39;aa&#39;)</span>
+<span class="sd">    ...         time.sleep(0.01)</span>
+<span class="sd">    ...         timer.stop(&#39;aa&#39;)</span>
+<span class="sd">    ...     timer.start(&#39;ab&#39;)</span>
+<span class="sd">    ...     timer.stop(&#39;ab&#39;)</span>
+<span class="sd">    ...     timer.stop(&#39;a&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; for i in range(10):</span>
+<span class="sd">    ...     timer.start(&#39;b&#39;)</span>
+<span class="sd">    ...     time.sleep(0.02)</span>
+<span class="sd">    ...     timer.stop(&#39;b&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&#39;all&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; print(timer)       # doctest: +SKIP</span>
+<span class="sd">    Identifier        ncalls   cumtime   percall      %</span>
+<span class="sd">    ---------------------------------------------------</span>
+<span class="sd">    all                    1     2.248     2.248  100.0</span>
+<span class="sd">         ----------------------------------------------</span>
+<span class="sd">         a                10     1.787     0.179   79.5</span>
+<span class="sd">              -----------------------------------------</span>
+<span class="sd">              aa          50     0.733     0.015   41.0</span>
+<span class="sd">              ab          10     0.000     0.000    0.0</span>
+<span class="sd">              other      n/a     1.055       n/a   59.0</span>
+<span class="sd">              =========================================</span>
+<span class="sd">         b                10     0.248     0.025   11.0</span>
+<span class="sd">         other           n/a     0.213       n/a    9.5</span>
+<span class="sd">         ==============================================</span>
+<span class="sd">    ===================================================</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+
+<span class="sd">    The columns are:</span>
+
+<span class="sd">      ncalls</span>
+<span class="sd">          The number of times the timer was started and stopped</span>
+<span class="sd">      cumtime</span>
+<span class="sd">          The cumulative time (in seconds) the timer was active</span>
+<span class="sd">          (started but not stopped)</span>
+<span class="sd">      percall</span>
+<span class="sd">          cumtime (in seconds) / ncalls</span>
+<span class="sd">      &quot;%&quot;</span>
+<span class="sd">          This is cumtime of the timer divided by cumtime of the</span>
+<span class="sd">          parent timer times 100</span>
+
+<span class="sd">    &gt;&gt;&gt; print(&#39;a total time: %f&#39; % timer.get_total_time(&#39;all.a&#39;)) \</span>
+<span class="sd">        # doctest: +SKIP</span>
+<span class="sd">    a total time: 1.902037</span>
+<span class="sd">    &gt;&gt;&gt; print(&#39;ab num calls: %d&#39; % timer.get_num_calls(&#39;all.a.ab&#39;)) \</span>
+<span class="sd">        # doctest: +SKIP</span>
+<span class="sd">    ab num calls: 10</span>
+<span class="sd">    &gt;&gt;&gt; print(&#39;aa %% time: %f&#39; % timer.get_relative_percent_time(&#39;all.a.aa&#39;)) \</span>
+<span class="sd">        # doctest: +SKIP</span>
+<span class="sd">    aa % time: 44.144148</span>
+<span class="sd">    &gt;&gt;&gt; print(&#39;aa %% total: %f&#39; % timer.get_total_percent_time(&#39;all.a.aa&#39;)) \</span>
+<span class="sd">        # doctest: +SKIP</span>
+<span class="sd">    aa % total: 35.976058</span>
+
+<span class="sd">    When implementing an algorithm, it is often useful to collect detailed</span>
+<span class="sd">    hierarchical timing information. However, when communicating a timing</span>
+<span class="sd">    profile, it is often best to retain only the most relevant information</span>
+<span class="sd">    in a flattened data structure. In the following example, suppose we</span>
+<span class="sd">    want to compare the time spent in the ``&quot;c&quot;`` and ``&quot;f&quot;`` subroutines.</span>
+<span class="sd">    We would like to generate a timing profile that displays only the time</span>
+<span class="sd">    spent in these two subroutines, in a flattened structure so that they</span>
+<span class="sd">    are easy to compare. To do this, we</span>
+
+<span class="sd">    #. Ignore subroutines of ``&quot;c&quot;`` and ``&quot;f&quot;`` that are unnecessary for\</span>
+<span class="sd">    this comparison</span>
+
+<span class="sd">    #. Flatten the hierarchical timing information</span>
+
+<span class="sd">    #. Eliminate all the information we don&#39;t care about</span>
+
+<span class="sd">    &gt;&gt;&gt; import time</span>
+<span class="sd">    &gt;&gt;&gt; from pyomo.common.timing import HierarchicalTimer</span>
+<span class="sd">    &gt;&gt;&gt; timer = HierarchicalTimer()</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;root&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;a&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.01)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;b&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;c&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.1)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;c&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;b&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;a&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;d&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;e&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.01)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;f&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.05)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;f&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;c&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;g&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&quot;h&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; time.sleep(0.1)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;h&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;g&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;c&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;e&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;d&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.stop(&quot;root&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(timer) # doctest: +SKIP</span>
+<span class="sd">    Identifier                       ncalls   cumtime   percall      %</span>
+<span class="sd">    ------------------------------------------------------------------</span>
+<span class="sd">    root                                  1     0.290     0.290  100.0</span>
+<span class="sd">         -------------------------------------------------------------</span>
+<span class="sd">         a                                1     0.118     0.118   40.5</span>
+<span class="sd">              --------------------------------------------------------</span>
+<span class="sd">              b                           1     0.105     0.105   89.4</span>
+<span class="sd">                   ---------------------------------------------------</span>
+<span class="sd">                   c                      1     0.105     0.105  100.0</span>
+<span class="sd">                   other                n/a     0.000       n/a    0.0</span>
+<span class="sd">                   ===================================================</span>
+<span class="sd">              other                     n/a     0.013       n/a   10.6</span>
+<span class="sd">              ========================================================</span>
+<span class="sd">         d                                1     0.173     0.173   59.5</span>
+<span class="sd">              --------------------------------------------------------</span>
+<span class="sd">              e                           1     0.173     0.173  100.0</span>
+<span class="sd">                   ---------------------------------------------------</span>
+<span class="sd">                   c                      1     0.105     0.105   60.9</span>
+<span class="sd">                        ----------------------------------------------</span>
+<span class="sd">                        g                 1     0.105     0.105  100.0</span>
+<span class="sd">                             -----------------------------------------</span>
+<span class="sd">                             h            1     0.105     0.105  100.0</span>
+<span class="sd">                             other      n/a     0.000       n/a    0.0</span>
+<span class="sd">                             =========================================</span>
+<span class="sd">                        other           n/a     0.000       n/a    0.0</span>
+<span class="sd">                        ==============================================</span>
+<span class="sd">                   f                      1     0.055     0.055   31.9</span>
+<span class="sd">                   other                n/a     0.013       n/a    7.3</span>
+<span class="sd">                   ===================================================</span>
+<span class="sd">              other                     n/a     0.000       n/a    0.0</span>
+<span class="sd">              ========================================================</span>
+<span class="sd">         other                          n/a     0.000       n/a    0.0</span>
+<span class="sd">         =============================================================</span>
+<span class="sd">    ==================================================================</span>
+<span class="sd">    &gt;&gt;&gt; # Clear subroutines under &quot;c&quot; that we don&#39;t care about</span>
+<span class="sd">    &gt;&gt;&gt; timer.timers[&quot;root&quot;].timers[&quot;d&quot;].timers[&quot;e&quot;].timers[&quot;c&quot;].timers.clear()</span>
+<span class="sd">    &gt;&gt;&gt; # Flatten hierarchy</span>
+<span class="sd">    &gt;&gt;&gt; timer.timers[&quot;root&quot;].flatten()</span>
+<span class="sd">    &gt;&gt;&gt; # Clear except for the subroutines we care about</span>
+<span class="sd">    &gt;&gt;&gt; timer.timers[&quot;root&quot;].clear_except(&quot;c&quot;, &quot;f&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(timer) # doctest: +SKIP</span>
+<span class="sd">    Identifier   ncalls   cumtime   percall      %</span>
+<span class="sd">    ----------------------------------------------</span>
+<span class="sd">    root              1     0.290     0.290  100.0</span>
+<span class="sd">         -----------------------------------------</span>
+<span class="sd">         c            2     0.210     0.105   72.4</span>
+<span class="sd">         f            1     0.055     0.055   19.0</span>
+<span class="sd">         other      n/a     0.025       n/a    8.7</span>
+<span class="sd">         =========================================</span>
+<span class="sd">    ==============================================</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The :py:class:`HierarchicalTimer` uses a stack to track which timers</span>
+<span class="sd">    are active at any point in time. Additionally, each timer has a</span>
+<span class="sd">    dictionary of timers for its children timers. Consider</span>
+
+<span class="sd">    &gt;&gt;&gt; timer = HierarchicalTimer()</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&#39;all&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&#39;a&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; timer.start(&#39;aa&#39;)</span>
+
+<span class="sd">    After the above code is run, ``timer.stack`` will be</span>
+<span class="sd">    ``[&#39;all&#39;, &#39;a&#39;, &#39;aa&#39;]`` and ``timer.timers`` will have one key,</span>
+<span class="sd">    ``&#39;all&#39;`` and one value which will be a</span>
+<span class="sd">    :py:class:`_HierarchicalHelper`. The :py:class:`_HierarchicalHelper`</span>
+<span class="sd">    has its own timers dictionary:</span>
+
+<span class="sd">        ``{&#39;a&#39;: _HierarchicalHelper}``</span>
+
+<span class="sd">    and so on. This way, we can easily access any timer with something</span>
+<span class="sd">    that looks like the stack. The logic is recursive (although the</span>
+<span class="sd">    code is not).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">should_exist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method gets the timer associated with the current state</span>
+<span class="sd">        of self.stack and the specified identifier.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The name of the timer</span>
+<span class="sd">        should_exist: bool</span>
+<span class="sd">            The should_exist is True, and the timer does not already</span>
+<span class="sd">            exist, an error will be raised. If should_exist is False, and</span>
+<span class="sd">            the timer does not already exist, a new timer will be made.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        timer: _HierarchicalHelper</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">parent</span><span class="o">.</span><span class="n">timers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">should_exist</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Could not find timer </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">+</span> <span class="p">[</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">_HierarchicalHelper</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span>
+
+<div class="viewcode-block" id="HierarchicalTimer.start"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Start incrementing the timer identified with identifier</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The name of the timer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.stop"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Stop incrementing the timer identified with identifier</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The name of the timer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">identifier</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; is not the currently active timer.  &#39;</span>
+                <span class="s1">&#39;The only timer that can currently be stopped is &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">should_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_identifier_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">stage_timers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">stage_lengths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">stage_timers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">new_stage_timers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">max_len</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="n">stage_timers</span><span class="p">:</span>
+                <span class="n">new_stage_timers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+                    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+            <span class="n">stage_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">max_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;other&#39;</span><span class="p">)))</span>
+            <span class="n">stage_timers</span> <span class="o">=</span> <span class="n">new_stage_timers</span>
+
+        <span class="k">return</span> <span class="n">stage_lengths</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">const_indent</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">max_name_length</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">-</span> <span class="mi">36</span>
+        <span class="n">stage_identifier_lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_identifier_len</span><span class="p">()</span>
+        <span class="n">name_field_width</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name_field_width</span> <span class="o">&gt;</span> <span class="n">max_name_length</span><span class="p">:</span>
+            <span class="c1"># switch to a constant indentation of const_indent spaces</span>
+            <span class="c1"># (to hopefully shorten the line lengths</span>
+            <span class="n">name_field_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">const_indent</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">l</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">const_indent</span>
+            <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">name_field_width</span> <span class="o">-</span> <span class="n">const_indent</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">stage_identifier_lengths</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="n">name_formatter</span> <span class="o">=</span> <span class="s1">&#39;{name:&lt;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name_field_width</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">name_formatter</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{ncalls:&gt;9}</span><span class="s1"> </span><span class="si">{cumtime:&gt;9}</span><span class="s1"> </span><span class="si">{percall:&gt;9}</span><span class="s1"> </span><span class="si">{percent:&gt;6}</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Identifier&#39;</span><span class="p">,</span>
+            <span class="n">ncalls</span><span class="o">=</span><span class="s1">&#39;ncalls&#39;</span><span class="p">,</span>
+            <span class="n">cumtime</span><span class="o">=</span><span class="s1">&#39;cumtime&#39;</span><span class="p">,</span>
+            <span class="n">percall</span><span class="o">=</span><span class="s1">&#39;percall&#39;</span><span class="p">,</span>
+            <span class="n">percent</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">underline</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">name_field_width</span> <span class="o">+</span> <span class="mi">36</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">underline</span>
+        <span class="n">sub_stage_identifier_lengths</span> <span class="o">=</span> <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">name_formatter</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{ncalls:&gt;9d}</span><span class="s1"> </span><span class="si">{cumtime:&gt;9.3f}</span><span class="s1"> &#39;</span>
+                <span class="s1">&#39;</span><span class="si">{percall:&gt;9.3f}</span><span class="s1"> </span><span class="si">{percent:&gt;6.1f}</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">ncalls</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">n_calls</span><span class="p">,</span>
+                <span class="n">cumtime</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">total_time</span><span class="p">,</span>
+                <span class="n">percall</span><span class="o">=</span><span class="n">timer</span><span class="o">.</span><span class="n">total_time</span> <span class="o">/</span> <span class="n">timer</span><span class="o">.</span><span class="n">n_calls</span><span class="p">,</span>
+                <span class="n">percent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_percent_time</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">timer</span><span class="o">.</span><span class="n">to_str</span><span class="p">(</span>
+                <span class="n">indent</span><span class="o">=</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">stage_identifier_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">stage_identifier_lengths</span><span class="o">=</span><span class="n">sub_stage_identifier_lengths</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">underline</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<div class="viewcode-block" id="HierarchicalTimer.reset"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Completely reset the timer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_timer_from_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method gets the timer associated with stack.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stack: list of str</span>
+<span class="sd">            A list of identifiers.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        timer: _HierarchicalHelper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tmp</span>
+
+<div class="viewcode-block" id="HierarchicalTimer.get_total_time"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.get_total_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The full name of the timer including parent timers separated</span>
+<span class="sd">            with dots.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        total_time: float</span>
+<span class="sd">            The total time spent with the specified timer active.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">timer</span><span class="o">.</span><span class="n">total_time</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.get_num_calls"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.get_num_calls">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_calls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The full name of the timer including parent timers separated</span>
+<span class="sd">            with dots.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        n_calls: int</span>
+<span class="sd">            The number of times start was called for the specified timer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">timer</span><span class="o">.</span><span class="n">n_calls</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.get_relative_percent_time"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.get_relative_percent_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_relative_percent_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The full name of the timer including parent timers separated</span>
+<span class="sd">            with dots.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        percent_time: float</span>
+<span class="sd">            The percent of time spent in the specified timer</span>
+<span class="sd">            relative to the timer&#39;s immediate parent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="n">stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_total_percent_time</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">total_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">timer</span><span class="o">.</span><span class="n">total_time</span> <span class="o">/</span> <span class="n">parent</span><span class="o">.</span><span class="n">total_time</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.get_total_percent_time"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.get_total_percent_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_percent_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        identifier: str</span>
+<span class="sd">            The full name of the timer including parent timers separated</span>
+<span class="sd">            with dots.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        percent_time: float</span>
+<span class="sd">            The percent of time spent in the specified timer</span>
+<span class="sd">            relative to the total time in all timers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_timer_from_stack</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+        <span class="n">total_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_timer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">total_time</span> <span class="o">+=</span> <span class="n">_timer</span><span class="o">.</span><span class="n">total_time</span>
+        <span class="k">if</span> <span class="n">total_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">timer</span><span class="o">.</span><span class="n">total_time</span> <span class="o">/</span> <span class="n">total_time</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.get_timers"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.get_timers">[docs]</a>    <span class="k">def</span> <span class="nf">get_timers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        identifiers: list of str</span>
+<span class="sd">            Returns a list of all timer identifiers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">get_timers</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.flatten"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.flatten">[docs]</a>    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Flatten the HierarchicalTimer in-place, moving all the timing</span>
+<span class="sd">        categories into a single level</span>
+
+<span class="sd">        If any timers moved into the same level have the same identifier,</span>
+<span class="sd">        the ``total_time`` and ``n_calls`` fields are added together.</span>
+<span class="sd">        The ``total_time`` of a &quot;child timer&quot; that is &quot;moved upwards&quot; is</span>
+<span class="sd">        subtracted from the ``total_time`` of that timer&#39;s original</span>
+<span class="sd">        parent.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot flatten a HierarchicalTimer while any timers are&quot;</span>
+                <span class="s2">&quot; active. Current active timer is </span><span class="si">%s</span><span class="s2">. flatten should only&quot;</span>
+                <span class="s2">&quot; be called as a post-processing step.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">timer</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">_move_grandchildren_to_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HierarchicalTimer.clear_except"><a class="viewcode-back" href="../../../library_reference/common/timing.html#pyomo.common.timing.HierarchicalTimer.clear_except">[docs]</a>    <span class="k">def</span> <span class="nf">clear_except</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prune all &quot;sub-timers&quot; except those specified</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: str</span>
+<span class="sd">            Keys that will be retained</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot clear a HierarchicalTimer while any timers are&quot;</span>
+                <span class="s2">&quot; active. Current active timer is </span><span class="si">%s</span><span class="s2">. clear_except should&quot;</span>
+                <span class="s2">&quot; only be called as a post-processing step.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">to_retain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">_clear_timers_except</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_retain</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,1392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Data Command Files &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Data Portals" href="dataportals.html" />
+    <link rel="prev" title="Using a Python Dictionary" href="raw_dicts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Working with Abstract Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../instantiating_models.html">Instantiating Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Managing Data in AbstractModels</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="native.html">Using Standard Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="raw_dicts.html">Using a Python Dictionary</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Data Command Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-data">Model Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-set-command">The <code class="docutils literal notranslate"><span class="pre">set</span></code> Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-param-command">The <code class="docutils literal notranslate"><span class="pre">param</span></code> Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-table-command">The <code class="docutils literal notranslate"><span class="pre">table</span></code> Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-load-command">The <code class="docutils literal notranslate"><span class="pre">load</span></code> Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-include-command">The <code class="docutils literal notranslate"><span class="pre">include</span></code> Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-namespace-keyword">The <code class="docutils literal notranslate"><span class="pre">namespace</span></code> Keyword</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dataportals.html">Data Portals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="storing_data.html">Storing Data from Pyomo Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyomo_command.html">The <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BuildAction.html"><code class="docutils literal notranslate"><span class="pre">BuildAction</span></code> and <code class="docutils literal notranslate"><span class="pre">BuildCheck</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Working with Abstract Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Managing Data in AbstractModels</a> &raquo;</li>
+        
+      <li>Data Command Files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/working_abstractmodels/data/datfiles.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-command-files">
+<span id="page-datfiles"></span><h1>Data Command Files<a class="headerlink" href="#data-command-files" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The discussion and presentation below are adapted from Chapter 6 of
+the “Pyomo Book” <a class="reference internal" href="../../bibliography.html#pyomobookii" id="id1"><span>[PyomoBookII]</span></a>.  The discussion of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class uses these same examples to illustrate how data can be loaded
+into Pyomo models within Python scripts (see the
+<a class="reference internal" href="dataportals.html#page-dataportals"><span class="std std-ref">Data Portals</span></a> section).</p>
+</div>
+<div class="section" id="model-data">
+<h2>Model Data<a class="headerlink" href="#model-data" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo’s <em>data command files</em> employ a domain-specific language whose
+syntax closely resembles the syntax of AMPL’s data commands <a class="reference internal" href="../../bibliography.html#ampl" id="id2"><span>[AMPL]</span></a>.  A
+data command file consists of a sequence of commands that either (a)
+specify set and parameter data for a model, or (b) specify where such
+data is to be obtained from external sources (e.g. table files, CSV
+files, spreadsheets and databases).</p>
+<p>The following commands are used to declare data:</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">set</span></code> command declares set data.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">param</span></code> command declares a table of parameter data, which
+can also include the declaration of the set data used to index the
+parameter data.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">table</span></code> command declares a two-dimensional table of parameter
+data.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">load</span></code> command defines how set and parameter data is loaded from
+external data sources, including ASCII table files, CSV files, XML
+files, YAML files, JSON files, ranges in spreadsheets, and database
+tables.</li>
+</ul>
+<p>The following commands are also used in data command files:</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">include</span></code> command specifies a data command file that is
+processed immediately.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> commands do not perform any actions, but they
+provide compatibility with AMPL scripts that define data commands.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">namespace</span></code> keyword allows data commands to be organized into
+named groups that can be enabled or disabled during model
+construction.</li>
+</ul>
+<p>The following data types can be represented in a data command file:</p>
+<ul class="simple">
+<li><strong>Numeric value</strong>: Any Python numeric value (e.g. integer, float,
+scientific notation, or boolean).</li>
+<li><strong>Simple string</strong>: A sequence of alpha-numeric characters.</li>
+<li><strong>Quoted string</strong>: A simple string that is included in a pair of
+single or double quotes.  A quoted string can include quotes within
+the quoted string.</li>
+</ul>
+<p>Numeric values are automatically converted to Python integer or floating
+point values when a data command file is parsed. Additionally, if a
+quoted string can be interpreted as a numeric value, then it will be
+converted to Python numeric types when the data is parsed.  For example,
+the string “100” is converted to a numeric value automatically.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Pyomo data commands do <em>not</em> exactly correspond to AMPL data
+commands.  The <code class="docutils literal notranslate"><span class="pre">set</span></code> and <code class="docutils literal notranslate"><span class="pre">param</span></code> commands are designed to
+closely match AMPL’s syntax and semantics, though these commands
+only support a subset of the corresponding declarations in AMPL.
+However, other Pyomo data commands are not generally designed to
+match the semantics of AMPL.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pyomo data commands are terminated with a semicolon, and the syntax
+of data commands does not depend on whitespace.  Thus, data commands
+can be broken across multiple lines – newlines and tab characters
+are ignored – and data commands can be formatted with whitespace
+with few restrictions.</p>
+</div>
+</div>
+<div class="section" id="the-set-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">set</span></code> Command<a class="headerlink" href="#the-set-command" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="simple-sets">
+<h3>Simple Sets<a class="headerlink" href="#simple-sets" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set</span></code> data command explicitly specifies the members of either a
+single set or an array of sets, i.e., an indexed set.  A single set is
+specified with a list of data values that are included in this set.  The
+formal syntax for the set data command is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="o">&lt;</span><span class="n">setname</span><span class="o">&gt;</span> <span class="o">:=</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">...</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>A set may be empty, and it may contain any combination of numeric and
+non-numeric string values.  For example, the following are valid <code class="docutils literal notranslate"><span class="pre">set</span></code>
+commands:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># An empty set</span>
+<span class="nb">set</span> <span class="n">A</span> <span class="o">:=</span> <span class="p">;</span>
+
+<span class="c1"># A set of numbers</span>
+<span class="nb">set</span> <span class="n">A</span> <span class="o">:=</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="c1"># A set of strings</span>
+<span class="nb">set</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">north</span> <span class="n">south</span> <span class="n">east</span> <span class="n">west</span><span class="p">;</span>
+
+<span class="c1"># A set of mixed types</span>
+<span class="nb">set</span> <span class="n">C</span> <span class="o">:=</span>
+<span class="mi">0</span>
+<span class="o">-</span><span class="mf">1.0e+10</span>
+<span class="s1">&#39;foo bar&#39;</span>
+<span class="n">infinity</span>
+<span class="s2">&quot;100&quot;</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sets-of-tuple-data">
+<h3>Sets of Tuple Data<a class="headerlink" href="#sets-of-tuple-data" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set</span></code> data command can also specify tuple data with the standard
+notation for tuples.  For example, suppose that set <code class="docutils literal notranslate"><span class="pre">A</span></code> contains
+3-tuples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following <code class="docutils literal notranslate"><span class="pre">set</span></code> data command then specifies that <code class="docutils literal notranslate"><span class="pre">A</span></code> is the set
+containing the tuples <code class="docutils literal notranslate"><span class="pre">(1,2,3)</span></code> and <code class="docutils literal notranslate"><span class="pre">(4,5,6)</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := (1,2,3) (4,5,6) ;
+</pre></div>
+</div>
+<p>Alternatively, set data can simply be listed in the order that the tuple
+is represented:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := 1 2 3 4 5 6 ;
+</pre></div>
+</div>
+<p>Obviously, the number of data elements specified using this syntax
+should be a multiple of the set dimension.</p>
+<p>Sets with 2-tuple data can also be specified in a matrix denoting set
+membership.  For example, the following <code class="docutils literal notranslate"><span class="pre">set</span></code> data command declares
+2-tuples in <code class="docutils literal notranslate"><span class="pre">A</span></code> using plus (<code class="docutils literal notranslate"><span class="pre">+</span></code>) to denote valid tuples and minus
+(<code class="docutils literal notranslate"><span class="pre">-</span></code>) to denote invalid tuples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A : A1 A2 A3 A4 :=
+    1   +  -  -  +
+    2   +  -  +  -
+    3   -  +  -  - ;
+</pre></div>
+</div>
+<p>This data command declares the following five 2-tuples: <code class="docutils literal notranslate"><span class="pre">('A1',1)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">('A1',2)</span></code>, <code class="docutils literal notranslate"><span class="pre">('A2',3)</span></code>, <code class="docutils literal notranslate"><span class="pre">('A3',2)</span></code>, and <code class="docutils literal notranslate"><span class="pre">('A4',1)</span></code>.</p>
+<p>Finally, a set of tuple data can be concisely represented with tuple
+<em>templates</em> that represent a <em>slice</em> of tuple data.  For example,
+suppose that the set <code class="docutils literal notranslate"><span class="pre">A</span></code> contains 4-tuples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following <code class="docutils literal notranslate"><span class="pre">set</span></code> data command declares groups of tuples that are
+defined by a template and data to complete this template:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := 
+    (1,2,*,4) A B
+    (*,2,*,4) A B C D ;
+</pre></div>
+</div>
+<p>A tuple template consists of a tuple that contains one or more asterisk
+(<code class="docutils literal notranslate"><span class="pre">*</span></code>) symbols instead of a value.  These represent indices where the
+tuple value is replaced by the values from the list of values that
+follows the tuple template.  In this example, the following tuples are
+in set <code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(1, 2, &#39;A&#39;, 4)
+(1, 2, &#39;B&#39;, 4)
+(&#39;A&#39;, 2, &#39;B&#39;, 4)
+(&#39;C&#39;, 2, &#39;D&#39;, 4)
+</pre></div>
+</div>
+</div>
+<div class="section" id="set-arrays">
+<h3>Set Arrays<a class="headerlink" href="#set-arrays" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set</span></code> data command can also be used to declare data for a set
+array.  Each set in a set array must be declared with a separate <code class="docutils literal notranslate"><span class="pre">set</span></code>
+data command with the following syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="o">&lt;</span><span class="nb">set</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">[</span><span class="o">&lt;</span><span class="n">index</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">:=</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">...</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>Because set arrays can be indexed by an arbitrary set, the index value
+may be a numeric value, a non-numeric string value, or a comma-separated
+list of string values.</p>
+<p>Suppose that a set <code class="docutils literal notranslate"><span class="pre">A</span></code> is used to index a set <code class="docutils literal notranslate"><span class="pre">B</span></code> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then set <code class="docutils literal notranslate"><span class="pre">B</span></code> is indexed using the values declared for set <code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := 1 aaa &#39;a b&#39;;
+
+set B[1] := 0 1 2;
+set B[aaa] := aa bb cc;
+set B[&#39;a b&#39;] := &#39;aa bb cc&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-param-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">param</span></code> Command<a class="headerlink" href="#the-param-command" title="Permalink to this headline">¶</a></h2>
+<p>Simple or non-indexed parameters are declared in an obvious way, as
+shown by these examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>param A := 1.4;
+param B := 1;
+param C := abc;
+param D := true;
+param E := 1.0e+04;
+</pre></div>
+</div>
+<p>Parameters can be defined with numeric data, simple strings and quoted
+strings.  Note that parameters cannot be defined without data, so there
+is no analog to the specification of an empty set.</p>
+<div class="section" id="one-dimensional-parameter-data">
+<h3>One-dimensional Parameter Data<a class="headerlink" href="#one-dimensional-parameter-data" title="Permalink to this headline">¶</a></h3>
+<p>Most parameter data is indexed over one or more sets, and there are a
+number of ways the <code class="docutils literal notranslate"><span class="pre">param</span></code> data command can be used to specify indexed
+parameter data.  One-dimensional parameter data is indexed over a single
+set.  Suppose that the parameter <code class="docutils literal notranslate"><span class="pre">B</span></code> is a parameter indexed by the set
+<code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">param</span></code> data command can specify values for <code class="docutils literal notranslate"><span class="pre">B</span></code> with a list of
+index-value pairs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e;
+
+param B := a 10 c 30 e 50;
+</pre></div>
+</div>
+<p>Because whitespace is ignored, this example data command file can be
+reorganized to specify the same data in a tabular format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e;
+
+param B := 
+a 10
+c 30
+e 50
+;
+</pre></div>
+</div>
+<p>Multiple parameters can be defined using a single <code class="docutils literal notranslate"><span class="pre">param</span></code> data
+command. For example, suppose that parameters <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>, and <code class="docutils literal notranslate"><span class="pre">D</span></code>
+are one-dimensional parameters all indexed by the set <code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Values for these parameters can be specified using a single <code class="docutils literal notranslate"><span class="pre">param</span></code>
+data command that declares these parameter names followed by a list of
+index and parameter values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e;
+
+param : B C D := 
+a 10 -1 1.1
+c 30 -3 3.3
+e 50 -5 5.5
+;
+</pre></div>
+</div>
+<p>The values in the <code class="docutils literal notranslate"><span class="pre">param</span></code> data command are interpreted as a list of
+sublists, where each sublist consists of an index followed by the
+corresponding numeric value.</p>
+<p>Note that parameter values do not need to be defined for all indices.
+For example, the following data command file is valid:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e g;
+
+param : B C D := 
+a 10 -1 1.1
+c 30 -3 3.3
+e 50 -5 5.5
+;
+</pre></div>
+</div>
+<p>The index <code class="docutils literal notranslate"><span class="pre">g</span></code> is omitted from the <code class="docutils literal notranslate"><span class="pre">param</span></code> command, and consequently
+this index is not valid for the model instance that uses this data.
+More complex patterns of missing data can be specified using the period
+(<code class="docutils literal notranslate"><span class="pre">.</span></code>) symbol to indicate a missing value.  This syntax is useful when
+specifying multiple parameters that do not necessarily have the same
+index values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e;
+
+param : B C D := 
+a  . -1 1.1
+c 30  . 3.3
+e 50 -5   .
+;
+</pre></div>
+</div>
+<p>This example provides a concise representation of parameters that share
+a common index set while using different index values.</p>
+<p>Note that this data file specifies the data for set <code class="docutils literal notranslate"><span class="pre">A</span></code> twice:
+(1) when <code class="docutils literal notranslate"><span class="pre">A</span></code> is defined and (2) implicitly when the parameters are
+defined.  An alternate syntax for <code class="docutils literal notranslate"><span class="pre">param</span></code> allows the user to concisely
+specify the definition of an index set along with associated parameters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>param : A : B C D := 
+a 10 -1 1.1
+c 30 -3 3.3
+e 50 -5 5.5
+;
+</pre></div>
+</div>
+<p>Finally, we note that default values for missing data can also be
+specified using the <code class="docutils literal notranslate"><span class="pre">default</span></code> keyword:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a c e;
+
+param B default 0.0 := 
+c 30
+e 50
+;
+</pre></div>
+</div>
+<p>Note that default values can only be specified in <code class="docutils literal notranslate"><span class="pre">param</span></code> commands
+that define values for a single parameter.</p>
+</div>
+<div class="section" id="multi-dimensional-parameter-data">
+<h3>Multi-Dimensional Parameter Data<a class="headerlink" href="#multi-dimensional-parameter-data" title="Permalink to this headline">¶</a></h3>
+<p>Multi-dimensional parameter data is indexed over either multiple sets or
+a single multi-dimensional set.  Suppose that parameter <code class="docutils literal notranslate"><span class="pre">B</span></code> is a
+parameter indexed by set <code class="docutils literal notranslate"><span class="pre">A</span></code> that has dimension 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The syntax of the <code class="docutils literal notranslate"><span class="pre">param</span></code> data command remains essentially the same
+when specifying values for <code class="docutils literal notranslate"><span class="pre">B</span></code> with a list of index and parameter
+values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a 1 c 2 e 3;
+
+param B := 
+a 1 10
+c 2 30
+e 3 50;
+</pre></div>
+</div>
+<p>Missing and default values are also handled in the same way with
+multi-dimensional index sets:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a 1 c 2 e 3;
+
+param B default 0 := 
+a 1 10
+c 2 .
+e 3 50;
+</pre></div>
+</div>
+<p>Similarly, multiple parameters can defined with a single <code class="docutils literal notranslate"><span class="pre">param</span></code> data
+command.  Suppose that parameters <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>, and <code class="docutils literal notranslate"><span class="pre">D</span></code> are parameters
+indexed over set <code class="docutils literal notranslate"><span class="pre">A</span></code> that has dimension 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These parameters can be defined with a single <code class="docutils literal notranslate"><span class="pre">param</span></code> command that
+declares the parameter names followed by a list of index and parameter
+values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := a 1 c 2 e 3;
+
+param : B C D := 
+a 1 10 -1 1.1
+c 2 30 -3 3.3
+e 3 50 -5 5.5
+;
+</pre></div>
+</div>
+<p>Similarly, the following <code class="docutils literal notranslate"><span class="pre">param</span></code> data command defines the index set
+along with the parameters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>param : A : B C D := 
+a 1 10 -1 1.1
+c 2 30 -3 3.3
+e 3 50 -5 5.5
+;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">param</span></code> command also supports a matrix syntax for specifying the
+values in a parameter that has a 2-dimensional index.  Suppose parameter
+<code class="docutils literal notranslate"><span class="pre">B</span></code> is indexed over set <code class="docutils literal notranslate"><span class="pre">A</span></code> that has dimension 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following <code class="docutils literal notranslate"><span class="pre">param</span></code> command defines a matrix of parameter values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := 1 a 1 c 1 e 2 a 2 c 2 e 3 a 3 c 3 e;
+
+param B : a c e := 
+1 1 2 3
+2 4 5 6
+3 7 8 9
+;
+</pre></div>
+</div>
+<p>Additionally, the following syntax can be used to specify a transposed
+matrix of parameter values:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := 1 a 1 c 1 e 2 a 2 c 2 e 3 a 3 c 3 e;
+
+param B (tr) : 1 2 3 := 
+a 1 4 7
+c 2 5 8
+e 3 6 9
+;
+</pre></div>
+</div>
+<p>This functionality facilitates the presentation of parameter data in a
+natural format.  In particular, the transpose syntax may allow the
+specification of tables for which the rows comfortably fit within a
+single line.  However, a matrix may be divided column-wise into shorter
+rows since the line breaks are not significant in Pyomo data commands.</p>
+<p>For parameters with three or more indices, the parameter data values may
+be specified as a series of slices.  Each slice is defined by a template
+followed by a list of index and parameter values.  Suppose that
+parameter <code class="docutils literal notranslate"><span class="pre">B</span></code> is indexed over set <code class="docutils literal notranslate"><span class="pre">A</span></code> that has dimension 4:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following <code class="docutils literal notranslate"><span class="pre">param</span></code> command defines a matrix of parameter values
+with multiple templates:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set A := (a,1,a,1) (a,2,a,2) (b,1,b,1) (b,2,b,2);
+
+param B :=
+
+  [*,1,*,1] a a 10 b b 20
+  [*,2,*,2] a a 30 b b 40
+;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">B</span></code> parameter consists of four values: <code class="docutils literal notranslate"><span class="pre">B[a,1,a,1]=10</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B[b,1,b,1]=20</span></code>, <code class="docutils literal notranslate"><span class="pre">B[a,2,a,2]=30</span></code>, and <code class="docutils literal notranslate"><span class="pre">B[b,2,b,2]=40</span></code>.</p>
+</div>
+</div>
+<div class="section" id="the-table-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">table</span></code> Command<a class="headerlink" href="#the-table-command" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">table</span></code> data command explicitly specifies a two-dimensional array
+of parameter data.  This command provides a more flexible and complete
+data declaration than is possible with a <code class="docutils literal notranslate"><span class="pre">param</span></code> declaration.  The
+following example illustrates a simple <code class="docutils literal notranslate"><span class="pre">table</span></code> command that declares
+data for a single parameter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table M(A) :
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">M</span></code> is indexed by column <code class="docutils literal notranslate"><span class="pre">A</span></code>, which must be
+pre-defined unless declared separately (see below).  The column labels
+are provided after the colon and before the colon-equal (<code class="docutils literal notranslate"><span class="pre">:=</span></code>).
+Subsequently, the table data is provided.  The syntax is not sensitive
+to whitespace, so the following is an equivalent <code class="docutils literal notranslate"><span class="pre">table</span></code> command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table M(A) :
+A  B  M   N :=
+A1 B1 4.3 5.3 A2 B2 4.4 5.4 A3 B3 4.5 5.5 ;
+</pre></div>
+</div>
+<p>Multiple parameters can be declared by simply including additional
+parameter names.  For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table M(A) N(A,B) :
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>This example declares data for the <code class="docutils literal notranslate"><span class="pre">M</span></code> and <code class="docutils literal notranslate"><span class="pre">N</span></code> parameters, which
+have different indexing columns.  The indexing columns represent set
+data, which is specified separately.  For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table A={A} Z={A,B} M(A) N(A,B) :
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>This example declares data for the <code class="docutils literal notranslate"><span class="pre">M</span></code> and <code class="docutils literal notranslate"><span class="pre">N</span></code> parameters, along
+with the <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">Z</span></code> indexing sets.  The correspondence between the
+index set <code class="docutils literal notranslate"><span class="pre">Z</span></code> and the indices of parameter <code class="docutils literal notranslate"><span class="pre">N</span></code> can be made more
+explicit by indexing <code class="docutils literal notranslate"><span class="pre">N</span></code> by <code class="docutils literal notranslate"><span class="pre">Z</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table A={A} Z={A,B} M(A) N(Z) :
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>Set data can also be specified independent of parameter data:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table Z={A,B} Y={M,N} :
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>If a <code class="docutils literal notranslate"><span class="pre">table</span></code> command does not explicitly indicate the indexing
+sets, then these are assumed to be initialized separately.  A
+<code class="docutils literal notranslate"><span class="pre">table</span></code> command can separately initialize sets and parameters in a
+Pyomo model, and there is no presumed association between the data
+that is initialized.  For example, the <code class="docutils literal notranslate"><span class="pre">table</span></code> command initializes
+a set <code class="docutils literal notranslate"><span class="pre">Z</span></code> and a parameter <code class="docutils literal notranslate"><span class="pre">M</span></code> that are not related:</p>
+<div class="last highlight-none notranslate"><div class="highlight"><pre><span></span>table Z={A,B} M(A):
+A  B  M   N :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+</div>
+<p>Finally, simple parameter values can also be specified with a <code class="docutils literal notranslate"><span class="pre">table</span></code>
+command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table pi := 3.1416 ;
+</pre></div>
+</div>
+<p>The previous examples considered examples of the <code class="docutils literal notranslate"><span class="pre">table</span></code> command where
+column labels are provided.  The <code class="docutils literal notranslate"><span class="pre">table</span></code> command can also be used
+without column labels.  For example, the first example can be revised to
+omit column labels as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table columns=4 M(1)={3} :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">columns=4</span></code> is a keyword-value pair that defines the number of
+columns in this table; this must be explicitly specified in tables
+without column labels.  The default column labels are integers starting
+from <code class="docutils literal notranslate"><span class="pre">1</span></code>; the labels are columns <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code>, and <code class="docutils literal notranslate"><span class="pre">4</span></code> in
+this example.  The <code class="docutils literal notranslate"><span class="pre">M</span></code> parameter is indexed by column <code class="docutils literal notranslate"><span class="pre">1</span></code>.  The
+braces syntax declares the column where the <code class="docutils literal notranslate"><span class="pre">M</span></code> data is provided.</p>
+<p>Similarly, set data can be declared referencing the integer column
+labels:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table columns=4 A={1} Z={1,2} M(1)={3} N(1,2)={4} :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>Declared set names can also be used to index parameters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>table columns=4 A={1} Z={1,2} M(A)={3} N(Z)={4} :=
+A1 B1 4.3 5.3
+A2 B2 4.4 5.4
+A3 B3 4.5 5.5
+;
+</pre></div>
+</div>
+<p>Finally, we compare and contrast the <code class="docutils literal notranslate"><span class="pre">table</span></code> and <code class="docutils literal notranslate"><span class="pre">param</span></code> commands.
+Both commands can be used to declare parameter and set data, and both
+commands can be used to declare a simple parameter.  However, there are
+some important differences between these data commands:</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">param</span></code> command can declare a single set that is used to index
+one or more parameters.  The <code class="docutils literal notranslate"><span class="pre">table</span></code> command can declare data for
+any number of sets, independent of whether they are used to index
+parameter data.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">param</span></code> command can declare data for multiple parameters only if
+they share the same index set.  The <code class="docutils literal notranslate"><span class="pre">table</span></code> command can declare data
+for any number of parameters that are may be indexed separately.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">table</span></code> syntax unambiguously describes the dimensionality of
+indexing sets.  The <code class="docutils literal notranslate"><span class="pre">param</span></code> command must be interpreted with a model
+that provides the dimension of the indexing set.</li>
+</ul>
+<p>This last point provides a key motivation for the <code class="docutils literal notranslate"><span class="pre">table</span></code> command.
+Specifically, the <code class="docutils literal notranslate"><span class="pre">table</span></code> command can be used to reliably initialize
+concrete models using Pyomo’s <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> class.  By contrast, the
+<code class="docutils literal notranslate"><span class="pre">param</span></code> command can only be used to initialize concrete models with
+parameters that are indexed by a single column (i.e., a simple set).</p>
+</div>
+<div class="section" id="the-load-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">load</span></code> Command<a class="headerlink" href="#the-load-command" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">load</span></code> command provides a mechanism for loading data from a
+variety of external tabular data sources.  This command loads a table of
+data that represents set and parameter data in a Pyomo model.  The table
+consists of rows and columns for which all rows have the same length,
+all columns have the same length, and the first row represents labels
+for the column data.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">load</span></code> command can load data from a variety of different external
+data sources:</p>
+<ul class="simple">
+<li><strong>TAB File</strong>: A text file format that uses whitespace to separate
+columns of values in each row of a table.</li>
+<li><strong>CSV File</strong>: A text file format that uses comma or other delimiters
+to separate columns of values in each row of a table.</li>
+<li><strong>XML File</strong>: An extensible markup language for documents and data
+structures.  XML files can represent tabular data.</li>
+<li><strong>Excel File</strong>: A spreadsheet data format that is primarily used by
+the Microsoft Excel application.</li>
+<li><strong>Database</strong>: A relational database.</li>
+</ul>
+<p>This command uses a <em>data manager</em> that coordinates how data is
+extracted from a specified <em>data source</em>.  In this way, the <code class="docutils literal notranslate"><span class="pre">load</span></code>
+command provides a generic mechanism that enables Pyomo models to
+interact with standard data repositories that are maintained in an
+application-specific manner.</p>
+<div class="section" id="simple-load-examples">
+<h3>Simple Load Examples<a class="headerlink" href="#simple-load-examples" title="Permalink to this headline">¶</a></h3>
+<p>The simplest illustration of the <code class="docutils literal notranslate"><span class="pre">load</span></code> command is specifying data for
+an indexed parameter.  Consider the file <code class="docutils literal notranslate"><span class="pre">Y.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  Y
+A1 3.3
+A2 3.4
+A3 3.5
+</pre></div>
+</div>
+<p>This file specifies the values of parameter <code class="docutils literal notranslate"><span class="pre">Y</span></code> which is indexed by
+set <code class="docutils literal notranslate"><span class="pre">A</span></code>.  The following <code class="docutils literal notranslate"><span class="pre">load</span></code> command loads the parameter data:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load Y.tab : [A] Y;
+</pre></div>
+</div>
+<p>The first argument is the filename.  The options after the colon
+indicate how the table data is mapped to model data.  Option <code class="docutils literal notranslate"><span class="pre">[A]</span></code>
+indicates that set <code class="docutils literal notranslate"><span class="pre">A</span></code> is used as the index, and option <code class="docutils literal notranslate"><span class="pre">Y</span></code>
+indicates the parameter that is initialized.</p>
+<p>Similarly, the following load command loads both the parameter data as
+well as the index set <code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load Y.tab : A=[A] Y;
+</pre></div>
+</div>
+<p>The difference is the specification of the index set, <code class="docutils literal notranslate"><span class="pre">A=[A]</span></code>, which
+indicates that set <code class="docutils literal notranslate"><span class="pre">A</span></code> is initialized with the index loaded from the
+ASCII table file.</p>
+<p>Set data can also be loaded from a ASCII table file that contains a
+single column of data:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A
+A1
+A2
+A3
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">format</span></code> option must be specified to denote the fact that the
+relational data is being interpreted as a set:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load A.tab format=set : A;
+</pre></div>
+</div>
+<p>Note that this allows for specifying set data that contains tuples.
+Consider file <code class="docutils literal notranslate"><span class="pre">C.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B
+A1 1
+A1 2
+A1 3
+A2 1
+A2 2
+A2 3
+A3 1
+A3 2
+A3 3
+</pre></div>
+</div>
+<p>A similar <code class="docutils literal notranslate"><span class="pre">load</span></code> syntax will load this data into set <code class="docutils literal notranslate"><span class="pre">C</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load C.tab format=set : C;
+</pre></div>
+</div>
+<p>Note that this example requires that <code class="docutils literal notranslate"><span class="pre">C</span></code> be declared with dimension
+two.</p>
+</div>
+<div class="section" id="load-syntax-options">
+<h3>Load Syntax Options<a class="headerlink" href="#load-syntax-options" title="Permalink to this headline">¶</a></h3>
+<p>The syntax of the <code class="docutils literal notranslate"><span class="pre">load</span></code> command is broken into two parts.  The first
+part ends with the colon, and it begins with a filename, database URL,
+or DSN (data source name).  Additionally, this first part can contain
+option value pairs.  The following options are recognized:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">format</span></code></td>
+<td>A string that denotes how the relational table is interpreted</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">password</span></code></td>
+<td>The password that is used to access a database</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">query</span></code></td>
+<td>The query that is used to request data from a database</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">range</span></code></td>
+<td>The subset of a spreadsheet that is requestedindex{spreadsheet}</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">user</span></code></td>
+<td>The user name that is used to access the data source</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">using</span></code></td>
+<td>The data manager that is used to process the data source</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">table</span></code></td>
+<td>The database table that is requested</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">format</span></code> option is the only option that is required for all data
+managers.  This option specifies how a relational table is interpreted
+to represent set and parameter data.  If the <code class="docutils literal notranslate"><span class="pre">using</span></code> option is
+omitted, then the filename suffix is used to select the data manager.
+The remaining options are specific to spreadsheets and relational
+databases (see below).</p>
+<p>The second part of the <code class="docutils literal notranslate"><span class="pre">load</span></code> command consists of the specification of
+column names for indices and data.  The remainder of this section
+describes different specifications and how they define how data is
+loaded into a model.  Suppose file <code class="docutils literal notranslate"><span class="pre">ABCD.tab</span></code> defines the following
+relational table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B  C D
+A1 B1 1 10
+A2 B2 2 20
+A3 B3 3 30
+</pre></div>
+</div>
+<p>There are many ways to interpret this relational table.  It could
+specify a set of 4-tuples, a parameter indexed by 3-tuples, two
+parameters indexed by 2-tuples, and so on.  Additionally, we may wish to
+select a subset of this table to initialize data in a model.
+Consequently, the <code class="docutils literal notranslate"><span class="pre">load</span></code> command provides a variety of syntax options
+for specifying how a table is interpreted.</p>
+<p>A simple specification is to interpret the relational table as a set:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.tab format=set : Z ;
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">Z</span></code> is a set in the model that the data is being loaded
+into.  If this set does not exist, an error will occur while loading
+data from this table.</p>
+<p>Another simple specification is to interpret the relational table as a
+parameter with indexed by 3-tuples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.tab : [A,B,C] D ;
+</pre></div>
+</div>
+<p>Again, this requires that <code class="docutils literal notranslate"><span class="pre">D</span></code> be a parameter in the model that the
+data is being loaded into.  Additionally, the index set for <code class="docutils literal notranslate"><span class="pre">D</span></code> must
+contain the indices that are specified in the table.  The <code class="docutils literal notranslate"><span class="pre">load</span></code>
+command also allows for the specification of the index set:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.tab : Z=[A,B,C] D ;
+</pre></div>
+</div>
+<p>This specifies that the index set is loaded into the <code class="docutils literal notranslate"><span class="pre">Z</span></code> set in the
+model.  Similarly, data can be loaded into another parameter than what
+is specified in the relational table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.tab : Z=[A,B,C] Y=D ;
+</pre></div>
+</div>
+<p>This specifies that the index set is loaded into the <code class="docutils literal notranslate"><span class="pre">Z</span></code> set and that
+the data in the <code class="docutils literal notranslate"><span class="pre">D</span></code> column in the table is loaded into the <code class="docutils literal notranslate"><span class="pre">Y</span></code>
+parameter.</p>
+<p>This syntax allows the <code class="docutils literal notranslate"><span class="pre">load</span></code> command to provide an arbitrary
+specification of data mappings from columns in a relational table into
+index sets and parameters.  For example, suppose that a model is defined
+with set <code class="docutils literal notranslate"><span class="pre">Z</span></code> and parameters <code class="docutils literal notranslate"><span class="pre">Y</span></code> and <code class="docutils literal notranslate"><span class="pre">W</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then the following command defines how these data items are loaded using
+columns <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">D</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.tab : Z=[B] Y=D W=C;
+</pre></div>
+</div>
+<p>When the <code class="docutils literal notranslate"><span class="pre">using</span></code> option is omitted the data manager is inferred from
+the filename suffix.  However, the filename suffix does not always
+reflect the format of the data it contains.  For example, consider the
+relational table in the file <code class="docutils literal notranslate"><span class="pre">ABCD.txt</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A,B,C,D
+A1,B1,1,10
+A2,B2,2,20
+A3,B3,3,30
+</pre></div>
+</div>
+<p>We can specify the <code class="docutils literal notranslate"><span class="pre">using</span></code> option to load from this file into
+parameter <code class="docutils literal notranslate"><span class="pre">D</span></code> and set <code class="docutils literal notranslate"><span class="pre">Z</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.txt using=csv : Z=[A,B,C] D ;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The data managers supported by Pyomo can be listed with the
+<code class="docutils literal notranslate"><span class="pre">pyomo</span> <span class="pre">help</span></code> subcommand</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyomo</span> <span class="n">help</span> <span class="o">--</span><span class="n">data</span><span class="o">-</span><span class="n">managers</span>
+</pre></div>
+</div>
+<p>The following data managers are supported in Pyomo 5.1:</p>
+<blockquote class="last">
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Pyomo Data Managers
+-------------------
+  csv
+      CSV file interface
+  dat
+      Pyomo data command file interface
+  json
+      JSON file interface
+  pymysql
+      pymysql database interface
+  pyodbc
+      pyodbc database interface
+  pypyodbc
+      pypyodbc database interface
+  sqlite3
+      sqlite3 database interface
+  tab
+      TAB file interface
+  xls
+      Excel XLS file interface
+  xlsb
+      Excel XLSB file interface
+  xlsm
+      Excel XLSM file interface
+  xlsx
+      Excel XLSX file interface
+  xml
+      XML file interface
+  yaml
+      YAML file interface
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="interpreting-tabular-data">
+<h3>Interpreting Tabular Data<a class="headerlink" href="#interpreting-tabular-data" title="Permalink to this headline">¶</a></h3>
+<p>By default, a table is interpreted as columns of one or more parameters
+with associated index columns.  The <code class="docutils literal notranslate"><span class="pre">format</span></code> option can be used to
+specify other interpretations of a table:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">array</span></code></td>
+<td>The table is a matrix representation of a two dimensional
+parameter.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">param</span></code></td>
+<td>The data is a simple parameter value.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">set</span></code></td>
+<td>Each row is a set element.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">set_array</span></code></td>
+<td>The table is a matrix representation of a set of 2-tuples.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">transposed_array</span></code></td>
+<td>The table is a transposed matrix representation of a two
+dimensional parameter.</td>
+</tr>
+</tbody>
+</table>
+<p>We have previously illustrated the use of the <code class="docutils literal notranslate"><span class="pre">set</span></code> format value to
+interpret a relational table as a set of values or tuples.  The
+following examples illustrate the other format values.</p>
+<p>A table with a single value can be interpreted as a simple parameter
+using the <code class="docutils literal notranslate"><span class="pre">param</span></code> format value.  Suppose that <code class="docutils literal notranslate"><span class="pre">Z.tab</span></code> contains the
+following table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1.1
+</pre></div>
+</div>
+<p>The following load command then loads this value into parameter <code class="docutils literal notranslate"><span class="pre">p</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load Z.tab format=param: p;
+</pre></div>
+</div>
+<p>Sets with 2-tuple data can be represented with a matrix format that
+denotes set membership.  The <code class="docutils literal notranslate"><span class="pre">set_array</span></code> format value interprets a
+relational table as a matrix that defines a set of 2-tuples where <code class="docutils literal notranslate"><span class="pre">+</span></code>
+denotes a valid tuple and <code class="docutils literal notranslate"><span class="pre">-</span></code> denotes an invalid tuple.  Suppose that
+<code class="docutils literal notranslate"><span class="pre">D.tab</span></code> contains the following relational table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>B  A1  A2  A3
+1  +   -   -
+2  -   +   -
+3  -   -   +
+</pre></div>
+</div>
+<p>Then the following load command loads data into set <code class="docutils literal notranslate"><span class="pre">B</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load D.tab format=set_array: B;
+</pre></div>
+</div>
+<p>This command declares the following 2-tuples: <code class="docutils literal notranslate"><span class="pre">('A1',1)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">('A2',2)</span></code>, and <code class="docutils literal notranslate"><span class="pre">('A3',3)</span></code>.</p>
+<p>Parameters with 2-tuple indices can be interpreted with a matrix format
+that where rows and columns are different indices.  Suppose that
+<code class="docutils literal notranslate"><span class="pre">U.tab</span></code> contains the following table:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>I  A1  A2  A3
+I1 1.3 2.3 3.3
+I2 1.4 2.4 3.4
+I3 1.5 2.5 3.5
+I4 1.6 2.6 3.6
+</pre></div>
+</div>
+<p>Then the following load command loads this value into parameter <code class="docutils literal notranslate"><span class="pre">U</span></code>
+with a 2-dimensional index using the <code class="docutils literal notranslate"><span class="pre">array</span></code> format value.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load U.tab format=array: A=[X] U;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">transpose_array</span></code> format value also interprets the table as a
+matrix, but it loads the data in a transposed format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load U.tab format=transposed_array: A=[X] U;
+</pre></div>
+</div>
+<p>Note that these format values do not support the initialization of the
+index data.</p>
+</div>
+<div class="section" id="loading-from-spreadsheets-and-relational-databases">
+<h3>Loading from Spreadsheets and Relational Databases<a class="headerlink" href="#loading-from-spreadsheets-and-relational-databases" title="Permalink to this headline">¶</a></h3>
+<p>Many of the options for the <code class="docutils literal notranslate"><span class="pre">load</span></code> command are specific to
+spreadsheets and relational databases.  The <code class="docutils literal notranslate"><span class="pre">range</span></code> option is used to
+specify the range of cells that are loaded from a spreadsheet.  The
+range of cells represents a table in which the first row of cells
+defines the column names for the table.</p>
+<p>Suppose that file <code class="docutils literal notranslate"><span class="pre">ABCD.xls</span></code> contains the range <code class="docutils literal notranslate"><span class="pre">ABCD</span></code> that is shown
+in the following figure:</p>
+<img alt="../../_images/ABCD.png" src="../../_images/ABCD.png" />
+<p>The following command loads this data to initialize parameter <code class="docutils literal notranslate"><span class="pre">D</span></code> and
+index <code class="docutils literal notranslate"><span class="pre">Z</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.xls range=ABCD : Z=[A,B,C] Y=D ;
+</pre></div>
+</div>
+<p>Thus, the syntax for loading data from spreadsheets only differs from
+CSV and ASCII text files by the use of the <code class="docutils literal notranslate"><span class="pre">range</span></code> option.</p>
+<p>When loading from a relational database, the data source specification
+is a filename or data connection string.  Access to a database may be
+restricted, and thus the specification of <code class="docutils literal notranslate"><span class="pre">username</span></code> and <code class="docutils literal notranslate"><span class="pre">password</span></code>
+options may be required.  Alternatively, these options can be specified
+within a data connection string.</p>
+<p>A variety of database interface packages are available within Python.
+The <code class="docutils literal notranslate"><span class="pre">using</span></code> option is used to specify the database interface package
+that will be used to access a database.  For example, the <code class="docutils literal notranslate"><span class="pre">pyodbc</span></code>
+interface can be used to connect to Excel spreadsheets.  The following
+command loads data from the Excel spreadsheet <code class="docutils literal notranslate"><span class="pre">ABCD.xls</span></code> using the
+<code class="docutils literal notranslate"><span class="pre">pyodbc</span></code> interface.  The command loads this data to initialize
+parameter <code class="docutils literal notranslate"><span class="pre">D</span></code> and index <code class="docutils literal notranslate"><span class="pre">Z</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load ABCD.xls using=pyodbc table=ABCD : Z=[A,B,C] Y=D ;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">using</span></code> option specifies that the <code class="docutils literal notranslate"><span class="pre">pyodbc</span></code> package will be
+used to connect with the Excel spreadsheet.  The <code class="docutils literal notranslate"><span class="pre">table</span></code> option
+specifies that the table <code class="docutils literal notranslate"><span class="pre">ABCD</span></code> is loaded from this spreadsheet.
+Similarly, the following command specifies a data connection string
+to specify the ODBC driver explicitly:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>load &quot;Driver={Microsoft Excel Driver (*.xls)}; Dbq=ABCD.xls;&quot; 
+    using=pyodbc 
+    table=ABCD : Z=[A,B,C] Y=D ;
+</pre></div>
+</div>
+<p>ODBC drivers are generally tailored to the type of data source that
+they work with;  this syntax illustrates how the <code class="docutils literal notranslate"><span class="pre">load</span></code> command
+can be tailored to the details of the database that a user is working
+with.</p>
+<p>The previous examples specified the <code class="docutils literal notranslate"><span class="pre">table</span></code> option, which declares the
+name of a relational table in a database.  Many databases support the
+Structured Query Language (SQL), which can be used to dynamically
+compose a relational table from other tables in a database.  The classic
+diet problem will be used to illustrate the use of SQL queries to
+initialize a Pyomo model.  In this problem, a customer is faced with the
+task of minimizing the cost for a meal at a fast food restaurant – they
+must purchase a sandwich, side, and a drink for the lowest cost.  The
+following is a Pyomo model for this problem:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># diet1.py</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">infinity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+<span class="n">MAX_FOOD_SUPPLY</span> <span class="o">=</span> <span class="mf">20.0</span>  <span class="c1"># There is a finite food supply</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">FOOD</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">f_min</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">f_max_validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">f_max</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">f_min</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">f_max</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="n">f_max_validate</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">MAX_FOOD_SUPPLY</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">NUTR</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n_min</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">NUTR</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n_max</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">NUTR</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">infinity</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">amt</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">NUTR</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">Buy_bounds</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">f_min</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">f_max</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">Buy</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">Buy_bounds</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">Total_Cost_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">cost</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">Buy</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">FOOD</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">Total_Cost</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Total_Cost_rule</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">minimize</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">Entree_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">entrees</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;Cheeseburger&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Ham Sandwich&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Hamburger&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fish Sandwich&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Chicken Sandwich&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Buy</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entrees</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">Entree</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Entree_rule</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">Side_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">sides</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Fries&#39;</span><span class="p">,</span> <span class="s1">&#39;Sausage Biscuit&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Buy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sides</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">Side</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Side_rule</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">Drink_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">drinks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lowfat Milk&#39;</span><span class="p">,</span> <span class="s1">&#39;Orange Juice&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Buy</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">drinks</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">Drink</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Drink_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Suppose that the file <code class="docutils literal notranslate"><span class="pre">diet1.sqlite</span></code> be a SQLite database file that
+contains the following data in the <code class="docutils literal notranslate"><span class="pre">Food</span></code> table:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>FOOD</strong></th>
+<th class="head"><strong>cost</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cheeseburger</td>
+<td>1.84</td>
+</tr>
+<tr class="row-odd"><td>Ham Sandwich</td>
+<td>2.19</td>
+</tr>
+<tr class="row-even"><td>Hamburger</td>
+<td>1.84</td>
+</tr>
+<tr class="row-odd"><td>Fish Sandwich</td>
+<td>1.44</td>
+</tr>
+<tr class="row-even"><td>Chicken Sandwich</td>
+<td>2.29</td>
+</tr>
+<tr class="row-odd"><td>Fries</td>
+<td>0.77</td>
+</tr>
+<tr class="row-even"><td>Sausage Biscuit</td>
+<td>1.29</td>
+</tr>
+<tr class="row-odd"><td>Lowfat Milk</td>
+<td>0.60</td>
+</tr>
+<tr class="row-even"><td>Orange Juice</td>
+<td>0.72</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the <code class="docutils literal notranslate"><span class="pre">Food</span></code> table has two additional columns, <code class="docutils literal notranslate"><span class="pre">f_min</span></code>
+and <code class="docutils literal notranslate"><span class="pre">f_max</span></code>, with no data for any row. These columns exist to match
+the structure for the parameters used in the model.</p>
+<p>We can solve the <code class="docutils literal notranslate"><span class="pre">diet1</span></code> model using the Python definition in
+<code class="docutils literal notranslate"><span class="pre">diet1.py</span></code> and the data from this database.  The file
+<code class="docutils literal notranslate"><span class="pre">diet.sqlite.dat</span></code> specifies a <code class="docutils literal notranslate"><span class="pre">load</span></code> command that uses that
+<code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> data manager and embeds a SQL query to retrieve the data:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># File diet.sqlite.dat
+
+load &quot;diet.sqlite&quot; 
+     using=sqlite3 
+     query=&quot;SELECT FOOD,cost,f_min,f_max FROM Food&quot; 
+     : FOOD=[FOOD] cost f_min f_max ;
+</pre></div>
+</div>
+<p>The PyODBC driver module will pass the SQL query through an Access ODBC
+connector, extract the data from the <code class="docutils literal notranslate"><span class="pre">diet1.mdb</span></code> file, and return it
+to Pyomo. The Pyomo ODBC handler can then convert the data received into
+the proper format for solving the model internally.  More complex SQL
+queries are possible, depending on the underlying database and ODBC
+driver in use. However, the name and ordering of the columns queried are
+specified in the Pyomo data file; using SQL wildcards (e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span>
+<span class="pre">*</span></code>) or column aliasing (e.g., <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">f</span> <span class="pre">AS</span> <span class="pre">FOOD</span></code>) may cause errors in
+Pyomo’s mapping of relational data to parameters.</p>
+</div>
+</div>
+<div class="section" id="the-include-command">
+<h2>The <code class="docutils literal notranslate"><span class="pre">include</span></code> Command<a class="headerlink" href="#the-include-command" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">include</span></code> command allows a data command file to execute data
+commands from another file.  For example, the following command file
+executes data commands from <code class="docutils literal notranslate"><span class="pre">ex1.dat</span></code> and then <code class="docutils literal notranslate"><span class="pre">ex2.dat</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>include ex1.dat;
+include ex2.dat;
+</pre></div>
+</div>
+<p>Pyomo is sensitive to the order of execution of data commands, since
+data commands can redefine set and parameter values.  The <code class="docutils literal notranslate"><span class="pre">include</span></code>
+command respects this data ordering; all data commands in the included
+file are executed before the remaining data commands in the current file
+are executed.</p>
+</div>
+<div class="section" id="the-namespace-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">namespace</span></code> Keyword<a class="headerlink" href="#the-namespace-keyword" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">namespace</span></code> keyword is not a data command, but instead it is used
+to structure the specification of Pyomo’s data commands.  Specifically,
+a namespace declaration is used to group data commands and to provide a
+group label. Consider the following data command file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set C := 1 2 3 ;
+
+namespace ns1
+{
+    set C := 4 5 6 ;
+}
+
+namespace ns2
+{
+    set C := 7 8 9 ;
+}
+
+</pre></div>
+</div>
+<p>This data file defines two namespaces: <code class="docutils literal notranslate"><span class="pre">ns1</span></code> and <code class="docutils literal notranslate"><span class="pre">ns2</span></code> that
+initialize a set <code class="docutils literal notranslate"><span class="pre">C</span></code>.  By default, data commands contained within a
+namespace are ignored during model construction; when no namespaces are
+specified, the set <code class="docutils literal notranslate"><span class="pre">C</span></code> has values <code class="docutils literal notranslate"><span class="pre">1,2,3</span></code>.  When namespace <code class="docutils literal notranslate"><span class="pre">ns1</span></code>
+is specified, then the set <code class="docutils literal notranslate"><span class="pre">C</span></code> values are overridden with the set
+<code class="docutils literal notranslate"><span class="pre">4,5,6</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="dataportals.html" class="btn btn-neutral float-right" title="Data Portals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="raw_dicts.html" class="btn btn-neutral float-left" title="Using a Python Dictionary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.multistart.multi &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.multistart.multi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.multistart.multi</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConfigBlock</span><span class="p">,</span>
+    <span class="n">ConfigValue</span><span class="p">,</span>
+    <span class="n">In</span><span class="p">,</span>
+    <span class="n">document_kwargs_from_configdict</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">unique_component_name</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.multistart.high_conf_stop</span> <span class="kn">import</span> <span class="n">should_stop</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.multistart.reinit</span> <span class="kn">import</span> <span class="n">reinitialize_variables</span><span class="p">,</span> <span class="n">strategies</span>
+<span class="kn">from</span> <span class="nn">pyomo.core</span> <span class="kn">import</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">Var</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span><span class="p">,</span> <span class="n">SolverStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">TerminationCondition</span> <span class="k">as</span> <span class="n">tc</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.contrib.multistart&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MultiStart"><a class="viewcode-back" href="../../../../contributed_packages/multistart.html#pyomo.contrib.multistart.multi.MultiStart">[docs]</a><span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">&#39;multistart&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;MultiStart solver for NLPs&#39;</span><span class="p">)</span>
+<span class="nd">@document_kwargs_from_configdict</span><span class="p">(</span><span class="s1">&#39;CONFIG&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MultiStart</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Solver wrapper that initializes at multiple starting points.</span>
+
+<span class="sd">    # TODO: also return appropriate duals</span>
+
+<span class="sd">    For theoretical underpinning, see</span>
+<span class="sd">    https://www.semanticscholar.org/paper/How-many-random-restarts-are-enough-Dick-Wong/55b248b398a03dc1ac9a65437f88b835554329e0</span>
+
+<span class="sd">    Keyword arguments below are specified for the ``solve`` function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">(</span><span class="s2">&quot;MultiStart&quot;</span><span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;strategy&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;rand&quot;</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">strategies</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specify the restart strategy. Defaults to rand.&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify the restart strategy.</span>
+
+<span class="s2">        - &quot;rand&quot;: random choice between variable bounds</span>
+<span class="s2">        - &quot;midpoint_guess_and_bound&quot;: midpoint between current value and farthest bound</span>
+<span class="s2">        - &quot;rand_guess_and_bound&quot;: random choice between current value and farthest bound</span>
+<span class="s2">        - &quot;rand_distributed&quot;: random choice among evenly distributed values</span>
+<span class="s2">        - &quot;midpoint&quot;: exact midpoint between the bounds. If using this option, multiple iterations are useless.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;solver&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;ipopt&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;solver to use, defaults to ipopt&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;solver_args&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dictionary of keyword arguments to pass to the solver.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;iterations&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specify the number of iterations, defaults to 10. &quot;</span>
+            <span class="s2">&quot;If -1 is specified, the high confidence stopping rule will be used&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;stopping_mass&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum allowable estimated missing mass of optima.&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Maximum allowable estimated missing mass of optima for the</span>
+<span class="s2">        high confidence stopping rule, only used with the random strategy.</span>
+<span class="s2">        The lower the parameter, the stricter the rule.</span>
+<span class="s2">        Value bounded in (0, 1].&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;stopping_delta&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;1 minus the confidence level required for the stopping rule.&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;1 minus the confidence level required for the stopping rule for the</span>
+<span class="s2">        high confidence stopping rule, only used with the random strategy.</span>
+<span class="s2">        The lower the parameter, the stricter the rule.</span>
+<span class="s2">        Value bounded in (0, 1].&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;suppress_unbounded_warning&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True to suppress warning for skipping unbounded variables.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;HCS_max_iterations&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum number of iterations before interrupting the high confidence stopping rule.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;HCS_tolerance&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tolerance on HCS objective value equality. Defaults to Python float equality precision.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="MultiStart.available"><a class="viewcode-back" href="../../../../contributed_packages/multistart.html#pyomo.contrib.multistart.multi.MultiStart.available">[docs]</a>    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if solver is available.</span>
+
+<span class="sd">        TODO: For now, it is always available. However, sub-solvers may not</span>
+<span class="sd">        always be available, and so this should reflect that possibility.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">license_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1"># initialize keyword args</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;options&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># initialize the solver</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">solver</span><span class="p">)</span>
+
+        <span class="c1"># Model sense</span>
+        <span class="n">objectives</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">objectives</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Check model validity</span>
+        <span class="k">if</span> <span class="nb">next</span><span class="p">(</span><span class="n">objectives</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Multistart solver is unable to handle model with multiple active objectives.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Multistart solver is unable to handle model with no active objective.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Multistart solver received model with constant objective&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># store objective values and objective/result information for best</span>
+        <span class="c1"># solution obtained</span>
+        <span class="n">objectives</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">obj_sign</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">minimize</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">best_objective</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">obj_sign</span>
+        <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="n">best_result</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># create temporary variable list for value transfer</span>
+            <span class="n">tmp_var_list_name</span> <span class="o">=</span> <span class="n">unique_component_name</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;_vars_list&quot;</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span>
+                <span class="n">tmp_var_list_name</span><span class="p">,</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">ctype</span><span class="o">=</span><span class="n">Var</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+            <span class="p">)</span>
+
+            <span class="n">best_result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="o">.</span><span class="n">solver_args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="ow">is</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="ow">is</span> <span class="n">tc</span><span class="o">.</span><span class="n">optimal</span>
+            <span class="p">):</span>
+                <span class="n">obj_val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">)</span>
+                <span class="n">best_objective</span> <span class="o">=</span> <span class="n">obj_val</span>
+                <span class="n">objectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_val</span><span class="p">)</span>
+            <span class="n">num_iter</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">max_iter</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">iterations</span>
+            <span class="c1"># if HCS rule is specified, reinitialize completely randomly until</span>
+            <span class="c1"># rule specifies stopping</span>
+            <span class="n">using_HCS</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">iterations</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">HCS_completed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">using_HCS</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="p">(</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;rand&quot;</span>
+                <span class="p">),</span> <span class="s2">&quot;High confidence stopping rule requires rand strategy.&quot;</span>
+                <span class="n">max_iter</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">HCS_max_iterations</span>
+
+            <span class="k">while</span> <span class="n">num_iter</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">using_HCS</span> <span class="ow">and</span> <span class="n">should_stop</span><span class="p">(</span>
+                    <span class="n">objectives</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">stopping_mass</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">stopping_delta</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">HCS_tolerance</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="n">HCS_completed</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+                <span class="n">num_iter</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1"># at first iteration, solve the originally passed model</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">if</span> <span class="n">num_iter</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">model</span>
+                <span class="n">reinitialize_variables</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="o">.</span><span class="n">solver_args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="ow">is</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                    <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="ow">is</span> <span class="n">tc</span><span class="o">.</span><span class="n">optimal</span>
+                <span class="p">):</span>
+                    <span class="n">model_objectives</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">mobj</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">model_objectives</span><span class="p">)</span>
+                    <span class="n">obj_val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">mobj</span><span class="o">.</span><span class="n">expr</span><span class="p">)</span>
+                    <span class="n">objectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_val</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">obj_val</span> <span class="o">*</span> <span class="n">obj_sign</span> <span class="o">&lt;</span> <span class="n">obj_sign</span> <span class="o">*</span> <span class="n">best_objective</span><span class="p">:</span>
+                        <span class="c1"># objective has improved</span>
+                        <span class="n">best_objective</span> <span class="o">=</span> <span class="n">obj_val</span>
+                        <span class="n">best_model</span> <span class="o">=</span> <span class="n">m</span>
+                        <span class="n">best_result</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="k">if</span> <span class="n">num_iter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c1"># if it&#39;s the first iteration, set the best_model and</span>
+                    <span class="c1"># best_result regardless of solution status in case the</span>
+                    <span class="c1"># model is infeasible.</span>
+                    <span class="n">best_model</span> <span class="o">=</span> <span class="n">m</span>
+                    <span class="n">best_result</span> <span class="o">=</span> <span class="n">result</span>
+
+            <span class="k">if</span> <span class="n">using_HCS</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">HCS_completed</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;High confidence stopping rule was unable to complete &quot;</span>
+                    <span class="s2">&quot;after </span><span class="si">%s</span><span class="s2"> iterations. To increase this limit, change the &quot;</span>
+                    <span class="s2">&quot;HCS_max_iterations flag.&quot;</span> <span class="o">%</span> <span class="n">num_iter</span>
+                <span class="p">)</span>
+
+            <span class="c1"># if no better result was found than initial solve, then return</span>
+            <span class="c1"># that without needing to copy variables.</span>
+            <span class="k">if</span> <span class="n">best_model</span> <span class="ow">is</span> <span class="n">model</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">best_result</span>
+
+            <span class="c1"># reassign the given models vars to the new models vars</span>
+            <span class="n">orig_var_list</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tmp_var_list_name</span><span class="p">)</span>
+            <span class="n">best_soln_var_list</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">best_model</span><span class="p">,</span> <span class="n">tmp_var_list_name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">orig_var</span><span class="p">,</span> <span class="n">new_var</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">orig_var_list</span><span class="p">,</span> <span class="n">best_soln_var_list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">orig_var</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                    <span class="n">orig_var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">new_var</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">best_result</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Remove temporary variable list</span>
+            <span class="nb">delattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tmp_var_list_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

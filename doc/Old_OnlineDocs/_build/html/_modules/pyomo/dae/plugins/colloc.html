@@ -1,0 +1,953 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.dae.plugins.colloc &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.dae.plugins.colloc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.dae.plugins.colloc</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># If the user has numpy then the collocation points and the a matrix for</span>
+<span class="c1"># the Runge-Kutta basis formulation will be calculated as needed.</span>
+<span class="c1"># If the user does not have numpy then these values will be read from a</span>
+<span class="c1"># stored dictionary for up to 10 collocation points.</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">numpy</span><span class="p">,</span> <span class="n">numpy_available</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">Transformation</span><span class="p">,</span> <span class="n">TransformationFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core</span> <span class="kn">import</span> <span class="n">Var</span><span class="p">,</span> <span class="n">ConstraintList</span><span class="p">,</span> <span class="n">Expression</span><span class="p">,</span> <span class="n">Objective</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="n">ContinuousSet</span><span class="p">,</span> <span class="n">DerivativeVar</span><span class="p">,</span> <span class="n">Integral</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">generate_finite_elements</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">generate_colloc_points</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">expand_components</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">create_partial_expression</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">add_discretization_equations</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">add_continuity_equations</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">block_fully_discretized</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.misc</span> <span class="kn">import</span> <span class="n">get_index_information</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.diffvar</span> <span class="kn">import</span> <span class="n">DAE_Error</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigBlock</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">,</span> <span class="n">In</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.dae&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_lagrange_radau_transform</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">ncp</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;ncp&#39;</span><span class="p">]</span>
+    <span class="n">adot</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;adot&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Don&#39;t apply this equation at initial point</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_lower_element_boundary</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">lowidx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">low</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">j</span><span class="p">])</span>
+            <span class="o">*</span> <span class="n">adot</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span> <span class="o">-</span> <span class="n">lowidx</span><span class="p">]</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">ncp</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_fun</span>
+
+
+<span class="k">def</span> <span class="nf">_lagrange_radau_transform_order2</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">ncp</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;ncp&#39;</span><span class="p">]</span>
+    <span class="n">adotdot</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;adotdot&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Don&#39;t apply this equation at initial point</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_lower_element_boundary</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">lowidx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">low</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">j</span><span class="p">])</span>
+            <span class="o">*</span> <span class="n">adotdot</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span> <span class="o">-</span> <span class="n">lowidx</span><span class="p">]</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">ncp</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_fun</span>
+
+
+<span class="k">def</span> <span class="nf">_lagrange_legendre_transform</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">ncp</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;ncp&#39;</span><span class="p">]</span>
+    <span class="n">adot</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;adot&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Don&#39;t apply this equation at initial point</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_finite_elements</span><span class="p">():</span>
+            <span class="c1"># Don&#39;t apply at finite element points continuity equations</span>
+            <span class="c1"># added later</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_lower_element_boundary</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">lowidx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">low</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">j</span><span class="p">])</span>
+            <span class="o">*</span> <span class="n">adot</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span> <span class="o">-</span> <span class="n">lowidx</span><span class="p">]</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_fun</span>
+
+
+<span class="k">def</span> <span class="nf">_lagrange_legendre_transform_order2</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">ncp</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;ncp&#39;</span><span class="p">]</span>
+    <span class="n">adotdot</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;adotdot&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Don&#39;t apply this equation at initial point</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_finite_elements</span><span class="p">():</span>
+            <span class="c1"># Don&#39;t apply at finite element points continuity equations</span>
+            <span class="c1"># added later</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;list index out of range&quot;</span><span class="p">)</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_lower_element_boundary</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">lowidx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">low</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">j</span><span class="p">])</span>
+            <span class="o">*</span> <span class="n">adotdot</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span> <span class="o">-</span> <span class="n">lowidx</span><span class="p">]</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span> <span class="o">+</span> <span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">[</span><span class="n">lowidx</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_fun</span>
+
+
+<span class="k">def</span> <span class="nf">conv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot convolve an empty list&quot;</span><span class="p">)</span>
+
+    <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">stop</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="ow">and</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">ans</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="k">def</span> <span class="nf">calc_cp</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">factorial</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">gamma</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span>
+
+    <span class="n">poly</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">poly</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">gamma</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
+                <span class="n">prod</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">prod</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">prod</span><span class="p">):</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">prod</span> <span class="o">=</span> <span class="p">[</span><span class="n">gamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">prod</span><span class="p">]</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">prod</span><span class="p">)]</span>
+
+    <span class="n">cp</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">roots</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+
+<span class="c1"># BLN: This is a legacy function that was used to calculate the collocation</span>
+<span class="c1"># constants for an alternative form of the collocation equations described</span>
+<span class="c1"># in Biegler&#39;s nonlinear programming book. The difference being whether the</span>
+<span class="c1"># state or the derivative is approximated using lagrange polynomials. With</span>
+<span class="c1"># the addition of PDE support and chained discretizations in Pyomo.DAE 2.0</span>
+<span class="c1"># this function is no longer used but kept here for future reference.</span>
+<span class="c1">#</span>
+<span class="c1"># def calc_omega(cp):</span>
+<span class="c1">#     a = []</span>
+<span class="c1">#     for i in range(len(cp)):</span>
+<span class="c1">#         ptmp = []</span>
+<span class="c1">#         tmp = 0</span>
+<span class="c1">#         for j in range(len(cp)):</span>
+<span class="c1">#             if j != i:</span>
+<span class="c1">#                 row = []</span>
+<span class="c1">#                 row.insert(0, 1 / (cp[i] - cp[j]))</span>
+<span class="c1">#                 row.insert(1, -cp[j] / (cp[i] - cp[j]))</span>
+<span class="c1">#                 ptmp.insert(tmp, row)</span>
+<span class="c1">#                 tmp += 1</span>
+<span class="c1">#         p = [1]</span>
+<span class="c1">#         for j in range(len(cp) - 1):</span>
+<span class="c1">#             p = conv(p, ptmp[j])</span>
+<span class="c1">#         pint = numpy.polyint(p)</span>
+<span class="c1">#         arow = []</span>
+<span class="c1">#         for j in range(len(cp)):</span>
+<span class="c1">#             arow.append(numpy.polyval(pint, cp[j]))</span>
+<span class="c1">#         a.append(arow)</span>
+<span class="c1">#     return a</span>
+
+
+<span class="k">def</span> <span class="nf">calc_adot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)):</span>
+        <span class="n">ptmp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">cp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">cp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+                <span class="n">ptmp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+                <span class="n">tmp</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">pder</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">polyder</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
+        <span class="n">arow</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)):</span>
+            <span class="n">arow</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">pder</span><span class="p">,</span> <span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">])))</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arow</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="k">def</span> <span class="nf">calc_afinal</span><span class="p">(</span><span class="n">cp</span><span class="p">):</span>
+    <span class="n">afinal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)):</span>
+        <span class="n">ptmp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">cp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">cp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cp</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+                <span class="n">ptmp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+                <span class="n">tmp</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">afinal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">afinal</span>
+
+
+<div class="viewcode-block" id="Collocation_Discretization_Transformation"><a class="viewcode-back" href="../../../../modeling_extensions/dae.html#pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation">[docs]</a><span class="nd">@TransformationFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;dae.collocation&#39;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Discretizes a DAE model using orthogonal collocation over&quot;</span>
+    <span class="s2">&quot; finite elements transforming the model into an NLP.&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">Collocation_Discretization_Transformation</span><span class="p">(</span><span class="n">Transformation</span><span class="p">):</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">(</span><span class="s2">&quot;dae.collocation&quot;</span><span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;nfe&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveInt</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The desired number of finite element points to be &quot;</span>
+            <span class="s2">&quot;included in the discretization&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;ncp&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveInt</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The desired number of collocation points over each &quot;</span>
+            <span class="s2">&quot;finite element&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;wrt&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The ContinuousSet to be discretized&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Indicates which ContinuousSet the transformation should be &quot;</span>
+            <span class="s2">&quot;applied to. If this keyword argument is not specified then the &quot;</span>
+            <span class="s2">&quot;same scheme will be applied to all ContinuousSets.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;scheme&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">,</span> <span class="s1">&#39;LAGRANGE-LEGENDRE&#39;</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Indicates which collocation scheme to apply&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Options are &#39;LAGRANGE-RADAU&#39; and &#39;LAGRANGE-LEGENDRE&#39;. &quot;</span>
+            <span class="s2">&quot;The default scheme is Lagrange polynomials with Radau roots&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Collocation_Discretization_Transformation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reduced_cp</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_schemes</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">_lagrange_radau_transform</span><span class="p">,</span>
+                <span class="n">_lagrange_radau_transform_order2</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s1">&#39;LAGRANGE-LEGENDRE&#39;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">_lagrange_legendre_transform</span><span class="p">,</span>
+                <span class="n">_lagrange_legendre_transform_order2</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_get_radau_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">currentds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sets the radau collocation points and a values depending</span>
+<span class="sd">        on how many collocation points have been specified and whether or not</span>
+<span class="sd">        the user has numpy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy_available</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Numpy was not found so the maximum number &quot;</span>
+                    <span class="s2">&quot;of collocation points is 10&quot;</span>
+                <span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">pyomo.dae.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">radau_tau_dict</span><span class="p">,</span>
+                <span class="n">radau_adot_dict</span><span class="p">,</span>
+                <span class="n">radau_adotdot_dict</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">radau_tau_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">radau_adot_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">radau_adotdot_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">cp</span> <span class="o">=</span> <span class="n">calc_cp</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">cp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">cp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">adot</span> <span class="o">=</span> <span class="n">calc_adot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">adotdot</span> <span class="o">=</span> <span class="n">calc_adot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">cp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">adot</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">adotdot</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_get_legendre_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">currentds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sets the legendre collocation points and a values</span>
+<span class="sd">        depending on how many collocation points have been specified and</span>
+<span class="sd">        whether or not the user has numpy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy_available</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Numpy was not found so the maximum number &quot;</span>
+                    <span class="s2">&quot;of collocation points is 10&quot;</span>
+                <span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">pyomo.dae.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">legendre_tau_dict</span><span class="p">,</span>
+                <span class="n">legendre_adot_dict</span><span class="p">,</span>
+                <span class="n">legendre_adotdot_dict</span><span class="p">,</span>
+                <span class="n">legendre_afinal_dict</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">legendre_tau_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">legendre_adot_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">legendre_adotdot_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">legendre_afinal_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+            <span class="n">cp</span> <span class="o">=</span> <span class="n">calc_cp</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">cp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">adot</span> <span class="o">=</span> <span class="n">calc_adot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">adotdot</span> <span class="o">=</span> <span class="n">calc_adot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">afinal</span> <span class="o">=</span> <span class="n">calc_afinal</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">cp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">adot</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">adotdot</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span> <span class="o">=</span> <span class="n">afinal</span>
+
+    <span class="k">def</span> <span class="nf">_apply_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies specified collocation transformation to a modeling instance</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">        nfe           The desired number of finite element points to be</span>
+<span class="sd">                      included in the discretization.</span>
+<span class="sd">        ncp           The desired number of collocation points over each</span>
+<span class="sd">                      finite element.</span>
+<span class="sd">        wrt           Indicates which ContinuousSet the transformation</span>
+<span class="sd">                      should be applied to. If this keyword argument is not</span>
+<span class="sd">                      specified then the same scheme will be applied to all</span>
+<span class="sd">                      ContinuousSets.</span>
+<span class="sd">        scheme        Indicates which collocation scheme to apply.</span>
+<span class="sd">                      Options are &#39;LAGRANGE-RADAU&#39; and &#39;LAGRANGE-LEGENDRE&#39;.</span>
+<span class="sd">                      The default scheme is Lagrange polynomials with Radau</span>
+<span class="sd">                      roots.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">tmpnfe</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">nfe</span>
+        <span class="n">tmpncp</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">ncp</span>
+        <span class="n">tmpds</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">wrt</span>
+
+        <span class="k">if</span> <span class="n">tmpds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tmpds</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ContinuousSet</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The component specified using the &#39;wrt&#39; &quot;</span>
+                    <span class="s2">&quot;keyword must be a continuous set&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="s1">&#39;scheme&#39;</span> <span class="ow">in</span> <span class="n">tmpds</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The discretization scheme &#39;</span><span class="si">%s</span><span class="s2">&#39; has already &quot;</span>
+                    <span class="s2">&quot;been applied to the ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">tmpds</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()[</span><span class="s1">&#39;scheme&#39;</span><span class="p">],</span> <span class="n">tmpds</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;A general discretization scheme has already been applied to &quot;</span>
+                <span class="s2">&quot;to every ContinuousSet in the model. If you would like to &quot;</span>
+                <span class="s2">&quot;specify a specific discretization scheme for one of the &quot;</span>
+                <span class="s2">&quot;ContinuousSets you must discretize each ContinuousSet &quot;</span>
+                <span class="s2">&quot;separately.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tmpds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Same discretization on all ContinuousSets</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpnfe</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpncp</span>
+            <span class="n">currentds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="n">tmpds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpnfe</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">tmpds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpncp</span>
+            <span class="n">currentds</span> <span class="o">=</span> <span class="n">tmpds</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">scheme</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scheme</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_schemes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span> <span class="o">==</span> <span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_radau_constants</span><span class="p">(</span><span class="n">currentds</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span> <span class="o">==</span> <span class="s1">&#39;LAGRANGE-LEGENDRE&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_legendre_constants</span><span class="p">(</span><span class="n">currentds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformBlock</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">currentds</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span> <span class="nf">_transformBlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">currentds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fe</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">ContinuousSet</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">currentds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">currentds</span> <span class="o">==</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;scheme&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                        <span class="s2">&quot;Attempting to discretize ContinuousSet &quot;</span>
+                        <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; after it has already been discretized. &quot;</span> <span class="o">%</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="n">generate_finite_elements</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="n">currentds</span><span class="p">])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">get_changed</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="n">currentds</span><span class="p">]:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="s2">&quot;More finite elements were found in &quot;</span>
+                            <span class="s2">&quot;ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39; than the number of &quot;</span>
+                            <span class="s2">&quot;finite elements specified in apply. The &quot;</span>
+                            <span class="s2">&quot;larger number of finite elements will be &quot;</span>
+                            <span class="s2">&quot;used.&quot;</span> <span class="o">%</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fe</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+                <span class="n">generate_colloc_points</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">])</span>
+                <span class="c1"># Adding discretization information to the continuousset</span>
+                <span class="c1"># object itself so that it can be accessed outside of the</span>
+                <span class="c1"># discretization object</span>
+                <span class="n">disc_info</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">get_discretization_info</span><span class="p">()</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;nfe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nfe</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;ncp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;tau_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;adot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;adotdot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adotdot</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;afinal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_afinal</span><span class="p">[</span><span class="n">currentds</span><span class="p">]</span>
+                <span class="n">disc_info</span><span class="p">[</span><span class="s1">&#39;scheme&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span>
+
+        <span class="n">expand_components</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">DerivativeVar</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">dsets</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get_continuousset_list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ComponentSet</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">currentds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">currentds</span><span class="p">:</span>
+                    <span class="n">oldexpr</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get_derivative_expression</span><span class="p">()</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get_state_var</span><span class="p">()</span><span class="o">.</span><span class="n">_contset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="n">dsets</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                            <span class="s2">&quot;Error discretizing &#39;</span><span class="si">%s</span><span class="s2">&#39; with respect to &#39;</span><span class="si">%s</span><span class="s2">&#39;. &quot;</span>
+                            <span class="s2">&quot;Current implementation only allows for taking the&quot;</span>
+                            <span class="s2">&quot; first or second derivative with respect to a &quot;</span>
+                            <span class="s2">&quot;particular ContinuousSet&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="n">scheme</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scheme</span><span class="p">[</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+                    <span class="n">newexpr</span> <span class="o">=</span> <span class="n">create_partial_expression</span><span class="p">(</span><span class="n">scheme</span><span class="p">,</span> <span class="n">oldexpr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+                    <span class="n">d</span><span class="o">.</span><span class="n">set_derivative_expression</span><span class="p">(</span><span class="n">newexpr</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scheme_name</span> <span class="o">==</span> <span class="s1">&#39;LAGRANGE-LEGENDRE&#39;</span><span class="p">:</span>
+                        <span class="c1"># Add continuity equations to DerivativeVar&#39;s parent</span>
+                        <span class="c1">#  block</span>
+                        <span class="n">add_continuity_equations</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="n">d</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+
+            <span class="c1"># Reclassify DerivativeVar if all indexing ContinuousSets have</span>
+            <span class="c1"># been discretized. Add discretization equations to the</span>
+            <span class="c1"># DerivativeVar&#39;s parent block.</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">is_fully_discretized</span><span class="p">():</span>
+                <span class="n">add_discretization_equations</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="n">d</span><span class="p">)</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span><span class="o">.</span><span class="n">reclassify_component_type</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Var</span><span class="p">)</span>
+
+                <span class="c1"># Keep track of any reclassified DerivativeVar components so</span>
+                <span class="c1"># that the Simulator can easily identify them if the model</span>
+                <span class="c1"># is simulated after discretization</span>
+                <span class="c1"># TODO: Update the discretization transformations to use</span>
+                <span class="c1"># a Block to add things to the model and store discretization</span>
+                <span class="c1"># information. Using a list for now because the simulator</span>
+                <span class="c1"># does not yet support models containing active Blocks</span>
+                <span class="n">reclassified_list</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                    <span class="n">block</span><span class="p">,</span> <span class="s1">&#39;_pyomo_dae_reclassified_derivativevars&#39;</span><span class="p">,</span> <span class="kc">None</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">reclassified_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">block</span><span class="o">.</span><span class="n">_pyomo_dae_reclassified_derivativevars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                    <span class="n">reclassified_list</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">_pyomo_dae_reclassified_derivativevars</span>
+
+                <span class="n">reclassified_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+        <span class="c1"># Reclassify Integrals if all ContinuousSets have been discretized</span>
+        <span class="k">if</span> <span class="n">block_fully_discretized</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">contains_component</span><span class="p">(</span><span class="n">Integral</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Integral</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="n">i</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span><span class="o">.</span><span class="n">reclassify_component_type</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Expression</span><span class="p">)</span>
+                    <span class="c1"># TODO: The following reproduces the old behavior of</span>
+                    <span class="c1"># &quot;reconstruct()&quot;.  We should come up with an</span>
+                    <span class="c1"># implementation that does not rely on manipulating</span>
+                    <span class="c1"># private attributes</span>
+                    <span class="n">i</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                    <span class="n">i</span><span class="o">.</span><span class="n">_constructed</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">i</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+                <span class="c1"># If a model contains integrals they are most likely to appear</span>
+                <span class="c1"># in the objective function which will need to be reconstructed</span>
+                <span class="c1"># after the model is discretized.</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="c1"># TODO: check this, reconstruct might not work</span>
+                    <span class="c1"># TODO: The following reproduces the old behavior of</span>
+                    <span class="c1"># &quot;reconstruct()&quot;.  We should come up with an</span>
+                    <span class="c1"># implementation that does not rely on manipulating</span>
+                    <span class="c1"># private attributes</span>
+                    <span class="n">k</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                    <span class="n">k</span><span class="o">.</span><span class="n">_constructed</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">k</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Collocation_Discretization_Transformation.reduce_collocation_points"><a class="viewcode-back" href="../../../../modeling_extensions/dae.html#pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation.reduce_collocation_points">[docs]</a>    <span class="k">def</span> <span class="nf">reduce_collocation_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method will add additional constraints to a model to reduce the</span>
+<span class="sd">        number of free collocation points (degrees of freedom) for a particular</span>
+<span class="sd">        variable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        instance : Pyomo model</span>
+<span class="sd">            The discretized Pyomo model to add constraints to</span>
+
+<span class="sd">        var : ``pyomo.environ.Var``</span>
+<span class="sd">            The Pyomo variable for which the degrees of freedom will be reduced</span>
+
+<span class="sd">        ncp : int</span>
+<span class="sd">            The new number of free collocation points for `var`. Must be</span>
+<span class="sd">            less that the number of collocation points used in discretizing</span>
+<span class="sd">            the model.</span>
+
+<span class="sd">        contset : ``pyomo.dae.ContinuousSet``</span>
+<span class="sd">            The :py:class:`ContinuousSet&lt;pyomo.dae.ContinuousSet&gt;` that was</span>
+<span class="sd">            discretized and for which the `var` will have a reduced number</span>
+<span class="sd">            of degrees of freedom</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">contset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;A continuous set must be specified using the keyword &#39;contset&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">contset</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ContinuousSet</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;The component specified using the &#39;contset&#39; &quot;</span>
+                <span class="s2">&quot;keyword must be a ContinuousSet&quot;</span>
+            <span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">contset</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;This method should only be called after using &quot;</span>
+                <span class="s2">&quot;the apply() method to discretize the model&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="kc">None</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">:</span>
+            <span class="n">tot_ncp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">:</span>
+            <span class="n">tot_ncp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ncp</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39; has not been discretized, &quot;</span>
+                <span class="s2">&quot;please call the apply_to() method with this &quot;</span>
+                <span class="s2">&quot;ContinuousSet to discretize it before calling &quot;</span>
+                <span class="s2">&quot;this method&quot;</span> <span class="o">%</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;A variable must be specified&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Var</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;The component specified using the &#39;var&#39; keyword must be a variable&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ncp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The number of collocation points must be specified&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ncp</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of collocation points must be at least 1&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ncp</span> <span class="o">&gt;</span> <span class="n">tot_ncp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The number of collocation points used to &quot;</span>
+                <span class="s2">&quot;interpolate an individual variable must be less &quot;</span>
+                <span class="s2">&quot;than the number used to discretize the original &quot;</span>
+                <span class="s2">&quot;model&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ncp</span> <span class="o">==</span> <span class="n">tot_ncp</span><span class="p">:</span>
+            <span class="c1"># Nothing to be done</span>
+            <span class="k">return</span> <span class="n">instance</span>
+
+        <span class="c1"># Check to see if the continuousset is an indexing set of the variable</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="s2">&quot;ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39; is not an indexing set of&quot;</span>
+                <span class="s2">&quot; the variable &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">varidx</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">varidx</span><span class="o">.</span><span class="n">subsets</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">varidx</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                    <span class="s2">&quot;ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39; is not an indexing set of&quot;</span>
+                    <span class="s2">&quot; the variable &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ds</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">varidx</span><span class="o">.</span><span class="n">subsets</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="s2">&quot;ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39; is not an indexing set of the&quot;</span>
+                <span class="s2">&quot; variable &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reduced_cp</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reduced_cp</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Variable &#39;</span><span class="si">%s</span><span class="s2">&#39; has already been constrained&quot;</span>
+                    <span class="s2">&quot; to a reduced number of collocation points&quot;</span>
+                    <span class="s2">&quot; over ContinuousSet &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reduced_cp</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ncp</span><span class="p">}</span>
+
+        <span class="c1"># TODO: Use unique_component_name for this</span>
+        <span class="n">list_name</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">local_name</span> <span class="o">+</span> <span class="s2">&quot;_interpolation_constraints&quot;</span>
+
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">list_name</span><span class="p">,</span> <span class="n">ConstraintList</span><span class="p">())</span>
+        <span class="n">conlist</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">find_component</span><span class="p">(</span><span class="n">list_name</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">fe</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">_fe</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">get_index_information</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
+        <span class="n">tmpidx</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;non_ds&#39;</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;index function&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Iterate over non_ds indices</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">tmpidx</span><span class="p">:</span>
+            <span class="c1"># Iterate over finite elements</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fe</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c1"># Iterate over collocation points</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">tot_ncp</span> <span class="o">-</span> <span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">ncp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="c1"># Constant over each finite element</span>
+                        <span class="n">conlist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">==</span> <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">tot_ncp</span><span class="p">)])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">fe</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+                        <span class="n">tmp2</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">ord</span><span class="p">(</span><span class="n">fe</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+                        <span class="n">ti</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">tmp</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span>
+                        <span class="n">tfit</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">tmp2</span> <span class="o">-</span> <span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">tmp2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                        <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interpolation_coeffs</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tfit</span><span class="p">)</span>
+                        <span class="n">conlist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                            <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span>
+                            <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+                                <span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">next</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tot_ncp</span> <span class="o">-</span> <span class="n">ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tot_ncp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+    <span class="k">def</span> <span class="nf">_interpolation_coeffs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">tfit</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tfit</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">tfit</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">l</span> <span class="o">*</span> <span class="p">(</span><span class="n">ti</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">l</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

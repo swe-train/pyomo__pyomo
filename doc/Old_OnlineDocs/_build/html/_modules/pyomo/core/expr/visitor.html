@@ -1,0 +1,1885 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.expr.visitor &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.expr.visitor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.expr.visitor</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.core&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.symbol_map</span> <span class="kn">import</span> <span class="n">SymbolMap</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">expr_common</span> <span class="k">as</span> <span class="n">common</span>
+<span class="kn">from</span> <span class="nn">.expr_errors</span> <span class="kn">import</span> <span class="n">TemplateExpressionError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">deprecation_warning</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">DeveloperError</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">nonpyomo_leaf_types</span><span class="p">,</span>
+    <span class="n">native_types</span><span class="p">,</span>
+    <span class="n">native_numeric_types</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># sys._getframe is slightly faster than inspect&#39;s currentframe, but</span>
+    <span class="c1"># is not guaranteed to exist everywhere</span>
+    <span class="n">currentframe</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="n">currentframe</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span>
+
+
+<span class="k">def</span> <span class="nf">get_stack_depth</span><span class="p">():</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># skip *this* frame in the count</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">currentframe</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">f</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">f_back</span>
+    <span class="k">return</span> <span class="n">n</span>
+
+
+<span class="c1"># For efficiency, we want to run recursively, but don&#39;t want to hit</span>
+<span class="c1"># Python&#39;s recursion limit (because that would be difficult to recover</span>
+<span class="c1"># from cleanly).  However, there is a non-trivial cost to determine the</span>
+<span class="c1"># current stack depth - and we don&#39;t want to hit that for every call.</span>
+<span class="c1"># Instead, we will assume that the walker is always called with at</span>
+<span class="c1"># least RECURSION_LIMIT frames available on the stack.  When we hit the</span>
+<span class="c1"># end of that limit, we will actually check how much space is left on</span>
+<span class="c1"># the stack and run recursively until only 2*RECURSION_LIMIT frames are</span>
+<span class="c1"># left.  For the vast majority of well-formed expressions this approach</span>
+<span class="c1"># avoids a somewhat costly call to get_stack_depth, but still catches</span>
+<span class="c1"># the vast majority of cases that could generate a recursion error.</span>
+<span class="n">RECURSION_LIMIT</span> <span class="o">=</span> <span class="mi">50</span>
+
+
+<span class="k">class</span> <span class="nc">RevertToNonrecursive</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="c1"># NOTE: This module also has dependencies on numeric_expr; however, to</span>
+<span class="c1"># avoid circular dependencies, we will NOT import them here.  Instead,</span>
+<span class="c1"># until we can resolve the circular dependencies, they will be injected</span>
+<span class="c1"># into this module by the .current module (which must be imported</span>
+<span class="c1"># *after* numeric_expr, logocal_expr, and this module.</span>
+
+
+<span class="c1"># -------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># Visitor Logic</span>
+<span class="c1">#</span>
+<span class="c1"># -------------------------------------------------------</span>
+
+
+<span class="k">class</span> <span class="nc">StreamBasedExpressionVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class implements a generic stream-based expression walker.</span>
+
+<span class="sd">     This visitor walks an expression tree using a depth-first strategy</span>
+<span class="sd">     and generates a full event stream similar to other tree visitors</span>
+<span class="sd">     (e.g., the expat XML parser).  The following events are triggered</span>
+<span class="sd">     through callback functions as the traversal enters and leaves nodes</span>
+<span class="sd">     in the tree:</span>
+
+<span class="sd">       initializeWalker(expr) -&gt; walk, result</span>
+<span class="sd">       enterNode(N1) -&gt; args, data</span>
+<span class="sd">       {for N2 in args:}</span>
+<span class="sd">         beforeChild(N1, N2) -&gt; descend, child_result</span>
+<span class="sd">           enterNode(N2) -&gt; N2_args, N2_data</span>
+<span class="sd">           [...]</span>
+<span class="sd">           exitNode(N2, n2_data) -&gt; child_result</span>
+<span class="sd">         acceptChildResult(N1, data, child_result) -&gt; data</span>
+<span class="sd">         afterChild(N1, N2) -&gt; None</span>
+<span class="sd">       exitNode(N1, data) -&gt; N1_result</span>
+<span class="sd">       finalizeWalker(result) -&gt; result</span>
+
+<span class="sd">     Individual event callbacks match the following signatures:</span>
+
+<span class="sd">    walk, result = initializeWalker(self, expr):</span>
+
+<span class="sd">         initializeWalker() is called to set the walker up and perform</span>
+<span class="sd">         any preliminary processing on the root node.  The method returns</span>
+<span class="sd">         a flag indicating if the tree should be walked and a result.  If</span>
+<span class="sd">         `walk` is True, then result is ignored.  If `walk` is False,</span>
+<span class="sd">         then `result` is returned as the final result from the walker,</span>
+<span class="sd">         bypassing all other callbacks (including finalizeResult).</span>
+
+<span class="sd">    args, data = enterNode(self, node):</span>
+
+<span class="sd">         enterNode() is called when the walker first enters a node (from</span>
+<span class="sd">         above), and is passed the node being entered.  It is expected to</span>
+<span class="sd">         return a tuple of child `args` (as either a tuple or list) and a</span>
+<span class="sd">         user-specified data structure for collecting results.  If None</span>
+<span class="sd">         is returned for args, the node&#39;s args attribute is used for</span>
+<span class="sd">         expression types and the empty tuple for leaf nodes.  Returning</span>
+<span class="sd">         None is equivalent to returning (None,None).  If the callback is</span>
+<span class="sd">         not defined, the default behavior is equivalent to returning</span>
+<span class="sd">         (None, []).</span>
+
+<span class="sd">     node_result = exitNode(self, node, data):</span>
+
+<span class="sd">         exitNode() is called after the node is completely processed (as</span>
+<span class="sd">         the walker returns up the tree to the parent node).  It is</span>
+<span class="sd">         passed the node and the results data structure (defined by</span>
+<span class="sd">         enterNode() and possibly further modified by</span>
+<span class="sd">         acceptChildResult()), and is expected to return the &quot;result&quot; for</span>
+<span class="sd">         this node.  If not specified, the default action is to return</span>
+<span class="sd">         the data object from enterNode().</span>
+
+<span class="sd">     descend, child_result = beforeChild(self, node, child, child_idx):</span>
+
+<span class="sd">         beforeChild() is called by a node for every child before</span>
+<span class="sd">         entering the child node.  The node, child node, and child index</span>
+<span class="sd">         (position in the args list from enterNode()) are passed as</span>
+<span class="sd">         arguments.  beforeChild should return a tuple (descend,</span>
+<span class="sd">         child_result).  If descend is False, the child node will not be</span>
+<span class="sd">         entered and the value returned to child_result will be passed to</span>
+<span class="sd">         the node&#39;s acceptChildResult callback.  Returning None is</span>
+<span class="sd">         equivalent to (True, None).  The default behavior if not</span>
+<span class="sd">         specified is equivalent to (True, None).</span>
+
+<span class="sd">     data = acceptChildResult(self, node, data, child_result, child_idx):</span>
+
+<span class="sd">         acceptChildResult() is called for each child result being</span>
+<span class="sd">         returned to a node.  This callback is responsible for recording</span>
+<span class="sd">         the result for later processing or passing up the tree.  It is</span>
+<span class="sd">         passed the node, result data structure (see enterNode()), child</span>
+<span class="sd">         result, and the child index (position in args from enterNode()).</span>
+<span class="sd">         The data structure (possibly modified or replaced) must be</span>
+<span class="sd">         returned.  If acceptChildResult is not specified, it does</span>
+<span class="sd">         nothing if data is None, otherwise it calls data.append(result).</span>
+
+<span class="sd">     afterChild(self, node, child, child_idx):</span>
+
+<span class="sd">         afterChild() is called by a node for every child node</span>
+<span class="sd">         immediately after processing the node is complete before control</span>
+<span class="sd">         moves to the next child or up to the parent node.  The node,</span>
+<span class="sd">         child node, an child index (position in args from enterNode())</span>
+<span class="sd">         are passed, and nothing is returned.  If afterChild is not</span>
+<span class="sd">         specified, no action takes place.</span>
+
+<span class="sd">     finalizeResult(self, result):</span>
+
+<span class="sd">         finalizeResult() is called once after the entire expression tree</span>
+<span class="sd">         has been walked.  It is passed the result returned by the root</span>
+<span class="sd">         node exitNode() callback.  If finalizeResult is not specified,</span>
+<span class="sd">         the walker returns the result obtained from the exitNode</span>
+<span class="sd">         callback on the root node.</span>
+
+<span class="sd">     Clients interact with this class by either deriving from it and</span>
+<span class="sd">     implementing the necessary callbacks (see above), assigning callable</span>
+<span class="sd">     functions to an instance of this class, or passing the callback</span>
+<span class="sd">     functions as arguments to this class&#39; constructor.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The list of event methods that can either be implemented by</span>
+    <span class="c1"># derived classes or specified as callback functions to the class</span>
+    <span class="c1"># constructor.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This is a dict mapping the callback name to a single character</span>
+    <span class="c1"># that we can use to classify the set of callbacks used by a</span>
+    <span class="c1"># particular Visitor (we define special-purpose node processors for</span>
+    <span class="c1"># certain common combinations).  For example, a &#39;bex&#39; visitor is one</span>
+    <span class="c1"># that supports beforeChild, enterNode, and exitNode, but NOT</span>
+    <span class="c1"># afterChild or acceptChildResult.</span>
+    <span class="n">client_methods</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;enterNode&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;exitNode&#39;</span><span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;beforeChild&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;afterChild&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;acceptChildResult&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;initializeWalker&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;finalizeResult&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1"># This is slightly tricky: We want derived classes to be able to</span>
+        <span class="c1"># override the &quot;None&quot; defaults here, and for keyword arguments</span>
+        <span class="c1"># to override both.  The hasattr check prevents the &quot;None&quot;</span>
+        <span class="c1"># defaults from overriding attributes or methods defined on</span>
+        <span class="c1"># derived classes.</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">field</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unrecognized keyword arguments: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kwds</span><span class="p">,))</span>
+
+        <span class="c1"># Handle deprecated APIs</span>
+        <span class="n">_fcns</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;beforeChild&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;acceptChildResult&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;afterChild&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">nargs</span> <span class="ow">in</span> <span class="n">_fcns</span><span class="p">:</span>
+            <span class="n">fcn</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fcn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">_args</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">fcn</span><span class="p">)</span>
+            <span class="n">_self_arg</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span><span class="n">fcn</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_args</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="n">nargs</span> <span class="o">+</span> <span class="n">_self_arg</span> <span class="ow">and</span> <span class="n">_args</span><span class="o">.</span><span class="n">varargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">deprecation_warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Note that the API for the StreamBasedExpressionVisitor &quot;</span>
+                    <span class="s2">&quot;has changed to include the child index for the </span><span class="si">%s</span><span class="s2">() &quot;</span>
+                    <span class="s2">&quot;method.  Please update your walker callbacks.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,),</span>
+                    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.7.0&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
+                    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="n">fcn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">[:</span><span class="n">nargs</span><span class="p">])</span>
+
+                    <span class="k">return</span> <span class="n">wrapper</span>
+
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">wrap</span><span class="p">(</span><span class="n">fcn</span><span class="p">,</span> <span class="n">nargs</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Set up the custom recursive node handler function (customized</span>
+        <span class="c1"># for the specific set of callbacks that are defined for this</span>
+        <span class="c1"># class instance).</span>
+        <span class="n">recursive_node_handler</span> <span class="o">=</span> <span class="s1">&#39;_process_node_&#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="nb">sorted</span><span class="p">(</span>
+                <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_methods</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">recursive_node_handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_node_general</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">walk_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Walk an expression, calling registered callbacks.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initializeWalker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">walk</span><span class="p">,</span> <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initializeWalker</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">walk</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">root</span>
+            <span class="k">elif</span> <span class="n">root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">expr</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">RECURSION_LIMIT</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RevertToNonrecursive</span><span class="p">:</span>
+            <span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span><span class="p">:</span>
+                <span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptr</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nonrecursive_walker_loop</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">RecursionError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s1">&#39;Unexpected RecursionError walking an expression tree.&#39;</span><span class="p">,</span>
+                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;W1003&#39;</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">walk_expression_nonrecursive</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalizeResult</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalizeResult</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_compute_actual_recursion_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">recursion_limit</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">getrecursionlimit</span><span class="p">()</span> <span class="o">-</span> <span class="n">get_stack_depth</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">RECURSION_LIMIT</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">recursion_limit</span> <span class="o">&lt;=</span> <span class="n">RECURSION_LIMIT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">raise</span> <span class="n">RevertToNonrecursive</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">recursion_limit</span>
+
+    <span class="k">def</span> <span class="nf">_process_node_general</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Recursive routine for processing nodes with general callbacks</span>
+
+<span class="sd">        This is the &quot;general&quot; implementation of the</span>
+<span class="sd">        StreamBasedExpressionVisitor node processor that can handle any</span>
+<span class="sd">        combination of registered callback functions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recursion_limit</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_actual_recursion_limit</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span>
+
+        <span class="c1"># Because we do not require the args to be a context manager, we</span>
+        <span class="c1"># will mock up the &quot;with args&quot; using a try-finally.</span>
+        <span class="n">context_manager</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;__enter__&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">context_manager</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">descend</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">child_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="c1"># Note: this relies on iter(iterator) returning the</span>
+            <span class="c1"># iterator.  This seems to hold for all common iterators</span>
+            <span class="c1"># (list, tuple, generator, etc)</span>
+            <span class="n">arg_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">arg_iter</span><span class="p">:</span>
+                <span class="n">child_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">descend</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">descend</span><span class="p">,</span> <span class="n">child_result</span> <span class="o">=</span> <span class="n">tmp</span>
+
+                <span class="k">if</span> <span class="n">descend</span><span class="p">:</span>
+                    <span class="n">child_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_result</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_result</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RevertToNonrecursive</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recursive_frame_to_nonrecursive_stack</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+            <span class="n">context_manager</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">context_manager</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># We are done with this node.  Call exitNode to compute</span>
+        <span class="c1"># any result</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">_process_node_bex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Recursive routine for processing nodes with only &#39;bex&#39; callbacks</span>
+
+<span class="sd">        This is a special-case implementation of the &quot;general&quot;</span>
+<span class="sd">        StreamBasedExpressionVisitor node processor for the case that</span>
+<span class="sd">        only beforeChild, enterNode, and exitNode are defined (see</span>
+<span class="sd">        also the definition of the client_methods dict).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recursion_limit</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_actual_recursion_limit</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span>
+
+        <span class="c1"># Because we do not require the args to be a context manager, we</span>
+        <span class="c1"># will mock up the &quot;with args&quot; using a try-finally.</span>
+        <span class="n">context_manager</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;__enter__&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">context_manager</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">child_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="c1"># Note: this relies on iter(iterator) returning the</span>
+            <span class="c1"># iterator.  This seems to hold for all common iterators</span>
+            <span class="c1"># (list, tuple, generator, etc)</span>
+            <span class="n">arg_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">arg_iter</span><span class="p">:</span>
+                <span class="n">child_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">descend</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">descend</span><span class="p">,</span> <span class="n">child_result</span> <span class="o">=</span> <span class="n">tmp</span>
+
+                <span class="k">if</span> <span class="n">descend</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_result</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RevertToNonrecursive</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recursive_frame_to_nonrecursive_stack</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+            <span class="n">context_manager</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">context_manager</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># We are done with this node.  Call exitNode to compute</span>
+        <span class="c1"># any result</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_node_bx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Recursive routine for processing nodes with only &#39;bx&#39; callbacks</span>
+
+<span class="sd">        This is a special-case implementation of the &quot;general&quot;</span>
+<span class="sd">        StreamBasedExpressionVisitor node processor for the case that</span>
+<span class="sd">        only beforeChild and exitNode are defined (see also the</span>
+<span class="sd">        definition of the client_methods dict).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recursion_limit</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_actual_recursion_limit</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">recursion_limit</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">child_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="c1"># Note: this relies on iter(iterator) returning the</span>
+            <span class="c1"># iterator.  This seems to hold for all common iterators</span>
+            <span class="c1"># (list, tuple, generator, etc)</span>
+            <span class="n">arg_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">arg_iter</span><span class="p">:</span>
+                <span class="n">child_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">descend</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">descend</span><span class="p">,</span> <span class="n">child_result</span> <span class="o">=</span> <span class="n">tmp</span>
+                <span class="k">if</span> <span class="n">descend</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">recursion_limit</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_result</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RevertToNonrecursive</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recursive_frame_to_nonrecursive_stack</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># We are done with this node.  Call exitNode to compute</span>
+        <span class="c1"># any result</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_recursive_frame_to_nonrecursive_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local</span><span class="p">):</span>
+        <span class="n">child_idx</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;child_idx&#39;</span><span class="p">]</span>
+        <span class="n">_arg_list</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">child_idx</span>
+        <span class="n">_arg_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">local</span><span class="p">[</span><span class="s1">&#39;child&#39;</span><span class="p">])</span>
+        <span class="n">_arg_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">local</span><span class="p">[</span><span class="s1">&#39;arg_iter&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span><span class="p">:</span>
+            <span class="c1"># For the deepest stack frame, the recursion limit hit</span>
+            <span class="c1"># as we started to enter the child.  As we haven&#39;t</span>
+            <span class="c1"># started processing it yet, we need to decrement</span>
+            <span class="c1"># child_idx so that it is revisited</span>
+            <span class="n">child_idx</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recursion_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">local</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">],</span> <span class="n">_arg_list</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">_arg_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">child_idx</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">walk_expression_nonrecursive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Walk an expression, calling registered callbacks.&quot;&quot;&quot;</span>
+        <span class="c1">#</span>
+        <span class="c1"># This walker uses a linked list to store the stack (instead of</span>
+        <span class="c1"># an array).  The nodes of the linked list are 6-member tuples:</span>
+        <span class="c1">#</span>
+        <span class="c1">#    ( pointer to parent,</span>
+        <span class="c1">#      expression node,</span>
+        <span class="c1">#      tuple/list of child nodes (arguments),</span>
+        <span class="c1">#      number of child nodes (arguments),</span>
+        <span class="c1">#      data object to aggregate results from child nodes,</span>
+        <span class="c1">#      current child node index )</span>
+        <span class="c1">#</span>
+        <span class="c1"># The walker only needs a single pointer to the end of the list</span>
+        <span class="c1"># (ptr).  The beginning of the list is indicated by a None</span>
+        <span class="c1"># parent pointer.</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initializeWalker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">walk</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initializeWalker</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">walk</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">elif</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">expr</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">expr</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;__enter__&#39;</span><span class="p">):</span>
+            <span class="n">args</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="c1"># Note that because we increment child_idx just before fetching</span>
+        <span class="c1"># the child node, it must be initialized to -1, and ptr[3] must</span>
+        <span class="c1"># always be *one less than* the number of arguments</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nonrecursive_walker_loop</span><span class="p">(</span>
+            <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_nonrecursive_walker_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_idx</span> <span class="o">=</span> <span class="n">ptr</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child_idx</span> <span class="o">&lt;</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+                    <span class="c1"># Increment the child index pointer here for</span>
+                    <span class="c1"># consistency.  Note that this means that for the bulk</span>
+                    <span class="c1"># of the time, &#39;child_idx&#39; will not match the value of</span>
+                    <span class="c1"># ptr[5].  This provides a modest performance</span>
+                    <span class="c1"># improvement, as we only have to recreate the ptr tuple</span>
+                    <span class="c1"># just before we descend further into the tree (i.e., we</span>
+                    <span class="c1"># avoid recreating the tuples for the special case where</span>
+                    <span class="c1"># beforeChild indicates that we should not descend</span>
+                    <span class="c1"># further).</span>
+                    <span class="n">child_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="c1"># This node still has children to process</span>
+                    <span class="n">child</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">child_idx</span><span class="p">]</span>
+
+                    <span class="c1"># Notify this node that we are about to descend into a</span>
+                    <span class="c1"># child.</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">descend</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="n">child_result</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">descend</span><span class="p">,</span> <span class="n">child_result</span> <span class="o">=</span> <span class="n">tmp</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">descend</span><span class="p">:</span>
+                            <span class="c1"># We are aborting processing of this child node.</span>
+                            <span class="c1"># Tell this node to accept the child result and</span>
+                            <span class="c1"># we will move along</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span><span class="p">(</span>
+                                    <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_result</span><span class="p">,</span> <span class="n">child_idx</span>
+                                <span class="p">)</span>
+                            <span class="k">elif</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_result</span><span class="p">)</span>
+                            <span class="c1"># And let the node know that we are done with a</span>
+                            <span class="c1"># child node</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+                            <span class="c1"># Jump to the top to continue processing the</span>
+                            <span class="c1"># next child node</span>
+                            <span class="k">continue</span>
+
+                    <span class="c1"># Update the child argument counter in the stack.</span>
+                    <span class="c1"># Because we are using tuples, we need to recreate the</span>
+                    <span class="c1"># &quot;ptr&quot; object (linked list node)</span>
+                    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+                    <span class="c1"># We are now going to actually enter this node.  The</span>
+                    <span class="c1"># node will tell us the list of its child nodes that we</span>
+                    <span class="c1"># need to process</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enterNode</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">args</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">tmp</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span>
+                            <span class="ow">or</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">()</span>
+                        <span class="p">):</span>
+                            <span class="c1"># Leaves (either non-pyomo types or</span>
+                            <span class="c1"># non-Expressions) have no child arguments, so</span>
+                            <span class="c1"># are just put on the stack</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">args</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;__enter__&#39;</span><span class="p">):</span>
+                        <span class="n">args</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+                    <span class="n">node</span> <span class="o">=</span> <span class="n">child</span>
+                    <span class="n">child_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># child_idx == ptr[3]:</span>
+                    <span class="c1"># We are done with this node.  Call exitNode to compute</span>
+                    <span class="c1"># any result</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ptr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;__exit__&#39;</span><span class="p">):</span>
+                        <span class="n">ptr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">node_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">node_result</span> <span class="o">=</span> <span class="n">data</span>
+
+                    <span class="c1"># Pop the node off the linked list</span>
+                    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1"># If we have returned to the beginning, return the final</span>
+                    <span class="c1"># answer</span>
+                    <span class="k">if</span> <span class="n">ptr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalizeResult</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalizeResult</span><span class="p">(</span><span class="n">node_result</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="n">node_result</span>
+                    <span class="c1"># Not done yet, update node to point to the new active</span>
+                    <span class="c1"># node</span>
+                    <span class="n">node</span><span class="p">,</span> <span class="n">child</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                    <span class="n">child_idx</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+
+                    <span class="c1"># We need to alert the node to accept the child&#39;s result:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceptChildResult</span><span class="p">(</span>
+                            <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">node_result</span><span class="p">,</span> <span class="n">child_idx</span>
+                        <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_result</span><span class="p">)</span>
+
+                    <span class="c1"># And let the node know that we are done with a child node</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">afterChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ptr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;__exit__&#39;</span><span class="p">):</span>
+                    <span class="n">ptr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SimpleExpressionVisitor"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor">[docs]</a><span class="k">class</span> <span class="nc">SimpleExpressionVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Note:</span>
+<span class="sd">        This class is a customization of the PyUtilib :class:`SimpleVisitor</span>
+<span class="sd">        &lt;pyutilib.misc.visitor.SimpleVisitor&gt;` class that is tailored</span>
+<span class="sd">        to efficiently walk Pyomo expression trees.  However, this class</span>
+<span class="sd">        is not a subclass of the PyUtilib :class:`SimpleVisitor</span>
+<span class="sd">        &lt;pyutilib.misc.visitor.SimpleVisitor&gt;` class because all key methods</span>
+<span class="sd">        are reimplemented.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SimpleExpressionVisitor.visit"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor.visit">[docs]</a>    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visit a node in an expression tree and perform some operation on</span>
+<span class="sd">        it.</span>
+
+<span class="sd">        This method should be over-written by a user</span>
+<span class="sd">        that is creating a sub-class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: a node in an expression tree</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="SimpleExpressionVisitor.finalize"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the &quot;final value&quot; of the search.</span>
+
+<span class="sd">        The default implementation returns :const:`None`, because</span>
+<span class="sd">        the traditional visitor pattern does not return a value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The final value after the search.  Default is :const:`None`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="SimpleExpressionVisitor.xbfs"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor.xbfs">[docs]</a>    <span class="k">def</span> <span class="nf">xbfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Breadth-first search of an expression tree,</span>
+<span class="sd">        except that leaf nodes are immediately visited.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method has the same functionality as the</span>
+<span class="sd">            PyUtilib :class:`SimpleVisitor.xbfs &lt;pyutilib.misc.visitor.SimpleVisitor.xbfs&gt;`</span>
+<span class="sd">            method.  The difference is that this method</span>
+<span class="sd">            is tailored to efficiently walk Pyomo expression trees.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: The root node of the expression tree that is searched.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The return value is determined by the :func:`finalize` function,</span>
+<span class="sd">            which may be defined by the user.  Defaults to :const:`None`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dq</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="n">node</span><span class="p">])</span>
+        <span class="k">while</span> <span class="n">dq</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">dq</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+            <span class="c1"># for c in self.children(current):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">current</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="c1"># if self.is_leaf(c):</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">c</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span>
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">()</span>
+                    <span class="ow">or</span> <span class="n">c</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SimpleExpressionVisitor.xbfs_yield_leaves"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor.xbfs_yield_leaves">[docs]</a>    <span class="k">def</span> <span class="nf">xbfs_yield_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Breadth-first search of an expression tree, except that</span>
+<span class="sd">        leaf nodes are immediately visited.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method has the same functionality as the</span>
+<span class="sd">            PyUtilib :class:`SimpleVisitor.xbfs_yield_leaves &lt;pyutilib.misc.visitor.SimpleVisitor.xbfs_yield_leaves&gt;`</span>
+<span class="sd">            method.  The difference is that this method</span>
+<span class="sd">            is tailored to efficiently walk Pyomo expression trees.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: The root node of the expression tree</span>
+<span class="sd">                that is searched.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The return value is determined by the :func:`finalize` function,</span>
+<span class="sd">            which may be defined by the user.  Defaults to :const:`None`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#</span>
+        <span class="c1"># If we start with a leaf, then yield it and stop iteration</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">ans</span>
+            <span class="k">return</span>
+        <span class="c1">#</span>
+        <span class="c1"># Iterate through the tree.</span>
+        <span class="c1">#</span>
+        <span class="n">dq</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="n">node</span><span class="p">])</span>
+        <span class="k">while</span> <span class="n">dq</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">dq</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="c1"># self.visit(current)</span>
+            <span class="c1"># for c in self.children(current):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">current</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="c1"># if self.is_leaf(c):</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">c</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span>
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">()</span>
+                    <span class="ow">or</span> <span class="n">c</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="p">):</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">ans</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">ans</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ExpressionValueVisitor"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor">[docs]</a><span class="k">class</span> <span class="nc">ExpressionValueVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Note:</span>
+<span class="sd">        This class is a customization of the PyUtilib :class:`ValueVisitor</span>
+<span class="sd">        &lt;pyutilib.misc.visitor.ValueVisitor&gt;` class that is tailored</span>
+<span class="sd">        to efficiently walk Pyomo expression trees.  However, this class</span>
+<span class="sd">        is not a subclass of the PyUtilib :class:`ValueVisitor</span>
+<span class="sd">        &lt;pyutilib.misc.visitor.ValueVisitor&gt;` class because all key methods</span>
+<span class="sd">        are reimplemented.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExpressionValueVisitor.visit"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor.visit">[docs]</a>    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visit a node in a tree and compute its value using</span>
+<span class="sd">        the values of its children.</span>
+
+<span class="sd">        This method should be over-written by a user</span>
+<span class="sd">        that is creating a sub-class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: a node in a tree</span>
+<span class="sd">            values: a list of values of this node&#39;s children</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The *value* for this node, which is computed using :attr:`values`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ExpressionValueVisitor.visiting_potential_leaf"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor.visiting_potential_leaf">[docs]</a>    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visit a node and return its value if it is a leaf.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method needs to be over-written for a specific</span>
+<span class="sd">            visitor application.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: a node in a tree</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple: ``(flag, value)``.   If ``flag`` is False,</span>
+<span class="sd">            then the node is not a leaf and ``value`` is :const:`None`.</span>
+<span class="sd">            Otherwise, ``value`` is the computed value for this node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The visiting_potential_leaf method needs to be defined.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExpressionValueVisitor.finalize"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ans</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method defines the return value for the search methods</span>
+<span class="sd">        in this class.</span>
+
+<span class="sd">        The default implementation returns the value of the</span>
+<span class="sd">        initial node (aka the root node), because</span>
+<span class="sd">        this visitor pattern computes and returns value for each</span>
+<span class="sd">        node to enable the computation of this value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ans: The final value computed by the search method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The final value after the search. Defaults to simply</span>
+<span class="sd">            returning :attr:`ans`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="ExpressionValueVisitor.dfs_postorder_stack"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor.dfs_postorder_stack">[docs]</a>    <span class="k">def</span> <span class="nf">dfs_postorder_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a depth-first search in postorder using a stack</span>
+<span class="sd">        implementation.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method has the same functionality as the</span>
+<span class="sd">            PyUtilib :class:`ValueVisitor.dfs_postorder_stack &lt;pyutilib.misc.visitor.ValueVisitor.dfs_postorder_stack&gt;`</span>
+<span class="sd">            method.  The difference is that this method</span>
+<span class="sd">            is tailored to efficiently walk Pyomo expression trees.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: The root node of the expression tree</span>
+<span class="sd">                that is searched.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The return value is determined by the :func:`finalize` function,</span>
+<span class="sd">            which may be defined by the user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">flag</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiting_potential_leaf</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="c1"># _stack = [ (node, self.children(node), 0, len(self.children(node)), [])]</span>
+        <span class="n">_stack</span> <span class="o">=</span> <span class="p">[(</span><span class="n">node</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">_args_</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">nargs</span><span class="p">(),</span> <span class="p">[])]</span>
+        <span class="c1">#</span>
+        <span class="c1"># Iterate until the stack is empty</span>
+        <span class="c1">#</span>
+        <span class="c1"># Note: 1 is faster than True for Python 2.x</span>
+        <span class="c1">#</span>
+        <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1">#</span>
+            <span class="c1"># Get the top of the stack</span>
+            <span class="c1">#   _obj        Current expression object</span>
+            <span class="c1">#   _argList    The arguments for this expression object</span>
+            <span class="c1">#   _idx        The current argument being considered</span>
+            <span class="c1">#   _len        The number of arguments</span>
+            <span class="c1">#   _result     The return values</span>
+            <span class="c1">#</span>
+            <span class="n">_obj</span><span class="p">,</span> <span class="n">_argList</span><span class="p">,</span> <span class="n">_idx</span><span class="p">,</span> <span class="n">_len</span><span class="p">,</span> <span class="n">_result</span> <span class="o">=</span> <span class="n">_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="c1">#</span>
+            <span class="c1"># Iterate through the arguments</span>
+            <span class="c1">#</span>
+            <span class="k">while</span> <span class="n">_idx</span> <span class="o">&lt;</span> <span class="n">_len</span><span class="p">:</span>
+                <span class="n">_sub</span> <span class="o">=</span> <span class="n">_argList</span><span class="p">[</span><span class="n">_idx</span><span class="p">]</span>
+                <span class="n">_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">flag</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiting_potential_leaf</span><span class="p">(</span><span class="n">_sub</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+                    <span class="n">_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># Push an expression onto the stack</span>
+                    <span class="c1">#</span>
+                    <span class="n">_stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_obj</span><span class="p">,</span> <span class="n">_argList</span><span class="p">,</span> <span class="n">_idx</span><span class="p">,</span> <span class="n">_len</span><span class="p">,</span> <span class="n">_result</span><span class="p">))</span>
+                    <span class="n">_obj</span> <span class="o">=</span> <span class="n">_sub</span>
+                    <span class="c1"># _argList                = self.children(_sub)</span>
+                    <span class="n">_argList</span> <span class="o">=</span> <span class="n">_sub</span><span class="o">.</span><span class="n">_args_</span>
+                    <span class="n">_idx</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">_len</span> <span class="o">=</span> <span class="n">_sub</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span>
+                    <span class="n">_result</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1">#</span>
+            <span class="c1"># Process the current node</span>
+            <span class="c1">#</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">_obj</span><span class="p">,</span> <span class="n">_result</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_stack</span><span class="p">:</span>
+                <span class="c1">#</span>
+                <span class="c1"># &quot;return&quot; the recursion by putting the return value on the end of the results stack</span>
+                <span class="c1">#</span>
+                <span class="n">_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">replace_expressions</span><span class="p">(</span>
+    <span class="n">expr</span><span class="p">,</span>
+    <span class="n">substitution_map</span><span class="p">,</span>
+    <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    expr : Pyomo expression</span>
+<span class="sd">       The source expression</span>
+<span class="sd">    substitution_map : dict</span>
+<span class="sd">       A dictionary mapping object ids in the source to the replacement objects.</span>
+<span class="sd">    descend_into_named_expressions : bool</span>
+<span class="sd">       True if replacement should go into named expression objects, False to halt at</span>
+<span class="sd">       a named expression</span>
+<span class="sd">    remove_named_expressions : bool</span>
+<span class="sd">       True if the named expressions should be replaced with a standard expression,</span>
+<span class="sd">       and False if the named expression should be left in place</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">       Pyomo expression : returns the new expression object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ExpressionReplacementVisitor</span><span class="p">(</span>
+        <span class="n">substitute</span><span class="o">=</span><span class="n">substitution_map</span><span class="p">,</span>
+        <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="n">descend_into_named_expressions</span><span class="p">,</span>
+        <span class="n">remove_named_expressions</span><span class="o">=</span><span class="n">remove_named_expressions</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ExpressionReplacementVisitor"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionReplacementVisitor">[docs]</a><span class="k">class</span> <span class="nc">ExpressionReplacementVisitor</span><span class="p">(</span><span class="n">StreamBasedExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">substitute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">substitute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">substitute</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Note: preserving the attribute names from the previous</span>
+        <span class="c1"># implementation of the expression walker.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">substitute</span> <span class="o">=</span> <span class="n">substitute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enter_named_expr</span> <span class="o">=</span> <span class="n">descend_into_named_expressions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rm_named_expr</span> <span class="o">=</span> <span class="n">remove_named_expressions</span>
+
+        <span class="n">kwds</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;visiting_potential_leaf&#39;</span><span class="p">):</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;ExpressionReplacementVisitor: this walker has been ported &quot;</span>
+                <span class="s2">&quot;to derive from StreamBasedExpressionVisitor.  &quot;</span>
+                <span class="s2">&quot;visiting_potential_leaf() has been replaced by beforeChild()&quot;</span>
+                <span class="s2">&quot;(note to implementers: the sense of the bool return value &quot;</span>
+                <span class="s2">&quot;has been inverted).&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.2&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+                <span class="n">is_leaf</span><span class="p">,</span> <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiting_potential_leaf</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                <span class="k">return</span> <span class="ow">not</span> <span class="n">is_leaf</span><span class="p">,</span> <span class="n">ans</span>
+
+            <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;beforeChild&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beforeChild</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;visit&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DeveloperError</span><span class="p">(</span>
+                <span class="s2">&quot;ExpressionReplacementVisitor: this walker has been ported &quot;</span>
+                <span class="s2">&quot;to derive from StreamBasedExpressionVisitor.  &quot;</span>
+                <span class="s2">&quot;overriding visit() has no effect (and is likely to generate &quot;</span>
+                <span class="s2">&quot;invalid expression trees)&quot;</span>
+            <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">initializeWalker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="n">walk</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">walk</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">expr</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">substitute</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">substitute</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">child</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">is_named_expression_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enter_named_expr</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">enterNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="c1"># [bool:args_have_changed, list:original_args, bool:node_is_constant]</span>
+        <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">acceptChildResult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_result</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">child_idx</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">child_result</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">child_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">child_result</span>
+            <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">child_result</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_types</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">child_result</span><span class="o">.</span><span class="n">is_constant</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">exitNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_named_expression_type</span><span class="p">():</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rm_named_expr</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">node</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">create_node_with_local_data</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+<div class="viewcode-block" id="ExpressionReplacementVisitor.dfs_postorder_stack"><a class="viewcode-back" href="../../../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionReplacementVisitor.dfs_postorder_stack">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">&quot;ExpressionReplacementVisitor: this walker has been ported &quot;</span>
+        <span class="s2">&quot;to derive from StreamBasedExpressionVisitor.  &quot;</span>
+        <span class="s2">&quot;dfs_postorder_stack() has been replaced with walk_expression()&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.2&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dfs_postorder_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">evaluate_fixed_subexpressions</span><span class="p">(</span>
+    <span class="n">expr</span><span class="p">,</span> <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="n">EvaluateFixedSubexpressionVisitor</span><span class="p">(</span>
+        <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="n">descend_into_named_expressions</span><span class="p">,</span>
+        <span class="n">remove_named_expressions</span><span class="o">=</span><span class="n">remove_named_expressions</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">EvaluateFixedSubexpressionVisitor</span><span class="p">(</span><span class="n">ExpressionReplacementVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="n">descend_into_named_expressions</span><span class="p">,</span>
+            <span class="n">remove_named_expressions</span><span class="o">=</span><span class="n">remove_named_expressions</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">is_named_expression_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enter_named_expr</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="c1"># -------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># Functions used to process expression trees</span>
+<span class="c1">#</span>
+<span class="c1"># -------------------------------------------------------</span>
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  clone_expression</span>
+<span class="c1"># =====================================================</span>
+
+
+<div class="viewcode-block" id="clone_expression"><a class="viewcode-back" href="../../../../library_reference/expressions/managing.html#pyomo.core.expr.current.clone_expression">[docs]</a><span class="k">def</span> <span class="nf">clone_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">substitute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A function that is used to clone an expression.</span>
+
+<span class="sd">    Cloning is equivalent to calling ``copy.deepcopy`` with no Block</span>
+<span class="sd">    scope.  That is, the expression tree is duplicated, but no Pyomo</span>
+<span class="sd">    components (leaf nodes *or* named Expressions) are duplicated.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The expression that will be cloned.</span>
+<span class="sd">        substitute (dict): A dictionary mapping object ids to</span>
+<span class="sd">            objects. This dictionary has the same semantics as</span>
+<span class="sd">            the memo object used with ``copy.deepcopy``. Defaults</span>
+<span class="sd">            to None, which indicates that no user-defined</span>
+<span class="sd">            dictionary is used.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The cloned expression.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">common</span><span class="o">.</span><span class="n">clone_counter</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">memo</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;__block_scope__&#39;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="kc">False</span><span class="p">}}</span>
+    <span class="k">if</span> <span class="n">substitute</span><span class="p">:</span>
+        <span class="n">expr</span> <span class="o">=</span> <span class="n">replace_expressions</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">substitute</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span></div>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  sizeof_expression</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">def</span> <span class="nf">sizeof_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the number of nodes in the expression tree.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The root node of an expression tree.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A non-negative integer that is the number of</span>
+<span class="sd">        interior and leaf nodes in the expression tree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">child_result</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="o">+</span> <span class="n">child_result</span>
+
+    <span class="k">return</span> <span class="n">StreamBasedExpressionVisitor</span><span class="p">(</span>
+        <span class="n">enterNode</span><span class="o">=</span><span class="n">enter</span><span class="p">,</span> <span class="n">acceptChildResult</span><span class="o">=</span><span class="n">accept</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  evaluate_expression</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_EvaluationVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="n">exception</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">is_logical_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+
+<span class="k">class</span> <span class="nc">FixedExpressionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FixedExpressionError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">NonConstantExpressionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NonConstantExpressionError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_EvaluateConstantExpressionVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+            <span class="c1"># Get the object value.  This will also cause templates to</span>
+            <span class="c1"># raise TemplateExpressionErrors</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">TemplateExpressionError</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># Uninitialized Var/Param objects should be given the</span>
+                <span class="c1"># opportunity to map the error to a NonConstant / Fixed</span>
+                <span class="c1"># expression error</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="n">NonConstantExpressionError</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_constant</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="n">FixedExpressionError</span><span class="p">()</span>
+                <span class="k">raise</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">NonConstantExpressionError</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_constant</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">FixedExpressionError</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+
+<div class="viewcode-block" id="evaluate_expression"><a class="viewcode-back" href="../../../../library_reference/expressions/managing.html#pyomo.core.expr.current.evaluate_expression">[docs]</a><span class="k">def</span> <span class="nf">evaluate_expression</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Evaluate the value of the expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The root node of an expression tree.</span>
+<span class="sd">        exception (bool): A flag that indicates whether</span>
+<span class="sd">            exceptions are raised.  If this flag is</span>
+<span class="sd">            :const:`False`, then an exception that</span>
+<span class="sd">            occurs while evaluating the expression</span>
+<span class="sd">            is caught and the return value is :const:`None`.</span>
+<span class="sd">            Default is :const:`True`.</span>
+<span class="sd">        constant (bool): If True, constant expressions are</span>
+<span class="sd">            evaluated and returned but nonconstant expressions</span>
+<span class="sd">            raise either FixedExpressionError or</span>
+<span class="sd">            NonconstantExpressionError (default=False).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A floating point value if the expression evaluates</span>
+<span class="sd">        normally, or :const:`None` if an exception occurs</span>
+<span class="sd">        and is caught.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clear_active</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">constant</span><span class="p">:</span>
+        <span class="n">visitor</span> <span class="o">=</span> <span class="n">_EvaluateConstantExpressionVisitor</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_active</span><span class="p">:</span>
+            <span class="n">visitor</span> <span class="o">=</span> <span class="n">_EvaluationVisitor</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">visitor</span> <span class="o">=</span> <span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_cache</span>
+            <span class="n">visitor</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="n">exception</span>
+            <span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_active</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">clear_active</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span>
+        <span class="n">TemplateExpressionError</span><span class="p">,</span>
+        <span class="ne">ValueError</span><span class="p">,</span>
+        <span class="ne">TypeError</span><span class="p">,</span>
+        <span class="n">NonConstantExpressionError</span><span class="p">,</span>
+        <span class="n">FixedExpressionError</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Errors that we want to be able to suppress:</span>
+        <span class="c1">#</span>
+        <span class="c1">#   TemplateExpressionError: raised when generating expression</span>
+        <span class="c1">#      templates</span>
+        <span class="c1">#   FixedExpressionError, NonConstantExpressionError: raised</span>
+        <span class="c1">#      when processing expressions that are expected to be fixed</span>
+        <span class="c1">#      (e.g., indices)</span>
+        <span class="c1">#   ValueError: &quot;standard&quot; expression value errors</span>
+        <span class="c1">#   TypeError: This can be raised in Python3 when evaluating a</span>
+        <span class="c1">#      operation returns a complex number (e.g., sqrt(-1))</span>
+        <span class="k">if</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">clear_active</span><span class="p">:</span>
+            <span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_active</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">ans</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_types</span> <span class="ow">and</span> <span class="n">ans</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ans</span></div>
+
+
+<span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_cache</span> <span class="o">=</span> <span class="n">_EvaluationVisitor</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">evaluate_expression</span><span class="o">.</span><span class="n">visitor_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  identify_components</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_ComponentVisitor</span><span class="p">(</span><span class="n">SimpleExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">types</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">types</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">types</span> <span class="o">=</span> <span class="n">types</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+
+<div class="viewcode-block" id="identify_components"><a class="viewcode-back" href="../../../../library_reference/expressions/managing.html#pyomo.core.expr.current.identify_components">[docs]</a><span class="k">def</span> <span class="nf">identify_components</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">component_types</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A generator that yields a sequence of nodes</span>
+<span class="sd">    in an expression tree that belong to a specified set.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The root node of an expression tree.</span>
+<span class="sd">        component_types (set or list): A set of class</span>
+<span class="sd">            types that will be matched during the search.</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        Each node that is found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#</span>
+    <span class="c1"># OPTIONS:</span>
+    <span class="c1"># component_types - set (or list) if class types to find</span>
+    <span class="c1"># in the expression.</span>
+    <span class="c1">#</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_ComponentVisitor</span><span class="p">(</span><span class="n">component_types</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">visitor</span><span class="o">.</span><span class="n">xbfs_yield_leaves</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  identify_variables</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_VariableVisitor</span><span class="p">(</span><span class="n">SimpleExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_variable_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+
+<div class="viewcode-block" id="identify_variables"><a class="viewcode-back" href="../../../../library_reference/expressions/managing.html#pyomo.core.expr.current.identify_variables">[docs]</a><span class="k">def</span> <span class="nf">identify_variables</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A generator that yields a sequence of variables</span>
+<span class="sd">    in an expression tree.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The root node of an expression tree.</span>
+<span class="sd">        include_fixed (bool): If :const:`True`, then</span>
+<span class="sd">            this generator will yield variables whose</span>
+<span class="sd">            value is fixed.  Defaults to :const:`True`.</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        Each variable that is found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_VariableVisitor</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">include_fixed</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">visitor</span><span class="o">.</span><span class="n">xbfs_yield_leaves</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">visitor</span><span class="o">.</span><span class="n">xbfs_yield_leaves</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">v_i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">v_i</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                        <span class="k">yield</span> <span class="n">v_i</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                    <span class="k">yield</span> <span class="n">v</span></div>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  identify_mutable_parameters</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_MutableParamVisitor</span><span class="p">(</span><span class="n">SimpleExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># TODO: Confirm that this has the right semantics</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_variable_type</span><span class="p">()</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_constant</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+
+<span class="k">def</span> <span class="nf">identify_mutable_parameters</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A generator that yields a sequence of mutable</span>
+<span class="sd">    parameters in an expression tree.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The root node of an expression tree.</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        Each mutable parameter that is found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_MutableParamVisitor</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">visitor</span><span class="o">.</span><span class="n">xbfs_yield_leaves</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  polynomial_degree</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_PolynomialDegreeVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_compute_polynomial_degree</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">()</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+
+<span class="k">def</span> <span class="nf">polynomial_degree</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the polynomial degree of the expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node: The root node of an expression tree.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A non-negative integer that is the polynomial</span>
+<span class="sd">        degree if the expression is polynomial, or :const:`None` otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_PolynomialDegreeVisitor</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  _expression_is_fixed</span>
+<span class="c1"># =====================================================</span>
+
+
+<span class="k">class</span> <span class="nc">_IsFixedVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NOTE: This doesn&#39;t check if combiner logic is</span>
+<span class="sd">    all or any and short-circuit the test.  It&#39;s</span>
+<span class="sd">    not clear that that is an important optimization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_is_fixed</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span>
+
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+
+<span class="k">def</span> <span class="nf">_expression_is_fixed</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return bool indicating if this expression is fixed (non-variable)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node: The root node of an expression tree.</span>
+
+<span class="sd">    Returns: bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_IsFixedVisitor</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+
+<span class="c1"># =====================================================</span>
+<span class="c1">#  expression_to_string</span>
+<span class="c1"># =====================================================</span>
+
+<span class="n">LEFT_TO_RIGHT</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">OperatorAssociativity</span><span class="o">.</span><span class="n">LEFT_TO_RIGHT</span>
+<span class="n">RIGHT_TO_LEFT</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">OperatorAssociativity</span><span class="o">.</span><span class="n">RIGHT_TO_LEFT</span>
+
+
+<span class="k">class</span> <span class="nc">_ToStringVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="n">_expression_handlers</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_ToStringVisitor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smap</span> <span class="o">=</span> <span class="n">smap</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">_args_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Undefined&#39;</span>
+            <span class="k">elif</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parens</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+                    <span class="ow">and</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">()</span>
+                    <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">PRECEDENCE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="p">):</span>
+                    <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">PRECEDENCE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">PRECEDENCE</span> <span class="o">&lt;</span> <span class="n">arg</span><span class="o">.</span><span class="n">PRECEDENCE</span><span class="p">:</span>
+                        <span class="n">parens</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">PRECEDENCE</span> <span class="o">==</span> <span class="n">arg</span><span class="o">.</span><span class="n">PRECEDENCE</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">parens</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">ASSOCIATIVITY</span> <span class="o">!=</span> <span class="n">LEFT_TO_RIGHT</span>
+                        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">parens</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">ASSOCIATIVITY</span> <span class="o">!=</span> <span class="n">RIGHT_TO_LEFT</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">parens</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">parens</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_handlers</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_handlers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expression_handlers</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="vm">__class__</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_to_string</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">smap</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;to_string&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">smap</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="expression_to_string"><a class="viewcode-back" href="../../../../library_reference/expressions/managing.html#pyomo.core.expr.current.expression_to_string">[docs]</a><span class="k">def</span> <span class="nf">expression_to_string</span><span class="p">(</span>
+    <span class="n">expr</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labeler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compute_values</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a string representation of an expression.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    expr: ExpressionBase</span>
+<span class="sd">        The root node of an expression tree.</span>
+
+<span class="sd">    verbose: bool</span>
+<span class="sd">        If :const:`True`, then the output is a nested functional form.</span>
+<span class="sd">        Otherwise, the output is an algebraic expression.  Default is</span>
+<span class="sd">        retrieved from :py:attr:`common.TO_STRING_VERBOSE`</span>
+
+<span class="sd">    labeler: Callable</span>
+<span class="sd">        If specified, this labeler is used to generate the string</span>
+<span class="sd">        representation for leaves (Var / Param objects) in the</span>
+<span class="sd">        expression.</span>
+
+<span class="sd">    smap:  SymbolMap</span>
+<span class="sd">        If specified, this :class:`SymbolMap</span>
+<span class="sd">        &lt;pyomo.core.expr.symbol_map.SymbolMap&gt;` is used to cache labels.</span>
+
+<span class="sd">    compute_values: bool</span>
+<span class="sd">        If :const:`True`, then parameters and fixed variables are</span>
+<span class="sd">        evaluated before the expression string is generated.  Default is</span>
+<span class="sd">        :const:`False`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A string representation for the expression.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">TO_STRING_VERBOSE</span> <span class="k">if</span> <span class="n">verbose</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">verbose</span>
+    <span class="c1">#</span>
+    <span class="c1"># Setup the symbol map</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="n">labeler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">smap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">smap</span> <span class="o">=</span> <span class="n">SymbolMap</span><span class="p">()</span>
+        <span class="n">smap</span><span class="o">.</span><span class="n">default_labeler</span> <span class="o">=</span> <span class="n">labeler</span>
+    <span class="c1">#</span>
+    <span class="c1"># TODO: should we deprecate the compute_values option?</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="n">compute_values</span><span class="p">:</span>
+        <span class="n">expr</span> <span class="o">=</span> <span class="n">evaluate_fixed_subexpressions</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Create and execute the visitor pattern</span>
+    <span class="c1">#</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">_ToStringVisitor</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

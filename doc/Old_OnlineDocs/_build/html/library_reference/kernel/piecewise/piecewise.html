@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Single-variate Piecewise Functions &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Multi-variate Piecewise Functions" href="piecewise_nd.html" />
+    <link rel="prev" title="Piecewise Function Library" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">The Kernel Library</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../syntax_comparison.html">Syntax Comparison Table (pyomo.kernel vs pyomo.environ)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#notable-improvements">Notable Improvements</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#reference">Reference</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#modeling-components">Modeling Components:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#base-api">Base API:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#containers">Containers:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="../index.html">The Kernel Library</a> &raquo;</li>
+        
+          <li><a href="index.html">Piecewise Function Library</a> &raquo;</li>
+        
+      <li>Single-variate Piecewise Functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/library_reference/kernel/piecewise/piecewise.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="single-variate-piecewise-functions">
+<h1>Single-variate Piecewise Functions<a class="headerlink" href="#single-variate-piecewise-functions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise" title="pyomo.core.kernel.piecewise_library.transforms.piecewise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise</span></code></a>(…)</td>
+<td>Models a single-variate piecewise linear function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction</span></code></a>(…)</td>
+<td>A piecewise linear function</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a>(f)</td>
+<td>Base class for transformed piecewise linear functions</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_convex" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_convex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_convex</span></code></a>(…)</td>
+<td>Simple convex piecewise representation</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2</span></code></a>(…)</td>
+<td>Discrete SOS2 piecewise representation</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc</span></code></a>(…)</td>
+<td>Discrete DCC piecewise representation</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_cc" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_cc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_cc</span></code></a>(…)</td>
+<td>Discrete CC piecewise representation</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_mc" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_mc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_mc</span></code></a>(…)</td>
+<td>Discrete MC piecewise representation</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_inc" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_inc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_inc</span></code></a>(…)</td>
+<td>Discrete INC piecewise representation</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog</span></code></a>(…)</td>
+<td>Discrete DLOG piecewise representation</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_log" title="pyomo.core.kernel.piecewise_library.transforms.piecewise_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.piecewise_log</span></code></a>(…)</td>
+<td>Discrete LOG piecewise representation</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="member-documentation">
+<h2>Member Documentation<a class="headerlink" href="#member-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise">
+<code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise</code><span class="sig-paren">(</span><em><span class="n">breakpoints</span></em>, <em><span class="n">values</span></em>, <em><span class="n">input</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">output</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">bound</span><span class="o">=</span><span class="default_value">'eq'</span></em>, <em><span class="n">repn</span><span class="o">=</span><span class="default_value">'sos2'</span></em>, <em><span class="n">validate</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">simplify</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em><span class="n">require_bounded_input_variable</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">require_variable_domain_coverage</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Models a single-variate piecewise linear function.</p>
+<p>This function takes a list breakpoints and function
+values describing a piecewise linear function and
+transforms this input data into a block of variables and
+constraints that enforce a piecewise linear relationship
+between an input variable and an output variable. In the
+general case, this transformation requires the use of
+discrete decision variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>breakpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The list of breakpoints of the
+piecewise linear function. This can be a list of
+numbers or a list of objects that store mutable
+data (e.g., mutable parameters). If mutable data
+is used validation might need to be disabled by
+setting the <code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code> keyword to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>. The list of breakpoints must be
+in non-decreasing order.</li>
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The values of the piecewise linear
+function corresponding to the breakpoints.</li>
+<li><strong>input</strong> – The variable constrained to be the input of
+the piecewise linear function.</li>
+<li><strong>output</strong> – The variable constrained to be the output of
+the piecewise linear function.</li>
+<li><strong>bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – <p>The type of bound to impose on the
+output expression. Can be one of:</p>
+<blockquote>
+<div><ul>
+<li>’lb’: y &lt;= f(x)</li>
+<li>’eq’: y  = f(x)</li>
+<li>’ub’: y &gt;= f(x)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>repn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – <p>The type of piecewise representation to
+use. Choices are shown below (+ means step
+functions are supported)</p>
+<blockquote>
+<div><ul>
+<li>’sos2’: standard representation using sos2 constraints (+)</li>
+<li>’dcc’: disaggregated convex combination (+)</li>
+<li>’dlog’: logarithmic disaggregated convex combination (+)</li>
+<li>’cc’: convex combination (+)</li>
+<li>’log’: logarithmic branching convex combination (+)</li>
+<li>’mc’: multiple choice</li>
+<li>’inc’: incremental method (+)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>validate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates whether or not to perform
+validation of the input data. The default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Validation can be performed
+manually after the piecewise object is created
+by calling the <code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code>
+method. Validation should be performed any time
+the inputs are changed (e.g., when using mutable
+parameters in the breakpoints list or when the
+input variable changes).</li>
+<li><strong>simplify</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates whether or not to attempt
+to simplify the piecewise representation to
+avoid using discrete variables. This can be done
+when the feasible region for the output
+variable, with respect to the piecewise function
+and the bound type, is a convex set. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Validation is required to perform
+simplification, so this keyword is ignored when
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code> keyword is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><strong>equal_slopes_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Tolerance used check
+if consecutive slopes are nearly equal. If any
+are found, validation will fail. Default is
+1e-6. This keyword is ignored when the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code> keyword is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><strong>require_bounded_input_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates if
+the input variable is required to have finite
+upper and lower bounds. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Setting this keyword to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code> can be used to allow general
+expressions to be used as the input in place of
+a variable. This keyword is ignored when the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code> keyword is <code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><strong>require_variable_domain_coverage</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates
+if the function domain (defined by the endpoints
+of the breakpoints list) needs to cover the
+entire domain of the input variable. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Ignored for any bounds of
+variables that are not finite, or when the input
+is not assigned a variable. This keyword is
+ignored when the <code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code> keyword is
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">False</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>a block that</dt><dd><p>stores any new variables, constraints, and other
+modeling objects used by the piecewise representation</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction">TransformedPiecewiseLinearFunction</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">PiecewiseLinearFunction</code><span class="sig-paren">(</span><em><span class="n">breakpoints</span></em>, <em><span class="n">values</span></em>, <em><span class="n">validate</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#PiecewiseLinearFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A piecewise linear function</p>
+<p>Piecewise linear functions are defined by a list of
+breakpoints and a list function values corresponding to
+each breakpoint. The function value between breakpoints
+is implied through linear interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>breakpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The list of function
+breakpoints.</li>
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The list of function values (one for
+each breakpoint).</li>
+<li><strong>validate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates whether or not to perform
+validation of the input data. The default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Validation can be performed
+manually after the piecewise object is created
+by calling the <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a>
+method. Validation should be performed any time
+the inputs are changed (e.g., when using mutable
+parameters in the breakpoints list).</li>
+<li><strong>**kwds</strong> – Additional keywords are passed to the
+<a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a> method when the <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code></a>
+keyword is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>; otherwise, they are
+ignored.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#PiecewiseLinearFunction.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the piecewise linear function at the
+given point using interpolation. Note that step functions are
+assumed lower-semicontinuous.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.breakpoints">
+<em class="property">property </em><code class="descname">breakpoints</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.breakpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of breakpoints used to defined this function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#PiecewiseLinearFunction.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints and values
+lists (e.g., that the list of breakpoints is
+nondecreasing).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>equal_slopes_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Tolerance used
+check if consecutive slopes are nearly
+equal. If any are found, validation will
+fail. Default is 1e-6.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a function characterization code (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">util.characterize_function()</span></code>)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="util.html#pyomo.core.kernel.piecewise_library.util.PiecewiseValidationError" title="pyomo.core.kernel.piecewise_library.util.PiecewiseValidationError"><strong>PiecewiseValidationError</strong></a> – if validation fails</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.values">
+<em class="property">property </em><code class="descname">values</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of values used to defined this function</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">TransformedPiecewiseLinearFunction</code><span class="sig-paren">(</span><em><span class="n">f</span></em>, <em><span class="n">input</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">output</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">bound</span><span class="o">=</span><span class="default_value">'eq'</span></em>, <em><span class="n">validate</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#TransformedPiecewiseLinearFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../block.html#pyomo.core.kernel.block.block" title="pyomo.core.kernel.block.block"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.block.block</span></code></a></p>
+<p>Base class for transformed piecewise linear functions</p>
+<p>A transformed piecewise linear functions is a block of
+variables and constraints that enforce a piecewise
+linear relationship between an input variable and an
+output variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>f</strong> (<a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">PiecewiseLinearFunction</span></code></a>) – The piecewise
+linear function to transform.</li>
+<li><strong>input</strong> – The variable constrained to be the input of
+the piecewise linear function.</li>
+<li><strong>output</strong> – The variable constrained to be the output of
+the piecewise linear function.</li>
+<li><strong>bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – <p>The type of bound to impose on the
+output expression. Can be one of:</p>
+<blockquote>
+<div><ul>
+<li>’lb’: y &lt;= f(x)</li>
+<li>’eq’: y  = f(x)</li>
+<li>’ub’: y &gt;= f(x)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>validate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates whether or not to perform
+validation of the input data. The default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Validation can be performed
+manually after the piecewise object is created
+by calling the <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a>
+method. Validation should be performed any time
+the inputs are changed (e.g., when using mutable
+parameters in the breakpoints list or when the
+input variable changes).</li>
+<li><strong>**kwds</strong> – Additional keywords are passed to the
+<a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a> method when the <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">validate</span></code></a>
+keyword is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>; otherwise, they are
+ignored.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#TransformedPiecewiseLinearFunction.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the piecewise linear function at the
+given point using interpolation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.bound">
+<em class="property">property </em><code class="descname">bound</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bound type assigned to the piecewise
+relationship (‘lb’,’ub’,’eq’).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.breakpoints">
+<em class="property">property </em><code class="descname">breakpoints</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.breakpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of breakpoints used to defined this function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.input">
+<em class="property">property </em><code class="descname">input</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>The expression that stores the input to the
+piecewise function. The returned object can be
+updated by assigning to its <code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code>
+attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.output">
+<em class="property">property </em><code class="descname">output</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>The expression that stores the output of the
+piecewise function. The returned object can be
+updated by assigning to its <code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code>
+attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em><span class="n">require_bounded_input_variable</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">require_variable_domain_coverage</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#TransformedPiecewiseLinearFunction.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>equal_slopes_tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Tolerance used
+check if consecutive slopes are nearly
+equal. If any are found, validation will
+fail. Default is 1e-6.</li>
+<li><strong>require_bounded_input_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates
+if the input variable is required to have
+finite upper and lower bounds. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Setting this keyword to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code> can be used to allow general
+expressions to be used as the input in place
+of a variable.</li>
+<li><strong>require_variable_domain_coverage</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Indicates if the function domain (defined by
+the endpoints of the breakpoints list) needs
+to cover the entire domain of the input
+variable. Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. Ignored
+for any bounds of variables that are not
+finite, or when the input is not assigned a
+variable.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a function characterization code (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">util.characterize_function()</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="util.html#pyomo.core.kernel.piecewise_library.util.PiecewiseValidationError" title="pyomo.core.kernel.piecewise_library.util.PiecewiseValidationError"><strong>PiecewiseValidationError</strong></a> – if validation fails</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.values">
+<em class="property">property </em><code class="descname">values</code><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of values used to defined this function</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_convex">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_convex</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_convex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_convex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Simple convex piecewise representation</p>
+<p>Expresses a piecewise linear function with a convex
+feasible region for the output variable using a simple
+collection of linear constraints.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_convex.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_convex.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_convex.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_sos2</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_sos2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete SOS2 piecewise representation</p>
+<p>Expresses a piecewise linear function using
+the SOS2 formulation.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_sos2.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_dcc</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_dcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete DCC piecewise representation</p>
+<p>Expresses a piecewise linear function using
+the DCC formulation.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_dcc.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_cc">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_cc</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete CC piecewise representation</p>
+<p>Expresses a piecewise linear function using
+the CC formulation.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_cc.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_cc.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_cc.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_mc">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_mc</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_mc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_mc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete MC piecewise representation</p>
+<p>Expresses a piecewise linear function using
+the MC formulation.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_mc.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_mc.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_mc.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_inc">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_inc</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_inc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_inc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete INC piecewise representation</p>
+<p>Expresses a piecewise linear function using
+the INC formulation.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_inc.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_inc.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_inc.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_dlog</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_dlog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete DLOG piecewise representation</p>
+<p>Expresses a piecewise linear function using the DLOG
+formulation. This formulation uses logarithmic number of
+discrete variables in terms of number of breakpoints.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_dlog.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_log">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.piecewise_library.transforms.</code><code class="descname">piecewise_log</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction" title="pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction</span></code></a></p>
+<p>Discrete LOG piecewise representation</p>
+<p>Expresses a piecewise linear function using the LOG
+formulation. This formulation uses logarithmic number of
+discrete variables in terms of number of breakpoints.</p>
+<dl class="py method">
+<dt id="pyomo.core.kernel.piecewise_library.transforms.piecewise_log.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyomo/core/kernel/piecewise_library/transforms.html#piecewise_log.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.piecewise_library.transforms.piecewise_log.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate this piecewise linear function by verifying
+various properties of the breakpoints, values, and
+input variable (e.g., that the list of breakpoints
+is nondecreasing).</p>
+<p>See base class documentation for keyword
+descriptions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="piecewise_nd.html" class="btn btn-neutral float-right" title="Multi-variate Piecewise Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Piecewise Function Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

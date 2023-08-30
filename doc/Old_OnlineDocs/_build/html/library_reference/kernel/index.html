@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Kernel Library &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Syntax Comparison Table (pyomo.kernel vs pyomo.environ)" href="syntax_comparison.html" />
+    <link rel="prev" title="HiGHS" href="../appsi/appsi.solvers.highs.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Kernel Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="syntax_comparison.html">Syntax Comparison Table (pyomo.kernel vs pyomo.environ)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notable-improvements">Notable Improvements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#more-control-of-model-structure">More Control of Model Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sub-classing">Sub-Classing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduced-memory-usage">Reduced Memory Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direct-support-for-conic-constraints-with-mosek">Direct Support For Conic Constraints with Mosek</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modeling-components">Modeling Components:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#base-api">Base API:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#containers">Containers:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+      <li>The Kernel Library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/kernel/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> API is still in the beta phase of development. It is fully tested and functional; however, the interface may change as it becomes further integrated with the rest of Pyomo.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Models built with <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> components are not yet compatible with pyomo extension modules (e.g., <code class="code python docutils literal notranslate"><span class="name"><span class="pre">PySP</span></span></code>, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">dae</span></span></code>, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">gdp</span></span></code>).</p>
+</div>
+<div class="section" id="the-kernel-library">
+<h1>The Kernel Library<a class="headerlink" href="#the-kernel-library" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> library is an experimental modeling interface designed to provide a better experience for users doing concrete modeling and advanced application development with Pyomo. It includes the basic set of <a class="reference internal" href="#kernel-modeling-components"><span class="std std-ref">modeling components</span></a> necessary to build algebraic models, which have been redesigned from the ground up to make it easier for users to customize and extend. For a side-by-side comparison of <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">environ</span></span></code> syntax, visit the link below.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="syntax_comparison.html">Syntax Comparison Table (pyomo.kernel vs pyomo.environ)</a></li>
+</ul>
+</div>
+<p>Models built from <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> components are fully compatible with the standard solver interfaces included with Pyomo. A minimal example script that defines and solves a model is shown below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.kernel</span> <span class="k">as</span> <span class="nn">pmo</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s2">&quot;ipopt&quot;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;optimal&quot;</span>
+</pre></div>
+</div>
+<div class="section" id="notable-improvements">
+<h2>Notable Improvements<a class="headerlink" href="#notable-improvements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="more-control-of-model-structure">
+<h3>More Control of Model Structure<a class="headerlink" href="#more-control-of-model-structure" title="Permalink to this headline">¶</a></h3>
+<p>Containers in <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> are analogous to indexed components in <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">environ</span></span></code>. However, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> containers allow for additional layers of structure as they can be nested within each other as long as they have compatible categories. The following example shows this using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">variable</span></span></code> containers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vlist</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable_list</span><span class="p">()</span>
+<span class="n">vlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable_dict</span><span class="p">())</span>
+<span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As the next section will show, the standard modeling component containers are also compatible with user-defined classes that derive from the existing modeling components.</p>
+</div>
+<div class="section" id="sub-classing">
+<h3>Sub-Classing<a class="headerlink" href="#sub-classing" title="Permalink to this headline">¶</a></h3>
+<p>The existing components and containers in <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> are designed to make sub-classing easy. User-defined classes that derive from the standard modeling components and containers in <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> are compatible with existing containers of the same component category. As an example, in the following code we see that the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">block_list</span></span></code> container can store both <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">block</span></span></code> objects as well as a user-defined <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Widget</span></span></code> object that derives from <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">block</span></span></code>. The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Widget</span></span></code> object can also be placed on another block object as an attribute and treated itself as a block.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Widget</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">block</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">blist</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">block_list</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">blist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Widget</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">blist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">block</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Widget</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The next series of examples goes into more detail on how to implement derived components or containers.</p>
+<p>The following code block shows a class definition for a non-negative variable, starting from <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">variable</span></span></code> as a base class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NonNegativeVariable</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A non-negative variable.&quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;lb&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lower bound must be non-negative&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NonNegativeVariable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># restrict assignments to x.lb to non-negative numbers</span>
+    <span class="c1">#</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># calls the base class property getter</span>
+        <span class="k">return</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">lb</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@lb</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lower bound must be non-negative&quot;</span><span class="p">)</span>
+        <span class="c1"># calls the base class property setter</span>
+        <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">lb</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">NonNegativeVariable</span></span></code> class prevents negative values from being stored into its lower bound during initialization or later on through assignment statements (e.g, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">lb</span></span> <span class="operator"><span class="pre">=</span></span> <span class="operator"><span class="pre">-</span></span><span class="literal number integer"><span class="pre">1</span></span></code> fails). Note that the <code class="code python docutils literal notranslate"><span class="name variable magic"><span class="pre">__slots__</span></span> <span class="operator"><span class="pre">==</span></span> <span class="punctuation"><span class="pre">()</span></span></code> line at the beginning of the class definition is optional, but it is recommended if no additional data members are necessary as it reduces the memory requirement of the new variable type.</p>
+<p>The next code block defines a custom variable container called <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Point</span></span></code> that represents a 3-dimensional point in Cartesian space. The new type derives from the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">variable_tuple</span></span></code> container and uses the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">NonNegativeVariable</span></span></code> type we defined previously in the <cite>z</cite> coordinate.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable_tuple</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A 3-dimensional point in Cartesian space with the</span>
+<span class="sd">    z coordinate restricted to non-negative values.&quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Point</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="p">(),</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">variable</span><span class="p">(),</span> <span class="n">NonNegativeVariable</span><span class="p">())</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+
+</pre></div>
+</div>
+<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Point</span></span></code> class can be treated like a tuple storing three variables, and it can be placed inside of other variable containers or added as attributes to blocks. The property methods included in the class definition provide an additional syntax for accessing the three variables it stores, as the next code example will show.</p>
+<p>The following code defines a class for building a convex second-order cone constraint from a <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Point</span></span></code> object. It derives from the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">constraint</span></span></code> class, overriding the constructor to build the constraint expression and utilizing the property methods on the point class to increase readability.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SOC</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">constraint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A convex second-order cone constraint&quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">NonNegativeVariable</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SOC</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">point</span><span class="o">.</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="reduced-memory-usage">
+<h3>Reduced Memory Usage<a class="headerlink" href="#reduced-memory-usage" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> library offers significant opportunities to reduce memory requirements for highly structured models. The situation where this is most apparent is when expressing a model in terms of many small blocks consisting of singleton components. As an example, consider expressing a model consisting of a large number of voltage transformers. One option for doing so might be to define a <cite>Transformer</cite> component as a subclass of <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">block</span></span></code>. The example below defines such a component, including some helper methods for connecting input and output voltage variables and updating the transformer ratio.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Transformer</span><span class="p">(</span><span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">block</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Transformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">parameter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v_in</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">expression</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v_out</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">expression</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v_out</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v_in</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">connect_v_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_in</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v_in</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">v_in</span>
+
+    <span class="k">def</span> <span class="nf">connect_v_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_out</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v_out</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">v_out</span>
+
+
+</pre></div>
+</div>
+<p>A simplified version of this using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">environ</span></span></code> components might look like what is below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Transformer</span><span class="p">():</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">Block</span><span class="p">(</span><span class="n">concrete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">_v_in</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">Expression</span><span class="p">()</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">_v_out</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">Expression</span><span class="p">()</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">_a</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">_v_out</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">_v_in</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span>
+
+
+</pre></div>
+</div>
+<p>The transformer expressed using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> components requires roughly 2 KB of memory, whereas the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">environ</span></span></code> version requires roughly 8.4 KB of memory (an increase of more than 4x). Additionally, the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> transformer is fully compatible with all existing <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code> block containers.</p>
+</div>
+<div class="section" id="direct-support-for-conic-constraints-with-mosek">
+<h3>Direct Support For Conic Constraints with Mosek<a class="headerlink" href="#direct-support-for-conic-constraints-with-mosek" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo 5.6.3 introduced support into <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span></code>
+for six conic constraint forms that are directly recognized
+by the new Mosek solver interface. These are</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">quadratic</span></span></code>:</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;\sum_{i}x_i^2 \leq r^2,\;\;r\geq 0\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">rotated_quadratic</span></span></code>:</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;\sum_{i}x_i^2 \leq 2 r_1 r_2,\;\;r_1,r_2\geq 0\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">primal_exponential</span></span></code>:</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;x_1\exp(x_2/x_1) \leq r,\;\;x_1,r\geq 0\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">primal_power</span></span></code> (<span class="math notranslate nohighlight">\(\alpha\)</span> is a constant):</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;||x||_2 \leq r_1^{\alpha} r_2^{1-\alpha},\;\;r_1,r_2\geq 0,\;0 &lt; \alpha &lt; 1\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">dual_exponential</span></span></code>:</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;-x_2\exp((x_1/x_2)-1) \leq r,\;\;x_2\leq0,\;r\geq 0\)</span></p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="code python docutils literal notranslate"><span class="name"><span class="pre">conic</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">dual_power</span></span></code> (<span class="math notranslate nohighlight">\(\alpha\)</span> is a constant):</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(\;\;||x||_2 \leq (r_1/\alpha)^{\alpha} (r_2/(1-\alpha))^{1-\alpha},\;\;r_1,r_2\geq 0,\;0 &lt; \alpha &lt; 1\)</span></p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Other solver interfaces will treat these objects as general
+nonlinear or quadratic constraints, and may or may not have
+the ability to identify their convexity. For instance,
+Gurobi will recognize the expressions produced by the
+<code class="code python docutils literal notranslate"><span class="name"><span class="pre">quadratic</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">rotated_quadratic</span></span></code> objects
+as representing convex domains as long as the variables
+involved satisfy the convexity conditions. However, other
+solvers may not include this functionality.</p>
+<p>Each of these conic constraint classes are of the same
+category type as standard <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pyomo</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">kernel</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">constraint</span></span></code>
+object, and, thus, are directly supported by the standard
+constraint containers (<code class="code python docutils literal notranslate"><span class="name"><span class="pre">constraint_tuple</span></span></code>,
+<code class="code python docutils literal notranslate"><span class="name"><span class="pre">constraint_list</span></span></code>, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">constraint_dict</span></span></code>).</p>
+<p>Each conic constraint class supports two methods of
+instantiation. The first method is to directly instantiate a
+conic constraint object, providing all necessary input
+variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.kernel</span> <span class="k">as</span> <span class="nn">pmo</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">conic</span><span class="o">.</span><span class="n">primal_exponential</span><span class="p">(</span><span class="n">x1</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method may be limiting if utilizing the Mosek solver as
+the user must ensure that additional conic constraints do
+not use variables that are directly involved in any existing
+conic constraints (this is a limitation the Mosek solver
+itself).</p>
+<p>To overcome this limitation, and to provide a more general
+way of defining conic domains, each conic constraint class
+provides the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">as_domain</span></span></code> class method. This
+alternate constructor has the same argument signature as the
+class, but in place of each variable, one can optionally
+provide a constant, a linear expression, or
+<code class="code python docutils literal notranslate"><span class="keyword constant"><span class="pre">None</span></span></code>. The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">as_domain</span></span></code> class method returns
+a <code class="code python docutils literal notranslate"><span class="name"><span class="pre">block</span></span></code> object that includes the core conic
+constraint, auxiliary variables used to express the conic
+constraint, as well as auxiliary constraints that link the
+inputs (that are not <code class="code python docutils literal notranslate"><span class="keyword constant"><span class="pre">None</span></span></code>) to the auxiliary
+variables. Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.kernel</span> <span class="k">as</span> <span class="nn">pmo</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">block</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">conic</span><span class="o">.</span><span class="n">primal_exponential</span><span class="o">.</span><span class="n">as_domain</span><span class="p">(</span>
+    <span class="n">x1</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="modeling-components">
+<span id="kernel-modeling-components"></span><h3>Modeling Components:<a class="headerlink" href="#modeling-components" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="block.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variable.html">Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraint.html">Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objective.html">Objectives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expression.html">Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sos.html">Special Ordered Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="suffix.html">Suffixes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="piecewise/index.html">Piecewise Function Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conic.html">Conic Constraints</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="base-api">
+<h3>Base API:<a class="headerlink" href="#base-api" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="base.html">Base Object Storage Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homogeneous_container.html">Homogeneous Object Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="heterogeneous_container.html">Heterogeneous Object Containers</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="containers">
+<h3>Containers:<a class="headerlink" href="#containers" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tuple_container.html">Tuple-like Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list_container.html">List-like Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dict_container.html">Dict-like Object Storage</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="syntax_comparison.html" class="btn btn-neutral float-right" title="Syntax Comparison Table (pyomo.kernel vs pyomo.environ)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../appsi/appsi.solvers.highs.html" class="btn btn-neutral float-left" title="HiGHS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

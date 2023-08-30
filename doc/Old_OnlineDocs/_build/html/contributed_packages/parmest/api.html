@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>API &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PyNumero" href="../pynumero/index.html" />
+    <link rel="prev" title="Parallel Implementation" href="parallel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#citation-for-parmest">Citation for parmest</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#index-of-parmest-documentation">Index of parmest documentation</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html">Installation Instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="driver.html">Parameter Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datarec.html">Data Reconciliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="covariance.html">Covariance Matrix Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scencreate.html">Scenario Creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphics.html">Graphics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="parallel.html">Parallel Implementation</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Third-Party Contributions</a> &raquo;</li>
+        
+          <li><a href="index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/contributed_packages/parmest/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<span id="apisection"></span><h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyomo.contrib.parmest.parmest">
+<span id="parmest"></span><h2>parmest<a class="headerlink" href="#module-pyomo.contrib.parmest.parmest" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.parmest.parmest.Estimator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.parmest.parmest.</code><code class="descname">Estimator</code><span class="sig-paren">(</span><em><span class="n">model_function</span></em>, <em><span class="n">data</span></em>, <em><span class="n">theta_names</span></em>, <em><span class="n">obj_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">tee</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">diagnostic_mode</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">solver_options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Parameter estimation class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_function</strong> (<em>function</em>) – Function that generates an instance of the Pyomo model using ‘data’
+as the input argument</li>
+<li><strong>data</strong> (<em>pd.DataFrame</em><em>, </em><em>list of dictionaries</em><em>, </em><em>list of dataframes</em><em>, or </em><em>list of json file names</em>) – Data that is used to build an instance of the Pyomo model and build
+the objective function</li>
+<li><strong>theta_names</strong> (<em>list of strings</em>) – List of Var names to estimate</li>
+<li><strong>obj_function</strong> (<em>function</em><em>, </em><em>optional</em>) – Function used to formulate parameter estimation objective, generally
+sum of squared error between measurements and model variables.
+If no function is specified, the model is used
+“as is” and should be defined with a “FirstStageCost” and
+“SecondStageCost” expression that are used to build an objective.</li>
+<li><strong>tee</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Indicates that ef solver output should be teed</li>
+<li><strong>diagnostic_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, print diagnostics from the solver</li>
+<li><strong>solver_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – Provides options to the solver (also the name of an attribute)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.confidence_region_test">
+<code class="descname">confidence_region_test</code><span class="sig-paren">(</span><em><span class="n">theta_values</span></em>, <em><span class="n">distribution</span></em>, <em><span class="n">alphas</span></em>, <em><span class="n">test_theta_values</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.confidence_region_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.confidence_region_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confidence region test to determine if theta values are within a
+rectangular, multivariate normal, or Gaussian kernel density distribution
+for a range of alpha values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>theta_values</strong> (<em>pd.DataFrame</em><em>, </em><em>columns = theta_names</em>) – Theta values used to generate a confidence region
+(generally returned by theta_est_bootstrap)</li>
+<li><strong>distribution</strong> (<em>string</em>) – Statistical distribution used to define a confidence region,
+options = ‘MVN’ for multivariate_normal, ‘KDE’ for gaussian_kde,
+and ‘Rect’ for rectangular.</li>
+<li><strong>alphas</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – List of alpha values used to determine if theta values are inside
+or outside the region.</li>
+<li><strong>test_theta_values</strong> (<em>pd.Series</em><em> or </em><em>pd.DataFrame</em><em>, </em><em>keys/columns = theta_names</em><em>, </em><em>optional</em>) – Additional theta values that are compared to the confidence region
+to determine if they are inside or outside.</li>
+<li><strong>Returns</strong> – </li>
+<li><strong>training_results</strong> (<em>pd.DataFrame</em>) – Theta value used to generate the confidence region along with True
+(inside) or False (outside) for each alpha</li>
+<li><strong>test_results</strong> (<em>pd.DataFrame</em>) – If test_theta_values is not None, returns test theta value along
+with True (inside) or False (outside) for each alpha</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.leaveNout_bootstrap_test">
+<code class="descname">leaveNout_bootstrap_test</code><span class="sig-paren">(</span><em><span class="n">lNo</span></em>, <em><span class="n">lNo_samples</span></em>, <em><span class="n">bootstrap_samples</span></em>, <em><span class="n">distribution</span></em>, <em><span class="n">alphas</span></em>, <em><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.leaveNout_bootstrap_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.leaveNout_bootstrap_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leave-N-out bootstrap test to compare theta values where N data points are
+left out to a bootstrap analysis using the remaining data,
+results indicate if theta is within a confidence region
+determined by the bootstrap analysis</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lNo</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of data points to leave out for parameter estimation</li>
+<li><strong>lNo_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Leave-N-out sample size. If lNo_samples=None, the maximum number
+of combinations will be used</li>
+<li><strong>bootstrap_samples</strong> (<em>int:</em>) – Bootstrap sample size</li>
+<li><strong>distribution</strong> (<em>string</em>) – Statistical distribution used to define a confidence region,
+options = ‘MVN’ for multivariate_normal, ‘KDE’ for gaussian_kde,
+and ‘Rect’ for rectangular.</li>
+<li><strong>alphas</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – List of alpha values used to determine if theta values are inside
+or outside the region.</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><em>None</em></a><em>, </em><em>optional</em>) – Random seed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>List of tuples with one entry per lNo_sample</em></li>
+<li><em>* The first item in each tuple is the list of N samples that are left</em> – out.</li>
+<li><em>* The second item in each tuple is a DataFrame of theta estimated using</em> – the N samples.</li>
+<li><em>* The third item in each tuple is a DataFrame containing results from</em> – the bootstrap analysis using the remaining samples.</li>
+<li><em>For each DataFrame a column is added for each value of alpha which</em></li>
+<li><em>indicates if the theta estimate is in (True) or out (False) of the</em></li>
+<li><em>alpha region for a given distribution (based on the bootstrap results)</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.likelihood_ratio_test">
+<code class="descname">likelihood_ratio_test</code><span class="sig-paren">(</span><em><span class="n">obj_at_theta</span></em>, <em><span class="n">obj_value</span></em>, <em><span class="n">alphas</span></em>, <em><span class="n">return_thresholds</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.likelihood_ratio_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.likelihood_ratio_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Likelihood ratio test to identify theta values within a confidence
+region using the <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj_at_theta</strong> (<em>pd.DataFrame</em><em>, </em><em>columns = theta_names + 'obj'</em>) – Objective values for each theta value (returned by
+objective_at_theta)</li>
+<li><strong>obj_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Objective value from parameter estimation using all data</li>
+<li><strong>alphas</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – List of alpha values to use in the chi2 test</li>
+<li><strong>return_thresholds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Return the threshold value for each alpha</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>LR</strong> (<em>pd.DataFrame</em>) – Objective values for each theta value along with True or False for
+each alpha</li>
+<li><strong>thresholds</strong> (<em>pd.Series</em>) – If return_threshold = True, the thresholds are also returned.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.objective_at_theta">
+<code class="descname">objective_at_theta</code><span class="sig-paren">(</span><em><span class="n">theta_values</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">initialize_parmest_model</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.objective_at_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.objective_at_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective value for each theta</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta_values</strong> (<em>pd.DataFrame</em><em>, </em><em>columns=theta_names</em>) – Values of theta used to compute the objective</li>
+<li><strong>initialize_parmest_model</strong> (<em>boolean</em>) – If True: Solve square problem instance, build extensive form of the model for
+parameter estimation, and set flag model_initialized to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>obj_at_theta</strong> – Objective value for each theta (infeasible solutions are
+omitted).</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pd.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.theta_est">
+<code class="descname">theta_est</code><span class="sig-paren">(</span><em><span class="n">solver</span><span class="o">=</span><span class="default_value">'ef_ipopt'</span></em>, <em><span class="n">return_values</span><span class="o">=</span><span class="default_value">[]</span></em>, <em><span class="n">calc_cov</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">cov_n</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.theta_est"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.theta_est" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter estimation using all scenarios in the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>solver</strong> (<em>string</em><em>, </em><em>optional</em>) – Currently only “ef_ipopt” is supported. Default is “ef_ipopt”.</li>
+<li><strong>return_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>, </em><em>optional</em>) – List of Variable names, used to return values from the model for data reconciliation</li>
+<li><strong>calc_cov</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, calculate and return the covariance matrix (only for “ef_ipopt” solver)</li>
+<li><strong>cov_n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – If calc_cov=True, then the user needs to supply the number of datapoints
+that are used in the objective function</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>objectiveval</strong> (<em>float</em>) – The objective function value</li>
+<li><strong>thetavals</strong> (<em>pd.Series</em>) – Estimated values for theta</li>
+<li><strong>variable values</strong> (<em>pd.DataFrame</em>) – Variable values for each variable name in return_values (only for solver=’ef_ipopt’)</li>
+<li><strong>cov</strong> (<em>pd.DataFrame</em>) – Covariance matrix of the fitted parameters (only for solver=’ef_ipopt’)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.theta_est_bootstrap">
+<code class="descname">theta_est_bootstrap</code><span class="sig-paren">(</span><em><span class="n">bootstrap_samples</span></em>, <em><span class="n">samplesize</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">replacement</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">return_samples</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.theta_est_bootstrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.theta_est_bootstrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter estimation using bootstrap resampling of the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bootstrap_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of bootstrap samples to draw from the data</li>
+<li><strong>samplesize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><em>None</em></a><em>, </em><em>optional</em>) – Size of each bootstrap sample. If samplesize=None, samplesize will be
+set to the number of samples in the data</li>
+<li><strong>replacement</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Sample with or without replacement</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><em>None</em></a><em>, </em><em>optional</em>) – Random seed</li>
+<li><strong>return_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Return a list of sample numbers used in each bootstrap estimation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bootstrap_theta</strong> – Theta values for each sample and (if return_samples = True)
+the sample numbers used in each estimation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pd.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.parmest.Estimator.theta_est_leaveNout">
+<code class="descname">theta_est_leaveNout</code><span class="sig-paren">(</span><em><span class="n">lNo</span></em>, <em><span class="n">lNo_samples</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">return_samples</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#Estimator.theta_est_leaveNout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.Estimator.theta_est_leaveNout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter estimation where N data points are left out of each sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lNo</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of data points to leave out for parameter estimation</li>
+<li><strong>lNo_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of leave-N-out samples. If lNo_samples=None, the maximum
+number of combinations will be used</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><em>None</em></a><em>, </em><em>optional</em>) – Random seed</li>
+<li><strong>return_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Return a list of sample numbers that were left out</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lNo_theta</strong> – Theta values for each sample and (if return_samples = True)
+the sample numbers left out of each estimation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pd.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.parmest.ef_nonants">
+<code class="descclassname">pyomo.contrib.parmest.parmest.</code><code class="descname">ef_nonants</code><span class="sig-paren">(</span><em><span class="n">ef</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#ef_nonants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.ef_nonants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.parmest.group_data">
+<code class="descclassname">pyomo.contrib.parmest.parmest.</code><code class="descname">group_data</code><span class="sig-paren">(</span><em><span class="n">data</span></em>, <em><span class="n">groupby_column_name</span></em>, <em><span class="n">use_mean</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/parmest.html#group_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.parmest.group_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group data by scenario</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>DataFrame</em>) – Data</li>
+<li><strong>groupby_column_name</strong> (<em>strings</em>) – Name of data column which contains scenario numbers</li>
+<li><strong>use_mean</strong> (<em>list of column names</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><em>None</em></a><em>, </em><em>optional</em>) – Name of data columns which should be reduced to a single value per
+scenario by taking the mean</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>grouped_data</strong> – Grouped data</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of dictionaries</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyomo.contrib.parmest.scenariocreator">
+<span id="scenariocreator"></span><h2>scenariocreator<a class="headerlink" href="#module-pyomo.contrib.parmest.scenariocreator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.parmest.scenariocreator.ParmestScen">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.parmest.scenariocreator.</code><code class="descname">ParmestScen</code><span class="sig-paren">(</span><em><span class="n">name</span></em>, <em><span class="n">ThetaVals</span></em>, <em><span class="n">probability</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ParmestScen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ParmestScen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A little container for scenarios; the Args are the attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name for reporting; might be “”</li>
+<li><strong>ThetaVals</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – ThetaVals[name]=val</li>
+<li><strong>probability</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – probability of occurrence “near” these ThetaVals</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioCreator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.parmest.scenariocreator.</code><code class="descname">ScenarioCreator</code><span class="sig-paren">(</span><em><span class="n">pest</span></em>, <em><span class="n">solvername</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioCreator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioCreator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Create scenarios from parmest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pest</strong> (<a class="reference internal" href="#pyomo.contrib.parmest.parmest.Estimator" title="pyomo.contrib.parmest.parmest.Estimator"><em>Estimator</em></a>) – the parmest object</li>
+<li><strong>solvername</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the solver (e.g. “ipopt”)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioCreator.ScenariosFromBootstrap">
+<code class="descname">ScenariosFromBootstrap</code><span class="sig-paren">(</span><em><span class="n">addtoSet</span></em>, <em><span class="n">numtomake</span></em>, <em><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioCreator.ScenariosFromBootstrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioCreator.ScenariosFromBootstrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates new self.Scenarios list using the experiments only.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>addtoSet</strong> (<a class="reference internal" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet" title="pyomo.contrib.parmest.scenariocreator.ScenarioSet"><em>ScenarioSet</em></a>) – the scenarios will be added to this set</li>
+<li><strong>numtomake</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – number of scenarios to create</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioCreator.ScenariosFromExperiments">
+<code class="descname">ScenariosFromExperiments</code><span class="sig-paren">(</span><em><span class="n">addtoSet</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioCreator.ScenariosFromExperiments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioCreator.ScenariosFromExperiments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates new self.Scenarios list using the experiments only.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>addtoSet</strong> (<a class="reference internal" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet" title="pyomo.contrib.parmest.scenariocreator.ScenarioSet"><em>ScenarioSet</em></a>) – the scenarios will be added to this set</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a ScenarioSet</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.parmest.scenariocreator.</code><code class="descname">ScenarioSet</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to hold scenario sets</p>
+<p>Args:
+name (str): name of the set (might be “”)</p>
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet.ScenarioNumber">
+<code class="descname">ScenarioNumber</code><span class="sig-paren">(</span><em><span class="n">scennum</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet.ScenarioNumber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet.ScenarioNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the scenario with the given, zero-based number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet.ScensIterator">
+<code class="descname">ScensIterator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet.ScensIterator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet.ScensIterator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Usage: for scenario in ScensIterator()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet.addone">
+<code class="descname">addone</code><span class="sig-paren">(</span><em><span class="n">scen</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet.addone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet.addone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a scenario to the set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scen</strong> (<a class="reference internal" href="#pyomo.contrib.parmest.scenariocreator.ParmestScen" title="pyomo.contrib.parmest.scenariocreator.ParmestScen"><em>ParmestScen</em></a>) – the scenario to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet.append_bootstrap">
+<code class="descname">append_bootstrap</code><span class="sig-paren">(</span><em><span class="n">bootstrap_theta</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet.append_bootstrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet.append_bootstrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a bootstrap theta df to the scenario set; equally likely</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bootstrap_theta</strong> (<em>dataframe</em>) – created by the bootstrap</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Note: this can be cleaned up a lot with the list becomes a df,</dt><dd>which is why I put it in the ScenarioSet class.</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.parmest.scenariocreator.ScenarioSet.write_csv">
+<code class="descname">write_csv</code><span class="sig-paren">(</span><em><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/scenariocreator.html#ScenarioSet.write_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.scenariocreator.ScenarioSet.write_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>write a csv file with the scenarios in the set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – full path and full name of file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyomo.contrib.parmest.graphics">
+<span id="graphics"></span><h2>graphics<a class="headerlink" href="#module-pyomo.contrib.parmest.graphics" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.fit_kde_dist">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">fit_kde_dist</code><span class="sig-paren">(</span><em><span class="n">theta_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#fit_kde_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.fit_kde_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a Gaussian kernel-density distribution to theta values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>theta_values</strong> (<em>DataFrame</em>) – Theta values, columns = variable names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">scipy.stats.gaussian_kde distribution</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.fit_mvn_dist">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">fit_mvn_dist</code><span class="sig-paren">(</span><em><span class="n">theta_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#fit_mvn_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.fit_mvn_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a multivariate normal distribution to theta values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>theta_values</strong> (<em>DataFrame</em>) – Theta values, columns = variable names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">scipy.stats.multivariate_normal distribution</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.fit_rect_dist">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">fit_rect_dist</code><span class="sig-paren">(</span><em><span class="n">theta_values</span></em>, <em><span class="n">alpha</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#fit_rect_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.fit_rect_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit an alpha-level rectangular distribution to theta values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta_values</strong> (<em>DataFrame</em>) – Theta values, columns = variable names</li>
+<li><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Confidence interval value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple containing lower bound and upper bound for each variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.grouped_boxplot">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">grouped_boxplot</code><span class="sig-paren">(</span><em><span class="n">data1</span></em>, <em><span class="n">data2</span></em>, <em><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">group_names</span><span class="o">=</span><span class="default_value">['data1', 'data2']</span></em>, <em><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#grouped_boxplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.grouped_boxplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a grouped boxplot to compare two datasets</p>
+<p>The datasets can be normalized by the median and standard deviation of data1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data1</strong> (<em>DataFrame</em>) – Data set, columns = variable names</li>
+<li><strong>data2</strong> (<em>DataFrame</em>) – Data set, columns = variable names</li>
+<li><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Normalize both datasets by the median and standard deviation of data1</li>
+<li><strong>group_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>, </em><em>optional</em>) – Names used in the legend</li>
+<li><strong>filename</strong> (<em>string</em><em>, </em><em>optional</em>) – Filename used to save the figure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.grouped_violinplot">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">grouped_violinplot</code><span class="sig-paren">(</span><em><span class="n">data1</span></em>, <em><span class="n">data2</span></em>, <em><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">group_names</span><span class="o">=</span><span class="default_value">['data1', 'data2']</span></em>, <em><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#grouped_violinplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.grouped_violinplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a grouped violinplot to compare two datasets</p>
+<p>The datasets can be normalized by the median and standard deviation of data1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data1</strong> (<em>DataFrame</em>) – Data set, columns = variable names</li>
+<li><strong>data2</strong> (<em>DataFrame</em>) – Data set, columns = variable names</li>
+<li><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Normalize both datasets by the median and standard deviation of data1</li>
+<li><strong>group_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>, </em><em>optional</em>) – Names used in the legend</li>
+<li><strong>filename</strong> (<em>string</em><em>, </em><em>optional</em>) – Filename used to save the figure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.parmest.graphics.pairwise_plot">
+<code class="descclassname">pyomo.contrib.parmest.graphics.</code><code class="descname">pairwise_plot</code><span class="sig-paren">(</span><em><span class="n">theta_values</span></em>, <em><span class="n">theta_star</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">distributions</span><span class="o">=</span><span class="default_value">[]</span></em>, <em><span class="n">axis_limits</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">add_obj_contour</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">add_legend</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/parmest/graphics.html#pairwise_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.parmest.graphics.pairwise_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot pairwise relationship for theta values, and optionally alpha-level
+confidence intervals and objective value contours</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>theta_values</strong> (<em>DataFrame</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – <ul>
+<li>If theta_values is a DataFrame, then it contains one column for each theta variable
+and (optionally) an objective value column (‘obj’) and columns that contains
+Boolean results from confidence interval tests (labeled using the alpha value).
+Each row is a sample.<blockquote>
+<div><ul>
+<li>Theta variables can be computed from <code class="docutils literal notranslate"><span class="pre">theta_est_bootstrap</span></code>,
+<code class="docutils literal notranslate"><span class="pre">theta_est_leaveNout</span></code>, and  <code class="docutils literal notranslate"><span class="pre">leaveNout_bootstrap_test</span></code>.</li>
+<li>The objective value can be computed using the <code class="docutils literal notranslate"><span class="pre">likelihood_ratio_test</span></code>.</li>
+<li>Results from confidence interval tests can be computed using the
+<code class="docutils literal notranslate"><span class="pre">leaveNout_bootstrap_test</span></code>, <code class="docutils literal notranslate"><span class="pre">likelihood_ratio_test</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">confidence_region_test</span></code>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li>If theta_values is a tuple, then it contains a mean, covariance, and number
+of samples (mean, cov, n) where mean is a dictionary or Series
+(indexed by variable name), covariance is a DataFrame (indexed by
+variable name, one column per variable name), and n is an integer.
+The mean and covariance are used to create a multivariate normal
+sample of n theta values. The covariance can be computed using
+<code class="docutils literal notranslate"><span class="pre">theta_est(calc_cov=True)</span></code>.</li>
+</ul>
+</li>
+<li><strong>theta_star</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em> or </em><em>Series</em><em>, </em><em>optional</em>) – Estimated value of theta.  The dictionary or Series is indexed by variable name.
+Theta_star is used to slice higher dimensional contour intervals in 2D</li>
+<li><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – Confidence interval value, if an alpha value is given and the
+distributions list is empty, the data will be filtered by True/False
+values using the column name whose value equals alpha (see results from
+<code class="docutils literal notranslate"><span class="pre">leaveNout_bootstrap_test</span></code>, <code class="docutils literal notranslate"><span class="pre">likelihood_ratio_test</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">confidence_region_test</span></code>)</li>
+<li><strong>distributions</strong> (<em>list of strings</em><em>, </em><em>optional</em>) – Statistical distribution used to define a confidence region,
+options = ‘MVN’ for multivariate_normal, ‘KDE’ for gaussian_kde, and
+‘Rect’ for rectangular.
+Confidence interval is a 2D slice, using linear interpolation at theta_star.</li>
+<li><strong>axis_limits</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – Axis limits in the format {variable: [min, max]}</li>
+<li><strong>title</strong> (<em>string</em><em>, </em><em>optional</em>) – Plot title</li>
+<li><strong>add_obj_contour</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Add a contour plot using the column ‘obj’ in theta_values.
+Contour plot is a 2D slice, using linear interpolation at theta_star.</li>
+<li><strong>add_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – Add a legend to the plot</li>
+<li><strong>filename</strong> (<em>string</em><em>, </em><em>optional</em>) – Filename used to save the figure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../pynumero/index.html" class="btn btn-neutral float-right" title="PyNumero" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="parallel.html" class="btn btn-neutral float-left" title="Parallel Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

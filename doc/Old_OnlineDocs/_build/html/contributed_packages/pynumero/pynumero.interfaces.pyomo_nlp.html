@@ -1,0 +1,1080 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Pyomo NLP Interface &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Projected NLP Interface" href="pynumero.interfaces.projected_nlp.html" />
+    <link rel="prev" title="AMPL NLP Interface" href="pynumero.interfaces.ampl_nlp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">PyNumero</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="installation.html">PyNumero Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html">10 Minutes to PyNumero</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="api.html">PyNumero API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pynumero.sparse.html">PyNumero Block Linear Algebra</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pynumero.interfaces.html">PyNumero NLP Interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynumero.linalg.html">PyNumero Linear Solver Interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#developers">Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#packages-built-on-pynumero">Packages built on PyNumero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#papers-utilizing-pynumero">Papers utilizing PyNumero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Third-Party Contributions</a> &raquo;</li>
+        
+          <li><a href="index.html">PyNumero</a> &raquo;</li>
+        
+          <li><a href="api.html">PyNumero API</a> &raquo;</li>
+        
+          <li><a href="pynumero.interfaces.html">PyNumero NLP Interfaces</a> &raquo;</li>
+        
+      <li>Pyomo NLP Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/contributed_packages/pynumero/pynumero.interfaces.pyomo_nlp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyomo-nlp-interface">
+<h1>Pyomo NLP Interface<a class="headerlink" href="#pyomo-nlp-interface" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.pynumero.interfaces.pyomo_nlp.</code><code class="descname">PyomoNLP</code><span class="sig-paren">(</span><em><span class="n">pyomo_model</span></em>, <em><span class="n">nl_file_options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pynumero.interfaces.asl_nlp.html#pyomo.contrib.pynumero.interfaces.ampl_nlp.AslNLP" title="pyomo.contrib.pynumero.interfaces.ampl_nlp.AslNLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.contrib.pynumero.interfaces.ampl_nlp.AslNLP</span></code></a></p>
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraint_names">
+<code class="descname">constraint_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.constraint_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraint_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo constraint
+names in the order corresponding to internal constraint order</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraints_lb">
+<code class="descname">constraints_lb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraints_lb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of lower bounds for the constraints</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraints_ub">
+<code class="descname">constraints_ub</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.constraints_ub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of upper bounds for the constraints</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.create_new_vector">
+<code class="descname">create_new_vector</code><span class="sig-paren">(</span><em><span class="n">vector_type</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.create_new_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a vector of the appropriate length and structure as
+requested</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vector_type</strong> (<em>{'primals'</em><em>, </em><em>'constraints'</em><em>, </em><em>'eq_constraints'</em><em>, </em><em>'ineq_constraints'</em><em>,</em>) – ‘duals’, ‘duals_eq’, ‘duals_ineq’}
+String identifying the appropriate  vector  to create.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)">numpy.ndarray</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.equality_constraint_names">
+<code class="descname">equality_constraint_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.equality_constraint_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.equality_constraint_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo ConData names in
+the order corresponding to the equality constraints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_constraints">
+<code class="descname">evaluate_constraints</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the values for the constraints evaluated at
+the values given for the primal variales in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Output array. Its type is preserved and it
+must be of the right shape to hold the output.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">vector_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_eq_constraints">
+<code class="descname">evaluate_eq_constraints</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_eq_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the values for the equality constraints evaluated at
+the values given for the primal variales in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Output array. Its type is preserved and it
+must be of the right shape to hold the output.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">vector_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_grad_objective">
+<code class="descname">evaluate_grad_objective</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_grad_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns gradient of the objective function evaluated at the
+values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>vector_like</em><em>, </em><em>optional</em>) – Output vector. Its type is preserved and it
+must be of the right shape to hold the output.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">vector_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_hessian_lag">
+<code class="descname">evaluate_hessian_lag</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_hessian_lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Hessian of the Lagrangian function evaluated
+at the values given for the primal variables in set_primals and
+the dual variables in set_duals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>matrix_like</em><em> (</em><em>e.g.</em><em>, </em><em>coo_matrix</em><em>)</em><em>, </em><em>optional</em>) – Output matrix with the structure of the hessian already defined. Optional</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">matrix_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_ineq_constraints">
+<code class="descname">evaluate_ineq_constraints</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_ineq_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the values of the inequality constraints evaluated at
+the values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Output array. Its type is preserved and it
+must be of the right shape to hold the output.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">vector_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian">
+<code class="descname">evaluate_jacobian</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Jacobian of the constraints evaluated
+at the values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>matrix_like</em><em> (</em><em>e.g.</em><em>, </em><em>coo_matrix</em><em>)</em><em>, </em><em>optional</em>) – Output matrix with the structure of the jacobian already defined.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">matrix_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian_eq">
+<code class="descname">evaluate_jacobian_eq</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Jacobian of the equality constraints evaluated
+at the values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>matrix_like</em><em> (</em><em>e.g.</em><em>, </em><em>coo_matrix</em><em>)</em><em>, </em><em>optional</em>) – Output matrix with the structure of the jacobian already defined.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">matrix_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian_ineq">
+<code class="descname">evaluate_jacobian_ineq</code><span class="sig-paren">(</span><em><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_jacobian_ineq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Jacobian of the inequality constraints evaluated
+at the values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>matrix_like</em><em> (</em><em>e.g.</em><em>, </em><em>coo_matrix</em><em>)</em><em>, </em><em>optional</em>) – Output matrix with the structure of the jacobian already defined.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">matrix_like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_objective">
+<code class="descname">evaluate_objective</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.evaluate_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns value of objective function evaluated at the
+values given for the primal variables in set_primals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_submatrix_hessian_lag">
+<code class="descname">extract_submatrix_hessian_lag</code><span class="sig-paren">(</span><em><span class="n">pyomo_variables_rows</span></em>, <em><span class="n">pyomo_variables_cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.extract_submatrix_hessian_lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_submatrix_hessian_lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the submatrix of the hessian of the lagrangian that
+corresponds to the list of Pyomo variables provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pyomo_variables_rows</strong> (<em>list of Pyomo Var</em><em> or </em><em>VarData objects</em>) – List of Pyomo Var or VarData objects corresponding to the desired rows</li>
+<li><strong>pyomo_variables_cols</strong> (<em>list of Pyomo Var</em><em> or </em><em>VarData objects</em>) – List of Pyomo Var or VarData objects corresponding to the desired columns</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_submatrix_jacobian">
+<code class="descname">extract_submatrix_jacobian</code><span class="sig-paren">(</span><em><span class="n">pyomo_variables</span></em>, <em><span class="n">pyomo_constraints</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.extract_submatrix_jacobian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_submatrix_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the submatrix of the jacobian that corresponds to the list
+of Pyomo variables and list of Pyomo constraints provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pyomo_variables</strong> (<em>list of Pyomo Var</em><em> or </em><em>VarData objects</em>) – </li>
+<li><strong>pyomo_constraints</strong> (<em>list of Pyomo Constraint</em><em> or </em><em>ConstraintData objects</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_subvector_constraints">
+<code class="descname">extract_subvector_constraints</code><span class="sig-paren">(</span><em><span class="n">pyomo_constraints</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.extract_subvector_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_subvector_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the values of the constraints
+corresponding to the list of Pyomo constraints provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pyomo_constraints</strong> (<em>list of Pyomo Constraint</em><em> or </em><em>ConstraintData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_subvector_grad_objective">
+<code class="descname">extract_subvector_grad_objective</code><span class="sig-paren">(</span><em><span class="n">pyomo_variables</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.extract_subvector_grad_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.extract_subvector_grad_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gradient of the objective and return the entries
+corresponding to the given Pyomo variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pyomo_variables</strong> (<em>list of Pyomo Var</em><em> or </em><em>VarData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_constraint_indices">
+<code class="descname">get_constraint_indices</code><span class="sig-paren">(</span><em><span class="n">pyomo_constraints</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_constraint_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_constraint_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of indices for the constraints
+corresponding to the list of Pyomo constraints provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pyomo_constraints</strong> (<em>list of Pyomo Constraint</em><em> or </em><em>ConstraintData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_constraints_scaling">
+<code class="descname">get_constraints_scaling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_constraints_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_constraints_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the desired scaling factors to use for the
+for the constraints. None indicates no scaling.
+This indicates potential scaling for the model, but the
+evaluation methods should return <em>unscaled</em> values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals">
+<code class="descname">get_duals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the values of the dual variables as
+provided in set_duals. These are the values that will
+be used in calls to the evaluation methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals_eq">
+<code class="descname">get_duals_eq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the values of the dual variables of the equality
+constraints as provided in set_duals_eq. These are the values
+that will be used in calls to the evaluation methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals_ineq">
+<code class="descname">get_duals_ineq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_duals_ineq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the values of the dual variables of the inequality
+constraints as provided in set_duals_eq. These are the values
+that will be used in calls to the evaluation methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_eq_constraints_scaling">
+<code class="descname">get_eq_constraints_scaling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_eq_constraints_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the desired scaling factors to use for the
+for the equality constraints. None indicates no scaling.
+This indicates potential scaling for the model, but the
+evaluation methods should return <em>unscaled</em> values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_equality_constraint_indices">
+<code class="descname">get_equality_constraint_indices</code><span class="sig-paren">(</span><em><span class="n">constraints</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_equality_constraint_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_equality_constraint_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of equality indices for the constraints
+corresponding to the list of Pyomo constraints provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>constraints</strong> (<em>list of Pyomo Constraints</em><em> or </em><em>ConstraintData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_ineq_constraints_scaling">
+<code class="descname">get_ineq_constraints_scaling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_ineq_constraints_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the desired scaling factors to use for the
+for the inequality constraints. None indicates no scaling.
+This indicates potential scaling for the model, but the
+evaluation methods should return <em>unscaled</em> values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_inequality_constraint_indices">
+<code class="descname">get_inequality_constraint_indices</code><span class="sig-paren">(</span><em><span class="n">constraints</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_inequality_constraint_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_inequality_constraint_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of inequality indices for the constraints
+corresponding to the list of Pyomo constraints provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>constraints</strong> (<em>list of Pyomo Constraints</em><em> or </em><em>ConstraintData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_obj_factor">
+<code class="descname">get_obj_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_obj_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of the objective function factor as
+set by set_obj_factor. This is the value that will
+be used in calls to the evaluation of the hessian
+of the lagrangian (evaluate_hessian_lag)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_obj_scaling">
+<code class="descname">get_obj_scaling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_obj_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_obj_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the desired scaling factor to use for the
+for the objective function. None indicates no scaling.
+This indicates potential scaling for the model, but the
+evaluation methods should return <em>unscaled</em> values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primal_indices">
+<code class="descname">get_primal_indices</code><span class="sig-paren">(</span><em><span class="n">pyomo_variables</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_primal_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primal_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of indices for the primals
+corresponding to the list of Pyomo variables provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pyomo_variables</strong> (<em>list of Pyomo Var</em><em> or </em><em>VarData objects</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primals">
+<code class="descname">get_primals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the values of the primal variables as
+provided in set_primals. These are the values that will
+be used in calls to the evaluation methods</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primals_scaling">
+<code class="descname">get_primals_scaling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_primals_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_primals_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the desired scaling factors to use for the
+for the primals. None indicates no scaling.
+This indicates potential scaling for the model, but the
+evaluation methods should return <em>unscaled</em> values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_constraints">
+<code class="descname">get_pyomo_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_pyomo_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo ConData objects in
+the order corresponding to the primals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_equality_constraints">
+<code class="descname">get_pyomo_equality_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_pyomo_equality_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_equality_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo ConData objects in
+the order corresponding to the equality constraints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_inequality_constraints">
+<code class="descname">get_pyomo_inequality_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_pyomo_inequality_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_inequality_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo ConData objects in
+the order corresponding to the inequality constraints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_objective">
+<code class="descname">get_pyomo_objective</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_pyomo_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an instance of the active objective function on the Pyomo model.
+(there can be only one)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_variables">
+<code class="descname">get_pyomo_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.get_pyomo_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.get_pyomo_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo VarData objects in
+the order corresponding to the primals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.ineq_lb">
+<code class="descname">ineq_lb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.ineq_lb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of lower bounds for inequality constraints</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.ineq_ub">
+<code class="descname">ineq_ub</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.ineq_ub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of upper bounds for inequality constraints</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.inequality_constraint_names">
+<code class="descname">inequality_constraint_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.inequality_constraint_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.inequality_constraint_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo ConData names in
+the order corresponding to the inequality constraints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals">
+<code class="descname">init_duals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector with initial values for the dual variables
+of the constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals_eq">
+<code class="descname">init_duals_eq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector with initial values for the dual variables of the
+equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals_ineq">
+<code class="descname">init_duals_ineq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_duals_ineq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector with initial values for the dual variables of the
+inequality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_primals">
+<code class="descname">init_primals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.init_primals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector with initial values for the primal variables</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.load_state_into_pyomo">
+<code class="descname">load_state_into_pyomo</code><span class="sig-paren">(</span><em><span class="n">bound_multipliers</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.load_state_into_pyomo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.load_state_into_pyomo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_constraints">
+<code class="descname">n_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_eq_constraints">
+<code class="descname">n_eq_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_eq_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_ineq_constraints">
+<code class="descname">n_ineq_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_ineq_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of inequality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_primals">
+<code class="descname">n_primals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.n_primals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of primal variables</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_hessian_lag">
+<code class="descname">nnz_hessian_lag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_hessian_lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of nonzero values in hessian of the lagrangian function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian">
+<code class="descname">nnz_jacobian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of nonzero values in jacobian of equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian_eq">
+<code class="descname">nnz_jacobian_eq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of nonzero values in jacobian of equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian_ineq">
+<code class="descname">nnz_jacobian_ineq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.nnz_jacobian_ineq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of nonzero values in jacobian of inequality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_lb">
+<code class="descname">primals_lb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_lb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of lower bounds for the primal variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_names">
+<code class="descname">primals_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.primals_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered list of the Pyomo variable
+names in the order corresponding to the primals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_ub">
+<code class="descname">primals_ub</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.primals_ub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector of upper bounds for the primal variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">vector-like</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.pyomo_model">
+<code class="descname">pyomo_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.pyomo_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.pyomo_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return optimization model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.report_solver_status">
+<code class="descname">report_solver_status</code><span class="sig-paren">(</span><em><span class="n">status_code</span></em>, <em><span class="n">status_message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.report_solver_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report the solver status to NLP class using the values for the
+primals and duals defined in the set methods</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals">
+<code class="descname">set_duals</code><span class="sig-paren">(</span><em><span class="n">duals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the dual variables for the constraints
+to be used in calls to the evaluation methods (hessian_lag)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>duals</strong> (<em>vector_like</em>) – Vector with the values of dual variables for the equality constraints</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals_eq">
+<code class="descname">set_duals_eq</code><span class="sig-paren">(</span><em><span class="n">duals_eq</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the dual variables for the equality constraints
+to be used in calls to the evaluation methods (hessian_lag)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>duals_eq</strong> (<em>vector_like</em>) – Vector with the values of dual variables for the equality constraints</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals_ineq">
+<code class="descname">set_duals_ineq</code><span class="sig-paren">(</span><em><span class="n">duals_ineq</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_duals_ineq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the dual variables for the inequality constraints
+to be used in calls to the evaluation methods (hessian_lag)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>duals_ineq</strong> (<em>vector_like</em>) – Vector with the values of dual variables for the inequality constraints</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_obj_factor">
+<code class="descname">set_obj_factor</code><span class="sig-paren">(</span><em><span class="n">obj_factor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_obj_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the objective function factor
+to be used in calls to the evaluation of the hessian
+of the lagrangian (evaluate_hessian_lag)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Value of the objective function factor used
+in the evaluation of the hessian of the lagrangian</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_primals">
+<code class="descname">set_primals</code><span class="sig-paren">(</span><em><span class="n">primals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.set_primals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the primal variables to be used
+in calls to the evaluation methods</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>primals</strong> (<em>vector_like</em>) – Vector with the values of primal variables.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.variable_names">
+<code class="descname">variable_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/pyomo_nlp.html#PyomoNLP.variable_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.pyomo_nlp.PyomoNLP.variable_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.0.0.dev0: </span>This method has been replaced with primals_names  (will be removed in (or after) 6.0)</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="pynumero.interfaces.projected_nlp.html" class="btn btn-neutral float-right" title="Projected NLP Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pynumero.interfaces.ampl_nlp.html" class="btn btn-neutral float-left" title="AMPL NLP Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.tempfiles &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.common.tempfiles</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.common.tempfiles</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  This module was originally developed as part of the PyUtilib project</span>
+<span class="c1">#  Copyright (c) 2008 Sandia Corporation.</span>
+<span class="c1">#  This software is distributed under the BSD License.</span>
+<span class="c1">#  Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,</span>
+<span class="c1">#  the U.S. Government retains certain rights in this software.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">deprecation_warning</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">TempfileContextError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.multithread</span> <span class="kn">import</span> <span class="n">MultiThreadWrapperWithMain</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pyutilib.component.config.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span> <span class="k">as</span> <span class="n">pyutilib_mngr</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">pyutilib_mngr</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">deletion_errors_are_fatal</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TempfileManagerClass"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass">[docs]</a><span class="k">class</span> <span class="nc">TempfileManagerClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing tempfile contexts</span>
+
+<span class="sd">    Pyomo declares a global instance of this class as ``TempfileManager``:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.common.tempfiles import TempfileManager</span>
+
+<span class="sd">    This class provides an interface for managing</span>
+<span class="sd">    :class:`TempfileContext` contexts.  It implements a basic stack,</span>
+<span class="sd">    where users can :meth:`push()` a new context (causing it to become</span>
+<span class="sd">    the current &quot;active&quot; context) and :meth:`pop()` contexts off</span>
+<span class="sd">    (optionally deleting all files associated with the context).  In</span>
+<span class="sd">    general usage, users will either use this class to create new</span>
+<span class="sd">    tempfile contexts and use them explicitly (i.e., through a context</span>
+<span class="sd">    manager):</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; import os</span>
+<span class="sd">       &gt;&gt;&gt; with TempfileManager.new_context() as tempfile:</span>
+<span class="sd">       ...     fd, fname = tempfile.mkstemp()</span>
+<span class="sd">       ...     dname = tempfile.mkdtemp()</span>
+<span class="sd">       ...     os.path.isfile(fname)</span>
+<span class="sd">       ...     os.path.isdir(dname)</span>
+<span class="sd">       True</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; os.path.exists(fname)</span>
+<span class="sd">       False</span>
+<span class="sd">       &gt;&gt;&gt; os.path.exists(dname)</span>
+<span class="sd">       False</span>
+
+<span class="sd">    or through an implicit active context accessed through the manager</span>
+<span class="sd">    class:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; TempfileManager.push()</span>
+<span class="sd">       &lt;pyomo.common.tempfiles.TempfileContext object ...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; fname = TempfileManager.create_tempfile()</span>
+<span class="sd">       &gt;&gt;&gt; dname = TempfileManager.create_tempdir()</span>
+<span class="sd">       &gt;&gt;&gt; os.path.isfile(fname)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; os.path.isdir(dname)</span>
+<span class="sd">       True</span>
+
+<span class="sd">       &gt;&gt;&gt; TempfileManager.pop()</span>
+<span class="sd">       &lt;pyomo.common.tempfiles.TempfileContext object ...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; os.path.exists(fname)</span>
+<span class="sd">       False</span>
+<span class="sd">       &gt;&gt;&gt; os.path.exists(dname)</span>
+<span class="sd">       False</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_manager_stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">tempfiles</span> <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Temporary files created through TempfileManager &quot;</span>
+                <span class="s2">&quot;contexts have not been deleted (observed during &quot;</span>
+                <span class="s2">&quot;TempfileManager instance shutdown).</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Undeleted entries:</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">fname</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">fname</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span>
+                    <span class="k">for</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">tempfiles</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;TempfileManagerClass instance: un-popped tempfile &quot;</span>
+                <span class="s2">&quot;contexts still exist during TempfileManager instance &quot;</span>
+                <span class="s2">&quot;shutdown&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_tempfiles</span><span class="p">(</span><span class="n">remove</span><span class="p">)</span>
+        <span class="c1"># Delete the stack so that subsequent operations generate an</span>
+        <span class="c1"># exception</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TempfileManagerClass.context"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.context">[docs]</a>    <span class="k">def</span> <span class="nf">context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the current active TempfileContext.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TempfileContextError if there is not a current context.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TempfileContextError</span><span class="p">(</span>
+                <span class="s2">&quot;TempfileManager has no currently active context.  &quot;</span>
+                <span class="s2">&quot;Create a context (with push() or __enter__()) before &quot;</span>
+                <span class="s2">&quot;attempting to create temporary objects.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.create_tempfile"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.create_tempfile">[docs]</a>    <span class="k">def</span> <span class="nf">create_tempfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="s2">&quot;Call :meth:`TempfileContext.create_tempfile` on the active context&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">create_tempfile</span><span class="p">(</span>
+            <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.create_tempdir"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.create_tempdir">[docs]</a>    <span class="k">def</span> <span class="nf">create_tempdir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="s2">&quot;Call :meth:`TempfileContext.create_tempdir` on the active context&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">create_tempdir</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.add_tempfile"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.add_tempfile">[docs]</a>    <span class="k">def</span> <span class="nf">add_tempfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="s2">&quot;Call :meth:`TempfileContext.add_tempfile` on the active context&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">add_tempfile</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="n">exists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.clear_tempfiles"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.clear_tempfiles">[docs]</a>    <span class="k">def</span> <span class="nf">clear_tempfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all temporary files and remove all contexts.&quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">remove</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.sequential_files"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.sequential_files">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">&quot;The TempfileManager.sequential_files() method has been &quot;</span>
+        <span class="s2">&quot;removed.  All temporary files are created with guaranteed &quot;</span>
+        <span class="s2">&quot;unique names.  Users wishing sequentially numbered files &quot;</span>
+        <span class="s2">&quot;should create a temporary (empty) directory using mkdtemp &quot;</span>
+        <span class="s2">&quot;/ create_tempdir and place the sequential files within it.&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.2&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">sequential_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctr</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">unique_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="TempfileManagerClass.new_context"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.new_context">[docs]</a>    <span class="k">def</span> <span class="nf">new_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create and return an new tempfile context</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TempfileContext</span>
+<span class="sd">            the newly-created tempfile context</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TempfileContext</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.push"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new tempfile context and set it as the active context.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TempfileContext</span>
+<span class="sd">            the newly-created tempfile context</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_context</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+
+<div class="viewcode-block" id="TempfileManagerClass.pop"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileManagerClass.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove and release the active context</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        remove: bool</span>
+<span class="sd">            If ``True``, delete all managed files / directories</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">remove</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ctx</span></div>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_manager_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ctx</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_manager_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctx</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">():</span>
+                <span class="k">break</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;TempfileManager: tempfile context was pushed onto &quot;</span>
+                <span class="s2">&quot;the TempfileManager stack within a context manager &quot;</span>
+                <span class="s2">&quot;(i.e., `with TempfileManager:`) but was not popped &quot;</span>
+                <span class="s2">&quot;before the context manager exited.  Popping the &quot;</span>
+                <span class="s2">&quot;context to preserve the stack integrity.&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TempfileContext"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext">[docs]</a><span class="k">class</span> <span class="nc">TempfileContext</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A `context` for managing collections of temporary files</span>
+
+<span class="sd">    Instances of this class hold a &quot;temporary file context&quot;.  That is,</span>
+<span class="sd">    this records a collection of temporary file system objects that are</span>
+<span class="sd">    all managed as a group.  The most common use of the context is to</span>
+<span class="sd">    ensure that all files are deleted when the context is released.</span>
+
+<span class="sd">    This class replicates a significant portion of the :mod:`tempfile`</span>
+<span class="sd">    module interface.</span>
+
+<span class="sd">    Instances of this class may be used as context managers (with the</span>
+<span class="sd">    temporary files / directories getting automatically deleted when the</span>
+<span class="sd">    context manager exits).</span>
+
+<span class="sd">    Instances will also attempt to delete any temporary objects from the</span>
+<span class="sd">    filesystem when the context falls out of scope (although this</span>
+<span class="sd">    behavior is not guaranteed for instances existing when the</span>
+<span class="sd">    interpreter is shutting down).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TempfileContext.mkstemp"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.mkstemp">[docs]</a>    <span class="k">def</span> <span class="nf">mkstemp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a unique temporary file using :func:`tempfile.mkstemp`</span>
+
+<span class="sd">        Parameters are handled as in :func:`tempfile.mkstemp`, with</span>
+<span class="sd">        the exception that the new file is created in the directory</span>
+<span class="sd">        returned by :meth:`gettempdir`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fd: int</span>
+<span class="sd">            the opened file descriptor</span>
+
+<span class="sd">        fname: str or bytes</span>
+<span class="sd">            the absolute path to the new temporary file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_tempdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+        <span class="c1"># Note: ans == (fd, fname)</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="TempfileContext.mkdtemp"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.mkdtemp">[docs]</a>    <span class="k">def</span> <span class="nf">mkdtemp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a unique temporary directory using :func:`tempfile.mkdtemp`</span>
+
+<span class="sd">        Parameters are handled as in :func:`tempfile.mkdtemp`, with</span>
+<span class="sd">        the exception that the new file is created in the directory</span>
+<span class="sd">        returned by :meth:`gettempdir`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dname: str or bytes</span>
+<span class="sd">            the absolute path to the new temporary directory</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_tempdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+        <span class="n">dname</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="n">dname</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dname</span></div>
+
+<div class="viewcode-block" id="TempfileContext.gettempdir"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.gettempdir">[docs]</a>    <span class="k">def</span> <span class="nf">gettempdir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the default name of the directory used for temporary files.</span>
+
+<span class="sd">        This method returns the first non-null location returned from:</span>
+
+<span class="sd">         - This context&#39;s ``tempdir`` (i.e., ``self.tempdir``)</span>
+<span class="sd">         - This context&#39;s manager&#39;s ``tempdir`` (i.e.,</span>
+<span class="sd">           ``self.manager().tempdir``)</span>
+<span class="sd">         - :func:`tempfile.gettempdir()`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dir: str</span>
+<span class="sd">            The default directory to use for creating temporary objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_tempdir</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">dir</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">dir</span></div>
+
+<div class="viewcode-block" id="TempfileContext.gettempdirb"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.gettempdirb">[docs]</a>    <span class="k">def</span> <span class="nf">gettempdirb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Same as :meth:`gettempdir()`, but the return value is ``bytes``&quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_tempdir</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdirb</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">dir</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">dir</span></div>
+
+<div class="viewcode-block" id="TempfileContext.gettempprefix"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.gettempprefix">[docs]</a>    <span class="k">def</span> <span class="nf">gettempprefix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the filename prefix used to create temporary files.</span>
+
+<span class="sd">        See :func:`tempfile.gettempprefix()`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempprefix</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TempfileContext.gettempprefixb"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.gettempprefixb">[docs]</a>    <span class="k">def</span> <span class="nf">gettempprefixb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Same as :meth:`gettempprefix()`, but the return value is ``bytes``&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempprefixb</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TempfileContext.create_tempfile"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.create_tempfile">[docs]</a>    <span class="k">def</span> <span class="nf">create_tempfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a unique temporary file.</span>
+
+<span class="sd">        The file name is generated as in :func:`tempfile.mkstemp()`.</span>
+
+<span class="sd">        Any file handles to the new file (e.g., from :meth:`mkstemp`)</span>
+<span class="sd">        are closed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fname: str or bytes</span>
+<span class="sd">            The absolute path of the new file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fd</span><span class="p">,</span> <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fname</span></div>
+
+<div class="viewcode-block" id="TempfileContext.create_tempdir"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.create_tempdir">[docs]</a>    <span class="k">def</span> <span class="nf">create_tempdir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a unique temporary directory.</span>
+
+<span class="sd">        The file name is generated as in :func:`tempfile.mkdtemp()`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dname: str or bytes</span>
+<span class="sd">            The absolute path of the new directory.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TempfileContext.add_tempfile"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.add_tempfile">[docs]</a>    <span class="k">def</span> <span class="nf">add_tempfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Declare the specified file/directory to be temporary.</span>
+
+<span class="sd">        This adds the specified path as a &quot;temporary&quot; object to this</span>
+<span class="sd">        context&#39;s list of managed temporary paths (i.e., it will be</span>
+<span class="sd">        potentially be deleted when the context is released (see</span>
+<span class="sd">        :meth:`release`).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename: str</span>
+<span class="sd">            the file / directory name to be treated as temporary</span>
+<span class="sd">        exists: bool</span>
+<span class="sd">            if ``True``, the file / directory must already exist.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exists</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmp</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Temporary file does not exist: &quot;</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmp</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TempfileContext.release"><a class="viewcode-back" href="../../../library_reference/common/tempfiles.html#pyomo.common.tempfiles.TempfileContext.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Release this context</span>
+
+<span class="sd">        This releases the current context, potentially deleting all</span>
+<span class="sd">        managed temporary objects (files and directories), and resetting</span>
+<span class="sd">        the context to generate unique names.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        remove: bool</span>
+<span class="sd">            If ``True``, delete all managed files / directories</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">remove</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">fd</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_filesystem_object</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tempfiles</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_resolve_tempdir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dir</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="p">()</span><span class="o">.</span><span class="n">tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="p">()</span><span class="o">.</span><span class="n">tempdir</span>
+        <span class="k">elif</span> <span class="n">TempfileManager</span><span class="o">.</span><span class="n">main_thread</span><span class="o">.</span><span class="n">tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">TempfileManager</span><span class="o">.</span><span class="n">main_thread</span><span class="o">.</span><span class="n">tempdir</span>
+        <span class="k">elif</span> <span class="n">pyutilib_mngr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pyutilib_mngr</span><span class="o">.</span><span class="n">tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;The use of the PyUtilib TempfileManager.tempdir &quot;</span>
+                <span class="s2">&quot;to specify the default location for Pyomo &quot;</span>
+                <span class="s2">&quot;temporary files has been deprecated.  &quot;</span>
+                <span class="s2">&quot;Please set TempfileManager.tempdir in &quot;</span>
+                <span class="s2">&quot;pyomo.common.tempfiles&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.7.2&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">pyutilib_mngr</span><span class="o">.</span><span class="n">tempdir</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_remove_filesystem_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">WindowsError</span><span class="p">:</span>
+                <span class="c1"># Sometimes Windows doesn&#39;t release the</span>
+                <span class="c1"># file lock immediately when the process</span>
+                <span class="c1"># terminates.  If we get an error, wait a</span>
+                <span class="c1"># second and try again.</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">WindowsError</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">deletion_errors_are_fatal</span><span class="p">:</span>
+                        <span class="k">raise</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Failure to delete a tempfile</span>
+                        <span class="c1"># should NOT be fatal</span>
+                        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to delete temporary file </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span>
+            <span class="k">return</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="ow">not</span> <span class="n">deletion_errors_are_fatal</span><span class="p">)</span></div>
+
+
+<span class="c1"># The global Pyomo TempfileManager instance</span>
+<span class="n">TempfileManager</span><span class="p">:</span> <span class="n">TempfileManagerClass</span> <span class="o">=</span> <span class="n">MultiThreadWrapperWithMain</span><span class="p">(</span><span class="n">TempfileManagerClass</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

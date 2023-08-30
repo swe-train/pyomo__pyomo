@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Key Concepts &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Modeling in Pyomo.GDP" href="modeling.html" />
+    <link rel="prev" title="Generalized Disjunctive Programming" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Modeling Extensions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bilevel.html">Bilevel Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html">Dynamic Optimization with pyomo.DAE</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Generalized Disjunctive Programming</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Key Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#disjuncts">Disjuncts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disjunctions">Disjunctions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boolean-variables">Boolean Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logical-propositions">Logical Propositions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modeling.html">Modeling in Pyomo.GDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solving.html">Solving Logic-based Models with Pyomo.GDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#literature-references">Literature References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mpec.html">MPEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stochastic_programming.html">Stochastic Programming in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network.html">Pyomo Network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Modeling Extensions</a> &raquo;</li>
+        
+          <li><a href="index.html">Generalized Disjunctive Programming</a> &raquo;</li>
+        
+      <li>Key Concepts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/modeling_extensions/gdp/concepts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="../../_images/Pyomo-GDP-150.png" class="no-scaled-link align-right" src="../../_images/Pyomo-GDP-150.png" style="width: 200.8px; height: 64.2px;" />
+<div class="section" id="key-concepts">
+<h1>Key Concepts<a class="headerlink" href="#key-concepts" title="Permalink to this headline">¶</a></h1>
+<p>Generalized Disjunctive Programming (GDP) provides a way to bridge high-level propositional logic and algebraic constraints.
+The GDP standard form from the <a class="reference internal" href="index.html#gdp-main-page"><span class="std std-ref">index page</span></a> is repeated below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\min\ obj = &amp;\ f(x, z) \\
+\text{s.t.} \quad &amp;\ Ax+Bz \leq d\\
+&amp;\ g(x,z) \leq 0\\
+&amp;\ \bigvee_{i\in D_k} \left[
+    \begin{gathered}
+    Y_{ik} \\
+    M_{ik} x + N_{ik} z \leq e_{ik} \\
+    r_{ik}(x,z)\leq 0\\
+    \end{gathered}
+\right] \quad k \in K\\
+&amp;\ \Omega(Y) = True \\
+&amp;\ x \in X \subseteq \mathbb{R}^n\\
+&amp;\ Y \in \{True, False\}^{p}\\
+&amp;\ z \in Z \subseteq \mathbb{Z}^m\end{split}\]</div>
+<p>Original support in Pyomo.GDP focused on the disjuncts and disjunctions, allowing the modelers to group relational expressions in disjuncts, with disjunctions describing logical-OR relationships between the groupings.
+As a result, we implemented the <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> and <code class="docutils literal notranslate"><span class="pre">Disjunction</span></code> objects before <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> and the rest of the logical expression system.
+Accordingly, we also describe the disjuncts and disjunctions first below.</p>
+<div class="section" id="disjuncts">
+<h2>Disjuncts<a class="headerlink" href="#disjuncts" title="Permalink to this headline">¶</a></h2>
+<p>Disjuncts represent groupings of relational expressions (e.g. algebraic constraints) summarized by a Boolean indicator variable <span class="math notranslate nohighlight">\(Y\)</span> through implication:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left.
+\begin{aligned}
+&amp; Y_{ik} \Rightarrow &amp; M_{ik} x + N_{ik} z &amp;\leq e_{ik}\\
+&amp; Y_{ik} \Rightarrow &amp; r_{ik}(x,z) &amp;\leq 0
+\end{aligned}
+\right.\qquad \forall i \in D_k, \forall k \in K\end{split}\]</div>
+<p>Logically, this means that if <span class="math notranslate nohighlight">\(Y_{ik} = True\)</span>, then the constraints <span class="math notranslate nohighlight">\(M_{ik} x + N_{ik} z \leq e_{ik}\)</span> and <span class="math notranslate nohighlight">\(r_{ik}(x,z) \leq 0\)</span> must be satisfied.
+However, if <span class="math notranslate nohighlight">\(Y_{ik} = False\)</span>, then the corresponding constraints are ignored.
+Note that <span class="math notranslate nohighlight">\(Y_{ik} = False\)</span> does <strong>not</strong> imply that the corresponding constraints are <em>violated</em>.</p>
+</div>
+<div class="section" id="disjunctions">
+<span id="gdp-disjunctions-concept"></span><h2>Disjunctions<a class="headerlink" href="#disjunctions" title="Permalink to this headline">¶</a></h2>
+<p>Disjunctions describe a logical <em>OR</em> relationship between two or more Disjuncts.
+The simplest and most common case is a 2-term disjunction:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[\begin{gathered}
+Y_1 \\
+\exp(x_2) - 1 = x_1 \\
+x_3 = x_4 = 0
+\end{gathered}
+\right] \bigvee \left[\begin{gathered}
+Y_2 \\
+\exp\left(\frac{x_4}{1.2}\right) - 1 = x_3 \\
+x_1 = x_2 = 0
+\end{gathered}
+\right]\end{split}\]</div>
+<p>The disjunction above describes the selection between two units in a process network.
+<span class="math notranslate nohighlight">\(Y_1\)</span> and <span class="math notranslate nohighlight">\(Y_2\)</span> are the Boolean variables corresponding to the selection of process units 1 and 2, respectively.
+The continuous variables <span class="math notranslate nohighlight">\(x_1, x_2, x_3, x_4\)</span> describe flow in and out of the first and second units, respectively.
+If a unit is selected, the nonlinear equality in the corresponding disjunct enforces the input/output relationship in the selected unit.
+The final equality in each disjunct forces flows for the absent unit to zero.</p>
+</div>
+<div class="section" id="boolean-variables">
+<h2>Boolean Variables<a class="headerlink" href="#boolean-variables" title="Permalink to this headline">¶</a></h2>
+<p>Boolean variables are decision variables that may take a value of <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+These are most often encountered as the indicator variables of disjuncts.
+However, they can also be independently defined to represent other problem decisions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Boolean variables are not intended to participate in algebraic expressions.
+That is, <span class="math notranslate nohighlight">\(3 \times \text{True}\)</span> does not make sense; hence, <span class="math notranslate nohighlight">\(x = 3 Y_1\)</span> does not make sense.
+Instead, you may have the disjunction</p>
+<div class="last math notranslate nohighlight">
+\[\begin{split}\left[\begin{gathered}
+Y_1 \\
+x = 3
+\end{gathered}
+\right] \bigvee \left[\begin{gathered}
+\neg Y_1 \\
+x = 0
+\end{gathered}
+\right]\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="logical-propositions">
+<h2>Logical Propositions<a class="headerlink" href="#logical-propositions" title="Permalink to this headline">¶</a></h2>
+<p>Logical propositions are constraints describing relationships between the Boolean variables in the model.</p>
+<p>These logical propositions can include:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Example</th>
+<th class="head"><span class="math notranslate nohighlight">\(Y_1\)</span></th>
+<th class="head"><span class="math notranslate nohighlight">\(Y_2\)</span></th>
+<th class="head">Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Negation</td>
+<td><span class="math notranslate nohighlight">\(\neg Y_1\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td>&#160;</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Equivalence</td>
+<td><span class="math notranslate nohighlight">\(Y_1 \Leftrightarrow Y_2\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Conjunction</td>
+<td><span class="math notranslate nohighlight">\(Y_1 \land Y_2\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Disjunction</td>
+<td><span class="math notranslate nohighlight">\(Y_1 \lor Y_2\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Exclusive OR</td>
+<td><span class="math notranslate nohighlight">\(Y_1 \veebar Y_2\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Implication</td>
+<td><span class="math notranslate nohighlight">\(Y_1 \Rightarrow Y_2\)</span></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">True</span></code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="modeling.html" class="btn btn-neutral float-right" title="Modeling in Pyomo.GDP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Generalized Disjunctive Programming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

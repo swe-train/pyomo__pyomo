@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Expressions &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Suffixes" href="Suffixes.html" />
+    <link rel="prev" title="Constraints" href="Constraints.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Pyomo Modeling Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Sets.html">Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters.html">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objectives.html">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Constraints.html">Constraints</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Expressions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rules-to-generate-expressions">Rules to Generate Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#piecewise-linear-expressions">Piecewise Linear Expressions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#keywords">Keywords:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#expression-objects"><code class="docutils literal notranslate"><span class="pre">Expression</span></code> Objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Suffixes.html">Suffixes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Modeling Components</a> &raquo;</li>
+        
+      <li>Expressions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pyomo_modeling_components/Expressions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="expressions">
+<h1>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we use the word “expression” in two ways: first in the
+general sense of the word and second to describe a class of Pyomo objects
+that have the name <code class="docutils literal notranslate"><span class="pre">Expression</span></code> as described in the subsection on
+expression objects.</p>
+<div class="section" id="rules-to-generate-expressions">
+<h2>Rules to Generate Expressions<a class="headerlink" href="#rules-to-generate-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Both objectives and constraints make use of rules to generate
+expressions. These are Python functions that return the appropriate
+expression. These are first-class functions that can access
+global data as well as data passed in, including the model object.</p>
+<p>Operations on model elements results in expressions, which seems natural
+in expressions like the constraints we have seen so far. It is also
+possible to build up expressions. The following example illustrates
+this, along with a reference to global Python data in the form of a
+Python variable called <code class="docutils literal notranslate"><span class="pre">switch</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">Boolean</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">pi_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">accexpr</span> <span class="o">=</span> <span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">switch</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">accexpr</span> <span class="o">=</span> <span class="n">accexpr</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span>
+    <span class="k">return</span> <span class="n">accexpr</span> <span class="o">&gt;=</span> <span class="mf">0.5</span>
+
+
+<span class="n">PieSlice</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">pi_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the constraint that is generated depends on the value
+of the Python variable called <code class="docutils literal notranslate"><span class="pre">switch</span></code>. If the value is 2 or greater,
+then the constraint is <code class="docutils literal notranslate"><span class="pre">summation(model.c,</span> <span class="pre">model.x)</span> <span class="pre">-</span> <span class="pre">model.d</span> <span class="pre">&gt;=</span> <span class="pre">0.5</span></code>;
+otherwise, the <code class="docutils literal notranslate"><span class="pre">model.d</span></code> term is not present.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Because model elements result in expressions, not values, the
+following does not work as expected in an abstract model!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">Boolean</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">pi_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">accexpr</span> <span class="o">=</span> <span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># NOT in an abstract model!!</span>
+        <span class="n">accexpr</span> <span class="o">=</span> <span class="n">accexpr</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span>
+    <span class="k">return</span> <span class="n">accexpr</span> <span class="o">&gt;=</span> <span class="mf">0.5</span>
+
+
+<span class="n">PieSlice</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">pi_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">The trouble is that <code class="docutils literal notranslate"><span class="pre">model.d</span> <span class="pre">&gt;=</span> <span class="pre">2</span></code> results in an expression, not
+its evaluated value. Instead use <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">value(model.d)</span> <span class="pre">&gt;=</span> <span class="pre">2</span></code></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pyomo supports non-linear expressions and can call non-linear solvers such as Ipopt.</p>
+</div>
+</div>
+<div class="section" id="piecewise-linear-expressions">
+<span id="abstract2piece-py"></span><span id="piecewise"></span><h2>Piecewise Linear Expressions<a class="headerlink" href="#piecewise-linear-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo has facilities to add piecewise constraints of the form y=f(x) for
+a variety of forms of the function f.</p>
+<p>The piecewise types other than SOS2, BIGM_SOS1, BIGM_BIN are implement
+as described in the paper <a class="reference internal" href="../bibliography.html#vielma-et-al" id="id1"><span>[Vielma_et_al]</span></a>.</p>
+<p>There are two basic forms for the declaration of the constraint:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.pwconst = Piecewise(indexes, yvar, xvar, **Keywords)</span>
+<span class="c1"># model.pwconst = Piecewise(yvar,xvar,**Keywords)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">pwconst</span></code> can be replaced by a name appropriate for the
+application. The choice depends on whether the x and y variables are
+indexed. If so, they must have the same index sets and these sets are
+give as the first arguments.</p>
+<div class="section" id="keywords">
+<h3>Keywords:<a class="headerlink" href="#keywords" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>pw_pts={ },[ ],( )</strong></p>
+<p>A dictionary of lists (where keys are the index set) or a single list
+(for the non-indexed case or when an identical set of breakpoints is
+used across all indices) defining the set of domain breakpoints for
+the piecewise linear function.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">pw_pts is always required. These give the breakpoints for the
+piecewise function and are expected to fully span the bounds for
+the independent variable(s).</p>
+</div>
+</li>
+<li><p class="first"><strong>pw_repn=&lt;Option&gt;</strong></p>
+<p>Indicates the type of piecewise representation to use. This can have a
+major impact on solver performance.  Options: (Default “SOS2”)</p>
+<ul class="simple">
+<li>“SOS2” - Standard representation using sos2 constraints.</li>
+<li>“BIGM_BIN” - BigM constraints with binary variables. The
+theoretically tightest M values are automatically determined.</li>
+<li>“BIGM_SOS1” - BigM constraints with sos1 variables. The
+theoretically tightest M values are automatically determined.</li>
+<li>“DCC” - Disaggregated convex combination model.</li>
+<li>“DLOG” - Logarithmic disaggregated convex combination model.</li>
+<li>“CC” - Convex combination model.</li>
+<li>“LOG” - Logarithmic branching convex combination.</li>
+<li>“MC” - Multiple choice model.</li>
+<li>“INC” - Incremental (delta) method.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Step functions are supported for all but the two BIGM
+options. Refer to the ‘force_pw’ option.</p>
+</div>
+</li>
+<li><p class="first"><strong>pw_constr_type= &lt;Option&gt;</strong></p>
+<p>Indicates the bound type of the piecewise function. Options:</p>
+<ul class="simple">
+<li>“UB” - y variable is bounded above by piecewise function.</li>
+<li>“LB” - y variable is bounded below by piecewise function.</li>
+<li>“EQ” - y variable is equal to the piecewise function.</li>
+</ul>
+</li>
+<li><p class="first"><strong>f_rule=f(model,i,j,…,x), { }, [ ], ( )</strong></p>
+<p>An object that returns a numeric value that is the range value
+corresponding to each piecewise domain point. For functions, the first
+argument must be a Pyomo model. The last argument is the domain value
+at which the function evaluates (Not a Pyomo <code class="docutils literal notranslate"><span class="pre">Var</span></code>). Intermediate
+arguments are the corresponding indices of the Piecewise component (if
+any).  Otherwise, the object can be a dictionary of lists/tuples (with
+keys the same as the indexing set) or a singe list/tuple (when no
+indexing set is used or when all indices use an identical piecewise
+function). Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># A function that changes with index</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">5.0</span>
+
+
+<span class="c1"># A nonlinear function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># A step function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>force_pw=True/False</strong></p>
+<p>Using the given function rule and pw_pts, a check for
+convexity/concavity is implemented. If (1) the function is convex and
+the piecewise constraints are lower bounds or if (2) the function is
+concave and the piecewise constraints are upper bounds then the
+piecewise constraints will be substituted for linear
+constraints. Setting ‘force_pw=True’ will force the use of the
+original piecewise constraints even when one of these two cases
+applies.</p>
+</li>
+<li><p class="first"><strong>warning_tol=&lt;float&gt;</strong></p>
+<p>To aid in debugging, a warning is printed when consecutive slopes of
+piecewise segments are within &lt;warning_tol&gt; of each
+other. Default=1e-8</p>
+</li>
+<li><p class="first"><strong>warn_domain_coverage=True/False</strong></p>
+<p>Print a warning when the feasible region of the domain variable is not
+completely covered by the piecewise breakpoints. Default=True</p>
+</li>
+<li><p class="first"><strong>unbounded_domain_var=True/False</strong></p>
+<p>Allow an unbounded or partially bounded Pyomo Var to be used as the
+domain variable. Default=False</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This does not imply unbounded piecewise segments will be
+constructed. The outermost piecewise breakpoints will bound the
+domain variable at each index. However, the Var attributes .lb and
+.ub will not be modified.</p>
+</div>
+</li>
+</ul>
+<p>Here is an example of an assignment to a Python dictionary variable that
+has keywords for a picewise constraint:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pw_constr_type&#39;</span><span class="p">:</span> <span class="s1">&#39;EQ&#39;</span><span class="p">,</span> <span class="s1">&#39;pw_repn&#39;</span><span class="p">:</span> <span class="s1">&#39;SOS2&#39;</span><span class="p">,</span> <span class="s1">&#39;sense&#39;</span><span class="p">:</span> <span class="n">maximize</span><span class="p">,</span> <span class="s1">&#39;force_pw&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Here is a simple example based on the example given earlier in
+<a class="reference internal" href="../pyomo_overview/simple_examples.html#abstract2-py"><span class="std std-ref">Symbolic Index Sets</span></a>. In this new example, the objective function is the
+sum of c times x to the fourth. In this example, the keywords are passed
+directly to the <code class="docutils literal notranslate"><span class="pre">Piecewise</span></code> function without being assigned to a
+dictionary variable. The upper bound on the x variables was chosen
+whimsically just to make the example. The important thing to note is
+that variables that are going to appear as the independent variable in a
+piecewise constraint must have bounds.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># abstract2piece.py</span>
+<span class="c1"># Similar to abstract2.py, but the objective is now c times x to the fourth power</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+
+<span class="n">Topx</span> <span class="o">=</span> <span class="mf">6.1</span>  <span class="c1"># range of x variables</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+
+<span class="c1"># the next line declares a variable indexed by the set J</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Topx</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="c1"># to avoid warnings, we set breakpoints at or beyond the bounds</span>
+<span class="n">PieceCnt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">bpts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">PieceCnt</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">bpts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">((</span><span class="n">i</span> <span class="o">*</span> <span class="n">Topx</span><span class="p">)</span> <span class="o">/</span> <span class="n">PieceCnt</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">f4</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">xp</span><span class="p">):</span>
+    <span class="c1"># we not need j, but it is passed as the index for the constraint</span>
+    <span class="k">return</span> <span class="n">xp</span><span class="o">**</span><span class="mi">4</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">ComputeObj</span> <span class="o">=</span> <span class="n">Piecewise</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pw_pts</span><span class="o">=</span><span class="n">bpts</span><span class="p">,</span> <span class="n">pw_constr_type</span><span class="o">=</span><span class="s1">&#39;EQ&#39;</span><span class="p">,</span> <span class="n">f_rule</span><span class="o">=</span><span class="n">f4</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">obj_expression</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">OBJ</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_expression</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">ax_constraint_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="c1"># return the expression for the constraint for i</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+<span class="c1"># the next line creates one constraint for each member of the set model.I</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AxbConstraint</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">ax_constraint_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A more advanced example is provided in abstract2piecebuild.py in
+<a class="reference internal" href="../working_abstractmodels/BuildAction.html#buildaction"><span class="std std-ref">BuildAction and BuildCheck</span></a>.</p>
+</div>
+</div>
+<div class="section" id="expression-objects">
+<h2><code class="docutils literal notranslate"><span class="pre">Expression</span></code> Objects<a class="headerlink" href="#expression-objects" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo <code class="docutils literal notranslate"><span class="pre">Expression</span></code> objects are very similar to the <code class="docutils literal notranslate"><span class="pre">Param</span></code> component
+(with <code class="docutils literal notranslate"><span class="pre">mutable=True</span></code>) except that the underlying values can be numeric
+constants or Pyomo expressions. Here’s an illustration of expression
+objects in an AbstractModel.  An expression object with an index set
+that is the numbers 1, 2, 3 is created and initialized to be the model
+variable x times the index. Later in the model file, just to illustrate
+how to do it, the expression is changed but just for the first index to
+be x squared.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_e</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">i</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">rule</span><span class="o">=</span><span class="n">_e</span><span class="p">)</span>
+
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1"># -&gt; 1.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]())</span>  <span class="c1"># -&gt; 1.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># -&gt; a pyomo expression object</span>
+
+<span class="c1"># Change the underlying expression</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># ... solve</span>
+<span class="c1"># ... load results</span>
+
+<span class="c1"># print the value of the expression given the loaded optimal solution</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>An alternative is to create Python functions that, potentially,
+manipulate model objects. E.g., if you define a function</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">p</span>
+
+
+</pre></div>
+</div>
+<p>You can call this function with or without Pyomo modeling components as
+the arguments. E.g., f(2,3) will return a number, whereas f(model.x, 3)
+will return a Pyomo expression due to operator overloading.</p>
+<p>If you take this approach you should note that anywhere a Pyomo
+expression is used to generate another expression (e.g., f(model.x, 3) +
+5), the initial expression is always cloned so that the new generated
+expression is independent of the old. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="c1"># create a Pyomo expression</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+
+<span class="c1"># create another Pyomo expression</span>
+<span class="c1"># e1 is copied when generating e2</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">e1</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>If you want to create an expression that is shared between other
+expressions, you can use the <code class="docutils literal notranslate"><span class="pre">Expression</span></code> component.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Suffixes.html" class="btn btn-neutral float-right" title="Suffixes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Constraints.html" class="btn btn-neutral float-left" title="Constraints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

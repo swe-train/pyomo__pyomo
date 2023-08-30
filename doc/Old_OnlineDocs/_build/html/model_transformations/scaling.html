@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Model Scaling Transformation &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modeling Extensions" href="../modeling_extensions/index.html" />
+    <link rel="prev" title="Model Transformations" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Model Transformations</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model Scaling Transformation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-scaling-factors">Setting Scaling Factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applying-model-scaling">Applying Model Scaling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#in-place-scaling">In-Place Scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-new-scaled-model">Creating a New Scaled Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Model Transformations</a> &raquo;</li>
+        
+      <li>Model Scaling Transformation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/model_transformations/scaling.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="model-scaling-transformation">
+<h1>Model Scaling Transformation<a class="headerlink" href="#model-scaling-transformation" title="Permalink to this headline">¶</a></h1>
+<p>Good scaling of models can greatly improve the numerical properties of a problem and thus increase reliability and convergence. The <code class="docutils literal notranslate"><span class="pre">core.scale_model</span></code> transformation allows users to separate scaling of a model from the declaration of the model variables and constraints which allows for models to be written in more natural forms and to be scaled and rescaled as required without having to rewrite the model code.</p>
+<dl class="py class">
+<dt id="pyomo.core.plugins.transform.scaling.ScaleModel">
+<em class="property">class </em><code class="descclassname">pyomo.core.plugins.transform.scaling.</code><code class="descname">ScaleModel</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/plugins/transform/scaling.html#ScaleModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.plugins.transform.scaling.ScaleModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transformation to scale a model.</p>
+<p>This plugin performs variable, constraint, and objective scaling on
+a model based on the scaling factors in the suffix ‘scaling_parameter’
+set for the variables, constraints, and/or objective. This is typically
+done to scale the problem for improved numerical properties.</p>
+<dl class="docutils">
+<dt>Supported transformation methods:</dt><dd><ul class="simple">
+<li><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_to</span></code></li>
+<li><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_using</span></code></li>
+<li><a class="reference internal" href="#pyomo.core.plugins.transform.scaling.ScaleModel.propagate_solution" title="pyomo.core.plugins.transform.scaling.ScaleModel.propagate_solution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">propagate_solution</span></code></a></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mf">1e8</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mf">1e6</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create the scaling factors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scaling_factor</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span> <span class="c1"># scale the objective</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># scale the constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>    <span class="c1"># scale the x variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scaled_model</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;core.scale_model&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">create_using</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># print the value of the objective function to show scaling has occurred</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">scaled_model</span><span class="o">.</span><span class="n">scaled_x</span><span class="p">))</span>
+<span class="go">0.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">scaled_model</span><span class="o">.</span><span class="n">scaled_x</span><span class="o">.</span><span class="n">lb</span><span class="p">))</span>
+<span class="go">-1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="p">))</span>
+<span class="go">101000000.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">scaled_model</span><span class="o">.</span><span class="n">scaled_obj</span><span class="p">))</span>
+<span class="go">101.0</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="id1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement an option to change the variables names or not</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.plugins.transform.scaling.ScaleModel.propagate_solution">
+<code class="descname">propagate_solution</code><span class="sig-paren">(</span><em><span class="n">scaled_model</span></em>, <em><span class="n">original_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/plugins/transform/scaling.html#ScaleModel.propagate_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.plugins.transform.scaling.ScaleModel.propagate_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method takes the solution in scaled_model and maps it back to the original model.</p>
+<p>It will also transform duals and reduced costs if the suffixes ‘dual’ and/or ‘rc’ are present.
+The <code class="code docutils literal notranslate"><span class="pre">scaled_model</span></code> argument must be a model that was already scaled using this transformation
+as it expects data from the transformation to perform the back mapping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>scaled_model</strong> (<em>Pyomo Model</em>) – The model that was previously scaled with this transformation</li>
+<li><strong>original_model</strong> (<em>Pyomo Model</em>) – The original unscaled source model</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="setting-scaling-factors">
+<h2>Setting Scaling Factors<a class="headerlink" href="#setting-scaling-factors" title="Permalink to this headline">¶</a></h2>
+<p>Scaling factors for components in a model are declared using <a class="reference internal" href="../pyomo_modeling_components/Suffixes.html#suffixes"><span class="std std-ref">Suffixes</span></a>, as shown in the example above. In order to define a scaling factor for a component, a <code class="docutils literal notranslate"><span class="pre">Suffix</span></code> named <code class="docutils literal notranslate"><span class="pre">scaling_factor</span></code> must first be created to hold the scaling factor(s). Scaling factor suffixes can be declared at any level of the model hierarchy, but scaling factors declared on the higher-level <code class="docutils literal notranslate"><span class="pre">models</span></code> or <code class="docutils literal notranslate"><span class="pre">Blocks</span></code> take precedence over those declared at lower levels.</p>
+<p>Scaling suffixes are dict-like where each key is a Pyomo component and the value is the scaling factor to be applied to that component.</p>
+<p>In the case of indexed components, scaling factors can either be declared for an individual index or for the indexed component as a whole (with scaling factors for individual indices taking precedence over overall scaling factors).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the case that a scaling factor is declared for a component on at multiple levels of the hierarchy, the highest level scaling factor will be applied.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also possible (but not encouraged) to define a “default” scaling factor to be applied to any component for which a specific scaling factor has not been declared by setting a entry in a Suffix with a key of <code class="docutils literal notranslate"><span class="pre">None</span></code>. In this case, the default value declared closest to the component to be scaled will be used (i.e., the first default value found when walking up the model hierarchy).</p>
+</div>
+</div>
+<div class="section" id="applying-model-scaling">
+<h2>Applying Model Scaling<a class="headerlink" href="#applying-model-scaling" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">core.scale_model</span></code> transformation provides two approaches for creating a scaled model.</p>
+<div class="section" id="in-place-scaling">
+<h3>In-Place Scaling<a class="headerlink" href="#in-place-scaling" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply_to(model)</span></code> method can be used to apply scaling directly to an existing model. When using this method, all the variables, constraints and objectives within the target model are replaced with new scaled components and the appropriate scaling factors applied. The model can then be sent to a solver as usual, however the results will be in terms of the scaled components and must be un-scaled by the user.</p>
+</div>
+<div class="section" id="creating-a-new-scaled-model">
+<h3>Creating a New Scaled Model<a class="headerlink" href="#creating-a-new-scaled-model" title="Permalink to this headline">¶</a></h3>
+<p>Alternatively, the <code class="docutils literal notranslate"><span class="pre">create_using(model)</span></code> method can be used to create a new, scaled version of the model which can be solved. In this case, a clone of the original model is generated with the variables, constraints and objectives replaced by scaled equivalents. Users can then send the scaled model to a solver after which the <code class="docutils literal notranslate"><span class="pre">propagate_solution</span></code> method can be used to map the scaled solution back onto the original model for further analysis.</p>
+<p>The advantage of this approach is that the original model is maintained separately from the scaled model, which facilitates rescaling and other manipulation of the original model after a solution has been found. The disadvantage of this approach is that cloning the model may result in memory issues when dealing with larger models.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../modeling_extensions/index.html" class="btn btn-neutral float-right" title="Modeling Extensions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Model Transformations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

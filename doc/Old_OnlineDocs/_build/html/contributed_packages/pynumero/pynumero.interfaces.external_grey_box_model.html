@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>External Grey Box Model &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pyomo Grey Box NLP Interface" href="pynumero.interfaces.pyomo_grey_box_nlp.html" />
+    <link rel="prev" title="Projected NLP Interface" href="pynumero.interfaces.projected_nlp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">PyNumero</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="installation.html">PyNumero Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html">10 Minutes to PyNumero</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="api.html">PyNumero API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pynumero.sparse.html">PyNumero Block Linear Algebra</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pynumero.interfaces.html">PyNumero NLP Interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynumero.linalg.html">PyNumero Linear Solver Interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#developers">Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#packages-built-on-pynumero">Packages built on PyNumero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#papers-utilizing-pynumero">Papers utilizing PyNumero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#indices-and-tables">Indices and Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Third-Party Contributions</a> &raquo;</li>
+        
+          <li><a href="index.html">PyNumero</a> &raquo;</li>
+        
+          <li><a href="api.html">PyNumero API</a> &raquo;</li>
+        
+          <li><a href="pynumero.interfaces.html">PyNumero NLP Interfaces</a> &raquo;</li>
+        
+      <li>External Grey Box Model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="external-grey-box-model">
+<h1>External Grey Box Model<a class="headerlink" href="#external-grey-box-model" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.pynumero.interfaces.external_grey_box.</code><code class="descname">ExternalGreyBoxModel</code><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This is the base class for building external input output models
+for use with Pyomo and CyIpopt. See the module documentation above,
+and documentation of individual methods.</p>
+<p>There are examples in:
+pyomo/contrib/pynumero/examples/external_grey_box/react-example/</p>
+<p>Most methods are documented in the class itself. However, there are
+methods that are not implemented in the base class that may need
+to be implemented to provide support for certain features.</p>
+<p>Hessian support:</p>
+<p>If you would like to support Hessian computations for your
+external model, you will need to implement the following methods to
+support setting the multipliers that are used when computing the
+Hessian of the Lagrangian.
+- set_equality_constraint_multipliers: see documentation in method
+- set_output_constraint_multipliers: see documentation in method
+You will also need to implement the following methods to evaluate
+the required Hessian information:</p>
+<dl class="docutils">
+<dt>def evaluate_hessian_equality_constraints(self):</dt><dd>Compute the product of the equality constraint multipliers
+with the hessian of the equality constraints.
+E.g., y_eq^k is the vector of equality constraint multipliers
+from set_equality_constraint_multipliers, w_eq(u)=0 are the
+equality constraints, and u^k are the vector of inputs from
+set_inputs. This method must return
+H_eq^k = sum_i (y_eq^k)_i * grad^2_{uu} w_eq(u^k)</dd>
+<dt>def evaluate_hessian_outputs(self):</dt><dd>Compute the product of the output constraint multipliers with the
+hessian of the outputs. E.g., y_o^k is the vector of output
+constraint multipliers from set_output_constraint_multipliers,
+u^k are the vector of inputs from set_inputs, and w_o(u) is the
+function that computes the vector of outputs at the values for
+the input variables. This method must return
+H_o^k = sum_i (y_o^k)_i * grad^2_{uu} w_o(u^k)</dd>
+</dl>
+<p>Examples that show Hessian support are also found in:
+pyomo/contrib/pynumero/examples/external_grey_box/react-example/</p>
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.equality_constraint_names">
+<code class="descname">equality_constraint_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.equality_constraint_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.equality_constraint_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide the list of string names corresponding to any residuals
+for this external model. These should be in the order corresponding
+to values returned from evaluate_residuals. Return an empty list
+if there are no equality constraints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_equality_constraints">
+<code class="descname">evaluate_equality_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.evaluate_equality_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_equality_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the residuals from the model (using the values
+set in input_values) and return as a numpy array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_equality_constraints">
+<code class="descname">evaluate_jacobian_equality_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.evaluate_jacobian_equality_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_equality_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the derivatives of the residuals with respect
+to the inputs (using the values set in input_values).
+This should be a scipy matrix with the rows in
+the order of the residual names and the cols in
+the order of the input variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_outputs">
+<code class="descname">evaluate_jacobian_outputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.evaluate_jacobian_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the derivatives of the outputs with respect
+to the inputs (using the values set in input_values).
+This should be a scipy matrix with the rows in
+the order of the output variables and the cols in
+the order of the input variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_outputs">
+<code class="descname">evaluate_outputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.evaluate_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the outputs from the model (using the values
+set in input_values) and return as a numpy array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.finalize_block_construction">
+<code class="descname">finalize_block_construction</code><span class="sig-paren">(</span><em><span class="n">pyomo_block</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.finalize_block_construction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.finalize_block_construction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement this callback to provide any additional
+specifications to the Pyomo block that is created
+to represent this external grey box model.</p>
+<p>Note that pyomo_block.inputs and pyomo_block.outputs
+have been created, and this callback provides an
+opportunity to set initial values, bounds, etc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_equality_constraint_scaling_factors">
+<code class="descname">get_equality_constraint_scaling_factors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.get_equality_constraint_scaling_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_equality_constraint_scaling_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called by the solver interface to get desired
+values for scaling the equality constraints. None means no
+scaling is desired. Note that, depending on the solver,
+one may need to set solver options so these factors are used</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_output_constraint_scaling_factors">
+<code class="descname">get_output_constraint_scaling_factors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.get_output_constraint_scaling_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_output_constraint_scaling_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called by the solver interface to get desired
+values for scaling the constraints with output variables. Returning
+None means that no scaling of the output constraints is desired.
+Note that, depending on the solver, one may need to set solver options
+so these factors are used</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.input_names">
+<code class="descname">input_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.input_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.input_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide the list of string names to corresponding to the inputs
+of this external model. These should be returned in the same order
+that they are to be used in set_input_values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_equality_constraints">
+<code class="descname">n_equality_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.n_equality_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_equality_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the number of equality constraints.
+You do not need to overload this method in derived classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_inputs">
+<code class="descname">n_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.n_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the number of inputs. You do not
+need to overload this method in derived classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_outputs">
+<code class="descname">n_outputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.n_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the number of outputs. You do not
+need to overload this method in derived classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.output_names">
+<code class="descname">output_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.output_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.output_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide the list of string names corresponding to the outputs
+of this external model. These should be in the order corresponding
+to values returned from evaluate_outputs. Return an empty list if there
+are no computed outputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_equality_constraint_multipliers">
+<code class="descname">set_equality_constraint_multipliers</code><span class="sig-paren">(</span><em><span class="n">eq_con_multiplier_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.set_equality_constraint_multipliers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_equality_constraint_multipliers" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called by the solver to set the current values
+for the multipliers of the equality constraints. The derived
+class must cache these if necessary for any subsequent calls
+to evaluate_hessian_equality_constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_input_values">
+<code class="descname">set_input_values</code><span class="sig-paren">(</span><em><span class="n">input_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.set_input_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_input_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called by the solver to set the current values
+for the input variables. The derived class must cache these if
+necessary for any subsequent calls to evaluate_outputs or
+evaluate_derivatives.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_output_constraint_multipliers">
+<code class="descname">set_output_constraint_multipliers</code><span class="sig-paren">(</span><em><span class="n">output_con_multiplier_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/pynumero/interfaces/external_grey_box.html#ExternalGreyBoxModel.set_output_constraint_multipliers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_output_constraint_multipliers" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called by the solver to set the current values
+for the multipliers of the output constraints. The derived
+class must cache these if necessary for any subsequent calls
+to evaluate_hessian_outputs</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="pynumero.interfaces.pyomo_grey_box_nlp.html" class="btn btn-neutral float-right" title="Pyomo Grey Box NLP Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pynumero.interfaces.projected_nlp.html" class="btn btn-neutral float-left" title="Projected NLP Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.kernel.heterogeneous_container &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.kernel.heterogeneous_container</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.kernel.heterogeneous_container</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_no_ctype</span><span class="p">,</span>
+    <span class="n">_convert_ctype</span><span class="p">,</span>
+    <span class="n">_convert_descend_into</span><span class="p">,</span>
+    <span class="n">ICategorizedObjectContainer</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="heterogeneous_containers"><a class="viewcode-back" href="../../../../library_reference/kernel/heterogeneous_container.html#pyomo.core.kernel.heterogeneous_container.heterogeneous_containers">[docs]</a><span class="k">def</span> <span class="nf">heterogeneous_containers</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">_no_ctype</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A generator that yields all heterogeneous containers</span>
+<span class="sd">    included in an object storage tree, including the root</span>
+<span class="sd">    object. Heterogeneous containers are categorized objects</span>
+<span class="sd">    with a category type different from their children.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node: The root object.</span>
+<span class="sd">        ctype: Indicates the category of objects to</span>
+<span class="sd">            include. The default value indicates that</span>
+<span class="sd">            all categories should be included.</span>
+<span class="sd">        active (:const:`True`/:const:`None`): Controls</span>
+<span class="sd">            whether or not to filter the iteration to</span>
+<span class="sd">            include only the active part of the storage</span>
+<span class="sd">            tree. The default is :const:`True`. Setting this</span>
+<span class="sd">            keyword to :const:`None` causes the active</span>
+<span class="sd">            status of objects to be ignored.</span>
+<span class="sd">        descend_into (bool, function): Indicates whether or</span>
+<span class="sd">            not to descend into a heterogeneous</span>
+<span class="sd">            container. Default is True, which is equivalent</span>
+<span class="sd">            to `lambda x: True`, meaning all heterogeneous</span>
+<span class="sd">            containers will be descended into.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        iterator of heterogeneous containers in the storage</span>
+<span class="sd">        tree, include the root object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">active</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># if not active, then nothing below is active</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">ctype</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">_is_container</span>
+        <span class="c1"># a homogeneous container that stores</span>
+        <span class="c1"># heterogeneous objects</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">components</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">obj</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span>
+            <span class="k">yield from</span> <span class="n">heterogeneous_containers</span><span class="p">(</span>
+                <span class="n">obj</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span>
+            <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># convert AML types into Kernel types (hack for the</span>
+    <span class="c1"># solver interfaces)</span>
+    <span class="n">ctype</span> <span class="o">=</span> <span class="n">_convert_ctype</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">ctype</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">_no_ctype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ctype</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span>
+
+    <span class="c1"># convert descend_into to a function if</span>
+    <span class="c1"># it is not already one</span>
+    <span class="n">descend_into</span> <span class="o">=</span> <span class="n">_convert_descend_into</span><span class="p">(</span><span class="n">descend_into</span><span class="p">)</span>
+
+    <span class="c1"># a heterogeneous container</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">_no_ctype</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">ctype</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">node</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">descend_into</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">child_ctype</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">child_ctypes</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">child_ctype</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">(</span><span class="n">ctype</span><span class="o">=</span><span class="n">child_ctype</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="k">yield from</span> <span class="n">heterogeneous_containers</span><span class="p">(</span>
+                <span class="n">child</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IHeterogeneousContainer"><a class="viewcode-back" href="../../../../library_reference/kernel/heterogeneous_container.html#pyomo.core.kernel.heterogeneous_container.IHeterogeneousContainer">[docs]</a><span class="k">class</span> <span class="nc">IHeterogeneousContainer</span><span class="p">(</span><span class="n">ICategorizedObjectContainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A partial implementation of the ICategorizedObjectContainer</span>
+<span class="sd">    interface for implementations that store multiple</span>
+<span class="sd">    categories of objects.</span>
+
+<span class="sd">    Complete implementations need to set the _ctype</span>
+<span class="sd">    attribute and declare the remaining required abstract</span>
+<span class="sd">    properties of the ICategorizedObjectContainer base</span>
+<span class="sd">    class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">_is_heterogeneous_container</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Interface</span>
+    <span class="c1">#</span>
+
+<div class="viewcode-block" id="IHeterogeneousContainer.collect_ctypes"><a class="viewcode-back" href="../../../../library_reference/kernel/heterogeneous_container.html#pyomo.core.kernel.heterogeneous_container.IHeterogeneousContainer.collect_ctypes">[docs]</a>    <span class="k">def</span> <span class="nf">collect_ctypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the set of object category types that can</span>
+<span class="sd">        be found under this container.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            active (:const:`True`/:const:`None`): Controls</span>
+<span class="sd">                whether or not to filter the iteration to</span>
+<span class="sd">                include only the active part of the storage</span>
+<span class="sd">                tree. The default is :const:`True`. Setting</span>
+<span class="sd">                this keyword to :const:`None` causes the</span>
+<span class="sd">                active status of objects to be ignored.</span>
+<span class="sd">            descend_into (bool, function): Indicates whether</span>
+<span class="sd">                or not to descend into a heterogeneous</span>
+<span class="sd">                container. Default is True, which is</span>
+<span class="sd">                equivalent to `lambda x: True`, meaning all</span>
+<span class="sd">                heterogeneous containers will be descended</span>
+<span class="sd">                into.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A set of object category types</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">active</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">ctypes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="c1"># if not active, then nothing below is active</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ctypes</span>
+
+        <span class="c1"># convert descend_into to a function if</span>
+        <span class="c1"># it is not already one</span>
+        <span class="n">descend_into</span> <span class="o">=</span> <span class="n">_convert_descend_into</span><span class="p">(</span><span class="n">descend_into</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">child_ctype</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">child_ctypes</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">(</span>
+                <span class="n">ctype</span><span class="o">=</span><span class="n">child_ctype</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span>
+                <span class="n">descend_into</span><span class="o">=</span><span class="n">_convert_descend_into</span><span class="o">.</span><span class="n">_false</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">ctypes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child_ctype</span><span class="p">)</span>
+                <span class="c1"># just need 1 to appear in order to</span>
+                <span class="c1"># count the child_ctype</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">descend_into</span> <span class="ow">is</span> <span class="n">_convert_descend_into</span><span class="o">.</span><span class="n">_false</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ctypes</span>
+
+        <span class="c1"># iterate over a copy of the set as we will</span>
+        <span class="c1"># modify it in this loop</span>
+        <span class="k">for</span> <span class="n">child_ctype</span> <span class="ow">in</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ctypes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">child_ctype</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">(</span>
+                    <span class="n">ctype</span><span class="o">=</span><span class="n">child_ctype</span><span class="p">,</span>
+                    <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span>
+                    <span class="n">descend_into</span><span class="o">=</span><span class="n">_convert_descend_into</span><span class="o">.</span><span class="n">_false</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="k">assert</span> <span class="n">obj</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span>
+                    <span class="k">if</span> <span class="n">descend_into</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+                        <span class="n">ctypes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                            <span class="n">obj</span><span class="o">.</span><span class="n">collect_ctypes</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span><span class="p">)</span>
+                        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ctypes</span></div>
+
+<div class="viewcode-block" id="IHeterogeneousContainer.child_ctypes"><a class="viewcode-back" href="../../../../library_reference/kernel/heterogeneous_container.html#pyomo.core.kernel.heterogeneous_container.IHeterogeneousContainer.child_ctypes">[docs]</a>    <span class="k">def</span> <span class="nf">child_ctypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the set of child object category types</span>
+<span class="sd">        stored in this container.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma:nocover</span></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># Define the ICategorizedObjectContainer abstract methods</span>
+    <span class="c1">#</span>
+
+    <span class="c1"># def child(self, *args, **kwds):</span>
+    <span class="c1"># ... not defined here</span>
+
+    <span class="c1"># def children(self, *args, **kwds):</span>
+    <span class="c1"># ... not defined here</span>
+
+<div class="viewcode-block" id="IHeterogeneousContainer.components"><a class="viewcode-back" href="../../../../library_reference/kernel/heterogeneous_container.html#pyomo.core.kernel.heterogeneous_container.IHeterogeneousContainer.components">[docs]</a>    <span class="k">def</span> <span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">_no_ctype</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates an efficient traversal of all components</span>
+<span class="sd">        stored under this container. Components are</span>
+<span class="sd">        categorized objects that are either (1) not</span>
+<span class="sd">        containers, or (2) are heterogeneous containers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ctype: Indicates the category of components to</span>
+<span class="sd">                include. The default value indicates that</span>
+<span class="sd">                all categories should be included.</span>
+<span class="sd">            active (:const:`True`/:const:`None`): Controls</span>
+<span class="sd">                whether or not to filter the iteration to</span>
+<span class="sd">                include only the active part of the storage</span>
+<span class="sd">                tree. The default is :const:`True`. Setting</span>
+<span class="sd">                this keyword to :const:`None` causes the</span>
+<span class="sd">                active status of objects to be ignored.</span>
+<span class="sd">            descend_into (bool, function): Indicates whether</span>
+<span class="sd">                or not to descend into a heterogeneous</span>
+<span class="sd">                container. Default is True, which is</span>
+<span class="sd">                equivalent to `lambda x: True`, meaning all</span>
+<span class="sd">                heterogeneous containers will be descended</span>
+<span class="sd">                into.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            iterator of components in the storage tree</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">active</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># if not active, then nothing below is active</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="c1"># convert AML types into Kernel types (hack for the</span>
+        <span class="c1"># solver interfaces)</span>
+        <span class="n">ctype</span> <span class="o">=</span> <span class="n">_convert_ctype</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">ctype</span><span class="p">)</span>
+
+        <span class="c1"># convert descend_into to a function if</span>
+        <span class="c1"># it is not already one</span>
+        <span class="n">descend_into</span> <span class="o">=</span> <span class="n">_convert_descend_into</span><span class="p">(</span><span class="n">descend_into</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="n">_no_ctype</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">child</span>
+                <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">child</span>
+                    <span class="k">if</span> <span class="n">descend_into</span><span class="p">(</span><span class="n">child</span><span class="p">):</span>
+                        <span class="k">yield from</span> <span class="n">child</span><span class="o">.</span><span class="n">components</span><span class="p">(</span>
+                            <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span>
+                        <span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">descend_into</span> <span class="ow">is</span> <span class="n">_convert_descend_into</span><span class="o">.</span><span class="n">_false</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">ctype</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span>
+                <span class="p">):</span>
+                    <span class="k">assert</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span>
+                    <span class="k">yield from</span> <span class="n">child</span><span class="o">.</span><span class="n">components</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span>
+                    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">components</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">):</span>
+                        <span class="k">assert</span> <span class="n">obj</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span>
+                        <span class="k">yield</span> <span class="n">obj</span>
+                        <span class="k">if</span> <span class="n">descend_into</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+                            <span class="k">yield from</span> <span class="n">obj</span><span class="o">.</span><span class="n">components</span><span class="p">(</span>
+                                <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span>
+                            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">heterogeneous_containers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="n">descend_into</span>
+            <span class="p">):</span>
+                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">children</span><span class="p">(</span><span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span><span class="p">)</span> <span class="ow">or</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_heterogeneous_container</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">active</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">child</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+                            <span class="k">yield</span> <span class="n">child</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="n">child</span><span class="o">.</span><span class="n">_is_container</span>
+                        <span class="k">yield from</span> <span class="n">child</span><span class="o">.</span><span class="n">components</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

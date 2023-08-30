@@ -1,0 +1,1269 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Pyomo.DoE &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="GDPopt logic-based solver" href="../gdpopt.html" />
+    <link rel="prev" title="Community Detection for Pyomo models" href="../community.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pyomo.DoE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#methodology-overview">Methodology Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyomo-doe-required-inputs">Pyomo.DoE Required Inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyomo-doe-solver-interface">Pyomo.DoE Solver Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyomo-doe-usage-example">Pyomo.DoE Usage Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-0-import-pyomo-and-the-pyomo-doe-module">Step 0: Import Pyomo and the Pyomo.DoE module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-define-the-pyomo-process-model">Step 1: Define the Pyomo process model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-define-the-inputs-for-pyomo-doe">Step 2: Define the inputs for Pyomo.DoE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-compute-the-fim-of-a-square-mbdoe-problem">Step 3: Compute the FIM of a square MBDoE problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-exploratory-analysis-enumeration">Step 4: Exploratory analysis (Enumeration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-5-gradient-based-optimization">Step 5: Gradient-based optimization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Third-Party Contributions</a> &raquo;</li>
+        
+      <li>Pyomo.DoE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/contributed_packages/doe/doe.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyomo-doe">
+<h1>Pyomo.DoE<a class="headerlink" href="#pyomo-doe" title="Permalink to this headline">¶</a></h1>
+<p><strong>Pyomo.DoE</strong> (Pyomo Design of Experiments) is a Python library for model-based design of experiments using science-based models.</p>
+<p>Pyomo.DoE was developed by <strong>Jialu Wang</strong> and <strong>Alexander W. Dowling</strong> at the University of Notre Dame as part of the <a class="reference external" href="https://www.acceleratecarboncapture.org/">Carbon Capture Simulation for Industry Impact (CCSI2)</a>.
+project, funded through the U.S. Department Of Energy Office of Fossil Energy.</p>
+<p>If you use Pyomo.DoE, please cite:</p>
+<p>[Wang and Dowling, 2022] Wang, Jialu, and Alexander W. Dowling.
+“Pyomo.DOE: An open‐source package for model‐based design of experiments in Python.”
+AIChE Journal 68.12 (2022): e17813. <cite>https://doi.org/10.1002/aic.17813</cite></p>
+<div class="section" id="methodology-overview">
+<h2>Methodology Overview<a class="headerlink" href="#methodology-overview" title="Permalink to this headline">¶</a></h2>
+<p>Model-based Design of Experiments (MBDoE) is a technique to maximize the information gain of experiments by directly using science-based models with physically meaningful parameters. It is one key component in the model calibration and uncertainty quantification workflow shown below:</p>
+<div class="figure align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/flowchart.png"><img alt="../../_images/flowchart.png" src="../../_images/flowchart.png" style="width: 687.0px; height: 159.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">The exploratory analysis, parameter estimation, uncertainty analysis, and MBDoE are combined into an iterative framework to select, refine, and calibrate science-based mathematical models with quantified uncertainty. Currently, Pyomo.DoE focuses on increasing parameter precision.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Pyomo.DoE provides the exploratory analysis and MBDoE capabilities to the Pyomo ecosystem. The user provides one Pyomo model, a set of parameter nominal values,
+the allowable design spaces for design variables, and the assumed observation error model.
+During exploratory analysis, Pyomo.DoE checks if the model parameters can be inferred from the postulated measurements or preliminary data.
+MBDoE then recommends optimized experimental conditions for collecting more data.
+Parameter estimation packages such as <a class="reference external" href="https://pyomo.readthedocs.io/en/stable/contributed_packages/parmest/index.html">Parmest</a> can perform parameter estimation using the available data to infer values for parameters,
+and facilitate an uncertainty analysis to approximate the parameter covariance matrix.
+If the parameter uncertainties are sufficiently small, the workflow terminates and returns the final model with quantified parametric uncertainty.
+If not, MBDoE recommends optimized experimental conditions to generate new data.</p>
+<p>Below is an overview of the type of optimization models Pyomo.DoE can accommodate:</p>
+<ul class="simple">
+<li>Pyomo.DoE is suitable for optimization models of <strong>continuous</strong> variables</li>
+<li>Pyomo.DoE can handle <strong>equality constraints</strong> defining state variables</li>
+<li>Pyomo.DoE supports (Partial) Differential-Algebraic Equations (PDAE) models via Pyomo.DAE</li>
+<li>Pyomo.DoE also supports models with only algebraic constraints</li>
+</ul>
+<p>The general form of a DAE problem that can be passed into Pyomo.DoE is shown below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    &amp; \dot{\mathbf{x}}(t) = \mathbf{f}(\mathbf{x}(t), \mathbf{z}(t), \mathbf{y}(t), \mathbf{u}(t), \overline{\mathbf{w}}, \boldsymbol{\theta}) \\
+    &amp; \mathbf{g}(\mathbf{x}(t),  \mathbf{z}(t), \mathbf{y}(t), \mathbf{u}(t), \overline{\mathbf{w}},\boldsymbol{\theta})=\mathbf{0} \\
+    &amp; \mathbf{y} =\mathbf{h}(\mathbf{x}(t), \mathbf{z}(t), \mathbf{u}(t), \overline{\mathbf{w}},\boldsymbol{\theta}) \\
+    &amp; \mathbf{f}^{\mathbf{0}}\left(\dot{\mathbf{x}}\left(t_{0}\right), \mathbf{x}\left(t_{0}\right), \mathbf{z}(t_0), \mathbf{y}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta})\right)=\mathbf{0} \\
+    &amp; \mathbf{g}^{\mathbf{0}}\left( \mathbf{x}\left(t_{0}\right),\mathbf{z}(t_0), \mathbf{y}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta}\right)=\mathbf{0}\\
+    &amp;\mathbf{y}^{\mathbf{0}}\left(t_{0}\right)=\mathbf{h}\left(\mathbf{x}\left(t_{0}\right),\mathbf{z}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta}\right)
+\end{align*}\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(\boldsymbol{\theta} \in \mathbb{R}^{N_p}\)</span> are unknown model parameters.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{x} \subseteq \mathcal{X}\)</span> are dynamic state variables which characterize trajectory of the system, <span class="math notranslate nohighlight">\(\mathcal{X} \in \mathbb{R}^{N_x \times N_t}\)</span>.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{z} \subseteq \mathcal{Z}\)</span> are algebraic state variables, <span class="math notranslate nohighlight">\(\mathcal{Z} \in \mathbb{R}^{N_z \times N_t}\)</span>.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{u} \subseteq \mathcal{U}\)</span> are time-varying decision variables,  <span class="math notranslate nohighlight">\(\mathcal{U} \in \mathbb{R}^{N_u \times N_t}\)</span>.</li>
+<li><span class="math notranslate nohighlight">\(\overline{\mathbf{w}} \in \mathbb{R}^{N_w}\)</span> are time-invariant decision variables.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{y} \subseteq \mathcal{Y}\)</span> are measurement response variables,   <span class="math notranslate nohighlight">\(\mathcal{Y} \in \mathbb{R}^{N_r \times N_t}\)</span>.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{f}(\cdot)\)</span> are differential equations.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{g}(\cdot)\)</span> are algebraic equations.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{h}(\cdot)\)</span> are measurement functions.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{t} \in \mathbb{R}^{N_t \times 1}\)</span> is a union of all time sets.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Parameters and design variables should be defined as Pyomo <code class="docutils literal notranslate"><span class="pre">Var</span></code> components on the model to use <code class="docutils literal notranslate"><span class="pre">direct_kaug</span></code> mode, and can be defined as Pyomo <code class="docutils literal notranslate"><span class="pre">Param</span></code> object if not using <code class="docutils literal notranslate"><span class="pre">direct_kaug</span></code>.</li>
+</ul>
+</div>
+<p>Based on the above notation, the form of the MBDoE problem addressed in Pyomo.DoE is shown below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\begin{aligned}
+    \underset{\boldsymbol{\varphi}}{\max} \quad &amp; \Psi (\mathbf{M}(\mathbf{\hat{y}}, \boldsymbol{\varphi})) \\
+    \text{s.t.} \quad &amp; \mathbf{M}(\boldsymbol{\hat{\theta}}, \boldsymbol{\varphi}) = \sum_r^{N_r} \sum_{r'}^{N_r} \tilde{\sigma}_{(r,r')}\mathbf{Q}_r^\mathbf{T} \mathbf{Q}_{r'} + \mathbf{V}^{-1}_{\boldsymbol{\theta}}(\boldsymbol{\hat{\theta}}) \\
+    &amp; \dot{\mathbf{x}}(t) = \mathbf{f}(\mathbf{x}(t), \mathbf{z}(t), \mathbf{y}(t), \mathbf{u}(t), \overline{\mathbf{w}}, \boldsymbol{\theta}) \\
+    &amp; \mathbf{g}(\mathbf{x}(t),  \mathbf{z}(t), \mathbf{y}(t), \mathbf{u}(t), \overline{\mathbf{w}},\boldsymbol{\theta})=\mathbf{0} \\
+    &amp; \mathbf{y} =\mathbf{h}(\mathbf{x}(t), \mathbf{z}(t), \mathbf{u}(t), \overline{\mathbf{w}},\boldsymbol{\theta}) \\
+    &amp; \mathbf{f}^{\mathbf{0}}\left(\dot{\mathbf{x}}\left(t_{0}\right), \mathbf{x}\left(t_{0}\right), \mathbf{z}(t_0), \mathbf{y}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta})\right)=\mathbf{0} \\
+    &amp; \mathbf{g}^{\mathbf{0}}\left( \mathbf{x}\left(t_{0}\right),\mathbf{z}(t_0), \mathbf{y}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta}\right)=\mathbf{0}\\
+    &amp;\mathbf{y}^{\mathbf{0}}\left(t_{0}\right)=\mathbf{h}\left(\mathbf{x}\left(t_{0}\right),\mathbf{z}(t_0), \mathbf{u}\left(t_{0}\right), \overline{\mathbf{w}}, \boldsymbol{\theta}\right)
+\end{aligned}
+\end{equation}\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(\boldsymbol{\varphi}\)</span> are design variables, which are manipulated to maximize the information content of experiments. It should consist of one or more of  <span class="math notranslate nohighlight">\(\mathbf{u}(t), \mathbf{y}^{\mathbf{0}}({t_0}),\overline{\mathbf{w}}\)</span>. With a proper model formulation, the timepoints for control or measurements <span class="math notranslate nohighlight">\(\mathbf{t}\)</span> can also be degrees of freedom.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{M}\)</span> is the Fisher information matrix (FIM), estimated as the inverse of the covariance matrix of parameter estimates  <span class="math notranslate nohighlight">\(\boldsymbol{\hat{\theta}}\)</span>. A large FIM indicates more information contained in the experiment for parameter estimation.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{Q}\)</span> is the dynamic sensitivity matrix, containing the partial derivatives of  <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> with respect to  <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.</li>
+<li><span class="math notranslate nohighlight">\(\Psi\)</span> is the design criteria to measure FIM.</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{V}_{\boldsymbol{\theta}}(\boldsymbol{\hat{\theta}})^{-1}\)</span> is the FIM of previous experiments.</li>
+</ul>
+<p>Pyomo.DoE provides four design criteria  <span class="math notranslate nohighlight">\(\Psi\)</span> to measure the size of FIM:</p>
+<table border="1" class="tight-table docutils colwidths-auto align-default" id="id2">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Pyomo.DoE design criteria</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Design criterion</th>
+<th class="head">Computation</th>
+<th class="head">Geometrical meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>A-optimality</td>
+<td><span class="math notranslate nohighlight">\(\text{trace}({\mathbf{M}})\)</span></td>
+<td>Dimensions of the enclosing box of the confidence ellipse</td>
+</tr>
+<tr class="row-odd"><td>D-optimality</td>
+<td><span class="math notranslate nohighlight">\(\text{det}({\mathbf{M}})\)</span></td>
+<td>Volume of the confidence ellipse</td>
+</tr>
+<tr class="row-even"><td>E-optimality</td>
+<td><span class="math notranslate nohighlight">\(\text{min eig}({\mathbf{M}})\)</span></td>
+<td>Size of the longest axis of the confidence ellipse</td>
+</tr>
+<tr class="row-odd"><td>Modified E-optimality</td>
+<td><span class="math notranslate nohighlight">\(\text{cond}({\mathbf{M}})\)</span></td>
+<td>Ratio of the longest axis to the shortest axis of the confidence ellipse</td>
+</tr>
+</tbody>
+</table>
+<p>In order to solve problems of the above, Pyomo.DoE implements the 2-stage stochastic program. Please see Wang and Dowling (2022) for details.</p>
+</div>
+<div class="section" id="pyomo-doe-required-inputs">
+<h2>Pyomo.DoE Required Inputs<a class="headerlink" href="#pyomo-doe-required-inputs" title="Permalink to this headline">¶</a></h2>
+<p>The required inputs to the Pyomo.DoE solver are the following:</p>
+<ul class="simple">
+<li>A function that creates the process model</li>
+<li>Dictionary of parameters and their nominal value</li>
+<li>A measurement object</li>
+<li>A design variables object</li>
+<li>A Numpy <code class="docutils literal notranslate"><span class="pre">array</span></code> containing the Prior FIM</li>
+<li>Optimization solver</li>
+</ul>
+<p>Below is a list of arguments that Pyomo.DoE expects the user to provide.</p>
+<dl class="docutils">
+<dt>parameter_dict<span class="classifier"><code class="docutils literal notranslate"><span class="pre">dictionary</span></code></span></dt><dd>A <code class="docutils literal notranslate"><span class="pre">dictionary</span></code> of parameter names and values. If they are an indexed variable, put the variable name and index in a nested <code class="docutils literal notranslate"><span class="pre">Dictionary</span></code>.</dd>
+<dt>design_variables: <code class="docutils literal notranslate"><span class="pre">DesignVariables</span></code></dt><dd>A <code class="docutils literal notranslate"><span class="pre">DesignVariables</span></code> of design variables, provided by the DesignVariables class.
+If this design var is independent of time (constant), set the time to [0]</dd>
+<dt>measurement_variables<span class="classifier"><code class="docutils literal notranslate"><span class="pre">MeasurementVariables</span></code></span></dt><dd>A <code class="docutils literal notranslate"><span class="pre">MeasurementVariables</span></code> of the measurements, provided by the MeasurementVariables class.</dd>
+<dt>create_model<span class="classifier"><code class="docutils literal notranslate"><span class="pre">function</span></code></span></dt><dd>A <code class="docutils literal notranslate"><span class="pre">function</span></code> returning a deterministic process model.</dd>
+<dt>prior_FIM<span class="classifier"><code class="docutils literal notranslate"><span class="pre">array</span></code></span></dt><dd>An <code class="docutils literal notranslate"><span class="pre">array</span></code> defining the Fisher information matrix (FIM) for prior experiments, default is a zero matrix.</dd>
+</dl>
+</div>
+<div class="section" id="pyomo-doe-solver-interface">
+<h2>Pyomo.DoE Solver Interface<a class="headerlink" href="#pyomo-doe-solver-interface" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/uml.png"><img alt="../../_images/uml.png" src="../../_images/uml.png" style="width: 673.0px; height: 290.5px;" /></a>
+</div>
+<dl class="py class">
+<dt id="pyomo.contrib.doe.doe.DesignOfExperiments">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.doe.</code><code class="descname">DesignOfExperiments</code><span class="sig-paren">(</span><em><span class="n">param_init</span></em>, <em><span class="n">design_vars</span></em>, <em><span class="n">measurement_vars</span></em>, <em><span class="n">create_model</span></em>, <em><span class="n">solver</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">prior_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">discretize_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">args</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/doe.html#DesignOfExperiments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.doe.DesignOfExperiments" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.contrib.doe.doe.DesignOfExperiments.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em><span class="n">param_init</span></em>, <em><span class="n">design_vars</span></em>, <em><span class="n">measurement_vars</span></em>, <em><span class="n">create_model</span></em>, <em><span class="n">solver</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">prior_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">discretize_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">args</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/doe.html#DesignOfExperiments.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.doe.DesignOfExperiments.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This package enables model-based design of experiments analysis with Pyomo.
+Both direct optimization and enumeration modes are supported.
+NLP sensitivity tools, e.g.,  sipopt and k_aug, are supported to accelerate analysis via enumeration.
+It can be applied to dynamic models, where design variables are controlled throughout the experiment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>param_init</strong> – A  <code class="docutils literal notranslate"><span class="pre">dictionary</span></code> of parameter names and values.
+If they defined as indexed Pyomo variable, put the variable name and index, such as ‘theta[“A1”]’.</li>
+<li><strong>design_vars</strong> – A <code class="docutils literal notranslate"><span class="pre">DesignVariables</span></code> which contains the Pyomo variable names and their corresponding indices
+and bounds for experiment degrees of freedom</li>
+<li><strong>measurement_vars</strong> – A <code class="docutils literal notranslate"><span class="pre">MeasurementVariables</span></code> which contains the Pyomo variable names and their corresponding indices and
+bounds for experimental measurements</li>
+<li><strong>create_model</strong> – A Python <code class="docutils literal notranslate"><span class="pre">function</span></code> that returns a Concrete Pyomo model, similar to the interface for <code class="docutils literal notranslate"><span class="pre">parmest</span></code></li>
+<li><strong>solver</strong> – A <code class="docutils literal notranslate"><span class="pre">solver</span></code> object that User specified, default=None.
+If not specified, default solver is IPOPT MA57.</li>
+<li><strong>prior_FIM</strong> – A 2D numpy array containing Fisher information matrix (FIM) for prior experiments.
+The default None means there is no prior information.</li>
+<li><strong>discretize_model</strong> – A user-specified <code class="docutils literal notranslate"><span class="pre">function</span></code> that discretizes the model. Only use with Pyomo.DAE, default=None</li>
+<li><strong>args</strong> – Additional arguments for the create_model function.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.doe.DesignOfExperiments.compute_FIM">
+<code class="descname">compute_FIM</code><span class="sig-paren">(</span><em><span class="n">mode</span><span class="o">=</span><span class="default_value">'direct_kaug'</span></em>, <em><span class="n">FIM_store_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">specified_prior</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">tee_opt</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">scale_constant_value</span><span class="o">=</span><span class="default_value">1</span></em>, <em><span class="n">store_output</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">read_output</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">extract_single_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">formula</span><span class="o">=</span><span class="default_value">'central'</span></em>, <em><span class="n">step</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/doe.html#DesignOfExperiments.compute_FIM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.doe.DesignOfExperiments.compute_FIM" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the Fisher information matrix (FIM) using sensitivity information obtained
+from two possible modes (defined by the CalculationMode Enum):</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>sequential_finite: sequentially solve square problems and use finite difference approximation</li>
+<li>direct_kaug: solve a single square problem then extract derivatives using NLP sensitivity theory</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mode</strong> – supports CalculationMode.sequential_finite or CalculationMode.direct_kaug</li>
+<li><strong>FIM_store_name</strong> – if storing the FIM in a .csv or .txt, give the file name here as a string.</li>
+<li><strong>specified_prior</strong> – a 2D numpy array providing alternate prior matrix, default is no prior.</li>
+<li><strong>tee_opt</strong> – if True, IPOPT console output is printed</li>
+<li><strong>scale_nominal_param_value</strong> – if True, the parameters are scaled by its own nominal value in param_init</li>
+<li><strong>scale_constant_value</strong> – scale all elements in Jacobian matrix, default is 1.</li>
+<li><strong>store_output</strong> – if storing the output (value stored in Var ‘output_record’) as a pickle file, give the file name here as a string.</li>
+<li><strong>read_output</strong> – if reading the output (value for Var ‘output_record’) as a pickle file, give the file name here as a string.</li>
+<li><strong>extract_single_model</strong> – if True, the solved model outputs for each scenario are all recorded as a .csv file.
+The output file uses the name AB.csv, where string A is store_output input, B is the index of scenario.
+scenario index is the number of the scenario outputs which is stored.</li>
+<li><strong>formula</strong> – choose from the Enum FiniteDifferenceStep.central, .forward, or .backward.
+This option is only used for CalculationMode.sequential_finite mode.</li>
+<li><strong>step</strong> – Sensitivity perturbation step size, a fraction between [0,1]. default is 0.001</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>FIM_analysis</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">result summary object of this solve</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.doe.DesignOfExperiments.run_grid_search">
+<code class="descname">run_grid_search</code><span class="sig-paren">(</span><em><span class="n">design_ranges</span></em>, <em><span class="n">mode</span><span class="o">=</span><span class="default_value">'sequential_finite'</span></em>, <em><span class="n">tee_option</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">scale_constant_value</span><span class="o">=</span><span class="default_value">1</span></em>, <em><span class="n">store_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">read_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">store_optimality_as_csv</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">formula</span><span class="o">=</span><span class="default_value">'central'</span></em>, <em><span class="n">step</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/doe.html#DesignOfExperiments.run_grid_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.doe.DesignOfExperiments.run_grid_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enumerate through full grid search for any number of design variables;
+solve square problems sequentially to compute FIMs.
+It calculates FIM with sensitivity information from two modes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>sequential_finite: Calculates a one scenario model multiple times for multiple scenarios.
+Sensitivity info estimated by finite difference</li>
+<li>direct_kaug: calculate sensitivity by k_aug with direct sensitivity</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>design_ranges</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code>, keys are design variable names,
+values are a list of design variable values to go over</li>
+<li><strong>mode</strong> – choose from CalculationMode.sequential_finite, .direct_kaug.</li>
+<li><strong>tee_option</strong> – if solver console output is made</li>
+<li><strong>scale_nominal_param_value</strong> – if True, the parameters are scaled by its own nominal value in param_init</li>
+<li><strong>scale_constant_value</strong> – scale all elements in Jacobian matrix, default is 1.</li>
+<li><strong>store_name</strong> – a string of file name. If not None, store results with this name.
+It is a pickle file containing all measurement information after solving the
+model with perturbations.
+Since there are multiple experiments, results are numbered with a scalar number,
+and the result for one grid is ‘store_name(count).csv’ (count is the number of count).</li>
+<li><strong>read_name</strong> – a string of file name. If not None, read result files.
+It should be a pickle file previously generated by store_name option.
+Since there are multiple experiments, this string should be the common part of all files;
+Real name of the file is “read_name(count)”, where count is the number of the experiment.</li>
+<li><strong>store_optimality_as_csv</strong> – if True, the design criterion values of grid search results stored with this file name as a csv</li>
+<li><strong>formula</strong> – choose from FiniteDifferenceStep.central, .forward, or .backward.
+This option is only used for CalculationMode.sequential_finite.</li>
+<li><strong>step</strong> – Sensitivity perturbation step size, a fraction between [0,1]. default is 0.001</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>figure_draw_object</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a combined result object of class Grid_search_result</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.doe.DesignOfExperiments.stochastic_program">
+<code class="descname">stochastic_program</code><span class="sig-paren">(</span><em><span class="n">if_optimize</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">objective_option</span><span class="o">=</span><span class="default_value">'det'</span></em>, <em><span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">scale_constant_value</span><span class="o">=</span><span class="default_value">1</span></em>, <em><span class="n">optimize_opt</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">if_Cholesky</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">L_LB</span><span class="o">=</span><span class="default_value">1e-07</span></em>, <em><span class="n">L_initial</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">jac_initial</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">fim_initial</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">formula</span><span class="o">=</span><span class="default_value">'central'</span></em>, <em><span class="n">step</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em><span class="n">tee_opt</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/doe.html#DesignOfExperiments.stochastic_program"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.doe.DesignOfExperiments.stochastic_program" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimize DOE problem with design variables being the decisions.
+The DOE model is formed invasively and all scenarios are computed simultaneously.
+The function will first run a square problem with design variable being fixed at
+the given initial points (Objective function being 0), then a square problem with
+design variables being fixed at the given initial points (Objective function being Design optimality),
+and then unfix the design variable and do the optimization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>if_optimize</strong> – if true, continue to do optimization. else, just run square problem with given design variable values</li>
+<li><strong>objective_option</strong> – choose from the ObjectiveLib enum,
+“det”: maximizing the determinant with ObjectiveLib.det,
+“trace”: or the trace of the FIM with ObjectiveLib.trace</li>
+<li><strong>scale_nominal_param_value</strong> – if True, the parameters are scaled by its own nominal value in param_init</li>
+<li><strong>scale_constant_value</strong> – scale all elements in Jacobian matrix, default is 1.</li>
+<li><strong>optimize_opt</strong> – A dictionary, keys are design variables, values are True or False deciding if this design variable will be optimized as DOF or not</li>
+<li><strong>if_Cholesky</strong> – if True, Cholesky decomposition is used for Objective function for D-optimality.</li>
+<li><strong>L_LB</strong> – L is the Cholesky decomposition matrix for FIM, i.e. FIM = L*L.T.
+L_LB is the lower bound for every element in L.
+if FIM is positive definite, the diagonal element should be positive, so we can set a LB like 1E-10</li>
+<li><strong>L_initial</strong> – initialize the L</li>
+<li><strong>jac_initial</strong> – a matrix used to initialize jacobian matrix</li>
+<li><strong>fim_initial</strong> – a matrix used to initialize FIM matrix</li>
+<li><strong>formula</strong> – choose from “central”, “forward”, “backward”,
+which refers to the Enum FiniteDifferenceStep.central, .forward, or .backward</li>
+<li><strong>step</strong> – Sensitivity perturbation step size, a fraction between [0,1]. default is 0.001</li>
+<li><strong>tee_opt</strong> – if True, IPOPT console output is printed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>analysis_square</strong> (<em>result summary of the square problem solved at the initial point</em>)</li>
+<li><strong>analysis_optimize</strong> (<em>result summary of the optimization problem solved</em>)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">stochastic_program()</span></code> includes the following steps:</dt><dd><ol class="arabic simple">
+<li>Build two-stage stochastic programming optimization model where scenarios correspond to finite difference approximations for the Jacobian of the response variables with respect to calibrated model parameters</li>
+<li>Fix the experiment design decisions and solve a square (i.e., zero degrees of freedom) instance of the two-stage DOE problem. This step is for initialization.</li>
+<li>Unfix the experiment design decisions and solve the two-stage DOE problem.</li>
+</ol>
+</dd>
+</dl>
+</div>
+<dl class="py class">
+<dt id="pyomo.contrib.doe.measurements.MeasurementVariables">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.measurements.</code><code class="descname">MeasurementVariables</code><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#MeasurementVariables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.MeasurementVariables" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.contrib.doe.measurements.MeasurementVariables.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#MeasurementVariables.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.MeasurementVariables.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class stores information on which algebraic and differential variables in the Pyomo model are considered measurements.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.measurements.MeasurementVariables.add_variables">
+<code class="descname">add_variables</code><span class="sig-paren">(</span><em><span class="n">var_name</span></em>, <em><span class="n">indices</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">time_index_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">variance</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#MeasurementVariables.add_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.MeasurementVariables.add_variables" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var_name</strong> (a <code class="docutils literal notranslate"><span class="pre">list</span></code> of var names) – </li>
+<li><strong>indices</strong> (a <code class="docutils literal notranslate"><span class="pre">dict</span></code> containing indices) – if default (None), no extra indices needed for all var in var_name
+for e.g., {0:[“CA”, “CB”, “CC”], 1: [1,2,3]}.</li>
+<li><strong>time_index_position</strong> (<em>an integer indicates which index is the time index</em>) – for e.g., 1 is the time index position in the indices example.</li>
+<li><strong>variance</strong> (<em>a scalar number</em><em>, </em><em>which is the variance for this measurement.</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.doe.measurements.DesignVariables">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.measurements.</code><code class="descname">DesignVariables</code><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#DesignVariables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.DesignVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define design variables</p>
+<dl class="py method">
+<dt id="pyomo.contrib.doe.measurements.DesignVariables.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#DesignVariables.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.DesignVariables.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class provides utility methods for DesignVariables and MeasurementVariables to create
+lists of Pyomo variable names with an arbitrary number of indices.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.measurements.DesignVariables.add_variables">
+<code class="descname">add_variables</code><span class="sig-paren">(</span><em><span class="n">var_name</span></em>, <em><span class="n">indices</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">time_index_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">lower_bounds</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">upper_bounds</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/measurements.html#DesignVariables.add_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.measurements.DesignVariables.add_variables" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var_name</strong> (a <code class="docutils literal notranslate"><span class="pre">list</span></code> of var names) – </li>
+<li><strong>indices</strong> (a <code class="docutils literal notranslate"><span class="pre">dict</span></code> containing indices) – if default (None), no extra indices needed for all var in var_name
+for e.g., {0:[“CA”, “CB”, “CC”], 1: [1,2,3]}.</li>
+<li><strong>time_index_position</strong> (<em>an integer indicates which index is the time index</em>) – for e.g., 1 is the time index position in the indices example.</li>
+<li><strong>values</strong> (a <code class="docutils literal notranslate"><span class="pre">list</span></code> containing values which has the same shape of flattened variables) – default choice is None, means there is no give nvalues</li>
+<li><strong>lower_bounds</strong> (a <code class="docutils literal notranslate"><span class="pre">list</span></code> of lower bounds. If given a scalar number, it is set as the lower bounds for all variables.) – </li>
+<li><strong>upper_bounds</strong> (a <code class="docutils literal notranslate"><span class="pre">list</span></code> of upper bounds. If given a scalar number, it is set as the upper bounds for all variables.) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.doe.scenario.ScenarioGenerator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.scenario.</code><code class="descname">ScenarioGenerator</code><span class="sig-paren">(</span><em><span class="n">parameter_dict</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">formula</span><span class="o">=</span><span class="default_value">'central'</span></em>, <em><span class="n">step</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em><span class="n">store</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/scenario.html#ScenarioGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.scenario.ScenarioGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.contrib.doe.scenario.ScenarioGenerator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em><span class="n">parameter_dict</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">formula</span><span class="o">=</span><span class="default_value">'central'</span></em>, <em><span class="n">step</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em><span class="n">store</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/scenario.html#ScenarioGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.scenario.ScenarioGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate scenarios.
+DoE library first calls this function to generate scenarios.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameter_dict</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code> of parameter, keys are names of ‘’string’’, values are their nominal value of ‘’float’’.
+for e.g., {‘A1’: 84.79, ‘A2’: 371.72, ‘E1’: 7.78, ‘E2’: 15.05}</li>
+<li><strong>formula</strong> – choose from ‘central’, ‘forward’, ‘backward’, None.</li>
+<li><strong>step</strong> – Sensitivity perturbation step size, a fraction between [0,1]. default is 0.001</li>
+<li><strong>store</strong> – if True, store results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.doe.result.FisherResults">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.result.</code><code class="descname">FisherResults</code><span class="sig-paren">(</span><em><span class="n">parameter_names</span></em>, <em><span class="n">measurements</span></em>, <em><span class="n">jacobian_info</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">all_jacobian_info</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">prior_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">store_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">scale_constant_value</span><span class="o">=</span><span class="default_value">1</span></em>, <em><span class="n">max_condition_number</span><span class="o">=</span><span class="default_value">1000000000000.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/result.html#FisherResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.result.FisherResults" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.contrib.doe.result.FisherResults.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em><span class="n">parameter_names</span></em>, <em><span class="n">measurements</span></em>, <em><span class="n">jacobian_info</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">all_jacobian_info</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">prior_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">store_FIM</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">scale_constant_value</span><span class="o">=</span><span class="default_value">1</span></em>, <em><span class="n">max_condition_number</span><span class="o">=</span><span class="default_value">1000000000000.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/result.html#FisherResults.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.result.FisherResults.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze the FIM result for a single run</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameter_names</strong> – A <code class="docutils literal notranslate"><span class="pre">list</span></code> of parameter names</li>
+<li><strong>measurements</strong> – A <code class="docutils literal notranslate"><span class="pre">MeasurementVariables</span></code> which contains the Pyomo variable names and their corresponding indices and
+bounds for experimental measurements</li>
+<li><strong>jacobian_info</strong> – the jacobian for this measurement object</li>
+<li><strong>all_jacobian_info</strong> – the overall jacobian</li>
+<li><strong>prior_FIM</strong> – if there’s prior FIM to be added</li>
+<li><strong>store_FIM</strong> – if storing the FIM in a .csv or .txt, give the file name here as a string</li>
+<li><strong>scale_constant_value</strong> – scale all elements in Jacobian matrix, default is 1.</li>
+<li><strong>max_condition_number</strong> – max condition number</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.doe.result.FisherResults.result_analysis">
+<code class="descname">result_analysis</code><span class="sig-paren">(</span><em><span class="n">result</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/result.html#FisherResults.result_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.result.FisherResults.result_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate FIM from Jacobian information. This is for grid search (combined models) results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>result</strong> – solver status returned by IPOPT</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.doe.result.GridSearchResult">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.doe.result.</code><code class="descname">GridSearchResult</code><span class="sig-paren">(</span><em><span class="n">design_ranges</span></em>, <em><span class="n">design_dimension_names</span></em>, <em><span class="n">FIM_result_list</span></em>, <em><span class="n">store_optimality_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/result.html#GridSearchResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.result.GridSearchResult" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.contrib.doe.result.GridSearchResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em><span class="n">design_ranges</span></em>, <em><span class="n">design_dimension_names</span></em>, <em><span class="n">FIM_result_list</span></em>, <em><span class="n">store_optimality_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/doe/result.html#GridSearchResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.doe.result.GridSearchResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class deals with the FIM results from grid search, providing A, D, E, ME-criteria results for each design variable.
+Can choose to draw 1D sensitivity curves and 2D heatmaps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>design_ranges</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code> whose keys are design variable names, values are a list of design variable values to go over</li>
+<li><strong>design_dimension_names</strong> – a <code class="docutils literal notranslate"><span class="pre">list</span></code> of design variables names</li>
+<li><strong>FIM_result_list</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code> containing FIM results, keys are a tuple of design variable values, values are FIM result objects</li>
+<li><strong>store_optimality_name</strong> – a .csv file name containing all four optimalities value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pyomo-doe-usage-example">
+<h2>Pyomo.DoE Usage Example<a class="headerlink" href="#pyomo-doe-usage-example" title="Permalink to this headline">¶</a></h2>
+<p>We illustrate the use of Pyomo.DoE using a reaction kinetics example (Wang and Dowling, 2022).
+The Arrhenius equations model the temperature dependence of the reaction rate coefficient  <span class="math notranslate nohighlight">\(k_1, k_2\)</span>. Assuming a first-order reaction mechanism gives the reaction rate model. Further, we assume only species A is fed to the reactor.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\begin{aligned}
+    k_1 &amp; = A_1 e^{-\frac{E_1}{RT}} \\
+    k_2 &amp; = A_2 e^{-\frac{E_2}{RT}} \\
+    \frac{d{C_A}}{dt} &amp; = -k_1{C_A}  \\
+    \frac{d{C_B}}{dt} &amp;  = k_1{C_A} - k_2{C_B}  \\
+    C_{A0}&amp; = C_A + C_B + C_C \\
+    C_B(t_0) &amp; = 0 \\
+    C_C(t_0) &amp; = 0 \\
+\end{aligned}
+\end{equation}\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(C_A(t), C_B(t), C_C(t)\)</span> are the time-varying concentrations of the species A, B, C, respectively.
+<span class="math notranslate nohighlight">\(k_1, k_2\)</span> are the rates for the two chemical reactions using an Arrhenius equation with activation energies <span class="math notranslate nohighlight">\(E_1, E_2\)</span> and pre-exponential factors <span class="math notranslate nohighlight">\(A_1, A_2\)</span>.
+The goal of MBDoE is to optimize the experiment design variables <span class="math notranslate nohighlight">\(\boldsymbol{\varphi} = (C_{A0}, T(t))\)</span>, where <span class="math notranslate nohighlight">\(C_{A0},T(t)\)</span> are the initial concentration of species A and the time-varying reactor temperature, to maximize the precision of unknown model parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta} = (A_1, E_1, A_2, E_2)\)</span> by measuring <span class="math notranslate nohighlight">\(\mathbf{y}(t)=(C_A(t), C_B(t), C_C(t))\)</span>.
+The observation errors are assumed to be independent both in time and across measurements with a constant standard deviation of 1 M for each species.</p>
+<div class="section" id="step-0-import-pyomo-and-the-pyomo-doe-module">
+<h3>Step 0: Import Pyomo and the Pyomo.DoE module<a class="headerlink" href="#step-0-import-pyomo-and-the-pyomo-doe-module" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># === Required import ===</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="n">ContinuousSet</span><span class="p">,</span> <span class="n">DerivativeVar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib.doe</span> <span class="kn">import</span> <span class="n">DesignOfExperiments</span><span class="p">,</span> <span class="n">MeasurementVariables</span><span class="p">,</span> <span class="n">DesignVariables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-1-define-the-pyomo-process-model">
+<h3>Step 1: Define the Pyomo process model<a class="headerlink" href="#step-1-define-the-pyomo-process-model" title="Permalink to this headline">¶</a></h3>
+<p>The process model for the reaction kinetics problem is shown below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span>
+    <span class="n">mod</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">model_option</span><span class="o">=</span><span class="s2">&quot;stage2&quot;</span><span class="p">,</span>
+    <span class="n">control_time</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.375</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.875</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">control_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">t_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">CA_init</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">C_init</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is an example user model provided to DoE library.</span>
+<span class="sd">    It is a dynamic problem solved by Pyomo.DAE.</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    mod: Pyomo model. If None, a Pyomo concrete model is created</span>
+<span class="sd">    model_option: choose from the 3 options in model_option</span>
+<span class="sd">        if ModelOptionLib.parmest, create a process model.</span>
+<span class="sd">        if ModelOptionLib.stage1, create the global model.</span>
+<span class="sd">        if ModelOptionLib.stage2, add model variables and constraints for block.</span>
+<span class="sd">    control_time: a list of control timepoints</span>
+<span class="sd">    control_val: control design variable values T at corresponding timepoints</span>
+<span class="sd">    t_range: time range, h</span>
+<span class="sd">    CA_init: time-independent design (control) variable, an initial value for CA</span>
+<span class="sd">    C_init: An initial value for C</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    m: a Pyomo.DAE model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A1&quot;</span><span class="p">:</span> <span class="mf">84.79</span><span class="p">,</span> <span class="s2">&quot;A2&quot;</span><span class="p">:</span> <span class="mf">371.72</span><span class="p">,</span> <span class="s2">&quot;E1&quot;</span><span class="p">:</span> <span class="mf">7.78</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span> <span class="mf">15.05</span><span class="p">}</span>
+
+    <span class="n">model_option</span> <span class="o">=</span> <span class="n">ModelOptionLib</span><span class="p">(</span><span class="n">model_option</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">model_option</span> <span class="o">==</span> <span class="n">ModelOptionLib</span><span class="o">.</span><span class="n">parmest</span><span class="p">:</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+        <span class="n">return_m</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">model_option</span> <span class="o">==</span> <span class="n">ModelOptionLib</span><span class="o">.</span><span class="n">stage1</span> <span class="ow">or</span> <span class="n">model_option</span> <span class="o">==</span> <span class="n">ModelOptionLib</span><span class="o">.</span><span class="n">stage2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mod</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;If model option is stage1 or stage2, a created model needs to be provided.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">return_m</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;model_option needs to be defined as parmest,stage1, or stage2.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">control_val</span><span class="p">:</span>
+        <span class="n">control_val</span> <span class="o">=</span> <span class="p">[</span><span class="mi">300</span><span class="p">]</span> <span class="o">*</span> <span class="mi">9</span>
+
+    <span class="n">controls</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">control_time</span><span class="p">):</span>
+        <span class="n">controls</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">control_val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">mod</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">t_con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">control_time</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">CA0</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">t0</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">CA_init</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span>
+    <span class="p">)</span>  <span class="c1"># mol/L</span>
+
+    <span class="c1"># check if control_time is in time range</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">control_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">t_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">control_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">),</span> <span class="s2">&quot;control time is outside time range.&quot;</span>
+
+    <span class="k">if</span> <span class="n">model_option</span> <span class="o">==</span> <span class="n">ModelOptionLib</span><span class="o">.</span><span class="n">stage1</span><span class="p">:</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">mod</span><span class="o">.</span><span class="n">t_con</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="n">controls</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span>
+            <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">para_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;A1&quot;</span><span class="p">,</span> <span class="s2">&quot;A2&quot;</span><span class="p">,</span> <span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">]</span>
+
+        <span class="c1">### Add variables</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">CA_init</span> <span class="o">=</span> <span class="n">CA_init</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">para_list</span> <span class="o">=</span> <span class="n">para_list</span>
+
+        <span class="c1"># timepoints</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">t_range</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">control_time</span><span class="p">)</span>
+
+        <span class="c1"># time-dependent design variable, initialized with the first control value</span>
+        <span class="k">def</span> <span class="nf">T_initial</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">t_con</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">controls</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># count how many control points are before the current t;</span>
+                <span class="c1"># locate the nearest neighbouring control point before this t</span>
+                <span class="n">neighbour_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tc</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">control_time</span> <span class="k">if</span> <span class="n">tc</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">controls</span><span class="p">[</span><span class="n">neighbour_t</span><span class="p">]</span>
+
+        <span class="n">mod</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">T_initial</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span>
+        <span class="p">)</span>
+
+        <span class="n">mod</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="mf">8.31446261815324</span>  <span class="c1"># J / K / mole</span>
+
+        <span class="c1"># Define parameters as Param</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">A1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;A1&quot;</span><span class="p">])</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">A2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;A2&quot;</span><span class="p">])</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">E1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;E1&quot;</span><span class="p">])</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">E2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;E2&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Concentration variables under perturbation</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">C_set</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="s2">&quot;CC&quot;</span><span class="p">])</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">mod</span><span class="o">.</span><span class="n">C_set</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">C_init</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span>
+        <span class="p">)</span>
+
+        <span class="c1"># time derivative of C</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">dCdt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="c1"># kinetic parameters</span>
+        <span class="k">def</span> <span class="nf">kp1_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">A1</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">E1</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">t</span><span class="p">]))</span>
+
+        <span class="k">def</span> <span class="nf">kp2_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">A2</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">E2</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">t</span><span class="p">]))</span>
+
+        <span class="n">mod</span><span class="o">.</span><span class="n">kp1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">kp1_init</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">kp2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">kp2_init</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">T_control</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            T at interval timepoint equal to the T of the control time point at the beginning of this interval</span>
+<span class="sd">            Count how many control points are before the current t;</span>
+<span class="sd">            locate the nearest neighbouring control point before this t</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">t_con</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">neighbour_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tc</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">control_time</span> <span class="k">if</span> <span class="n">tc</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">neighbour_t</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">cal_kp1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create the perturbation parameter sets</span>
+<span class="sd">            m: model</span>
+<span class="sd">            t: time</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># LHS: 1/h</span>
+            <span class="c1"># RHS: 1/h*(kJ/mol *1000J/kJ / (J/mol/K) / K)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">kp1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">A1</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">E1</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">t</span><span class="p">]))</span>
+
+        <span class="k">def</span> <span class="nf">cal_kp2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create the perturbation parameter sets</span>
+<span class="sd">            m: model</span>
+<span class="sd">            t: time</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># LHS: 1/h</span>
+            <span class="c1"># RHS: 1/h*(kJ/mol *1000J/kJ / (J/mol/K) / K)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">kp2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">A2</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">E2</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">t</span><span class="p">]))</span>
+
+        <span class="k">def</span> <span class="nf">dCdt_control</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calculate CA in Jacobian matrix analytically</span>
+<span class="sd">            y: CA, CB, CC</span>
+<span class="sd">            t: timepoints</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s2">&quot;CA&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dCdt</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">kp1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s2">&quot;CB&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dCdt</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">kp1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">kp2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s2">&quot;CC&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+
+        <span class="k">def</span> <span class="nf">alge</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The algebraic equation for mole balance</span>
+<span class="sd">            z: m.pert</span>
+<span class="sd">            t: time</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CC&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">CA0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Control time</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">T_rule</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">T_control</span><span class="p">)</span>
+
+        <span class="c1"># calculating C, Jacobian, FIM</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">k1_pert_rule</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">cal_kp1</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">k2_pert_rule</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">cal_kp2</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">dCdt_rule</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">C_set</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">dCdt_control</span><span class="p">)</span>
+
+        <span class="n">mod</span><span class="o">.</span><span class="n">alge_rule</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">alge</span><span class="p">)</span>
+
+        <span class="c1"># B.C.</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;CC&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_m</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mod</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">disc_for_measure</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pyomo.DAE discretization</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    m: Pyomo model</span>
+<span class="sd">    nfe: number of finite elements b</span>
+<span class="sd">    block: if True, the input model has blocks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">discretizer</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s2">&quot;dae.collocation&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">block</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">block</span><span class="p">)):</span>
+            <span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">block</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">nfe</span><span class="o">=</span><span class="n">nfe</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">block</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="n">nfe</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The model requires at least two options: “block” and “global”. Both options requires the pass of a created empty Pyomo model.
+With “global” option, only design variables and their time sets need to be defined;
+With “block” option, a full model needs to be defined.</p>
+</div>
+</div>
+<div class="section" id="step-2-define-the-inputs-for-pyomo-doe">
+<h3>Step 2: Define the inputs for Pyomo.DoE<a class="headerlink" href="#step-2-define-the-inputs-for-pyomo-doe" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Control time set [h]</span>
+    <span class="n">t_control</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.375</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.875</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Define parameter nominal value</span>
+    <span class="n">parameter_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A1&quot;</span><span class="p">:</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">&quot;A2&quot;</span><span class="p">:</span> <span class="mi">370</span><span class="p">,</span> <span class="s2">&quot;E1&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+
+    <span class="c1"># Define measurement object</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">MeasurementVariables</span><span class="p">()</span>
+    <span class="n">measurements</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">,</span>  <span class="c1"># measurement variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="s2">&quot;CC&quot;</span><span class="p">],</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">t_control</span><span class="p">,</span>
+        <span class="p">},</span>  <span class="c1"># 0,1 are indices of the index sets</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># design object</span>
+    <span class="n">exp_design</span> <span class="o">=</span> <span class="n">DesignVariables</span><span class="p">()</span>
+
+    <span class="c1"># add CAO as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;CA0&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># design variable values</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+    <span class="c1"># add T as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">t_control</span><span class="p">},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+            <span class="mi">570</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+        <span class="p">],</span>  <span class="c1"># same length with t_control</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-3-compute-the-fim-of-a-square-mbdoe-problem">
+<h3>Step 3: Compute the FIM of a square MBDoE problem<a class="headerlink" href="#step-3-compute-the-fim-of-a-square-mbdoe-problem" title="Permalink to this headline">¶</a></h3>
+<p>This method computes an MBDoE optimization problem with no degree of freedom.</p>
+<p>This method can be accomplished by two modes, <code class="docutils literal notranslate"><span class="pre">direct_kaug</span></code> and <code class="docutils literal notranslate"><span class="pre">sequential_finite</span></code>.
+<code class="docutils literal notranslate"><span class="pre">direct_kaug</span></code> mode requires the installation of the solver <a class="reference external" href="https://github.com/dthierry/k_aug">k_aug</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">doe_object</span> <span class="o">=</span> <span class="n">DesignOfExperiments</span><span class="p">(</span>
+        <span class="n">parameter_dict</span><span class="p">,</span>  <span class="c1"># parameter dictionary</span>
+        <span class="n">exp_design</span><span class="p">,</span>  <span class="c1"># DesignVariables object</span>
+        <span class="n">measurements</span><span class="p">,</span>  <span class="c1"># MeasurementVariables object</span>
+        <span class="n">create_model</span><span class="p">,</span>  <span class="c1"># create model function</span>
+        <span class="n">discretize_model</span><span class="o">=</span><span class="n">disc_for_measure</span><span class="p">,</span>  <span class="c1"># discretize model function</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doe_object</span><span class="o">.</span><span class="n">compute_FIM</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;sequential_finite&quot;</span><span class="p">,</span>  <span class="c1"># calculation mode</span>
+        <span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># scale nominal parameter value</span>
+        <span class="n">formula</span><span class="o">=</span><span class="s2">&quot;central&quot;</span><span class="p">,</span>  <span class="c1"># formula for finite difference</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">result_analysis</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-4-exploratory-analysis-enumeration">
+<h3>Step 4: Exploratory analysis (Enumeration)<a class="headerlink" href="#step-4-exploratory-analysis-enumeration" title="Permalink to this headline">¶</a></h3>
+<p>Exploratory analysis is suggested to enumerate the design space to check if the problem is identifiable,
+i.e., ensure that D-, E-optimality metrics are not small numbers near zero, and Modified E-optimality is not a big number.</p>
+<p>Pyomo.DoE accomplishes the exploratory analysis with the <code class="docutils literal notranslate"><span class="pre">run_grid_search</span></code> function.
+It allows users to define any number of design decisions. Heatmaps can be drawn by two design variables, fixing other design variables.
+1D curve can be drawn by one design variable, fixing all other variables.
+The function <code class="docutils literal notranslate"><span class="pre">run_grid_search</span></code> enumerates over the design space, each MBDoE problem accomplished by <code class="docutils literal notranslate"><span class="pre">compute_FIM</span></code> method.
+Therefore, <code class="docutils literal notranslate"><span class="pre">run_grid_search</span></code> supports only two modes: <code class="docutils literal notranslate"><span class="pre">sequential_finite</span></code> and <code class="docutils literal notranslate"><span class="pre">direct_kaug</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1">### Define inputs</span>
+    <span class="c1"># Control time set [h]</span>
+    <span class="n">t_control</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.375</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.875</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Define parameter nominal value</span>
+    <span class="n">parameter_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A1&quot;</span><span class="p">:</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">&quot;A2&quot;</span><span class="p">:</span> <span class="mi">370</span><span class="p">,</span> <span class="s2">&quot;E1&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+
+    <span class="c1"># Define measurement object</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">MeasurementVariables</span><span class="p">()</span>
+    <span class="n">measurements</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">,</span>  <span class="c1"># measurement variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="s2">&quot;CC&quot;</span><span class="p">],</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">t_control</span><span class="p">,</span>
+        <span class="p">},</span>  <span class="c1"># 0,1 are indices of the index sets</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># design object</span>
+    <span class="n">exp_design</span> <span class="o">=</span> <span class="n">DesignVariables</span><span class="p">()</span>
+
+    <span class="c1"># add CAO as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;CA0&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># design variable values</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+    <span class="c1"># add T as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">t_control</span><span class="p">},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+            <span class="mi">570</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+        <span class="p">],</span>  <span class="c1"># same length with t_control</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+
+    <span class="c1">### Compute the FIM of a square model-based Design of Experiments problem</span>
+    <span class="n">doe_object</span> <span class="o">=</span> <span class="n">DesignOfExperiments</span><span class="p">(</span>
+        <span class="n">parameter_dict</span><span class="p">,</span>  <span class="c1"># parameter dictionary</span>
+        <span class="n">exp_design</span><span class="p">,</span>  <span class="c1"># DesignVariables object</span>
+        <span class="n">measurements</span><span class="p">,</span>  <span class="c1"># MeasurementVariables object</span>
+        <span class="n">create_model</span><span class="p">,</span>  <span class="c1"># create model function</span>
+        <span class="n">discretize_model</span><span class="o">=</span><span class="n">disc_for_measure</span><span class="p">,</span>  <span class="c1"># discretize model function</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doe_object</span><span class="o">.</span><span class="n">compute_FIM</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;sequential_finite&quot;</span><span class="p">,</span>  <span class="c1"># calculation mode</span>
+        <span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># scale nominal parameter value</span>
+        <span class="n">formula</span><span class="o">=</span><span class="s2">&quot;central&quot;</span><span class="p">,</span>  <span class="c1"># formula for finite difference</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">result_analysis</span><span class="p">()</span>
+
+    <span class="c1"># test result</span>
+    <span class="n">relative_error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">trace</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.78</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">relative_error</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+
+    <span class="n">relative_error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">det</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.99</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">relative_error</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+<p>Successful run of the above code shows the following figure:</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../../_images/grid-1.png"><img alt="../../_images/grid-1.png" src="../../_images/grid-1.png" style="width: 696.5px; height: 544.5999999999999px;" /></a>
+</div>
+<p>A heatmap shows the change of the objective function, a.k.a. the experimental information content, in the design region. Horizontal and vertical axes are two design variables, while the color of each grid shows the experimental information content. Taking the Fig. Reactor case - A optimality as example, A-optimality shows that the most informative region is around $C_{A0}=5.0$ M, $T=300.0$ K, while the least informative region is around $C_{A0}=1.0$ M, $T=700.0$ K.</p>
+</div>
+<div class="section" id="step-5-gradient-based-optimization">
+<h3>Step 5: Gradient-based optimization<a class="headerlink" href="#step-5-gradient-based-optimization" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo.DoE accomplishes gradient-based optimization with the <code class="docutils literal notranslate"><span class="pre">stochastic_program</span></code> function for A- and D-optimality design.</p>
+<p>This function solves twice: It solves the square version of the MBDoE problem first, and then unfixes the design variables as degree of freedoms and solves again. In this way the optimization problem can be well initialized.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1">### Define inputs</span>
+    <span class="c1"># Control time set [h]</span>
+    <span class="n">t_control</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.375</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.875</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Define parameter nominal value</span>
+    <span class="n">parameter_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A1&quot;</span><span class="p">:</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">&quot;A2&quot;</span><span class="p">:</span> <span class="mi">370</span><span class="p">,</span> <span class="s2">&quot;E1&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+
+    <span class="c1"># Define measurement object</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">MeasurementVariables</span><span class="p">()</span>
+    <span class="n">measurements</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">,</span>  <span class="c1"># measurement variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;CB&quot;</span><span class="p">,</span> <span class="s2">&quot;CC&quot;</span><span class="p">],</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">t_control</span><span class="p">,</span>
+        <span class="p">},</span>  <span class="c1"># 0,1 are indices of the index sets</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># design object</span>
+    <span class="n">exp_design</span> <span class="o">=</span> <span class="n">DesignVariables</span><span class="p">()</span>
+
+    <span class="c1"># add CAO as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;CA0&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># design variable values</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+    <span class="c1"># add T as design variable</span>
+    <span class="n">exp_design</span><span class="o">.</span><span class="n">add_variables</span><span class="p">(</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">,</span>  <span class="c1"># design variable name</span>
+        <span class="n">indices</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">t_control</span><span class="p">},</span>  <span class="c1"># index dictionary</span>
+        <span class="n">time_index_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># time index position</span>
+        <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+            <span class="mi">570</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">,</span>
+        <span class="p">],</span>  <span class="c1"># same length with t_control</span>
+        <span class="n">lower_bounds</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>  <span class="c1"># design variable lower bounds</span>
+        <span class="n">upper_bounds</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>  <span class="c1"># design variable upper bounds</span>
+    <span class="p">)</span>
+
+
+    <span class="c1">### Compute the FIM of a square model-based Design of Experiments problem</span>
+    <span class="n">doe_object</span> <span class="o">=</span> <span class="n">DesignOfExperiments</span><span class="p">(</span>
+        <span class="n">parameter_dict</span><span class="p">,</span>  <span class="c1"># parameter dictionary</span>
+        <span class="n">exp_design</span><span class="p">,</span>  <span class="c1"># DesignVariables object</span>
+        <span class="n">measurements</span><span class="p">,</span>  <span class="c1"># MeasurementVariables object</span>
+        <span class="n">create_model</span><span class="p">,</span>  <span class="c1"># create model function</span>
+        <span class="n">discretize_model</span><span class="o">=</span><span class="n">disc_for_measure</span><span class="p">,</span>  <span class="c1"># discretize model function</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doe_object</span><span class="o">.</span><span class="n">compute_FIM</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;sequential_finite&quot;</span><span class="p">,</span>  <span class="c1"># calculation mode</span>
+        <span class="n">scale_nominal_param_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># scale nominal parameter value</span>
+        <span class="n">formula</span><span class="o">=</span><span class="s2">&quot;central&quot;</span><span class="p">,</span>  <span class="c1"># formula for finite difference</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">result_analysis</span><span class="p">()</span>
+
+    <span class="c1"># test result</span>
+    <span class="n">relative_error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">trace</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.78</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">relative_error</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+
+    <span class="n">relative_error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">det</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.99</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">relative_error</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../gdpopt.html" class="btn btn-neutral float-right" title="GDPopt logic-based solver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../community.html" class="btn btn-neutral float-left" title="Community Detection for Pyomo models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

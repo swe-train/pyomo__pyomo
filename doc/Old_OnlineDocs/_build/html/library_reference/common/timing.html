@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.timing &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="AML Library Reference" href="../aml/index.html" />
+    <link rel="prev" title="pyomo.common.tempfiles" href="tempfiles.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Common Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="config.html">pyomo.common.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html">pyomo.common.dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecation.html">pyomo.common.deprecation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fileutils.html">pyomo.common.fileutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formatting.html">pyomo.common.formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempfiles.html">pyomo.common.tempfiles</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyomo.common.timing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Common Utilities</a> &raquo;</li>
+        
+      <li>pyomo.common.timing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/common/timing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pyomo.common.timing">
+<span id="pyomo-common-timing"></span><h1>pyomo.common.timing<a class="headerlink" href="#module-pyomo.common.timing" title="Permalink to this headline">¶</a></h1>
+<p>A module of utilities for collecting timing information</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.timing.report_timing" title="pyomo.common.timing.report_timing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report_timing</span></code></a>([stream,&nbsp;level])</td>
+<td>Set reporting of Pyomo timing information.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.timing.TicTocTimer" title="pyomo.common.timing.TicTocTimer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TicTocTimer</span></code></a>([ostream,&nbsp;logger])</td>
+<td>A class to calculate and report elapsed time.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.timing.tic" title="pyomo.common.timing.tic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tic</span></code></a>([msg,&nbsp;ostream,&nbsp;logger,&nbsp;level])</td>
+<td>Reset the global <a class="reference internal" href="#pyomo.common.timing.TicTocTimer" title="pyomo.common.timing.TicTocTimer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TicTocTimer</span></code></a> instance.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.timing.toc" title="pyomo.common.timing.toc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toc</span></code></a>([msg,&nbsp;delta,&nbsp;ostream,&nbsp;logger,&nbsp;level])</td>
+<td>Print the elapsed time from the global <a class="reference internal" href="#pyomo.common.timing.TicTocTimer" title="pyomo.common.timing.TicTocTimer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TicTocTimer</span></code></a> instance.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.timing.HierarchicalTimer" title="pyomo.common.timing.HierarchicalTimer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HierarchicalTimer</span></code></a>()</td>
+<td>A class for collecting and displaying hierarchical timing information</td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="pyomo.common.timing.report_timing">
+<code class="descclassname">pyomo.common.timing.</code><code class="descname">report_timing</code><span class="sig-paren">(</span><em><span class="n">stream</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">level</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#report_timing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.report_timing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set reporting of Pyomo timing information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stream</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>TextIOBase</em>) – The destination stream to emit timing information.  If <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+defaults to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>.  If <code class="docutils literal notranslate"><span class="pre">False</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>, disables
+reporting of timing information.</li>
+<li><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The logging level for the timing logger</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.common.timing.TicTocTimer">
+<em class="property">class </em><code class="descclassname">pyomo.common.timing.</code><code class="descname">TicTocTimer</code><span class="sig-paren">(</span><em><span class="n">ostream</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#TicTocTimer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.TicTocTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to calculate and report elapsed time.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">TicTocTimer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">TicTocTimer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s1">&#39;starting timer&#39;</span><span class="p">)</span> <span class="c1"># starts the elapsed time timer (from 0)</span>
+<span class="go">[    0.00] starting timer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ... do task 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dT</span> <span class="o">=</span> <span class="n">timer</span><span class="o">.</span><span class="n">toc</span><span class="p">(</span><span class="s1">&#39;task 1&#39;</span><span class="p">)</span>
+<span class="go">[+   0.00] task 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;elapsed time: </span><span class="si">%0.1f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dT</span><span class="p">)</span>
+<span class="go">elapsed time: 0.0</span>
+</pre></div>
+</div>
+<p>If no ostream or logger is provided, then output is printed to sys.stdout</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ostream</strong> (<em>FILE</em>) – an optional output stream to print the timing
+information</li>
+<li><strong>logger</strong> (<em>Logger</em>) – an optional output stream using the python
+logging package. Note: the timing logged using <code class="docutils literal notranslate"><span class="pre">logger.info()</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.common.timing.TicTocTimer.tic">
+<code class="descname">tic</code><span class="sig-paren">(</span><em><span class="n">msg</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="o">*</span><span class="n">args</span></em>, <em><span class="n">ostream</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">logger</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">level</span><span class="o">=</span><span class="default_value">NOTSET</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#TicTocTimer.tic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.TicTocTimer.tic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the tic/toc delta timer.</p>
+<p>This resets the reference time from which the next delta time is
+calculated to the current time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The message to print out.  If not specified, then
+prints out “Resetting the tic/toc delta timer”; if msg
+is None, then no message is printed.</li>
+<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – optional positional arguments used for
+%-formatting the <cite>msg</cite></li>
+<li><strong>ostream</strong> (<em>FILE</em>) – an optional output stream (overrides the ostream
+provided when the class was constructed).</li>
+<li><strong>logger</strong> (<em>Logger</em>) – an optional output stream using the python
+logging package (overrides the ostream provided when the
+class was constructed). Note: timing logged using logger.info</li>
+<li><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – an optional logging output level.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.TicTocTimer.toc">
+<code class="descname">toc</code><span class="sig-paren">(</span><em><span class="n">msg</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="o">*</span><span class="n">args</span></em>, <em><span class="n">delta</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">ostream</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">logger</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">level</span><span class="o">=</span><span class="default_value">NOTSET</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#TicTocTimer.toc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.TicTocTimer.toc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print out the elapsed time.</p>
+<p>This resets the reference time from which the next delta time is
+calculated to the current time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The message to print out.  If not specified, then
+print out the file name, line number, and function that
+called this method; if <cite>msg</cite> is None, then no message is
+printed.</li>
+<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – optional positional arguments used for
+%-formatting the <cite>msg</cite></li>
+<li><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – print out the elapsed wall clock time since
+the last call to <a class="reference internal" href="#pyomo.common.timing.tic" title="pyomo.common.timing.tic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tic()</span></code></a> (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or since the
+most recent call to either <a class="reference internal" href="#pyomo.common.timing.tic" title="pyomo.common.timing.tic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tic()</span></code></a> or <a class="reference internal" href="#pyomo.common.timing.toc" title="pyomo.common.timing.toc"><code class="xref py py-meth docutils literal notranslate"><span class="pre">toc()</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">True</span></code> (default)).</li>
+<li><strong>ostream</strong> (<em>FILE</em>) – an optional output stream (overrides the ostream
+provided when the class was constructed).</li>
+<li><strong>logger</strong> (<em>Logger</em>) – an optional output stream using the python
+logging package (overrides the ostream provided when the
+class was constructed). Note: timing logged using <cite>level</cite></li>
+<li><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – an optional logging output level.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.timing.tic">
+<code class="descclassname">pyomo.common.timing.</code><code class="descname">tic</code><span class="sig-paren">(</span><em><span class="n">msg</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="o">*</span><span class="n">args</span></em>, <em><span class="n">ostream</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">logger</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">level</span><span class="o">=</span><span class="default_value">NOTSET</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.common.timing.tic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the global <a class="reference internal" href="#pyomo.common.timing.TicTocTimer" title="pyomo.common.timing.TicTocTimer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TicTocTimer</span></code></a> instance.</p>
+<p>See <a class="reference internal" href="#pyomo.common.timing.TicTocTimer.tic" title="pyomo.common.timing.TicTocTimer.tic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TicTocTimer.tic()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.timing.toc">
+<code class="descclassname">pyomo.common.timing.</code><code class="descname">toc</code><span class="sig-paren">(</span><em><span class="n">msg</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="o">*</span><span class="n">args</span></em>, <em><span class="n">delta</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">ostream</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">logger</span><span class="o">=</span><span class="default_value">NOTSET</span></em>, <em><span class="n">level</span><span class="o">=</span><span class="default_value">NOTSET</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.common.timing.toc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the elapsed time from the global <a class="reference internal" href="#pyomo.common.timing.TicTocTimer" title="pyomo.common.timing.TicTocTimer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TicTocTimer</span></code></a> instance.</p>
+<p>See <a class="reference internal" href="#pyomo.common.timing.TicTocTimer.toc" title="pyomo.common.timing.TicTocTimer.toc"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TicTocTimer.toc()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.common.timing.HierarchicalTimer">
+<em class="property">class </em><code class="descclassname">pyomo.common.timing.</code><code class="descname">HierarchicalTimer</code><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for collecting and displaying hierarchical timing
+information</p>
+<p>When implementing an iterative algorithm with nested subroutines
+(e.g. an optimization solver), we often want to know the cumulative
+time spent in each subroutine as well as this time as a proportion
+of time spent in the calling routine. This class collects timing
+information, for user-specified keys, that accumulates over the life
+of the timer object and preserves the hierarchical (nested) structure
+of timing categories.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">HierarchicalTimer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">HierarchicalTimer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;aa&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;aa&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>       
+<span class="go">Identifier        ncalls   cumtime   percall      %</span>
+<span class="go">---------------------------------------------------</span>
+<span class="go">all                    1     2.248     2.248  100.0</span>
+<span class="go">     ----------------------------------------------</span>
+<span class="go">     a                10     1.787     0.179   79.5</span>
+<span class="go">          -----------------------------------------</span>
+<span class="go">          aa          50     0.733     0.015   41.0</span>
+<span class="go">          ab          10     0.000     0.000    0.0</span>
+<span class="go">          other      n/a     1.055       n/a   59.0</span>
+<span class="go">          =========================================</span>
+<span class="go">     b                10     0.248     0.025   11.0</span>
+<span class="go">     other           n/a     0.213       n/a    9.5</span>
+<span class="go">     ==============================================</span>
+<span class="go">===================================================</span>
+</pre></div>
+</div>
+<p>The columns are:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>ncalls</dt><dd>The number of times the timer was started and stopped</dd>
+<dt>cumtime</dt><dd>The cumulative time (in seconds) the timer was active
+(started but not stopped)</dd>
+<dt>percall</dt><dd>cumtime (in seconds) / ncalls</dd>
+<dt>“%”</dt><dd>This is cumtime of the timer divided by cumtime of the
+parent timer times 100</dd>
+</dl>
+</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a total time: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">timer</span><span class="o">.</span><span class="n">get_total_time</span><span class="p">(</span><span class="s1">&#39;all.a&#39;</span><span class="p">))</span>         
+<span class="go">a total time: 1.902037</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ab num calls: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">timer</span><span class="o">.</span><span class="n">get_num_calls</span><span class="p">(</span><span class="s1">&#39;all.a.ab&#39;</span><span class="p">))</span>         
+<span class="go">ab num calls: 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;aa </span><span class="si">%%</span><span class="s1"> time: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">timer</span><span class="o">.</span><span class="n">get_relative_percent_time</span><span class="p">(</span><span class="s1">&#39;all.a.aa&#39;</span><span class="p">))</span>         
+<span class="go">aa % time: 44.144148</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;aa </span><span class="si">%%</span><span class="s1"> total: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">timer</span><span class="o">.</span><span class="n">get_total_percent_time</span><span class="p">(</span><span class="s1">&#39;all.a.aa&#39;</span><span class="p">))</span>         
+<span class="go">aa % total: 35.976058</span>
+</pre></div>
+</div>
+<p>When implementing an algorithm, it is often useful to collect detailed
+hierarchical timing information. However, when communicating a timing
+profile, it is often best to retain only the most relevant information
+in a flattened data structure. In the following example, suppose we
+want to compare the time spent in the <code class="docutils literal notranslate"><span class="pre">&quot;c&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code> subroutines.
+We would like to generate a timing profile that displays only the time
+spent in these two subroutines, in a flattened structure so that they
+are easy to compare. To do this, we</p>
+<ol class="arabic simple">
+<li>Ignore subroutines of <code class="docutils literal notranslate"><span class="pre">&quot;c&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code> that are unnecessary for    this comparison</li>
+<li>Flatten the hierarchical timing information</li>
+<li>Eliminate all the information we don’t care about</li>
+</ol>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">HierarchicalTimer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">HierarchicalTimer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span> 
+<span class="go">Identifier                       ncalls   cumtime   percall      %</span>
+<span class="go">------------------------------------------------------------------</span>
+<span class="go">root                                  1     0.290     0.290  100.0</span>
+<span class="go">     -------------------------------------------------------------</span>
+<span class="go">     a                                1     0.118     0.118   40.5</span>
+<span class="go">          --------------------------------------------------------</span>
+<span class="go">          b                           1     0.105     0.105   89.4</span>
+<span class="go">               ---------------------------------------------------</span>
+<span class="go">               c                      1     0.105     0.105  100.0</span>
+<span class="go">               other                n/a     0.000       n/a    0.0</span>
+<span class="go">               ===================================================</span>
+<span class="go">          other                     n/a     0.013       n/a   10.6</span>
+<span class="go">          ========================================================</span>
+<span class="go">     d                                1     0.173     0.173   59.5</span>
+<span class="go">          --------------------------------------------------------</span>
+<span class="go">          e                           1     0.173     0.173  100.0</span>
+<span class="go">               ---------------------------------------------------</span>
+<span class="go">               c                      1     0.105     0.105   60.9</span>
+<span class="go">                    ----------------------------------------------</span>
+<span class="go">                    g                 1     0.105     0.105  100.0</span>
+<span class="go">                         -----------------------------------------</span>
+<span class="go">                         h            1     0.105     0.105  100.0</span>
+<span class="go">                         other      n/a     0.000       n/a    0.0</span>
+<span class="go">                         =========================================</span>
+<span class="go">                    other           n/a     0.000       n/a    0.0</span>
+<span class="go">                    ==============================================</span>
+<span class="go">               f                      1     0.055     0.055   31.9</span>
+<span class="go">               other                n/a     0.013       n/a    7.3</span>
+<span class="go">               ===================================================</span>
+<span class="go">          other                     n/a     0.000       n/a    0.0</span>
+<span class="go">          ========================================================</span>
+<span class="go">     other                          n/a     0.000       n/a    0.0</span>
+<span class="go">     =============================================================</span>
+<span class="go">==================================================================</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Clear subroutines under &quot;c&quot; that we don&#39;t care about</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;root&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Flatten hierarchy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;root&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Clear except for the subroutines we care about</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="s2">&quot;root&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clear_except</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span> 
+<span class="go">Identifier   ncalls   cumtime   percall      %</span>
+<span class="go">----------------------------------------------</span>
+<span class="go">root              1     0.290     0.290  100.0</span>
+<span class="go">     -----------------------------------------</span>
+<span class="go">     c            2     0.210     0.105   72.4</span>
+<span class="go">     f            1     0.055     0.055   19.0</span>
+<span class="go">     other      n/a     0.025       n/a    8.7</span>
+<span class="go">     =========================================</span>
+<span class="go">==============================================</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The <a class="reference internal" href="#pyomo.common.timing.HierarchicalTimer" title="pyomo.common.timing.HierarchicalTimer"><code class="xref py py-class docutils literal notranslate"><span class="pre">HierarchicalTimer</span></code></a> uses a stack to track which timers
+are active at any point in time. Additionally, each timer has a
+dictionary of timers for its children timers. Consider</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">HierarchicalTimer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;aa&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After the above code is run, <code class="docutils literal notranslate"><span class="pre">timer.stack</span></code> will be
+<code class="docutils literal notranslate"><span class="pre">['all',</span> <span class="pre">'a',</span> <span class="pre">'aa']</span></code> and <code class="docutils literal notranslate"><span class="pre">timer.timers</span></code> will have one key,
+<code class="docutils literal notranslate"><span class="pre">'all'</span></code> and one value which will be a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">_HierarchicalHelper</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">_HierarchicalHelper</span></code>
+has its own timers dictionary:</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">_HierarchicalHelper}</span></code></div></blockquote>
+<p>and so on. This way, we can easily access any timer with something
+that looks like the stack. The logic is recursive (although the
+code is not).</p>
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start incrementing the timer identified with identifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the timer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop incrementing the timer identified with identifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the timer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Completely reset the timer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.get_total_time">
+<code class="descname">get_total_time</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.get_total_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.get_total_time" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The full name of the timer including parent timers separated
+with dots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>total_time</strong> – The total time spent with the specified timer active.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.get_num_calls">
+<code class="descname">get_num_calls</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.get_num_calls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.get_num_calls" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The full name of the timer including parent timers separated
+with dots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>n_calls</strong> – The number of times start was called for the specified timer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.get_relative_percent_time">
+<code class="descname">get_relative_percent_time</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.get_relative_percent_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.get_relative_percent_time" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The full name of the timer including parent timers separated
+with dots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>percent_time</strong> – The percent of time spent in the specified timer
+relative to the timer’s immediate parent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.get_total_percent_time">
+<code class="descname">get_total_percent_time</code><span class="sig-paren">(</span><em><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.get_total_percent_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.get_total_percent_time" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The full name of the timer including parent timers separated
+with dots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>percent_time</strong> – The percent of time spent in the specified timer
+relative to the total time in all timers.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.get_timers">
+<code class="descname">get_timers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.get_timers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.get_timers" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>identifiers</strong> – Returns a list of all timer identifiers</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the HierarchicalTimer in-place, moving all the timing
+categories into a single level</p>
+<p>If any timers moved into the same level have the same identifier,
+the <code class="docutils literal notranslate"><span class="pre">total_time</span></code> and <code class="docutils literal notranslate"><span class="pre">n_calls</span></code> fields are added together.
+The <code class="docutils literal notranslate"><span class="pre">total_time</span></code> of a “child timer” that is “moved upwards” is
+subtracted from the <code class="docutils literal notranslate"><span class="pre">total_time</span></code> of that timer’s original
+parent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.timing.HierarchicalTimer.clear_except">
+<code class="descname">clear_except</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/timing.html#HierarchicalTimer.clear_except"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.timing.HierarchicalTimer.clear_except" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prune all “sub-timers” except those specified</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Keys that will be retained</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../aml/index.html" class="btn btn-neutral float-right" title="AML Library Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tempfiles.html" class="btn btn-neutral float-left" title="pyomo.common.tempfiles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

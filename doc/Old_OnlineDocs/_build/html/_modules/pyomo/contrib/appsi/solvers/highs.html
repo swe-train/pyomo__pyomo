@@ -1,0 +1,997 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.appsi.solvers.highs &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.appsi.solvers.highs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.appsi.solvers.highs</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">attempt_import</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">PyomoException</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">HierarchicalTimer</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigValue</span><span class="p">,</span> <span class="n">NonNegativeInt</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tee</span> <span class="kn">import</span> <span class="n">TeeStream</span><span class="p">,</span> <span class="n">capture_output</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.log</span> <span class="kn">import</span> <span class="n">LogStream</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.objective</span> <span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">SymbolMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.var</span> <span class="kn">import</span> <span class="n">_GeneralVarData</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.constraint</span> <span class="kn">import</span> <span class="n">_GeneralConstraintData</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.sos</span> <span class="kn">import</span> <span class="n">_SOSConstraintData</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.param</span> <span class="kn">import</span> <span class="n">_ParamData</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span><span class="p">,</span> <span class="n">is_constant</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numeric_expr</span> <span class="kn">import</span> <span class="n">NPV_MaxExpression</span><span class="p">,</span> <span class="n">NPV_MinExpression</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.appsi.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PersistentSolver</span><span class="p">,</span>
+    <span class="n">Results</span><span class="p">,</span>
+    <span class="n">TerminationCondition</span><span class="p">,</span>
+    <span class="n">MIPSolverConfig</span><span class="p">,</span>
+    <span class="n">PersistentBase</span><span class="p">,</span>
+    <span class="n">PersistentSolutionLoader</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.appsi.cmodel</span> <span class="kn">import</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">cmodel_available</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">highspy</span><span class="p">,</span> <span class="n">highspy_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;highspy&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DegreeError</span><span class="p">(</span><span class="n">PyomoException</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">HighsConfig</span><span class="p">(</span><span class="n">MIPSolverConfig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">implicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">implicit_domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">visibility</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighsConfig</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+            <span class="n">implicit</span><span class="o">=</span><span class="n">implicit</span><span class="p">,</span>
+            <span class="n">implicit_domain</span><span class="o">=</span><span class="n">implicit_domain</span><span class="p">,</span>
+            <span class="n">visibility</span><span class="o">=</span><span class="n">visibility</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;logfile&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;solver_output_logger&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;log_level&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeInt</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver_output_logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+
+<div class="viewcode-block" id="HighsResults"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.HighsResults">[docs]</a><span class="k">class</span> <span class="nc">HighsResults</span><span class="p">(</span><span class="n">Results</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wallclock_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solution_loader</span> <span class="o">=</span> <span class="n">PersistentSolutionLoader</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">_MutableVarBounds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_expr</span><span class="p">,</span> <span class="n">upper_expr</span><span class="p">,</span> <span class="n">pyomo_var_id</span><span class="p">,</span> <span class="n">var_map</span><span class="p">,</span> <span class="n">highs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span> <span class="o">=</span> <span class="n">pyomo_var_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_expr</span> <span class="o">=</span> <span class="n">lower_expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_expr</span> <span class="o">=</span> <span class="n">upper_expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span> <span class="o">=</span> <span class="n">var_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span> <span class="o">=</span> <span class="n">highs</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">col_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span><span class="p">]</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_expr</span><span class="p">)</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_expr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span><span class="o">.</span><span class="n">changeColBounds</span><span class="p">(</span><span class="n">col_ndx</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MutableLinearCoefficient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pyomo_con</span><span class="p">,</span> <span class="n">pyomo_var_id</span><span class="p">,</span> <span class="n">con_map</span><span class="p">,</span> <span class="n">var_map</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">highs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span> <span class="o">=</span> <span class="n">highs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span> <span class="o">=</span> <span class="n">pyomo_var_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pyomo_con</span> <span class="o">=</span> <span class="n">pyomo_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">con_map</span> <span class="o">=</span> <span class="n">con_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span> <span class="o">=</span> <span class="n">var_map</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">row_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">con_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pyomo_con</span><span class="p">]</span>
+        <span class="n">col_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span><span class="o">.</span><span class="n">changeCoeff</span><span class="p">(</span><span class="n">row_ndx</span><span class="p">,</span> <span class="n">col_ndx</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_MutableObjectiveCoefficient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pyomo_var_id</span><span class="p">,</span> <span class="n">var_map</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">highs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span> <span class="o">=</span> <span class="n">highs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span> <span class="o">=</span> <span class="n">pyomo_var_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span> <span class="o">=</span> <span class="n">var_map</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">col_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pyomo_var_id</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span><span class="o">.</span><span class="n">changeColCost</span><span class="p">(</span><span class="n">col_ndx</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_MutableObjectiveOffset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">highs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span> <span class="o">=</span> <span class="n">highs</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span><span class="o">.</span><span class="n">changeObjectiveOffset</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_MutableConstraintBounds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_expr</span><span class="p">,</span> <span class="n">upper_expr</span><span class="p">,</span> <span class="n">pyomo_con</span><span class="p">,</span> <span class="n">con_map</span><span class="p">,</span> <span class="n">highs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_expr</span> <span class="o">=</span> <span class="n">lower_expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_expr</span> <span class="o">=</span> <span class="n">upper_expr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyomo_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">con_map</span> <span class="o">=</span> <span class="n">con_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span> <span class="o">=</span> <span class="n">highs</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">row_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">con_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="p">]</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_expr</span><span class="p">)</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_expr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs</span><span class="o">.</span><span class="n">changeRowBounds</span><span class="p">(</span><span class="n">row_ndx</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Highs"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs">[docs]</a><span class="k">class</span> <span class="nc">Highs</span><span class="p">(</span><span class="n">PersistentBase</span><span class="p">,</span> <span class="n">PersistentSolver</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interface to HiGHS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_available</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only_child_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">only_child_vars</span><span class="o">=</span><span class="n">only_child_vars</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">HighsConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_bounds</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective_helpers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HighsResults</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Highs.available"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.available">[docs]</a>    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">highspy_available</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Availability</span><span class="o">.</span><span class="n">FullLicense</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Availability</span><span class="o">.</span><span class="n">NotFound</span></div>
+
+<div class="viewcode-block" id="Highs.version"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.version">[docs]</a>    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">highspy</span><span class="o">.</span><span class="n">HIGHS_VERSION_MAJOR</span><span class="p">,</span>
+            <span class="n">highspy</span><span class="o">.</span><span class="n">HIGHS_VERSION_MINOR</span><span class="p">,</span>
+            <span class="n">highspy</span><span class="o">.</span><span class="n">HIGHS_VERSION_PATCH</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">version</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HighsConfig</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
+
+    <span class="nd">@config</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">HighsConfig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">highs_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dictionary mapping solver options to values for those options. These</span>
+<span class="sd">        are solver specific.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">           A dictionary mapping solver options to values for those options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_options</span>
+
+    <span class="nd">@highs_options</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">highs_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_options</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">symbol_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SymbolMap</span><span class="p">()</span>
+        <span class="c1"># raise RuntimeError(&#39;Highs interface does not have a symbol map&#39;)</span>
+
+    <span class="k">def</span> <span class="nf">_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timer</span><span class="p">:</span> <span class="n">HierarchicalTimer</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">highs_options</span>
+
+        <span class="n">ostreams</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">LogStream</span><span class="p">(</span>
+                <span class="n">level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">log_level</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">solver_output_logger</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">stream_solver</span><span class="p">:</span>
+            <span class="n">ostreams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">TeeStream</span><span class="p">(</span><span class="o">*</span><span class="n">ostreams</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">capture_output</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">capture_fd</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setOptionValue</span><span class="p">(</span><span class="s1">&#39;log_to_console&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">logfile</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setOptionValue</span><span class="p">(</span><span class="s1">&#39;log_file&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">logfile</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">time_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setOptionValue</span><span class="p">(</span><span class="s1">&#39;time_limit&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">time_limit</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">mip_gap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setOptionValue</span><span class="p">(</span><span class="s1">&#39;mip_rel_gap&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">mip_gap</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setOptionValue</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+                <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;optimize&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+                <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;optimize&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postsolve</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Highs.solve"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">timer</span><span class="p">:</span> <span class="n">HierarchicalTimer</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Results</span><span class="p">:</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">timer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timer</span> <span class="o">=</span> <span class="n">HierarchicalTimer</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">:</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;set_instance&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;set_instance&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">timer</span><span class="o">=</span><span class="n">timer</span><span class="p">)</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">report_timing</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timer</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+    <span class="k">def</span> <span class="nf">_process_domain_and_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_id</span><span class="p">):</span>
+        <span class="n">_v</span><span class="p">,</span> <span class="n">_lb</span><span class="p">,</span> <span class="n">_ub</span><span class="p">,</span> <span class="n">_fixed</span><span class="p">,</span> <span class="n">_domain_interval</span><span class="p">,</span> <span class="n">_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">var_id</span><span class="p">]</span>
+        <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">_domain_interval</span>
+        <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+        <span class="k">if</span> <span class="n">ub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">vtype</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsVarType</span><span class="o">.</span><span class="n">kContinuous</span>
+        <span class="k">elif</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">vtype</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsVarType</span><span class="o">.</span><span class="n">kInteger</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Unrecognized domain step: </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s1"> (should be either 0 or 1)&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">_fixed</span><span class="p">:</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">_value</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">_value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">_lb</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">_ub</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">_lb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">tmp_lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp_lb</span> <span class="o">=</span> <span class="n">_lb</span>
+                    <span class="k">if</span> <span class="n">_ub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">tmp_ub</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp_ub</span> <span class="o">=</span> <span class="n">_ub</span>
+                    <span class="n">mutable_bound</span> <span class="o">=</span> <span class="n">_MutableVarBounds</span><span class="p">(</span>
+                        <span class="n">lower_expr</span><span class="o">=</span><span class="n">NPV_MaxExpression</span><span class="p">((</span><span class="n">tmp_lb</span><span class="p">,</span> <span class="n">lb</span><span class="p">)),</span>
+                        <span class="n">upper_expr</span><span class="o">=</span><span class="n">NPV_MinExpression</span><span class="p">((</span><span class="n">tmp_ub</span><span class="p">,</span> <span class="n">ub</span><span class="p">)),</span>
+                        <span class="n">pyomo_var_id</span><span class="o">=</span><span class="n">var_id</span><span class="p">,</span>
+                        <span class="n">var_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">,</span>
+                        <span class="n">highs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_bounds</span><span class="p">[</span><span class="n">var_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">_v</span><span class="p">,</span> <span class="n">mutable_bound</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">_lb</span><span class="p">),</span> <span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">_ub</span><span class="p">),</span> <span class="n">ub</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">vtype</span>
+
+    <span class="k">def</span> <span class="nf">_add_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_GeneralVarData</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">lbs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">ubs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">vtypes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="n">current_num_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">v_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">vtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_domain_and_bounds</span><span class="p">(</span><span class="n">v_id</span><span class="p">)</span>
+            <span class="n">lbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="n">ubs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ub</span><span class="p">)</span>
+            <span class="n">vtypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vtype</span><span class="p">)</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_num_vars</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_num_vars</span>
+            <span class="n">current_num_vars</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">lbs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lbs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ubs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeColsIntegrality</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">vtypes</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vtypes</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ParamData</span><span class="p">]):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_reinit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">saved_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+        <span class="n">saved_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">highs_options</span>
+        <span class="n">saved_update_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">only_child_vars</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_only_child_vars</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">saved_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highs_options</span> <span class="o">=</span> <span class="n">saved_options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_config</span> <span class="o">=</span> <span class="n">saved_update_config</span>
+
+<div class="viewcode-block" id="Highs.set_instance"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.set_instance">[docs]</a>    <span class="k">def</span> <span class="nf">set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">():</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+            <span class="k">raise</span> <span class="n">PyomoException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Solver </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s1"> is not available &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span><span class="si">}</span><span class="s1">).&#39;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reinit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_extensions</span> <span class="ow">and</span> <span class="n">cmodel_available</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expr_types</span> <span class="o">=</span> <span class="n">cmodel</span><span class="o">.</span><span class="n">PyomoExprTypes</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">Highs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_block</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_objective</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_GeneralConstraintData</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">current_num_cons</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">)</span>
+        <span class="n">lbs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">ubs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">var_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">coef_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">cons</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compute_values</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">repn</span><span class="o">.</span><span class="n">nonlinear_expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Highs interface does not support expressions of degree </span><span class="si">{</span><span class="n">repn</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+
+            <span class="n">starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coef_values</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">ndx</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">[</span><span class="n">ndx</span><span class="p">]</span>
+                <span class="n">v_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">coef_val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+                    <span class="n">mutable_linear_coefficient</span> <span class="o">=</span> <span class="n">_MutableLinearCoefficient</span><span class="p">(</span>
+                        <span class="n">pyomo_con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
+                        <span class="n">pyomo_var_id</span><span class="o">=</span><span class="n">v_id</span><span class="p">,</span>
+                        <span class="n">con_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">,</span>
+                        <span class="n">var_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">,</span>
+                        <span class="n">expr</span><span class="o">=</span><span class="n">coef</span><span class="p">,</span>
+                        <span class="n">highs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">con</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutable_linear_coefficient</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">coef_val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                <span class="n">var_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">])</span>
+                <span class="n">coef_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coef_val</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">lower</span> <span class="o">-</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">upper</span> <span class="o">-</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">kHighsInf</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">ub</span><span class="p">):</span>
+                <span class="n">mutable_con_bounds</span> <span class="o">=</span> <span class="n">_MutableConstraintBounds</span><span class="p">(</span>
+                    <span class="n">lower_expr</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span>
+                    <span class="n">upper_expr</span><span class="o">=</span><span class="n">ub</span><span class="p">,</span>
+                    <span class="n">pyomo_con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
+                    <span class="n">con_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">,</span>
+                    <span class="n">highs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">con</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">mutable_con_bounds</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutable_con_bounds</span><span class="p">)</span>
+
+            <span class="n">lbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span>
+            <span class="n">ubs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_num_cons</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">current_num_cons</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+            <span class="n">current_num_cons</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addRows</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">lbs</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lbs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ubs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">coef_values</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">starts</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">var_indices</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coef_values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_sos_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_SOSConstraintData</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">cons</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;Highs interface does not support SOS constraints&#39;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_remove_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_GeneralConstraintData</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">indices_to_remove</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">cons</span><span class="p">:</span>
+            <span class="n">con_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">con_ndx</span><span class="p">]</span>
+            <span class="n">indices_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">con_ndx</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">deleteRows</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">con_ndx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">new_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">new_con_map</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">con_ndx</span>
+            <span class="n">con_ndx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="n">new_con_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_remove_sos_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_SOSConstraintData</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">cons</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;Highs interface does not support SOS constraints&#39;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_remove_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_GeneralVarData</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">indices_to_remove</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">v_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">v_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">v_id</span><span class="p">)</span>
+            <span class="n">indices_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_ndx</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_bounds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">v_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">deleteVars</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices_to_remove</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">v_ndx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">new_var_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">v_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">new_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_ndx</span>
+            <span class="n">v_ndx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">new_var_map</span>
+
+    <span class="k">def</span> <span class="nf">_remove_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ParamData</span><span class="p">]):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_update_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_GeneralVarData</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">lbs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">ubs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">vtypes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">v_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_bounds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">v_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">v_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span>
+            <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">vtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_domain_and_bounds</span><span class="p">(</span><span class="n">v_id</span><span class="p">)</span>
+            <span class="n">lbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="n">ubs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ub</span><span class="p">)</span>
+            <span class="n">vtypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vtype</span><span class="p">)</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_ndx</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeColsBounds</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lbs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ubs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeColsIntegrality</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vtypes</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Highs.update_params"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.update_params">[docs]</a>    <span class="k">def</span> <span class="nf">update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">con</span><span class="p">,</span> <span class="n">helpers</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_helpers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">helper</span> <span class="ow">in</span> <span class="n">helpers</span><span class="p">:</span>
+                <span class="n">helper</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">helper</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_bounds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">helper</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">helper</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objective_helpers</span><span class="p">:</span>
+            <span class="n">helper</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_results_object</span><span class="o">.</span><span class="n">solution_loader</span><span class="o">.</span><span class="n">invalidate</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective_helpers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sense</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">ObjSense</span><span class="o">.</span><span class="n">kMinimize</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeObjectiveOffset</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">minimize</span><span class="p">:</span>
+                <span class="n">sense</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">ObjSense</span><span class="o">.</span><span class="n">kMinimize</span>
+            <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">maximize</span><span class="p">:</span>
+                <span class="n">sense</span> <span class="o">=</span> <span class="n">highspy</span><span class="o">.</span><span class="n">ObjSense</span><span class="o">.</span><span class="n">kMaximize</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Objective sense is not recognized: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">sense</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compute_values</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">repn</span><span class="o">.</span><span class="n">nonlinear_expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Highs interface does not support expressions of degree </span><span class="si">{</span><span class="n">repn</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">coef</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">,</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">):</span>
+                <span class="n">v_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">v_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span>
+                <span class="n">costs</span><span class="p">[</span><span class="n">v_ndx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+                    <span class="n">mutable_objective_coef</span> <span class="o">=</span> <span class="n">_MutableObjectiveCoefficient</span><span class="p">(</span>
+                        <span class="n">pyomo_var_id</span><span class="o">=</span><span class="n">v_id</span><span class="p">,</span>
+                        <span class="n">var_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">,</span>
+                        <span class="n">expr</span><span class="o">=</span><span class="n">coef</span><span class="p">,</span>
+                        <span class="n">highs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_objective_helpers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutable_objective_coef</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeObjectiveOffset</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">):</span>
+                <span class="n">mutable_objective_offset</span> <span class="o">=</span> <span class="n">_MutableObjectiveOffset</span><span class="p">(</span>
+                    <span class="n">expr</span><span class="o">=</span><span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">,</span> <span class="n">highs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_objective_helpers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutable_objective_offset</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeObjectiveSense</span><span class="p">(</span><span class="n">sense</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">changeColsCost</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">costs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timer</span><span class="p">:</span> <span class="n">HierarchicalTimer</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+
+        <span class="n">highs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">getModelStatus</span><span class="p">()</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="n">HighsResults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">wallclock_time</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">getRunTime</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kNotset</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kLoadError</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kModelError</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kPresolveError</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kSolveError</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kPostsolveError</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kModelEmpty</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kOptimal</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kInfeasible</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kUnboundedOrInfeasible</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasibleOrUnbounded</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kUnbounded</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kObjectiveBound</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">objectiveLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kObjectiveTarget</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">objectiveLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kTimeLimit</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxTimeLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kIterationLimit</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxIterations</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">highspy</span><span class="o">.</span><span class="n">HighsModelStatus</span><span class="o">.</span><span class="n">kUnknown</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+
+        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;load solution&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">getSolution</span><span class="p">()</span>
+        <span class="n">has_feasible_solution</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+            <span class="n">has_feasible_solution</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="ow">in</span> <span class="p">{</span>
+            <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">objectiveLimit</span><span class="p">,</span>
+            <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxIterations</span><span class="p">,</span>
+            <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxTimeLimit</span><span class="p">,</span>
+        <span class="p">}:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">value_valid</span><span class="p">:</span>
+                <span class="n">has_feasible_solution</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">load_solution</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">has_feasible_solution</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">!=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s1">&#39;Loading a feasible but suboptimal solution. &#39;</span>
+                        <span class="s1">&#39;Please set load_solution=False and check &#39;</span>
+                        <span class="s1">&#39;results.termination_condition and &#39;</span>
+                        <span class="s1">&#39;results.found_feasible_solution() before loading a solution.&#39;</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">load_vars</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s1">&#39;A feasible solution was not found, so no solution can be loaded.&#39;</span>
+                    <span class="s1">&#39;Please set opt.config.load_solution=False and check &#39;</span>
+                    <span class="s1">&#39;results.termination_condition and &#39;</span>
+                    <span class="s1">&#39;results.best_feasible_objective before loading a solution.&#39;</span>
+                <span class="p">)</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="s1">&#39;load solution&#39;</span><span class="p">)</span>
+
+        <span class="n">info</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">best_objective_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">best_feasible_objective</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">has_feasible_solution</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">best_feasible_objective</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">objective_function_value</span>
+            <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">mip_node_count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">has_feasible_solution</span><span class="p">:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">best_objective_bound</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">objective_function_value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">best_objective_bound</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">best_objective_bound</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">mip_dual_bound</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<div class="viewcode-block" id="Highs.load_vars"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.load_vars">[docs]</a>    <span class="k">def</span> <span class="nf">load_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_primals</span><span class="p">(</span><span class="n">vars_to_load</span><span class="o">=</span><span class="n">vars_to_load</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">(</span><span class="n">delayed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Highs.get_primals"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.get_primals">[docs]</a>    <span class="k">def</span> <span class="nf">get_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">solution_number</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">value_valid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Solver does not currently have a valid solution. Please &#39;</span>
+                <span class="s1">&#39;check the termination condition.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var_ids_to_load</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">ref_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">using_cons</span><span class="p">,</span> <span class="n">using_sos</span><span class="p">,</span> <span class="n">using_obj</span> <span class="o">=</span> <span class="n">ref_info</span>
+                <span class="k">if</span> <span class="n">using_cons</span> <span class="ow">or</span> <span class="n">using_sos</span> <span class="ow">or</span> <span class="p">(</span><span class="n">using_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="n">var_ids_to_load</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">var_ids_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+
+        <span class="n">var_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">col_value</span>
+
+        <span class="k">for</span> <span class="n">v_id</span> <span class="ow">in</span> <span class="n">var_ids_to_load</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">v_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">v_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_vals</span><span class="p">[</span><span class="n">v_ndx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Highs.get_reduced_costs"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.get_reduced_costs">[docs]</a>    <span class="k">def</span> <span class="nf">get_reduced_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">dual_valid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Solver does not currently have valid reduced costs. Please &#39;</span>
+                <span class="s1">&#39;check the termination condition.&#39;</span>
+            <span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var_ids_to_load</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">var_ids_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+
+        <span class="n">var_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">col_dual</span>
+
+        <span class="k">for</span> <span class="n">v_id</span> <span class="ow">in</span> <span class="n">var_ids_to_load</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">[</span><span class="n">v_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">v_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v_id</span><span class="p">]</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_vals</span><span class="p">[</span><span class="n">v_ndx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Highs.get_duals"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.get_duals">[docs]</a>    <span class="k">def</span> <span class="nf">get_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">dual_valid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Solver does not currently have valid duals. Please &#39;</span>
+                <span class="s1">&#39;check the termination condition.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cons_to_load</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">duals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">row_dual</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">:</span>
+            <span class="n">c_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">duals</span><span class="p">[</span><span class="n">c_ndx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Highs.get_slacks"><a class="viewcode-back" href="../../../../../library_reference/appsi/appsi.solvers.highs.html#pyomo.contrib.appsi.solvers.highs.Highs.get_slacks">[docs]</a>    <span class="k">def</span> <span class="nf">get_slacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">value_valid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Solver does not currently have valid slacks. Please &#39;</span>
+                <span class="s1">&#39;check the termination condition.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cons_to_load</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">slacks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sol</span><span class="o">.</span><span class="n">row_value</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">:</span>
+            <span class="n">c_ndx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">slacks</span><span class="p">[</span><span class="n">c_ndx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">res</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

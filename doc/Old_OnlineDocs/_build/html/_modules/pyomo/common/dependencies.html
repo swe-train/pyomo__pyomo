@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.dependencies &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.common.dependencies</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.common.dependencies</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">deprecation_warning</span><span class="p">,</span> <span class="n">in_testing_environment</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">numeric_types</span>
+
+
+<div class="viewcode-block" id="DeferredImportError"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.DeferredImportError">[docs]</a><span class="k">class</span> <span class="nc">DeferredImportError</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ModuleUnavailable"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.ModuleUnavailable">[docs]</a><span class="k">class</span> <span class="nc">ModuleUnavailable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mock object that raises a DeferredImportError upon attribute access</span>
+
+<span class="sd">    This object is returned by :py:func:`attempt_import()` in lieu of</span>
+<span class="sd">    the module in the case that the module import fails.  Any attempts</span>
+<span class="sd">    to access attributes on this object will raise a DeferredImportError</span>
+<span class="sd">    exception.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name: str</span>
+<span class="sd">        The module name that was being imported</span>
+
+<span class="sd">    message: str</span>
+<span class="sd">        The string message to return in the raised exception</span>
+
+<span class="sd">    version_error: str</span>
+<span class="sd">        A string to add to the message if the module failed to import because</span>
+<span class="sd">        it did not match the required version</span>
+
+<span class="sd">    import_error: str</span>
+<span class="sd">        A string to add to the message documenting the Exception</span>
+<span class="sd">        raised when the module failed to import.</span>
+
+<span class="sd">    package: str</span>
+<span class="sd">        The module name that originally attempted the import</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_getattr_raises_attributeerror</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># We need special handling for Sphinx here, as it will look for the</span>
+        <span class="c1"># __sphinx_mock__ attribute on all module-level objects, and we need</span>
+        <span class="c1"># that to raise an AttributeError and not a DeferredImportError</span>
+        <span class="s1">&#39;__sphinx_mock__&#39;</span><span class="p">,</span>
+        <span class="c1"># We need special handling for dill as well, as dill attempts to</span>
+        <span class="c1"># pickle module globals by looking for the &#39;_dill&#39; attribute on</span>
+        <span class="c1"># all global objects.</span>
+        <span class="s1">&#39;_dill&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">version_error</span><span class="p">,</span> <span class="n">import_error</span><span class="p">,</span> <span class="n">package</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_info_</span> <span class="o">=</span> <span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">version_error</span><span class="p">,</span> <span class="n">import_error</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">ModuleUnavailable</span><span class="o">.</span><span class="n">_getattr_raises_attributeerror</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">DeferredImportError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_message</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_info_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_info_</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="c1"># Included because recent dill picklers look for the mro() when</span>
+    <span class="c1"># detecting numpy types</span>
+<div class="viewcode-block" id="ModuleUnavailable.mro"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.ModuleUnavailable.mro">[docs]</a>    <span class="k">def</span> <span class="nf">mro</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ModuleUnavailable</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_moduleunavailable_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">_err</span><span class="p">,</span> <span class="n">_ver</span><span class="p">,</span> <span class="n">_imp</span><span class="p">,</span> <span class="n">_package</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_info_</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">_err</span>
+        <span class="k">if</span> <span class="n">_imp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+                <span class="n">_pkg_str</span> <span class="o">=</span> <span class="n">_package</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">_pkg_str</span><span class="p">:</span>
+                    <span class="n">_pkg_str</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;The </span><span class="si">%s</span><span class="s2"> module (an optional </span><span class="si">%s</span><span class="s2">dependency) &quot;</span>
+                    <span class="s2">&quot;failed to import: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">_pkg_str</span><span class="p">,</span> <span class="n">_imp</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (import raised </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">_imp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_ver</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;The </span><span class="si">%s</span><span class="s2"> module </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">_ver</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">_ver</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">msg</span>
+
+<div class="viewcode-block" id="ModuleUnavailable.log_import_warning"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.ModuleUnavailable.log_import_warning">[docs]</a>    <span class="k">def</span> <span class="nf">log_import_warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s1">&#39;pyomo&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log the import error message to the specified logger</span>
+
+<span class="sd">        This will log the the import error message to the specified</span>
+<span class="sd">        logger.  If ``msg=`` is specified, it will override the default</span>
+<span class="sd">        message passed to this instance of</span>
+<span class="sd">        :py:class:`ModuleUnavailable`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_moduleunavailable_message</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ModuleUnavailable.generate_import_warning"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.ModuleUnavailable.generate_import_warning">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;use :py:class:`log_import_warning()`&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.0&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">generate_import_warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s1">&#39;pyomo.common&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_import_warning</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeferredImportModule"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.DeferredImportModule">[docs]</a><span class="k">class</span> <span class="nc">DeferredImportModule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mock module object to support the deferred import of a module.</span>
+
+<span class="sd">    This object is returned by :py:func:`attempt_import()` in lieu of</span>
+<span class="sd">    the module when :py:func:`attempt_import()` is called with</span>
+<span class="sd">    ``defer_check=True``.  Any attempts to access attributes on this</span>
+<span class="sd">    object will trigger the actual module import and return either the</span>
+<span class="sd">    appropriate module attribute or else if the module import fails,</span>
+<span class="sd">    raise a DeferredImportError exception.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indicator</span><span class="p">,</span> <span class="n">deferred_submodules</span><span class="p">,</span> <span class="n">submodule_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_indicator_flag</span> <span class="o">=</span> <span class="n">indicator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_submodule_name</span> <span class="o">=</span> <span class="n">submodule_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__file__</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Disable coverage of this module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Indicate that this is not a &quot;real&quot; module</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">deferred_submodules</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">submodule_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">submodule_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">deferred_submodules</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">submodule_name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">_local_name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">submodule_name</span><span class="p">))</span> <span class="p">:]</span>
+            <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">_local_name</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="nb">setattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">_local_name</span><span class="p">,</span>
+                <span class="n">DeferredImportModule</span><span class="p">(</span>
+                    <span class="n">indicator</span><span class="p">,</span> <span class="n">deferred_submodules</span><span class="p">,</span> <span class="n">submodule_name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">_local_name</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_indicator_flag</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="n">_mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indicator_flag</span><span class="o">.</span><span class="n">_module</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submodule_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_sub</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submodule_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+                <span class="n">_mod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_mod</span><span class="p">,</span> <span class="n">_sub</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_mod</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Included because recent dill picklers look for the mro() when</span>
+    <span class="c1"># detecting numpy types</span>
+<div class="viewcode-block" id="DeferredImportModule.mro"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.DeferredImportModule.mro">[docs]</a>    <span class="k">def</span> <span class="nf">mro</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">DeferredImportModule</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_DeferredImportIndicatorBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_DeferredAnd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_DeferredOr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__rand__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_DeferredAnd</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__ror__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_DeferredOr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DeferredImportIndicator"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.DeferredImportIndicator">[docs]</a><span class="k">class</span> <span class="nc">DeferredImportIndicator</span><span class="p">(</span><span class="n">_DeferredImportIndicatorBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Placeholder indicating if an import was successful.</span>
+
+<span class="sd">    This object serves as a placeholder for the Boolean indicator if a</span>
+<span class="sd">    deferred module import was successful.  Casting this instance to</span>
+<span class="sd">    bool will cause the import to be attempted.  The actual import logic</span>
+<span class="sd">    is here and not in the DeferredImportModule to reduce the number of</span>
+<span class="sd">    attributes on the DeferredImportModule.</span>
+
+<span class="sd">    ``DeferredImportIndicator`` supports limited logical expressions</span>
+<span class="sd">    using the ``&amp;`` (and) and ``|`` (or) binary operators.  Creating</span>
+<span class="sd">    these expressions does not trigger the import of the corresponding</span>
+<span class="sd">    :py:class:`DeferredImportModule` instances, although casting the</span>
+<span class="sd">    resulting expression to ``bool()`` will trigger any relevant</span>
+<span class="sd">    imports.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">error_message</span><span class="p">,</span>
+        <span class="n">catch_exceptions</span><span class="p">,</span>
+        <span class="n">minimum_version</span><span class="p">,</span>
+        <span class="n">original_globals</span><span class="p">,</span>
+        <span class="n">callback</span><span class="p">,</span>
+        <span class="n">importer</span><span class="p">,</span>
+        <span class="n">deferred_submodules</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">_n</span> <span class="ow">in</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">_n</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_n</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span> <span class="o">=</span> <span class="n">error_message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catch_exceptions</span> <span class="o">=</span> <span class="n">catch_exceptions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_minimum_version</span> <span class="o">=</span> <span class="n">minimum_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_globals</span> <span class="o">=</span> <span class="n">original_globals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="n">callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_importer</span> <span class="o">=</span> <span class="n">importer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_submodules</span> <span class="o">=</span> <span class="n">deferred_submodules</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Only attempt the import once, then cache some form of result</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">package</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span> <span class="o">=</span> <span class="n">_perform_import</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">error_message</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span><span class="p">,</span>
+                    <span class="n">minimum_version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_minimum_version</span><span class="p">,</span>
+                    <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">,</span>
+                    <span class="n">importer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_importer</span><span class="p">,</span>
+                    <span class="n">catch_exceptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_catch_exceptions</span><span class="p">,</span>
+                    <span class="n">package</span><span class="o">=</span><span class="n">package</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># make sure that we cache the result</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="n">ModuleUnavailable</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;Exception raised when importing </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span>
+                    <span class="n">package</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_available</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">raise</span>
+
+            <span class="c1"># If this module was not found, then we need to check for</span>
+            <span class="c1"># deferred submodules and resolve them as well</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_submodules</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span> <span class="ow">is</span> <span class="n">ModuleUnavailable</span><span class="p">:</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="o">.</span><span class="n">_moduleunavailable_info_</span>
+                <span class="k">for</span> <span class="n">submod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_submodules</span><span class="p">:</span>
+                    <span class="n">refmod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">submod</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">refmod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">refmod</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="n">DeferredImportError</span><span class="p">:</span>
+                            <span class="nb">setattr</span><span class="p">(</span>
+                                <span class="n">refmod</span><span class="p">,</span>
+                                <span class="n">name</span><span class="p">,</span>
+                                <span class="n">ModuleUnavailable</span><span class="p">(</span><span class="n">refmod</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="n">submod</span><span class="p">,</span> <span class="o">*</span><span class="n">info</span><span class="p">),</span>
+                            <span class="p">)</span>
+                            <span class="n">refmod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">refmod</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># Replace myself in the original globals() where I was</span>
+            <span class="c1"># declared</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">replace_self_in_globals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_globals</span><span class="p">)</span>
+
+        <span class="c1"># Replace myself in the caller globals (to avoid calls to</span>
+        <span class="c1"># this method in the future)</span>
+        <span class="n">_frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="k">while</span> <span class="n">_frame</span><span class="o">.</span><span class="n">f_globals</span> <span class="ow">is</span> <span class="nb">globals</span><span class="p">():</span>
+            <span class="n">_frame</span> <span class="o">=</span> <span class="n">_frame</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replace_self_in_globals</span><span class="p">(</span><span class="n">_frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">replace_self_in_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_globals</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_globals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">_globals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span>
+            <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">DeferredImportModule</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">_indicator_flag</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">_submodule_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">_globals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_mod_path</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">_submodule_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="n">_mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span>
+                    <span class="k">for</span> <span class="n">_sub</span> <span class="ow">in</span> <span class="n">_mod_path</span><span class="p">:</span>
+                        <span class="n">_mod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_mod</span><span class="p">,</span> <span class="n">_sub</span><span class="p">)</span>
+                    <span class="n">_globals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_mod</span></div>
+
+
+<span class="k">class</span> <span class="nc">_DeferredAnd</span><span class="p">(</span><span class="n">_DeferredImportIndicatorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b</span> <span class="o">=</span> <span class="n">b</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_DeferredOr</span><span class="p">(</span><span class="n">_DeferredImportIndicatorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b</span> <span class="o">=</span> <span class="n">b</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">check_min_version</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">min_version</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">DeferredImportModule</span><span class="p">):</span>
+        <span class="n">indicator</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">_indicator_flag</span>
+        <span class="n">indicator</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">indicator</span><span class="o">.</span><span class="n">_available</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">indicator</span><span class="o">.</span><span class="n">_module</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">check_min_version</span><span class="o">.</span><span class="n">_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">packaging</span> <span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">_version</span>
+
+            <span class="n">_parser</span> <span class="o">=</span> <span class="n">_version</span><span class="o">.</span><span class="n">parse</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c1"># pkg_resources is an order of magnitude slower to import than</span>
+            <span class="c1"># packaging.  Only use it if the preferred (but optional)</span>
+            <span class="c1"># packaging library is not present</span>
+            <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">parse_version</span> <span class="k">as</span> <span class="n">_parser</span>
+        <span class="n">check_min_version</span><span class="o">.</span><span class="n">_parser</span> <span class="o">=</span> <span class="n">_parser</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_parser</span> <span class="o">=</span> <span class="n">check_min_version</span><span class="o">.</span><span class="n">_parser</span>
+
+    <span class="n">version</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__version__&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0.0&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_parser</span><span class="p">(</span><span class="n">min_version</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">_parser</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+
+
+<span class="n">check_min_version</span><span class="o">.</span><span class="n">_parser</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="attempt_import"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.attempt_import">[docs]</a><span class="k">def</span> <span class="nf">attempt_import</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">,</span>
+    <span class="n">error_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">only_catch_importerror</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">minimum_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">alt_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">importer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">defer_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">deferred_submodules</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">catch_exceptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Attempt to import the specified module.</span>
+
+<span class="sd">    This will attempt to import the specified module, returning a</span>
+<span class="sd">    ``(module, available)`` tuple.  If the import was successful, ``module``</span>
+<span class="sd">    will be the imported module and ``available`` will be True.  If the</span>
+<span class="sd">    import results in an exception, then ``module`` will be an instance of</span>
+<span class="sd">    :py:class:`ModuleUnavailable` and ``available`` will be False</span>
+
+<span class="sd">    The following</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.common.dependencies import attempt_import</span>
+<span class="sd">       &gt;&gt;&gt; numpy, numpy_available = attempt_import(&#39;numpy&#39;)</span>
+
+<span class="sd">    Is roughly equivalent to</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.common.dependencies import ModuleUnavailable</span>
+<span class="sd">       &gt;&gt;&gt; try:</span>
+<span class="sd">       ...     import numpy</span>
+<span class="sd">       ...     numpy_available = True</span>
+<span class="sd">       ... except ImportError as e:</span>
+<span class="sd">       ...     numpy = ModuleUnavailable(&#39;numpy&#39;, &#39;Numpy is not available&#39;,</span>
+<span class="sd">       ...                               &#39;&#39;, str(e), globals()[&#39;__name__&#39;])</span>
+<span class="sd">       ...     numpy_available = False</span>
+
+<span class="sd">    The import can be &quot;deferred&quot; until the first time the code either</span>
+<span class="sd">    attempts to access the module or checks the Boolean value of the</span>
+<span class="sd">    available flag.  This allows optional dependencies to be declared at</span>
+<span class="sd">    the module scope but not imported until they are actually used by</span>
+<span class="sd">    the module (thereby speeding up the initial package import).</span>
+<span class="sd">    Deferred imports are handled by two helper classes</span>
+<span class="sd">    (:py:class:`DeferredImportModule` and</span>
+<span class="sd">    :py:class:`DeferredImportIndicator`).  Upon actual import,</span>
+<span class="sd">    :py:meth:`DeferredImportIndicator.resolve()` attempts to replace</span>
+<span class="sd">    those objects (in both the local and original global namespaces)</span>
+<span class="sd">    with the imported module and Boolean flag so that subsequent uses of</span>
+<span class="sd">    the module do not incur any overhead due to the delayed import.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name: str</span>
+<span class="sd">        The name of the module to import</span>
+
+<span class="sd">    error_message: str, optional</span>
+<span class="sd">        The message for the exception raised by :py:class:`ModuleUnavailable`</span>
+
+<span class="sd">    only_catch_importerror: bool, optional</span>
+<span class="sd">        DEPRECATED: use catch_exceptions instead or only_catch_importerror.</span>
+<span class="sd">        If True (the default), exceptions other than ``ImportError`` raised</span>
+<span class="sd">        during module import will be reraised.  If False, any exception</span>
+<span class="sd">        will result in returning a :py:class:`ModuleUnavailable` object.</span>
+<span class="sd">        (deprecated in version 5.7.3)</span>
+
+<span class="sd">    minimum_version: str, optional</span>
+<span class="sd">        The minimum acceptable module version (retrieved from</span>
+<span class="sd">        ``module.__version__``)</span>
+
+<span class="sd">    alt_names: list, optional</span>
+<span class="sd">        DEPRECATED: alt_names no longer needs to be specified and is ignored.</span>
+<span class="sd">        A list of common alternate names by which to look for this</span>
+<span class="sd">        module in the ``globals()`` namespaces.  For example, the alt_names</span>
+<span class="sd">        for NumPy would be ``[&#39;np&#39;]``.  (deprecated in version 6.0)</span>
+
+<span class="sd">    callback: function, optional</span>
+<span class="sd">        A function with the signature &quot;``fcn(module, available)``&quot; that</span>
+<span class="sd">        will be called after the import is first attempted.</span>
+
+<span class="sd">    importer: function, optional</span>
+<span class="sd">        A function that will perform the import and return the imported</span>
+<span class="sd">        module (or raise an :py:class:`ImportError`).  This is useful</span>
+<span class="sd">        for cases where there are several equivalent modules and you</span>
+<span class="sd">        want to import/return the first one that is available.</span>
+
+<span class="sd">    defer_check: bool, optional</span>
+<span class="sd">        If True (the default), then the attempted import is deferred</span>
+<span class="sd">        until the first use of either the module or the availability</span>
+<span class="sd">        flag.  The method will return instances of DeferredImportModule</span>
+<span class="sd">        and DeferredImportIndicator.</span>
+
+<span class="sd">    deferred_submodules: Iterable[str], optional</span>
+<span class="sd">        If provided, an iterable of submodule names within this module</span>
+<span class="sd">        that can be accessed without triggering a deferred import of</span>
+<span class="sd">        this module.  For example, this module uses</span>
+<span class="sd">        ``deferred_submodules=[&#39;pyplot&#39;, &#39;pylab&#39;]`` for ``matplotlib``.</span>
+
+<span class="sd">    catch_exceptions: Iterable[Exception], optional</span>
+<span class="sd">        If provided, this is the list of exceptions that will be caught</span>
+<span class="sd">        when importing the target module, resulting in</span>
+<span class="sd">        ``attempt_import`` returning a :py:class:`ModuleUnavailable`</span>
+<span class="sd">        instance.  The default is to only catch :py:class:`ImportError`.</span>
+<span class="sd">        This is useful when a module can regularly return additional</span>
+<span class="sd">        exceptions during import.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    : module</span>
+<span class="sd">        the imported module, or an instance of</span>
+<span class="sd">        :py:class:`ModuleUnavailable`, or an instance of</span>
+<span class="sd">        :py:class:`DeferredImportModule`</span>
+<span class="sd">    : bool</span>
+<span class="sd">        Boolean indicating if the module import succeeded or an instance</span>
+<span class="sd">        of :py:class:`DeferredImportIndicator`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">alt_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">deprecation_warning</span><span class="p">(</span>
+            <span class="s1">&#39;alt_names=</span><span class="si">%s</span><span class="s1"> no longer needs to be specified &#39;</span>
+            <span class="s1">&#39;and is ignored&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">alt_names</span><span class="p">,),</span>
+            <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.0&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">only_catch_importerror</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">deprecation_warning</span><span class="p">(</span>
+            <span class="s2">&quot;only_catch_importerror is deprecated.  Pass exceptions to &quot;</span>
+            <span class="s2">&quot;catch using the catch_exceptions argument&quot;</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.7.3&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch_exceptions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot specify both only_catch_importerror and catch_exceptions&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">only_catch_importerror</span><span class="p">:</span>
+            <span class="n">catch_exceptions</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">catch_exceptions</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">catch_exceptions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">catch_exceptions</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,)</span>
+
+    <span class="c1"># If we are going to defer the check until later, return the</span>
+    <span class="c1"># deferred import module object</span>
+    <span class="k">if</span> <span class="n">defer_check</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">deferred_submodules</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">deferred_submodules</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">deprecation_warning</span><span class="p">(</span>
+                    <span class="s1">&#39;attempt_import(): deferred_submodules takes an iterable &#39;</span>
+                    <span class="s1">&#39;and not a mapping (the alt_names supplied by the mapping &#39;</span>
+                    <span class="s1">&#39;are no longer needed and are ignored).&#39;</span><span class="p">,</span>
+                    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.0&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">deferred_submodules</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">deferred_submodules</span><span class="p">)</span>
+
+            <span class="c1"># Ensures all names begin with &#39;.&#39;</span>
+            <span class="c1">#</span>
+            <span class="c1"># Fill in any missing submodules.  For example, if a user</span>
+            <span class="c1"># provides [&#39;foo.bar.baz&#39;], then expand the list to</span>
+            <span class="c1"># [&#39;.foo&#39;, &#39;.foo.bar&#39;, &#39;.foo.bar.baz&#39;]</span>
+            <span class="n">deferred</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">_submod</span> <span class="ow">in</span> <span class="n">deferred_submodules</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_submod</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>
+                    <span class="n">_submod</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">_submod</span>
+                <span class="n">_mod_path</span> <span class="o">=</span> <span class="n">_submod</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_mod_path</span><span class="p">)):</span>
+                    <span class="n">_test_mod</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_mod_path</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">_test_mod</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">deferred</span><span class="p">:</span>
+                        <span class="n">deferred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_test_mod</span><span class="p">)</span>
+                <span class="n">deferred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_submod</span><span class="p">)</span>
+            <span class="n">deferred</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">deferred</span> <span class="k">if</span> <span class="n">_</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">deferred</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">indicator</span> <span class="o">=</span> <span class="n">DeferredImportIndicator</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">error_message</span><span class="o">=</span><span class="n">error_message</span><span class="p">,</span>
+            <span class="n">catch_exceptions</span><span class="o">=</span><span class="n">catch_exceptions</span><span class="p">,</span>
+            <span class="n">minimum_version</span><span class="o">=</span><span class="n">minimum_version</span><span class="p">,</span>
+            <span class="n">original_globals</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span><span class="o">.</span><span class="n">f_globals</span><span class="p">,</span>
+            <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+            <span class="n">importer</span><span class="o">=</span><span class="n">importer</span><span class="p">,</span>
+            <span class="n">deferred_submodules</span><span class="o">=</span><span class="n">deferred</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">DeferredImportModule</span><span class="p">(</span><span class="n">indicator</span><span class="p">,</span> <span class="n">deferred</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">indicator</span>
+
+    <span class="k">if</span> <span class="n">deferred_submodules</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;deferred_submodules is only valid if defer_check==True&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_perform_import</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">error_message</span><span class="o">=</span><span class="n">error_message</span><span class="p">,</span>
+        <span class="n">minimum_version</span><span class="o">=</span><span class="n">minimum_version</span><span class="p">,</span>
+        <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+        <span class="n">importer</span><span class="o">=</span><span class="n">importer</span><span class="p">,</span>
+        <span class="n">catch_exceptions</span><span class="o">=</span><span class="n">catch_exceptions</span><span class="p">,</span>
+        <span class="n">package</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_perform_import</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">error_message</span><span class="p">,</span> <span class="n">minimum_version</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">importer</span><span class="p">,</span> <span class="n">catch_exceptions</span><span class="p">,</span> <span class="n">package</span>
+<span class="p">):</span>
+    <span class="n">import_error</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">version_error</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">importer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">importer</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">minimum_version</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">check_min_version</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">minimum_version</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">module</span><span class="p">,</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;__version__&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN&#39;</span><span class="p">)</span>
+            <span class="n">version_error</span> <span class="o">=</span> <span class="s2">&quot;version </span><span class="si">%s</span><span class="s2"> does not satisfy the minimum version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">version</span><span class="p">,</span>
+                <span class="n">minimum_version</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="n">catch_exceptions</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">import_error</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="n">module</span> <span class="o">=</span> <span class="n">ModuleUnavailable</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">error_message</span><span class="p">,</span> <span class="n">version_error</span><span class="p">,</span> <span class="n">import_error</span><span class="p">,</span> <span class="n">package</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span><span class="p">,</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="declare_deferred_modules_as_importable"><a class="viewcode-back" href="../../../library_reference/common/dependencies.html#pyomo.common.dependencies.declare_deferred_modules_as_importable">[docs]</a><span class="k">def</span> <span class="nf">declare_deferred_modules_as_importable</span><span class="p">(</span><span class="n">globals_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make all DeferredImportModules in ``globals_dict`` importable</span>
+
+<span class="sd">    This function will go throughout the specified ``globals_dict``</span>
+<span class="sd">    dictionary and add any instances of :py:class:`DeferredImportModule`</span>
+<span class="sd">    that it finds (and any of their deferred submodules) to</span>
+<span class="sd">    ``sys.modules`` so that the modules can be imported through the</span>
+<span class="sd">    ``globals_dict`` namespace.</span>
+
+<span class="sd">    For example, ``pyomo/common/dependencies.py`` declares:</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.common.dependencies import (</span>
+<span class="sd">       ...     attempt_import, _finalize_scipy, __dict__ as dep_globals,</span>
+<span class="sd">       ...     declare_deferred_modules_as_importable, )</span>
+<span class="sd">       &gt;&gt;&gt; # Sphinx does not provide a proper globals()</span>
+<span class="sd">       &gt;&gt;&gt; def globals(): return dep_globals</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; scipy, scipy_available = attempt_import(</span>
+<span class="sd">       ...     &#39;scipy&#39;, callback=_finalize_scipy,</span>
+<span class="sd">       ...     deferred_submodules=[&#39;stats&#39;, &#39;sparse&#39;, &#39;spatial&#39;, &#39;integrate&#39;])</span>
+<span class="sd">       &gt;&gt;&gt; declare_deferred_modules_as_importable(globals())</span>
+
+<span class="sd">    Which enables users to use:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; import pyomo.common.dependencies.scipy.sparse as spa</span>
+
+<span class="sd">    If the deferred import has not yet been triggered, then the</span>
+<span class="sd">    :py:class:`DeferredImportModule` is returned and named ``spa``.</span>
+<span class="sd">    However, if the import has already been triggered, then ``spa`` will</span>
+<span class="sd">    either be the ``scipy.sparse`` module, or a</span>
+<span class="sd">    :py:class:`ModuleUnavailable` instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_global_name</span> <span class="o">=</span> <span class="n">globals_dict</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span>
+    <span class="n">deferred</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">globals_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">is</span> <span class="n">DeferredImportModule</span>
+    <span class="p">)</span>
+    <span class="k">while</span> <span class="n">deferred</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">deferred</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">__path__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">_global_name</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod</span>
+        <span class="n">deferred</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mod</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">is</span> <span class="n">DeferredImportModule</span>
+        <span class="p">)</span></div>
+
+
+<span class="c1">#</span>
+<span class="c1"># Common optional dependencies used throughout Pyomo</span>
+<span class="c1">#</span>
+
+<span class="n">yaml_load_args</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_yaml</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="c1"># Recent versions of PyYAML issue warnings if the Loader argument is</span>
+    <span class="c1"># not set</span>
+    <span class="k">if</span> <span class="n">available</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;SafeLoader&#39;</span><span class="p">):</span>
+        <span class="n">yaml_load_args</span><span class="p">[</span><span class="s1">&#39;Loader&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">SafeLoader</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_scipy</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+        <span class="c1"># Import key subpackages that we will want to assume are present</span>
+        <span class="kn">import</span> <span class="nn">scipy.stats</span>
+
+        <span class="c1"># As of scipy 1.6.0, importing scipy.stats causes the following</span>
+        <span class="c1"># to be automatically imported.  However, we will still</span>
+        <span class="c1"># explicitly import them here to guard against potential future</span>
+        <span class="c1"># changes in scipy.</span>
+        <span class="kn">import</span> <span class="nn">scipy.integrate</span>
+        <span class="kn">import</span> <span class="nn">scipy.sparse</span>
+        <span class="kn">import</span> <span class="nn">scipy.spatial</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_pympler</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+        <span class="c1"># Import key subpackages that we will want to assume are present</span>
+        <span class="kn">import</span> <span class="nn">pympler.muppy</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_matplotlib</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">available</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="c1"># You must switch matplotlib backends *before* importing pyplot.  If</span>
+    <span class="c1"># we are in the middle of testing, we need to switch the backend to</span>
+    <span class="c1"># &#39;Agg&#39;, otherwise attempts to generate plots on CI services without</span>
+    <span class="c1"># terminal windows will fail.</span>
+    <span class="k">if</span> <span class="n">in_testing_environment</span><span class="p">():</span>
+        <span class="n">module</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_numpy</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">available</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">numeric_types</span><span class="o">.</span><span class="n">RegisterLogicalType</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">numeric_types</span><span class="o">.</span><span class="n">RegisterIntegerType</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="c1"># We have deprecated RegisterBooleanType, so we will mock up the</span>
+        <span class="c1"># registration here (to bypass the deprecation warning) until we</span>
+        <span class="c1"># finally remove all support for it</span>
+        <span class="n">numeric_types</span><span class="o">.</span><span class="n">_native_boolean_types</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="n">numeric_types</span><span class="o">.</span><span class="n">RegisterNumericType</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="c1"># We have deprecated RegisterBooleanType, so we will mock up the</span>
+        <span class="c1"># registration here (to bypass the deprecation warning) until we</span>
+        <span class="c1"># finally remove all support for it</span>
+        <span class="n">numeric_types</span><span class="o">.</span><span class="n">_native_boolean_types</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+
+<span class="n">dill</span><span class="p">,</span> <span class="n">dill_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;dill&#39;</span><span class="p">)</span>
+<span class="n">networkx</span><span class="p">,</span> <span class="n">networkx_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;networkx&#39;</span><span class="p">)</span>
+<span class="n">numpy</span><span class="p">,</span> <span class="n">numpy_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;numpy&#39;</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_numpy</span><span class="p">)</span>
+<span class="n">pandas</span><span class="p">,</span> <span class="n">pandas_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">)</span>
+<span class="n">plotly</span><span class="p">,</span> <span class="n">plotly_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
+<span class="n">pympler</span><span class="p">,</span> <span class="n">pympler_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;pympler&#39;</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_pympler</span><span class="p">)</span>
+<span class="n">pyutilib</span><span class="p">,</span> <span class="n">pyutilib_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;pyutilib&#39;</span><span class="p">)</span>
+<span class="n">scipy</span><span class="p">,</span> <span class="n">scipy_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span>
+    <span class="s1">&#39;scipy&#39;</span><span class="p">,</span>
+    <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_scipy</span><span class="p">,</span>
+    <span class="n">deferred_submodules</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;stats&#39;</span><span class="p">,</span> <span class="s1">&#39;sparse&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial&#39;</span><span class="p">,</span> <span class="s1">&#39;integrate&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">yaml</span><span class="p">,</span> <span class="n">yaml_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;yaml&#39;</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_yaml</span><span class="p">)</span>
+
+<span class="c1"># Note that matplotlib.pyplot can generate a runtime error on OSX when</span>
+<span class="c1"># not installed as a Framework (as is the case in the CI systems)</span>
+<span class="n">matplotlib</span><span class="p">,</span> <span class="n">matplotlib_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span>
+    <span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span>
+    <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_matplotlib</span><span class="p">,</span>
+    <span class="n">deferred_submodules</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pyplot&#39;</span><span class="p">,</span> <span class="s1">&#39;pylab&#39;</span><span class="p">],</span>
+    <span class="n">catch_exceptions</span><span class="o">=</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">cPickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="n">declare_deferred_modules_as_importable</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

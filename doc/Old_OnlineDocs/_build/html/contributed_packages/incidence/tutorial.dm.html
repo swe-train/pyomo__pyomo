@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Debugging a structural singularity with the Dulmage-Mendelsohn partition &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Debugging a numeric singularity using block triangularization" href="tutorial.bt.html" />
+    <link rel="prev" title="Incidence Analysis Tutorial" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Incidence Analysis</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="tutorial.html">Incidence Analysis Tutorial</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Debugging a structural singularity with the Dulmage-Mendelsohn partition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial.bt.html">Debugging a numeric singularity using block triangularization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial.btsolve.html">Solving a square system with a block triangular decomposition</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Third-Party Contributions</a> &raquo;</li>
+        
+          <li><a href="index.html">Incidence Analysis</a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Incidence Analysis Tutorial</a> &raquo;</li>
+        
+      <li>Debugging a structural singularity with the Dulmage-Mendelsohn partition</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/contributed_packages/incidence/tutorial.dm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging-a-structural-singularity-with-the-dulmage-mendelsohn-partition">
+<span id="incidence-tutorial-dm"></span><h1>Debugging a structural singularity with the Dulmage-Mendelsohn partition<a class="headerlink" href="#debugging-a-structural-singularity-with-the-dulmage-mendelsohn-partition" title="Permalink to this headline">¶</a></h1>
+<p>We start with some imports and by creating a Pyomo model we would like
+to debug. Usually the model is much larger and more complicated than this.
+This particular system appeared when debugging a dynamic 1-D partial
+differential-algebraic equation (PDAE) model representing a chemical looping
+combustion reactor.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib.incidence_analysis</span> <span class="kn">import</span> <span class="n">IncidenceGraphInterface</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow_comp</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">sum_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">holdup_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>    <span class="n">j</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">density</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">density_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="o">.</span><span class="n">density</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>    <span class="n">j</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">flow</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">flow_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span>
+<span class="gp">... </span><span class="p">})</span>
+</pre></div>
+</div>
+<p>To check this model for structural singularity, we apply the Dulmage-Mendelsohn
+partition. <code class="docutils literal notranslate"><span class="pre">var_dm_partition</span></code> and <code class="docutils literal notranslate"><span class="pre">con_dm_partition</span></code> are named tuples
+with fields for each of the four subsets defined by the partition:
+<code class="docutils literal notranslate"><span class="pre">unmatched</span></code>, <code class="docutils literal notranslate"><span class="pre">overconstrained</span></code>, <code class="docutils literal notranslate"><span class="pre">square</span></code>, and <code class="docutils literal notranslate"><span class="pre">underconstrained</span></code>.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">igraph</span> <span class="o">=</span> <span class="n">IncidenceGraphInterface</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make sure we have a square system</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">igraph</span><span class="o">.</span><span class="n">variables</span><span class="p">))</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">igraph</span><span class="o">.</span><span class="n">constraints</span><span class="p">))</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var_dm_partition</span><span class="p">,</span> <span class="n">con_dm_partition</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">dulmage_mendelsohn</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If any variables or constraints are unmatched, the (Jacobian of the) model
+is structurally singular.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_dm_partition</span><span class="o">.</span><span class="n">unmatched</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">flow_comp[1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">con_dm_partition</span><span class="o">.</span><span class="n">unmatched</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">density_eqn</span>
+</pre></div>
+</div>
+<p>This model has one unmatched constraint and one unmatched variable, so it is
+structurally singular. However, the unmatched variable and constraint are not
+unique. For example, <code class="docutils literal notranslate"><span class="pre">flow_comp[2]</span></code> could have been unmatched instead of
+<code class="docutils literal notranslate"><span class="pre">flow_comp[1]</span></code>.</p>
+<p>Unique subsets of variables and constraints that are useful when debugging a
+structural singularity are the underconstrained and overconstrained subsystems.
+The variables in the underconstrained subsystem are contained in the
+<code class="docutils literal notranslate"><span class="pre">unmatched</span></code> and <code class="docutils literal notranslate"><span class="pre">underconstrained</span></code> fields of the <code class="docutils literal notranslate"><span class="pre">var_dm_partition</span></code> named tuple,
+while the constraints are contained in the <code class="docutils literal notranslate"><span class="pre">underconstrained</span></code> field of the
+<code class="docutils literal notranslate"><span class="pre">con_dm_partition</span></code> named tuple.
+The variables in the overconstrained subsystem are contained in the
+<code class="docutils literal notranslate"><span class="pre">overconstrained</span></code> field of the <code class="docutils literal notranslate"><span class="pre">var_dm_partition</span></code> named tuple, while the constraints
+are contained in the <code class="docutils literal notranslate"><span class="pre">overconstrained</span></code> and <code class="docutils literal notranslate"><span class="pre">unmatched</span></code> fields of the
+<code class="docutils literal notranslate"><span class="pre">con_dm_partition</span></code> named tuple.</p>
+<p>We now construct the underconstrained and overconstrained subsystems:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uc_var</span> <span class="o">=</span> <span class="n">var_dm_partition</span><span class="o">.</span><span class="n">unmatched</span> <span class="o">+</span> <span class="n">var_dm_partition</span><span class="o">.</span><span class="n">underconstrained</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uc_con</span> <span class="o">=</span> <span class="n">con_dm_partition</span><span class="o">.</span><span class="n">underconstrained</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oc_var</span> <span class="o">=</span> <span class="n">var_dm_partition</span><span class="o">.</span><span class="n">overconstrained</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oc_con</span> <span class="o">=</span> <span class="n">con_dm_partition</span><span class="o">.</span><span class="n">overconstrained</span> <span class="o">+</span> <span class="n">con_dm_partition</span><span class="o">.</span><span class="n">unmatched</span>
+</pre></div>
+</div>
+<p>And display the variables and constraints contained in each:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Overconstrained subsystem</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">oc_var</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">x[1]</span>
+<span class="go">density</span>
+<span class="go">x[2]</span>
+<span class="go">x[3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">oc_con</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">sum_eqn</span>
+<span class="go">holdup_eqn[1]</span>
+<span class="go">holdup_eqn[2]</span>
+<span class="go">holdup_eqn[3]</span>
+<span class="go">density_eqn</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Underconstrained subsystem</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">uc_var</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">flow_comp[1]</span>
+<span class="go">flow</span>
+<span class="go">flow_comp[2]</span>
+<span class="go">flow_comp[3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">uc_con</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">flow_eqn[1]</span>
+<span class="go">flow_eqn[2]</span>
+<span class="go">flow_eqn[3]</span>
+</pre></div>
+</div>
+<p>At this point we must use our intuition about the system being modeled to
+identify “what is causing” the singularity. Looking at the under and over-
+constrained systems, it appears that we are missing an equation to calculate
+<code class="docutils literal notranslate"><span class="pre">flow</span></code>, the total flow rate, and that <code class="docutils literal notranslate"><span class="pre">density</span></code> is over-specified as it
+is computed by both the bulk density equation and one of the component density
+equations.</p>
+<p>With this knowledge, we can eventually figure out (a) that we need an equation
+to calculate <code class="docutils literal notranslate"><span class="pre">flow</span></code> from density and (b) that our “bulk density equation”
+is actually a <em>skeletal</em> density equation. Admittedly, this is difficult to
+figure out without the full context behind this particular system.</p>
+<p>The following code constructs a new version of the model and verifies that it
+is structurally nonsingular:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib.incidence_analysis</span> <span class="kn">import</span> <span class="n">IncidenceGraphInterface</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow_comp</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dens_bulk</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dens_skel</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">porosity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">sum_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">holdup_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>    <span class="n">j</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">dens_bulk</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dens_skel_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="o">.</span><span class="n">dens_skel</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dens_bulk_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">dens_bulk</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">porosity</span><span class="p">)</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">dens_skel</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>    <span class="n">j</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">flow</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">flow_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">components</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">flow_dens_eqn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">flow</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">velocity</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">dens_bulk</span>
+<span class="gp">... </span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">igraph</span> <span class="o">=</span> <span class="n">IncidenceGraphInterface</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">include_inequality</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">igraph</span><span class="o">.</span><span class="n">variables</span><span class="p">))</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">igraph</span><span class="o">.</span><span class="n">constraints</span><span class="p">))</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var_dm_partition</span><span class="p">,</span> <span class="n">con_dm_partition</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">dulmage_mendelsohn</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># There are now no unmatched variables or equations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var_dm_partition</span><span class="o">.</span><span class="n">unmatched</span><span class="p">))</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">con_dm_partition</span><span class="o">.</span><span class="n">unmatched</span><span class="p">))</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="tutorial.bt.html" class="btn btn-neutral float-right" title="Debugging a numeric singularity using block triangularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Incidence Analysis Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

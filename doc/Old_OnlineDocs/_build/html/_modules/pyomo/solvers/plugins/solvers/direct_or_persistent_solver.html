@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.solvers.plugins.solvers.direct_or_persistent_solver &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.solvers.plugins.solvers.direct_or_persistent_solver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.solvers.plugins.solvers.direct_or_persistent_solver</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.base.PyomoModel</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.block</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">_BlockData</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.block</span> <span class="kn">import</span> <span class="n">IBlock</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base.solvers</span> <span class="kn">import</span> <span class="n">OptSolver</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">SymbolMap</span><span class="p">,</span> <span class="n">NumericLabeler</span><span class="p">,</span> <span class="n">TextLabeler</span>
+<span class="kn">import</span> <span class="nn">pyomo.common</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">ApplicationError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentMap</span><span class="p">,</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">Bunch</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span>
+<span class="kn">import</span> <span class="nn">pyomo.opt.base.solvers</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base.formats</span> <span class="kn">import</span> <span class="n">ResultsFormat</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+
+
+<span class="k">class</span> <span class="nc">DirectOrPersistentSolver</span><span class="p">(</span><span class="n">OptSolver</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a base class for both direct and persistent solvers. Direct solver interfaces do not use any file io.</span>
+<span class="sd">    Rather, they interface directly with the python bindings for the specific solver. Persistent solver interfaces</span>
+<span class="sd">    are similar except that they &quot;remember&quot; their model. Thus, persistent solver interfaces allow incremental changes</span>
+<span class="sd">    to the solver model (e.g., the gurobi python model or the cplex python model). Note that users are responsible</span>
+<span class="sd">    for notifying the persistent solver interfaces when changes are made to the corresponding pyomo model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type: str</span>
+<span class="sd">        String indicating the class type of the solver instance.</span>
+<span class="sd">    name: str</span>
+<span class="sd">        String representing either the class type of the solver instance or an assigned name.</span>
+<span class="sd">    doc: str</span>
+<span class="sd">        Documentation for the solver</span>
+<span class="sd">    options: dict</span>
+<span class="sd">        Dictionary of solver options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">OptSolver</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;The pyomo model being solved.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;The python instance of the solver model (e.g., the gurobipy Model instance).&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span> <span class="o">=</span> <span class="n">SymbolMap</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;A symbol map used to map between pyomo components and their names used with the solver.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;The labeler for creating names for the solver model components.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;A dictionary mapping pyomo Var&#39;s to the solver variables.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;A dictionary mapping pyomo constraints to solver constraints.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;A dictionary mapping constraints to a ComponentSet containing the pyomo variables referenced by that</span>
+<span class="sd">        constraint. This is primarily needed for the persistent solvers. When a constraint is deleted, we need</span>
+<span class="sd">        to decrement the number of times those variables are referenced (see self._referenced_variables).&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;A set containing the pyomo variables referenced by that the objective.</span>
+<span class="sd">        This is primarily needed for the persistent solvers. When a the objective is deleted, we need</span>
+<span class="sd">        to decrement the number of times those variables are referenced (see self._referenced_variables).&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;The pyomo Objective object currently being used with the solver.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;A results object return from the solve method.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_skip_trivial_constraints</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;A bool. If True, then any constraints with a constant body will not be added to the solver model.</span>
+<span class="sd">        Be careful with this. If a trivial constraint is skipped then that constraint cannot be removed from</span>
+<span class="sd">        a persistent solver (an error will be raised if a user tries to remove a non-existent constraint).&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_fixed_variable_bounds</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;A bool. If False then an error will be raised if a fixed variable is used in one of the solver constraints.</span>
+<span class="sd">        This is useful for catching bugs. Ordinarily a fixed variable should appear as a constant value in the</span>
+<span class="sd">        solver constraints. If True, then the error will not be raised.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_python_api_exists</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;A bool indicating whether or not the python api is available for the specified solver.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="sd">&quot;&quot;&quot;The version of the solver.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symbolic_solver_labels</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;A bool. If true then the solver components will be given names corresponding to the pyomo component names.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;dict: {var: count} where count is the number of constraints/objective referencing the var&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;A bool. If True, then the solver log will be saved.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_results</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="sd">&quot;&quot;&quot;A bool. This is used for backwards compatibility. If True, the solution will be loaded into the Solution</span>
+<span class="sd">        object that gets placed on the SolverResults object. This way, users can do model.solutions.load_from(results)</span>
+<span class="sd">        to load solutions into their model. However, it is more efficient to bypass the Solution object and load</span>
+<span class="sd">        the results directly from the solver object. If False, the solution will not be loaded into the Solution</span>
+<span class="sd">        object.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_presolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">warmstart_flag</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;warmstart&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;keepfiles&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_results</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;save_results&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># create a context in the temporary file manager for</span>
+        <span class="c1"># this plugin - is &quot;pop&quot;ed in the _postsolve method.</span>
+        <span class="n">TempfileManager</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span>
+
+        <span class="c1"># this implies we have a custom solution &quot;parser&quot;,</span>
+        <span class="c1"># preventing the OptSolver _presolve method from</span>
+        <span class="c1"># creating one</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">=</span> <span class="n">ResultsFormat</span><span class="o">.</span><span class="n">soln</span>
+        <span class="c1"># use the base class _presolve to consume the</span>
+        <span class="c1"># important keywords</span>
+        <span class="n">OptSolver</span><span class="o">.</span><span class="n">_presolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># ***********************************************************</span>
+        <span class="c1"># The following code is only needed for backwards compatibility of load_solutions=False.</span>
+        <span class="c1"># If we ever only want to support the load_vars, load_duals, etc. methods, then this can be deleted.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_results</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">):</span>
+                <span class="c1"># BIG HACK (see pyomo.core.kernel write function)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">)[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">add_symbol_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="p">)</span>
+        <span class="c1"># ***********************************************************</span>
+
+        <span class="k">if</span> <span class="n">warmstart_flag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warm_start_capable</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_warm_start</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> solver plugin is not capable of warmstart.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="o">=</span> <span class="n">TempfileManager</span><span class="o">.</span><span class="n">create_tempfile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.log&#39;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_apply_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This method should be implemented by subclasses&#39;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">OptSolver</span><span class="o">.</span><span class="n">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">kwds</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">,</span> <span class="n">Block</span><span class="p">,</span> <span class="n">_BlockData</span><span class="p">)):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;The problem instance supplied to the </span><span class="si">{0}</span><span class="s2"> plugin &quot;</span>
+                <span class="s2">&quot;&#39;_presolve&#39; method must be a Model or a Block&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symbolic_solver_labels</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s1">&#39;symbolic_solver_labels&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbolic_solver_labels</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_skip_trivial_constraints</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s1">&#39;skip_trivial_constraints&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_trivial_constraints</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_fixed_variable_bounds</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s1">&#39;output_fixed_variable_bounds&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fixed_variable_bounds</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective_label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span> <span class="o">=</span> <span class="n">SymbolMap</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbolic_solver_labels</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span> <span class="o">=</span> <span class="n">TextLabeler</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span> <span class="o">=</span> <span class="n">NumericLabeler</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+            <span class="n">ctype</span><span class="o">=</span><span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">Var</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">sub_block</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">block_data_objects</span><span class="p">(</span><span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">sub_block</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+                <span class="n">ctype</span><span class="o">=</span><span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">constraint</span><span class="o">.</span><span class="n">Constraint</span><span class="p">,</span>
+                <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">()):</span>
+                    <span class="k">assert</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span>
+                    <span class="k">continue</span>  <span class="c1"># non-binding, so skip</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_constraint</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">sub_block</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+                <span class="n">ctype</span><span class="o">=</span><span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">sos</span><span class="o">.</span><span class="n">SOSConstraint</span><span class="p">,</span>
+                <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_sos_constraint</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+
+            <span class="n">obj_counter</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">sub_block</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+                <span class="n">ctype</span><span class="o">=</span><span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">Objective</span><span class="p">,</span>
+                <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">obj_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">obj_counter</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Solver interface does not support multiple objectives.&quot;</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_objective</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_set_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_add_sos_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_add_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_repn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repn</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_load_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be implemented by subclasses&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the values from the solver&#39;s variables into the corresponding pyomo variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vars_to_load: list of Var</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">)</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">(</span><span class="n">delayed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot; This method should be implemented by subclasses.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">warm_start_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This method should be implemented by subclasses&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_warm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;If a subclass can warmstart, then it should implement this method.&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the solver is available.&quot;&quot;&quot;</span>
+
+        <span class="n">_api</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_python_api_exists&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exception_flag</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_api</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span>
+                <span class="s2">&quot;No Python bindings available for </span><span class="si">%s</span><span class="s2"> solver plugin&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">_api</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">_extract_version</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

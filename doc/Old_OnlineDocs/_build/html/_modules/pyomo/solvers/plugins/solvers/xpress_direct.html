@@ -1,0 +1,1311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.solvers.plugins.solvers.xpress_direct &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.solvers.plugins.solvers.xpress_direct</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.solvers.plugins.solvers.xpress_direct</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">ComponentMap</span><span class="p">,</span> <span class="n">Bunch</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">attempt_import</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">ApplicationError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tee</span> <span class="kn">import</span> <span class="n">capture_output</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">is_fixed</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.direct_solver</span> <span class="kn">import</span> <span class="n">DirectSolver</span>
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.direct_or_persistent_solver</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DirectOrPersistentSolver</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.objective</span> <span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.results_</span> <span class="kn">import</span> <span class="n">SolverResults</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.solution</span> <span class="kn">import</span> <span class="n">Solution</span><span class="p">,</span> <span class="n">SolutionStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.solver</span> <span class="kn">import</span> <span class="n">TerminationCondition</span><span class="p">,</span> <span class="n">SolverStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.suffix</span> <span class="kn">import</span> <span class="n">Suffix</span>
+<span class="kn">import</span> <span class="nn">pyomo.core.base.var</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.solvers&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DegreeError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_is_convertible</span><span class="p">(</span><span class="n">conv_type</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">conv_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_print_message</span><span class="p">(</span><span class="n">xp_prob</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_xpress_import</span><span class="p">(</span><span class="n">xpress</span><span class="p">,</span> <span class="n">avail</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">avail</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">xpress</span><span class="o">.</span><span class="n">getversion</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+    <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;Xpress </span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_version</span>
+    <span class="c1"># in versions prior to 34, xpress raised a RuntimeError, but</span>
+    <span class="c1"># in more recent versions it raises a</span>
+    <span class="c1"># xpress.ModelError. We&#39;ll cache the appropriate one here</span>
+    <span class="k">if</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">34</span><span class="p">:</span>
+        <span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span> <span class="o">=</span> <span class="ne">RuntimeError</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">ModelError</span>
+    <span class="c1"># In (pypi) versions prior to 8.13.0, the &#39;xpress.rng&#39; keyword was</span>
+    <span class="c1"># &#39;xpress.range&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xpress</span><span class="p">,</span> <span class="s1">&#39;rng&#39;</span><span class="p">):</span>
+        <span class="n">xpress</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">range</span>
+
+
+<span class="k">class</span> <span class="nc">_xpress_importer_class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># We want to be able to *update* the message that the deferred</span>
+    <span class="c1"># import generates using the stdout recorded during the actual</span>
+    <span class="c1"># import.  As strings are immutable in Python, we will give this</span>
+    <span class="c1"># *class* as the error message, so that we can update the embedded</span>
+    <span class="c1"># string later.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">import_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">import_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">capture_output</span><span class="p">()</span> <span class="k">as</span> <span class="n">OUT</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">xpress</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># In some versions of XPRESS (notably 8.9.0), `import</span>
+            <span class="c1"># xpress` temporarily changes the CWD.  If the import fails</span>
+            <span class="c1"># (e.g., due to an expired license), the CWD is not always</span>
+            <span class="c1"># restored.  This block ensures that the CWD is preserved.</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">_cwd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">import_message</span> <span class="o">+=</span> <span class="n">OUT</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">xpress</span>
+
+
+<span class="n">_xpress_importer</span> <span class="o">=</span> <span class="n">_xpress_importer_class</span><span class="p">()</span>
+<span class="n">xpress</span><span class="p">,</span> <span class="n">xpress_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span>
+    <span class="s1">&#39;xpress&#39;</span><span class="p">,</span>
+    <span class="n">error_message</span><span class="o">=</span><span class="n">_xpress_importer</span><span class="p">,</span>
+    <span class="c1"># Other forms of exceptions can be thrown by the xpress python</span>
+    <span class="c1"># import.  For example, an xpress.InterfaceError exception is thrown</span>
+    <span class="c1"># if the Xpress license is not valid.  Unfortunately, you can&#39;t</span>
+    <span class="c1"># import without a license, which means we can&#39;t test for that</span>
+    <span class="c1"># explicit exception!</span>
+    <span class="n">catch_exceptions</span><span class="o">=</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,),</span>
+    <span class="n">importer</span><span class="o">=</span><span class="n">_xpress_importer</span><span class="p">,</span>
+    <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_xpress_import</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">&#39;xpress_direct&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;Direct python interface to XPRESS&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">XpressDirect</span><span class="p">(</span><span class="n">DirectSolver</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_version</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">XpressException</span> <span class="o">=</span> <span class="ne">RuntimeError</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;xpress_direct&#39;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XpressDirect</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_python_api_exists</span> <span class="o">=</span> <span class="n">xpress_available</span>
+
+        <span class="c1"># TODO: this isn&#39;t a limit of XPRESS, which implements an SLP</span>
+        <span class="c1">#       method for NLPs. But it is a limit of *this* interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_obj_degree</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="c1"># There does not seem to be an easy way to get the</span>
+        <span class="c1"># wallclock time out of xpress, so we will measure it</span>
+        <span class="c1"># ourselves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opt_time</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Note: Undefined capabilities default to None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">quadratic_objective</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">quadratic_constraint</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">sos1</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">sos2</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># remove the instance-level definition of the xpress version:</span>
+        <span class="c1"># because the version comes from an imported module, only one</span>
+        <span class="c1"># version of xpress is supported (and stored as a class attribute)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the solver is available.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">exception_flag</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">xpress_available</span><span class="p">:</span>
+            <span class="n">xpress</span><span class="o">.</span><span class="n">log_import_warning</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span>
+                <span class="s2">&quot;No Python bindings available for </span><span class="si">%s</span><span class="s2"> solver plugin&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">xpress_available</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_apply_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setlogfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solver log file: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span><span class="p">)</span>
+
+        <span class="c1"># Setting a log file in xpress disables all output</span>
+        <span class="c1"># in xpress versions less than 36.</span>
+        <span class="c1"># This callback prints all messages to stdout</span>
+        <span class="c1"># when using those xpress versions.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span> <span class="ow">and</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">36</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addcbmessage</span><span class="p">(</span><span class="n">_print_message</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># set xpress options</span>
+        <span class="c1"># if the user specifies a &#39;mipgap&#39;, set it, and</span>
+        <span class="c1"># set xpress&#39;s related options to 0.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mipgap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setControl</span><span class="p">(</span><span class="s1">&#39;miprelstop&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mipgap</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setControl</span><span class="p">(</span><span class="s1">&#39;miprelcutoff&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setControl</span><span class="p">(</span><span class="s1">&#39;mipaddcutoff&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="c1"># xpress is picky about the type which is passed</span>
+        <span class="c1"># into a control. So we will infer and cast</span>
+        <span class="c1"># get the xpress valid controls</span>
+        <span class="n">xp_controls</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">controls</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;mipgap&#39;</span><span class="p">:</span>  <span class="c1"># handled above</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setControl</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">:</span>
+                <span class="c1"># take another try, converting to its type</span>
+                <span class="c1"># we&#39;ll wrap this in a function to raise the</span>
+                <span class="c1"># xpress error</span>
+                <span class="n">contr_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">xp_controls</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_convertible</span><span class="p">(</span><span class="n">contr_type</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+                    <span class="k">raise</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setControl</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">contr_type</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>
+
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solve_model</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># In xpress versions greater than or equal 36,</span>
+            <span class="c1"># it seems difficult to completely suppress console</span>
+            <span class="c1"># output without disabling logging altogether.</span>
+            <span class="c1"># As a work around, we capature all screen output</span>
+            <span class="c1"># when tee is False.</span>
+            <span class="k">with</span> <span class="n">capture_output</span><span class="p">()</span> <span class="k">as</span> <span class="n">OUT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solve_model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opt_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setlogfile</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span> <span class="ow">and</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">36</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">removecbmessage</span><span class="p">(</span><span class="n">_print_message</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># FIXME: can we get a return code indicating if XPRESS had a significant failure?</span>
+        <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_mip_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets up `results` and `soln` and returns whether there is a solution</span>
+<span class="sd">        to query.</span>
+<span class="sd">        Returns `True` if a feasible solution is available, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">xpress</span>
+        <span class="n">xprob_attrs</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipstatus</span>
+        <span class="n">mip_sols</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipsols</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_not_loaded</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model is not loaded; no solution information is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+            <span class="c1"># no MIP solution, first LP did not solve, second LP did, third search started but incomplete</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_lp_not_optimal</span>
+            <span class="ow">or</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_lp_optimal</span>
+            <span class="ow">or</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_no_sol_found</span>
+        <span class="p">):</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model is loaded, but no solution information is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_solution</span><span class="p">:</span>  <span class="c1"># some solution available</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unable to satisfy optimality tolerances; a sub-optimal &quot;</span>
+                <span class="s2">&quot;solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">other</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">feasible</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_infeas</span><span class="p">:</span>  <span class="c1"># MIP proven infeasible</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="s2">&quot;Model was proven to be infeasible&quot;</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">infeasible</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_optimal</span><span class="p">:</span>  <span class="c1"># optimal</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model was solved to optimality (subject to tolerances), &quot;</span>
+                <span class="s2">&quot;and an optimal solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_unbounded</span> <span class="ow">and</span> <span class="n">mip_sols</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;LP relaxation was proven to be unbounded, &quot;</span>
+                <span class="s2">&quot;but a solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unbounded</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">mip_unbounded</span> <span class="ow">and</span> <span class="n">mip_sols</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;LP relaxation was proven to be unbounded.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unbounded</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unhandled Xpress solve status (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>  <span class="c1"># minimizing MIP</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipbestobjval</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">bestbound</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>  <span class="c1"># maximizing MIP</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">bestbound</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipbestobjval</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="n">mip_sols</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_get_lp_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets up `results` and `soln` and returns whether there is a solution</span>
+<span class="sd">        to query.</span>
+<span class="sd">        Returns `True` if a feasible solution is available, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">xpress</span>
+        <span class="n">xprob_attrs</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">lpstatus</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_unstarted</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model is not loaded; no solution information is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_optimal</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model was solved to optimality (subject to tolerances), &quot;</span>
+                <span class="s2">&quot;and an optimal solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_infeas</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="s2">&quot;Model was proven to be infeasible&quot;</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">infeasible</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_cutoff</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimal objective for model was proven to be worse than the &quot;</span>
+                <span class="s2">&quot;cutoff value specified; a solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">minFunctionValue</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_unfinished</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization was terminated by the user.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_unbounded</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="s2">&quot;Model was proven to be unbounded.&quot;</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unbounded</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_cutoff_in_dual</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Xpress reported the LP was cutoff in the dual.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">minFunctionValue</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_unsolved</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization was terminated due to unrecoverable numerical &quot;</span>
+                <span class="s2">&quot;difficulties.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">lp_nonconvex</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization was terminated because nonconvex quadratic data &quot;</span>
+                <span class="s2">&quot;were found.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unhandled Xpress solve status (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">lpobjval</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">lpobjval</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Not all solution information will be available in all cases, it is</span>
+        <span class="c1"># up to the caller/user to check the actual status and figure which</span>
+        <span class="c1"># of x, slack, duals, reduced costs are valid.</span>
+        <span class="k">return</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">lpstatus</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">xp</span><span class="o">.</span><span class="n">lp_optimal</span><span class="p">,</span>
+            <span class="n">xp</span><span class="o">.</span><span class="n">lp_cutoff</span><span class="p">,</span>
+            <span class="n">xp</span><span class="o">.</span><span class="n">lp_cutoff_in_dual</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_nlp_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets up `results` and `soln` and returns whether there is a solution</span>
+<span class="sd">        to query.</span>
+<span class="sd">        Returns `True` if a feasible solution is available, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">xpress</span>
+        <span class="n">xprob_attrs</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">xslp_solverselected</span>
+        <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Under the hood we used the Xpress optimizer, i.e., the problem</span>
+            <span class="c1"># was convex</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">xprob_attrs</span><span class="o">.</span><span class="n">originalmipents</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xprob_attrs</span><span class="o">.</span><span class="n">originalsets</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mip_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lp_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The problem was non-linear</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">xslp_nlpstatus</span>
+            <span class="n">solstatus</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">xslp_solstatus</span>
+            <span class="n">have_soln</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">optimal</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># *globally* optimal?</span>
+            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_unstarted</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">unknown</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-convex model solve was not start&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_locally_optimal</span><span class="p">:</span>
+                <span class="c1"># This is either xp.nlp_locally_optimal or xp.nlp_solution</span>
+                <span class="c1"># we must look at the solstatus to figure out which</span>
+                <span class="k">if</span> <span class="n">solstatus</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Non-convex model was solved to local optimality&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">locallyOptimal</span>
+                    <span class="p">)</span>
+                    <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">locallyOptimal</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Feasible solution found for non-convex model&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">feasible</span>
+                    <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">feasible</span>
+                <span class="n">have_soln</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_globally_optimal</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-convex model was solved to global optimality&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+                <span class="n">have_soln</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">optimal</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_locally_infeasible</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-convex model was proven to be locally infeasible&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">noSolution</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_infeasible</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-conex model was proven to be infeasible&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">infeasible</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_unbounded</span><span class="p">:</span>  <span class="c1"># locally unbounded!</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-convex model is locally unbounded&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unbounded</span>
+            <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">xp</span><span class="o">.</span><span class="n">nlp_unfinished</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Non-convex solve not finished (numerical issues?)&quot;</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+                <span class="n">have_soln</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Error for non-convex model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+                <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+
+            <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">optimal</span><span class="p">:</span>  <span class="c1"># minimizing</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">xslp_objval</span>
+                <span class="k">if</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">optimal</span><span class="p">:</span>  <span class="c1"># maximizing</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">xslp_objval</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">XpressDirect</span><span class="o">.</span><span class="n">XpressException</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+            <span class="k">return</span> <span class="n">have_soln</span>
+
+    <span class="k">def</span> <span class="nf">_solve_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">xprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+
+        <span class="n">is_mip</span> <span class="o">=</span> <span class="p">(</span><span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">mipents</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">sets</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Check for quadratic objective or quadratic constraints. If there are</span>
+        <span class="c1"># any then we call nlpoptimize since that can handle non-convex</span>
+        <span class="c1"># quadratics as well. In case of convex quadratics it will call</span>
+        <span class="c1"># mipoptimize under the hood.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">qelems</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">qcelems</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">xprob</span><span class="o">.</span><span class="n">nlpoptimize</span><span class="p">(</span><span class="s2">&quot;g&quot;</span> <span class="k">if</span> <span class="n">is_mip</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_nlp_results</span>
+        <span class="k">elif</span> <span class="n">is_mip</span><span class="p">:</span>
+            <span class="n">xprob</span><span class="o">.</span><span class="n">mipoptimize</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mip_results</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xprob</span><span class="o">.</span><span class="n">lpoptimize</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lp_results</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">postsolve</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_repn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repn</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">referenced_vars</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+        <span class="n">degree</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">degree</span> <span class="o">&gt;</span> <span class="n">max_degree</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span>
+                <span class="s1">&#39;XpressDirect does not support expressions of degree </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">degree</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># NOTE: xpress&#39;s python interface only allows for expressions</span>
+        <span class="c1">#       with native numeric types. Others, like numpy.float64,</span>
+        <span class="c1">#       will cause an exception when constructing expressions</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span>
+            <span class="n">new_expr</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">Sum</span><span class="p">(</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">coef</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">,</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_expr</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">coef</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">quadratic_coefs</span><span class="p">,</span> <span class="n">repn</span><span class="o">.</span><span class="n">quadratic_vars</span><span class="p">):</span>
+            <span class="n">new_expr</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">new_expr</span> <span class="o">+=</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span>
+
+        <span class="k">return</span> <span class="n">new_expr</span><span class="p">,</span> <span class="n">referenced_vars</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">max_degree</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">xpress_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_repn</span><span class="p">(</span>
+                <span class="n">repn</span><span class="p">,</span> <span class="n">max_degree</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">DegreeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">expr: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xpress_expr</span><span class="p">,</span> <span class="n">referenced_vars</span>
+
+    <span class="k">def</span> <span class="nf">_xpress_lb_ub_from_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">return</span> <span class="n">val</span><span class="p">,</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">xpress</span><span class="o">.</span><span class="n">infinity</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">infinity</span>
+        <span class="k">return</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+
+    <span class="k">def</span> <span class="nf">_add_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+        <span class="n">vartype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xpress_vartype_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xpress_lb_ub_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="n">xpress_var</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">ub</span><span class="p">,</span> <span class="n">vartype</span><span class="o">=</span><span class="n">vartype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addVariable</span><span class="p">(</span><span class="n">xpress_var</span><span class="p">)</span>
+
+        <span class="c1">## bounds on binary variables don&#39;t seem to be set correctly</span>
+        <span class="c1">## by the method above</span>
+        <span class="k">if</span> <span class="n">vartype</span> <span class="o">==</span> <span class="n">xpress</span><span class="o">.</span><span class="n">binary</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lb</span> <span class="o">==</span> <span class="n">ub</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">chgbounds</span><span class="p">([</span><span class="n">xpress_var</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">lb</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">chgbounds</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">xpress_var</span><span class="p">,</span> <span class="n">xpress_var</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xpress_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">xpress_var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">kwds</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">problem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">problem</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unable to create Xpress model. &quot;</span>
+                <span class="s2">&quot;Have you installed the Python &quot;</span>
+                <span class="s2">&quot;bindings for Xpress?</span><span class="se">\n\n\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Error message: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_block</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_trivial_constraints</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">conname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">_linear_canonical_form</span><span class="p">:</span>
+            <span class="n">xpress_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_repn</span><span class="p">(</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">canonical_form</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xpress_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Lower bound of constraint </span><span class="si">{0}</span><span class="s2"> is not constant.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Upper bound of constraint </span><span class="si">{0}</span><span class="s2"> is not constant.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span><span class="p">:</span>
+            <span class="n">xpress_con</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">xpress_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">xpress</span><span class="o">.</span><span class="n">eq</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">conname</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">xpress_con</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">xpress_expr</span><span class="p">,</span>
+                <span class="n">sense</span><span class="o">=</span><span class="n">xpress</span><span class="o">.</span><span class="n">rng</span><span class="p">,</span>
+                <span class="n">lb</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                <span class="n">ub</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">conname</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">xpress_con</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="n">xpress_con</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">xpress_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">xpress</span><span class="o">.</span><span class="n">geq</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">conname</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">xpress_con</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">xpress_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">xpress</span><span class="o">.</span><span class="n">leq</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">conname</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Constraint does not have a lower &quot;</span>
+                <span class="s2">&quot;or an upper bound: </span><span class="si">{0}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="n">xpress_con</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">referenced_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">referenced_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">xpress_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">xpress_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+
+    <span class="k">def</span> <span class="nf">_add_sos_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">conname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">level</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Solver does not support SOS level </span><span class="si">{0}</span><span class="s2"> constraints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">xpress_vars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s1">&#39;get_items&#39;</span><span class="p">):</span>
+            <span class="c1"># aml sos constraint</span>
+            <span class="n">sos_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">get_items</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># kernel sos constraint</span>
+            <span class="n">sos_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sos_items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">xpress_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+        <span class="n">xpress_con</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">sos</span><span class="p">(</span><span class="n">xpress_vars</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">conname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addSOS</span><span class="p">(</span><span class="n">xpress_con</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">xpress_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">xpress_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+
+    <span class="k">def</span> <span class="nf">_xpress_vartype_from_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function takes a pyomo variable and returns the appropriate xpress variable type</span>
+<span class="sd">        :param var: pyomo.core.base.var.Var</span>
+<span class="sd">        :return: xpress.continuous or xpress.binary or xpress.integer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
+            <span class="n">vartype</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">binary</span>
+        <span class="k">elif</span> <span class="n">var</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+            <span class="n">vartype</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">integer</span>
+        <span class="k">elif</span> <span class="n">var</span><span class="o">.</span><span class="n">is_continuous</span><span class="p">():</span>
+            <span class="n">vartype</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">continuous</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Variable domain type is not recognized for </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">vartype</span>
+
+    <span class="k">def</span> <span class="nf">_set_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">active</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot add inactive objective to solver.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">minimize</span><span class="p">:</span>
+            <span class="n">sense</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">minimize</span>
+        <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">maximize</span><span class="p">:</span>
+            <span class="n">sense</span> <span class="o">=</span> <span class="n">xpress</span><span class="o">.</span><span class="n">maximize</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Objective sense is not recognized: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">sense</span><span class="p">))</span>
+
+        <span class="n">xpress_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_obj_degree</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">referenced_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">xpress_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">sense</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">referenced_vars</span>
+
+    <span class="k">def</span> <span class="nf">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># the only suffixes that we extract from XPRESS are</span>
+        <span class="c1"># constraint duals, constraint slacks, and variable</span>
+        <span class="c1"># reduced-costs. scan through the solver suffix list</span>
+        <span class="c1"># and throw an exception if the user has specified</span>
+        <span class="c1"># any others.</span>
+        <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">extract_slacks</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffixes</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;dual&quot;</span><span class="p">):</span>
+                <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;slack&quot;</span><span class="p">):</span>
+                <span class="n">extract_slacks</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;rc&quot;</span><span class="p">):</span>
+                <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;***The xpress_direct solver plugin cannot extract solution suffix=&quot;</span>
+                    <span class="o">+</span> <span class="n">suffix</span>
+                <span class="p">)</span>
+
+        <span class="n">xprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">xpress</span>
+        <span class="n">xprob_attrs</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">attributes</span>
+
+        <span class="c1">## XPRESS&#39;s status codes depend on this</span>
+        <span class="c1">## (number of integer vars &gt; 0) or (number of special order sets &gt; 0)</span>
+        <span class="n">is_mip</span> <span class="o">=</span> <span class="p">(</span><span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipents</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">xprob_attrs</span><span class="o">.</span><span class="n">sets</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_mip</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot get reduced costs for MIP.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot get duals for MIP.&quot;</span><span class="p">)</span>
+            <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">SolverResults</span><span class="p">()</span>
+        <span class="n">soln</span> <span class="o">=</span> <span class="n">Solution</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">XpressDirect</span><span class="o">.</span><span class="n">_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wallclock_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opt_time</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_get_results&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Model was solved but `_get_results` property is not set&#39;</span>
+            <span class="p">)</span>
+        <span class="n">have_soln</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">soln</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">matrixname</span>
+
+        <span class="k">if</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">sense</span> <span class="o">=</span> <span class="n">minimize</span>
+        <span class="k">elif</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">sense</span> <span class="o">=</span> <span class="n">maximize</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized Xpress objective sense: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xprob_attrs</span><span class="o">.</span><span class="n">objsense</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_constraints</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">rows</span> <span class="o">+</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">sets</span> <span class="o">+</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">qconstraints</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_nonzeros</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">elems</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_variables</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">cols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_integer_variables</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_continuous_variables</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">cols</span> <span class="o">-</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipents</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_objectives</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_solutions</span> <span class="o">=</span> <span class="n">xprob_attrs</span><span class="o">.</span><span class="n">mipsols</span> <span class="k">if</span> <span class="n">is_mip</span> <span class="k">else</span> <span class="mi">1</span>
+
+        <span class="c1"># if a solve was stopped by a limit, we still need to check to</span>
+        <span class="c1"># see if there is a solution available - this may not always</span>
+        <span class="c1"># be the case, both in LP and MIP contexts.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_results</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This code in this if statement is only needed for backwards compatibility. It is more efficient to set</span>
+<span class="sd">            _save_results to False and use load_vars, load_duals, etc.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">have_soln</span><span class="p">:</span>
+                <span class="n">soln_variables</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">variable</span>
+                <span class="n">soln_constraints</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">constraint</span>
+
+                <span class="n">xpress_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">var_vals</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">getSolution</span><span class="p">(</span><span class="n">xpress_vars</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">xpress_var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xpress_vars</span><span class="p">,</span> <span class="n">var_vals</span><span class="p">):</span>
+                    <span class="n">pyomo_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">xpress_var</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">soln_variables</span><span class="p">[</span><span class="n">xpress_var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Value&quot;</span><span class="p">:</span> <span class="n">val</span><span class="p">}</span>
+
+                <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">getRCost</span><span class="p">(</span><span class="n">xpress_vars</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">xpress_var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xpress_vars</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+                        <span class="n">pyomo_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">xpress_var</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">soln_variables</span><span class="p">[</span><span class="n">xpress_var</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Rc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span> <span class="ow">or</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="n">xpress_cons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                    <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">xpress_cons</span><span class="p">:</span>
+                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">getDual</span><span class="p">(</span><span class="n">xpress_cons</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">con</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">xpress_cons</span><span class="p">):</span>
+                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Dual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+                <span class="k">if</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">xprob</span><span class="o">.</span><span class="n">getSlack</span><span class="p">(</span><span class="n">xpress_cons</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xpress_cons</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="p">:</span>
+                            <span class="c1">## for xpress, the slack on a range constraint</span>
+                            <span class="c1">## is based on the upper bound</span>
+                            <span class="n">lb</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">lb</span>
+                            <span class="n">ub</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">ub</span>
+                            <span class="n">ub_s</span> <span class="o">=</span> <span class="n">val</span>
+                            <span class="n">expr_val</span> <span class="o">=</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">ub_s</span>
+                            <span class="n">lb_s</span> <span class="o">=</span> <span class="n">lb</span> <span class="o">-</span> <span class="n">expr_val</span>
+                            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ub_s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lb_s</span><span class="p">):</span>
+                                <span class="n">soln_constraints</span><span class="p">[</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ub_s</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">soln_constraints</span><span class="p">[</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_s</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">soln_constraints</span><span class="p">[</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">have_soln</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">load_vars</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_rc</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_duals</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_slacks</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solution</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+
+        <span class="c1"># finally, clean any temporary files registered with the temp file</span>
+        <span class="c1"># manager, created populated *directly* by this plugin.</span>
+        <span class="n">TempfileManager</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">warm_start_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_warm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mipsolval</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">mipsolcol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">pyomo_var</span><span class="p">,</span> <span class="n">xpress_var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">pyomo_var</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mipsolval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">pyomo_var</span><span class="p">))</span>
+                <span class="n">mipsolcol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xpress_var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addmipsol</span><span class="p">(</span><span class="n">mipsolval</span><span class="p">,</span> <span class="n">mipsolcol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">var_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span>
+        <span class="n">ref_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vars_to_load</span> <span class="o">=</span> <span class="n">var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">xpress_vars_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_map</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_var</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getSolution</span><span class="p">(</span><span class="n">xpress_vars_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ref_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_rc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">rc</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">var_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span>
+        <span class="n">ref_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">rc</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vars_to_load</span> <span class="o">=</span> <span class="n">var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">xpress_vars_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_map</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_var</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getRCost</span><span class="p">(</span><span class="n">xpress_vars_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ref_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">rc</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_load_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;dual&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span>
+        <span class="n">dual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">dual</span>
+
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cons_to_load</span> <span class="o">=</span> <span class="n">con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">xpress_cons_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">con_map</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getDual</span><span class="p">(</span><span class="n">xpress_cons_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pyomo_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="n">dual</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_load_slacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;slack&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">slack</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">slack</span>
+
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cons_to_load</span> <span class="o">=</span> <span class="n">con_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">xpress_cons_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">con_map</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getSlack</span><span class="p">(</span><span class="n">xpress_cons_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pyomo_con</span><span class="p">,</span> <span class="n">xpress_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">,</span> <span class="n">xpress_cons_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">xpress_con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="p">:</span>
+                <span class="c1">## for xpress, the slack on a range constraint</span>
+                <span class="c1">## is based on the upper bound</span>
+                <span class="c1">## FIXME: This looks like a bug - there is no variable named</span>
+                <span class="c1">## `con` - there is, however, `xpress_con` and `pyomo_con`</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">lb</span>
+                <span class="n">ub</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">ub</span>
+                <span class="n">ub_s</span> <span class="o">=</span> <span class="n">val</span>
+                <span class="n">expr_val</span> <span class="o">=</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">ub_s</span>
+                <span class="n">lb_s</span> <span class="o">=</span> <span class="n">lb</span> <span class="o">-</span> <span class="n">expr_val</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ub_s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lb_s</span><span class="p">):</span>
+                    <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">ub_s</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_s</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">load_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the duals into the &#39;dual&#39; suffix. The &#39;dual&#39; suffix must live on the parent model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cons_to_load: list of Constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_duals</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_rc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the reduced costs into the &#39;rc&#39; suffix. The &#39;rc&#39; suffix must live on the parent model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vars_to_load: list of Var</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_rc</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_slacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the values of the slack variables into the &#39;slack&#39; suffix. The &#39;slack&#39; suffix must live on the parent</span>
+<span class="sd">        model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cons_to_load: list of Constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_slacks</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,966 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.solvers.plugins.solvers.gurobi_persistent &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.solvers.plugins.solvers.gurobi_persistent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.solvers.plugins.solvers.gurobi_persistent</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.gurobi_direct</span> <span class="kn">import</span> <span class="n">GurobiDirect</span><span class="p">,</span> <span class="n">gurobipy</span>
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.persistent_solver</span> <span class="kn">import</span> <span class="n">PersistentSolver</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span><span class="p">,</span> <span class="n">is_fixed</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+
+<div class="viewcode-block" id="GurobiPersistent"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent">[docs]</a><span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;Persistent python interface to Gurobi&#39;</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">GurobiPersistent</span><span class="p">(</span><span class="n">PersistentSolver</span><span class="p">,</span> <span class="n">GurobiDirect</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that provides a persistent interface to Gurobi. Direct solver interfaces do not use any file io.</span>
+<span class="sd">    Rather, they interface directly with the python bindings for the specific solver. Persistent solver interfaces</span>
+<span class="sd">    are similar except that they &quot;remember&quot; their model. Thus, persistent solver interfaces allow incremental changes</span>
+<span class="sd">    to the solver model (e.g., the gurobi python model or the cplex python model). Note that users are responsible</span>
+<span class="sd">    for notifying the persistent solver interfaces when changes are made to the corresponding pyomo model.</span>
+
+<span class="sd">    Keyword Arguments</span>
+<span class="sd">    -----------------</span>
+<span class="sd">    model: ConcreteModel</span>
+<span class="sd">        Passing a model to the constructor is equivalent to calling the set_instance method.</span>
+<span class="sd">    type: str</span>
+<span class="sd">        String indicating the class type of the solver instance.</span>
+<span class="sd">    name: str</span>
+<span class="sd">        String representing either the class type of the solver instance or an assigned name.</span>
+<span class="sd">    doc: str</span>
+<span class="sd">        Documentation for the solver</span>
+<span class="sd">    options: dict</span>
+<span class="sd">        Dictionary of solver options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gurobi_persistent&#39;</span>
+        <span class="n">GurobiDirect</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_remove_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver_con</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solver_con</span><span class="p">,</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">Constr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumConstrs&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">solver_con</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrByName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solver_con</span><span class="p">,</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">QConstr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumQConstrs&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">qc_row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQCRow</span><span class="p">(</span><span class="n">solver_con</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solver_con</span><span class="p">,</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">SOS</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumSOS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">sos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getSOS</span><span class="p">(</span><span class="n">solver_con</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized type for gurobi constraint: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">solver_con</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">solver_con</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_remove_sos_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver_sos_con</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_constraint</span><span class="p">(</span><span class="n">solver_sos_con</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_remove_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver_var</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumVars&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">solver_var</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getVarByName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">solver_var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_warm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_warm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GurobiPersistent.update_var"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.update_var">[docs]</a>    <span class="k">def</span> <span class="nf">update_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update a single variable in the solver&#39;s model.</span>
+
+<span class="sd">        This will update bounds, fix/unfix the variable as needed, and</span>
+<span class="sd">        update the variable type.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var: Var (scalar Var or single _VarData)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># see PR #366 for discussion about handling indexed</span>
+        <span class="c1"># objects and keeping compatibility with the</span>
+        <span class="c1"># pyomo.kernel objects</span>
+        <span class="c1"># if var.is_indexed():</span>
+        <span class="c1">#    for child_var in var.values():</span>
+        <span class="c1">#        self.update_var(child_var)</span>
+        <span class="c1">#    return</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;The Var provided to update_var needs to be added first: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">var</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">gurobipy_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">vtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_vtype_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_lb_ub_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="n">gurobipy_var</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">,</span> <span class="n">lb</span><span class="p">)</span>
+        <span class="n">gurobipy_var</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="s1">&#39;ub&#39;</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
+        <span class="n">gurobipy_var</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="s1">&#39;vtype&#39;</span><span class="p">,</span> <span class="n">vtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.write"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write the model to a file (e.g., and lp file).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename: str</span>
+<span class="sd">            Name of the file to which the model should be written.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+
+<div class="viewcode-block" id="GurobiPersistent.set_linear_constraint_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.set_linear_constraint_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_linear_constraint_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the value of an attribute on a gurobi linear constraint.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.constraint._GeneralConstraintData</span>
+<span class="sd">            The pyomo constraint for which the corresponding gurobi constraint attribute</span>
+<span class="sd">            should be modified.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to be modified. Options are:</span>
+
+<span class="sd">                CBasis</span>
+<span class="sd">                DStart</span>
+<span class="sd">                Lazy</span>
+
+<span class="sd">        val: any</span>
+<span class="sd">            See gurobi documentation for acceptable values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;Sense&#39;</span><span class="p">,</span> <span class="s1">&#39;RHS&#39;</span><span class="p">,</span> <span class="s1">&#39;ConstrName&#39;</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Linear constraint attr </span><span class="si">{0}</span><span class="s1"> cannot be set with&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the set_linear_constraint_attr method. Please use&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the remove_constraint and add_constraint methods.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumConstrs&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrByName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">con</span><span class="p">))</span>
+                <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.set_var_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.set_var_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_var_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the value of an attribute on a gurobi variable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.var._GeneralVarData</span>
+<span class="sd">            The pyomo var for which the corresponding gurobi var attribute</span>
+<span class="sd">            should be modified.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to be modified. Options are:</span>
+
+<span class="sd">                Start</span>
+<span class="sd">                VarHintVal</span>
+<span class="sd">                VarHintPri</span>
+<span class="sd">                BranchPriority</span>
+<span class="sd">                VBasis</span>
+<span class="sd">                PStart</span>
+
+<span class="sd">        val: any</span>
+<span class="sd">            See gurobi documentation for acceptable values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;LB&#39;</span><span class="p">,</span> <span class="s1">&#39;UB&#39;</span><span class="p">,</span> <span class="s1">&#39;VType&#39;</span><span class="p">,</span> <span class="s1">&#39;VarName&#39;</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Var attr </span><span class="si">{0}</span><span class="s1"> cannot be set with&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the set_var_attr method. Please use&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the update_var method.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;Obj&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Var attr Obj cannot be set with&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the set_var_attr method. Please use&#39;</span>
+                <span class="o">+</span> <span class="s1">&#39; the set_objective method.&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s1">&#39;NumVars&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getVarByName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+                <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_model_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_model_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the value of an attribute on the Gurobi model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to get. See Gurobi documentation for</span>
+<span class="sd">            descriptions of the attributes.</span>
+
+<span class="sd">            Options are:</span>
+
+<span class="sd">                NumVars</span>
+<span class="sd">                NumConstrs</span>
+<span class="sd">                NumSOS</span>
+<span class="sd">                NumQConstrs</span>
+<span class="sd">                NumgGenConstrs</span>
+<span class="sd">                NumNZs</span>
+<span class="sd">                DNumNZs</span>
+<span class="sd">                NumQNZs</span>
+<span class="sd">                NumQCNZs</span>
+<span class="sd">                NumIntVars</span>
+<span class="sd">                NumBinVars</span>
+<span class="sd">                NumPWLObjVars</span>
+<span class="sd">                ModelName</span>
+<span class="sd">                ModelSense</span>
+<span class="sd">                ObjCon</span>
+<span class="sd">                ObjVal</span>
+<span class="sd">                ObjBound</span>
+<span class="sd">                ObjBoundC</span>
+<span class="sd">                PoolObjBound</span>
+<span class="sd">                PoolObjVal</span>
+<span class="sd">                MIPGap</span>
+<span class="sd">                Runtime</span>
+<span class="sd">                Status</span>
+<span class="sd">                SolCount</span>
+<span class="sd">                IterCount</span>
+<span class="sd">                BarIterCount</span>
+<span class="sd">                NodeCount</span>
+<span class="sd">                IsMIP</span>
+<span class="sd">                IsQP</span>
+<span class="sd">                IsQCP</span>
+<span class="sd">                IsMultiObj</span>
+<span class="sd">                IISMinimal</span>
+<span class="sd">                MaxCoeff</span>
+<span class="sd">                MinCoeff</span>
+<span class="sd">                MaxBound</span>
+<span class="sd">                MinBound</span>
+<span class="sd">                MaxObjCoeff</span>
+<span class="sd">                MinObjCoeff</span>
+<span class="sd">                MaxRHS</span>
+<span class="sd">                MinRHS</span>
+<span class="sd">                MaxQCCoeff</span>
+<span class="sd">                MinQCCoeff</span>
+<span class="sd">                MaxQCLCoeff</span>
+<span class="sd">                MinQCLCoeff</span>
+<span class="sd">                MaxQCRHS</span>
+<span class="sd">                MinQCRHS</span>
+<span class="sd">                MaxQObjCoeff</span>
+<span class="sd">                MinQObjCoeff</span>
+<span class="sd">                Kappa</span>
+<span class="sd">                KappaExact</span>
+<span class="sd">                FarkasProof</span>
+<span class="sd">                TuneResultCount</span>
+<span class="sd">                LicenseExpiration</span>
+<span class="sd">                BoundVio</span>
+<span class="sd">                BoundSVio</span>
+<span class="sd">                BoundVioIndex</span>
+<span class="sd">                BoundSVioIndex</span>
+<span class="sd">                BoundVioSum</span>
+<span class="sd">                BoundSVioSum</span>
+<span class="sd">                ConstrVio</span>
+<span class="sd">                ConstrSVio</span>
+<span class="sd">                ConstrVioIndex</span>
+<span class="sd">                ConstrSVioIndex</span>
+<span class="sd">                ConstrVioSum</span>
+<span class="sd">                ConstrSVioSum</span>
+<span class="sd">                ConstrResidual</span>
+<span class="sd">                ConstrSResidual</span>
+<span class="sd">                ConstrResidualIndex</span>
+<span class="sd">                ConstrSResidualIndex</span>
+<span class="sd">                ConstrResidualSum</span>
+<span class="sd">                ConstrSResidualSum</span>
+<span class="sd">                DualVio</span>
+<span class="sd">                DualSVio</span>
+<span class="sd">                DualVioIndex</span>
+<span class="sd">                DualSVioIndex</span>
+<span class="sd">                DualVioSum</span>
+<span class="sd">                DualSVioSum</span>
+<span class="sd">                DualResidual</span>
+<span class="sd">                DualSResidual</span>
+<span class="sd">                DualResidualIndex</span>
+<span class="sd">                DualSResidualIndex</span>
+<span class="sd">                DualResidualSum</span>
+<span class="sd">                DualSResidualSum</span>
+<span class="sd">                ComplVio</span>
+<span class="sd">                ComplVioIndex</span>
+<span class="sd">                ComplVioSum</span>
+<span class="sd">                IntVio</span>
+<span class="sd">                IntVioIndex</span>
+<span class="sd">                IntVioSum</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_var_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_var_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_var_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the value of an attribute on a gurobi var.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var: pyomo.core.base.var._GeneralVarData</span>
+<span class="sd">            The pyomo var for which the corresponding gurobi var attribute</span>
+<span class="sd">            should be retrieved.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to get. Options are:</span>
+
+<span class="sd">                LB</span>
+<span class="sd">                UB</span>
+<span class="sd">                Obj</span>
+<span class="sd">                VType</span>
+<span class="sd">                VarName</span>
+<span class="sd">                X</span>
+<span class="sd">                Xn</span>
+<span class="sd">                RC</span>
+<span class="sd">                BarX</span>
+<span class="sd">                Start</span>
+<span class="sd">                VarHintVal</span>
+<span class="sd">                VarHintPri</span>
+<span class="sd">                BranchPriority</span>
+<span class="sd">                VBasis</span>
+<span class="sd">                PStart</span>
+<span class="sd">                IISLB</span>
+<span class="sd">                IISUB</span>
+<span class="sd">                PWLObjCvx</span>
+<span class="sd">                SAObjLow</span>
+<span class="sd">                SAObjUp</span>
+<span class="sd">                SALBLow</span>
+<span class="sd">                SALBUp</span>
+<span class="sd">                SAUBLow</span>
+<span class="sd">                SAUBUp</span>
+<span class="sd">                UnbdRay</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_linear_constraint_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_linear_constraint_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_linear_constraint_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the value of an attribute on a gurobi linear constraint.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.constraint._GeneralConstraintData</span>
+<span class="sd">            The pyomo constraint for which the corresponding gurobi constraint attribute</span>
+<span class="sd">            should be retrieved.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to get. Options are:</span>
+
+<span class="sd">                Sense</span>
+<span class="sd">                RHS</span>
+<span class="sd">                ConstrName</span>
+<span class="sd">                Pi</span>
+<span class="sd">                Slack</span>
+<span class="sd">                CBasis</span>
+<span class="sd">                DStart</span>
+<span class="sd">                Lazy</span>
+<span class="sd">                IISConstr</span>
+<span class="sd">                SARHSLow</span>
+<span class="sd">                SARHSUp</span>
+<span class="sd">                FarkasDual</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_sos_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_sos_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_sos_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the value of an attribute on a gurobi sos constraint.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.sos._SOSConstraintData</span>
+<span class="sd">            The pyomo SOS constraint for which the corresponding gurobi SOS constraint attribute</span>
+<span class="sd">            should be retrieved.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to get. Options are:</span>
+
+<span class="sd">                IISSOS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_quadratic_constraint_attr"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_quadratic_constraint_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_quadratic_constraint_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the value of an attribute on a gurobi quadratic constraint.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.constraint._GeneralConstraintData</span>
+<span class="sd">            The pyomo constraint for which the corresponding gurobi constraint attribute</span>
+<span class="sd">            should be retrieved.</span>
+<span class="sd">        attr: str</span>
+<span class="sd">            The attribute to get. Options are:</span>
+
+<span class="sd">                QCSense</span>
+<span class="sd">                QCRHS</span>
+<span class="sd">                QCName</span>
+<span class="sd">                QCPi</span>
+<span class="sd">                QCSlack</span>
+<span class="sd">                IISQConstr</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.set_gurobi_param"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.set_gurobi_param">[docs]</a>    <span class="k">def</span> <span class="nf">set_gurobi_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a gurobi parameter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        param: str</span>
+<span class="sd">            The gurobi parameter to set. Options include any gurobi parameter.</span>
+<span class="sd">            Please see the Gurobi documentation for options.</span>
+<span class="sd">        val: any</span>
+<span class="sd">            The value to set the parameter to. See Gurobi documentation for possible values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.get_gurobi_param_info"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.get_gurobi_param_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_gurobi_param_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about a gurobi parameter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        param: str</span>
+<span class="sd">            The gurobi parameter to get info for. See Gurobi documentation for possible options.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        six-tuple containing the parameter name, type, value, minimum value, maximum value, and default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getParamInfo</span><span class="p">(</span><span class="n">param</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_intermediate_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">gurobi_model</span><span class="p">,</span> <span class="n">where</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">f</span>
+
+<div class="viewcode-block" id="GurobiPersistent.set_callback"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.set_callback">[docs]</a>    <span class="k">def</span> <span class="nf">set_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Specify a callback for gurobi to use.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        func: function</span>
+<span class="sd">            The function to call. The function should have three</span>
+<span class="sd">            arguments. The first will be the pyomo model being</span>
+<span class="sd">            solved. The second will be the GurobiPersistent</span>
+<span class="sd">            instance. The third will be an enum member of</span>
+<span class="sd">            gurobipy.GRB.Callback. This will indicate where in the</span>
+<span class="sd">            branch and bound algorithm gurobi is at. For example,</span>
+<span class="sd">            suppose we want to solve</span>
+
+<span class="sd">            .. math::</span>
+<span class="sd">               :nowrap:</span>
+
+<span class="sd">               \begin{array}{ll}</span>
+<span class="sd">               \min          &amp; 2x + y           \\</span>
+<span class="sd">               \mathrm{s.t.} &amp; y \geq (x-2)^2   \\</span>
+<span class="sd">                             &amp; 0 \leq x \leq 4  \\</span>
+<span class="sd">                             &amp; y \geq 0         \\</span>
+<span class="sd">                             &amp; y \in \mathbb{Z}</span>
+<span class="sd">               \end{array}</span>
+
+<span class="sd">            as an MILP using extended cutting planes in callbacks.</span>
+
+<span class="sd">            .. testcode::</span>
+<span class="sd">               :skipif: not gurobipy_available</span>
+
+<span class="sd">               from gurobipy import GRB</span>
+<span class="sd">               import pyomo.environ as pe</span>
+<span class="sd">               from pyomo.core.expr.taylor_series import taylor_series_expansion</span>
+
+<span class="sd">               m = pe.ConcreteModel()</span>
+<span class="sd">               m.x = pe.Var(bounds=(0, 4))</span>
+<span class="sd">               m.y = pe.Var(within=pe.Integers, bounds=(0, None))</span>
+<span class="sd">               m.obj = pe.Objective(expr=2*m.x + m.y)</span>
+<span class="sd">               m.cons = pe.ConstraintList()  # for the cutting planes</span>
+
+<span class="sd">               def _add_cut(xval):</span>
+<span class="sd">                   # a function to generate the cut</span>
+<span class="sd">                   m.x.value = xval</span>
+<span class="sd">                   return m.cons.add(m.y &gt;= taylor_series_expansion((m.x - 2)**2))</span>
+
+<span class="sd">               _add_cut(0)  # start with 2 cuts at the bounds of x</span>
+<span class="sd">               _add_cut(4)  # this is an arbitrary choice</span>
+
+<span class="sd">               opt = pe.SolverFactory(&#39;gurobi_persistent&#39;)</span>
+<span class="sd">               opt.set_instance(m)</span>
+<span class="sd">               opt.set_gurobi_param(&#39;PreCrush&#39;, 1)</span>
+<span class="sd">               opt.set_gurobi_param(&#39;LazyConstraints&#39;, 1)</span>
+
+<span class="sd">               def my_callback(cb_m, cb_opt, cb_where):</span>
+<span class="sd">                   if cb_where == GRB.Callback.MIPSOL:</span>
+<span class="sd">                       cb_opt.cbGetSolution(vars=[m.x, m.y])</span>
+<span class="sd">                       if m.y.value &lt; (m.x.value - 2)**2 - 1e-6:</span>
+<span class="sd">                           cb_opt.cbLazy(_add_cut(m.x.value))</span>
+
+<span class="sd">               opt.set_callback(my_callback)</span>
+<span class="sd">               opt.solve()</span>
+
+<span class="sd">            .. testoutput::</span>
+<span class="sd">               :hide:</span>
+
+<span class="sd">               ...</span>
+
+<span class="sd">            .. doctest::</span>
+<span class="sd">               :skipif: not gurobipy_available</span>
+
+<span class="sd">               &gt;&gt;&gt; assert abs(m.x.value - 1) &lt;= 1e-6</span>
+<span class="sd">               &gt;&gt;&gt; assert abs(m.y.value - 1) &lt;= 1e-6</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback_func</span> <span class="o">=</span> <span class="n">func</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intermediate_callback</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback_func</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.cbCut"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.cbCut">[docs]</a>    <span class="k">def</span> <span class="nf">cbCut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a cut within a callback.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.constraint._GeneralConstraintData</span>
+<span class="sd">            The cut to add</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cbCut expected an active constraint.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cbCut expected a non-trivial constraint&#39;</span><span class="p">)</span>
+
+        <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Range constraints are not supported in cbCut.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Lower bound of constraint </span><span class="si">{0}</span><span class="s1"> is not constant.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Upper bound of constraint </span><span class="si">{0}</span><span class="s1"> is not constant.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbCut</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbCut</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">GREATER_EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbCut</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">LESS_EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Constraint does not have a lower or an upper bound </span><span class="si">{0}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">cbGet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbGet</span><span class="p">(</span><span class="n">what</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GurobiPersistent.cbGetNodeRel"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.cbGetNodeRel">[docs]</a>    <span class="k">def</span> <span class="nf">cbGetNodeRel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vars: Var or iterable of Var</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
+        <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+        <span class="n">var_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbGetNodeRel</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">var_values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.cbGetSolution"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.cbGetSolution">[docs]</a>    <span class="k">def</span> <span class="nf">cbGetSolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vars: iterable of vars</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
+        <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+        <span class="n">var_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbGetSolution</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">var_values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GurobiPersistent.cbLazy"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.cbLazy">[docs]</a>    <span class="k">def</span> <span class="nf">cbLazy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con: pyomo.core.base.constraint._GeneralConstraintData</span>
+<span class="sd">            The lazy constraint to add</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cbLazy expected an active constraint.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cbLazy expected a non-trivial constraint&#39;</span><span class="p">)</span>
+
+        <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Range constraints are not supported in cbLazy.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Lower bound of constraint </span><span class="si">{0}</span><span class="s1"> is not constant.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Upper bound of constraint </span><span class="si">{0}</span><span class="s1"> is not constant.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbLazy</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbLazy</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">GREATER_EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbLazy</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">LESS_EQUAL</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Constraint does not have a lower or an upper bound </span><span class="si">{0}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">cbSetSolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="p">,</span> <span class="n">solution</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
+        <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbSetSolution</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">,</span> <span class="n">solution</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cbUseSolution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">cbUseSolution</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">obj_coef</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a column to the solver&#39;s model</span>
+
+<span class="sd">        This will add the Pyomo variable var to the solver&#39;s</span>
+<span class="sd">        model, and put the coefficients on the associated</span>
+<span class="sd">        constraints in the solver model. If the obj_coef is</span>
+<span class="sd">        not zero, it will add obj_coef*var to the objective</span>
+<span class="sd">        of the solver&#39;s model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var: Var (scalar Var or single _VarData)</span>
+<span class="sd">        obj_coef: float</span>
+<span class="sd">        constraints: list of solver constraints</span>
+<span class="sd">        coefficients: list of coefficients to put on var in the associated constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">## set-up add var</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+        <span class="n">vtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_vtype_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_lb_ub_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="n">gurobipy_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">obj_coef</span><span class="p">,</span>
+            <span class="n">lb</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span>
+            <span class="n">ub</span><span class="o">=</span><span class="n">ub</span><span class="p">,</span>
+            <span class="n">vtype</span><span class="o">=</span><span class="n">vtype</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span>
+            <span class="n">column</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">coeffs</span><span class="o">=</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">constrs</span><span class="o">=</span><span class="n">constraints</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">gurobipy_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">gurobipy_var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GurobiPersistent.reset"><a class="viewcode-back" href="../../../../../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

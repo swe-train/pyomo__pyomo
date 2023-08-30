@@ -1,0 +1,1763 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.base.units_container &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.base.units_container</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.base.units_container</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;Pyomo Units Container Module</span>
+
+<span class="sd">This module provides support for including units within Pyomo expressions. This module</span>
+<span class="sd">can be used to define units on a model, and to check the consistency of units</span>
+<span class="sd">within the underlying constraints and expressions in the model. The module also</span>
+<span class="sd">supports conversion of units within expressions using the `convert` method to support</span>
+<span class="sd">construction of constraints that contain embedded unit conversions.</span>
+
+<span class="sd">To use this package within your Pyomo model, you first need an instance of a</span>
+<span class="sd">PyomoUnitsContainer. You can use the module level instance already defined as</span>
+<span class="sd">&#39;units&#39;. This object &#39;contains&#39; the units - that is, you can access units on</span>
+<span class="sd">this module using common notation.</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">       :skipif: not pint_available</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.environ import units as u</span>
+<span class="sd">       &gt;&gt;&gt; print(3.0*u.kg)</span>
+<span class="sd">       3.0*kg</span>
+
+<span class="sd">Units can be assigned to Var, Param, and ExternalFunction components, and can</span>
+<span class="sd">be used directly in expressions (e.g., defining constraints). You can also</span>
+<span class="sd">verify that the units are consistent on a model, or on individual components</span>
+<span class="sd">like the objective function, constraint, or expression using</span>
+<span class="sd">`assert_units_consistent` (from pyomo.util.check_units).</span>
+<span class="sd">There are other methods there that may be helpful for verifying correct units on a model.</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">       :skipif: not pint_available</span>
+
+<span class="sd">       &gt;&gt;&gt; from pyomo.environ import ConcreteModel, Var, Objective</span>
+<span class="sd">       &gt;&gt;&gt; from pyomo.environ import units as u</span>
+<span class="sd">       &gt;&gt;&gt; from pyomo.util.check_units import assert_units_consistent, assert_units_equivalent, check_units_equivalent</span>
+<span class="sd">       &gt;&gt;&gt; model = ConcreteModel()</span>
+<span class="sd">       &gt;&gt;&gt; model.acc = Var(initialize=5.0, units=u.m/u.s**2)</span>
+<span class="sd">       &gt;&gt;&gt; model.obj = Objective(expr=(model.acc - 9.81*u.m/u.s**2)**2)</span>
+<span class="sd">       &gt;&gt;&gt; assert_units_consistent(model.obj) # raise exc if units invalid on obj</span>
+<span class="sd">       &gt;&gt;&gt; assert_units_consistent(model) # raise exc if units invalid anywhere on the model</span>
+<span class="sd">       &gt;&gt;&gt; assert_units_equivalent(model.obj.expr, u.m**2/u.s**4) # raise exc if units not equivalent</span>
+<span class="sd">       &gt;&gt;&gt; print(u.get_units(model.obj.expr)) # print the units on the objective</span>
+<span class="sd">       m**2/s**4</span>
+<span class="sd">       &gt;&gt;&gt; print(check_units_equivalent(model.acc, u.m/u.s**2))</span>
+<span class="sd">       True</span>
+
+<span class="sd">The implementation is currently based on the `pint</span>
+<span class="sd">&lt;http://pint.readthedocs.io&gt;`_ package and supports all the units that</span>
+<span class="sd">are supported by pint.  The list of units that are supported by pint</span>
+<span class="sd">can be found at the following url:</span>
+<span class="sd">https://github.com/hgrecco/pint/blob/master/pint/default_en.txt.</span>
+
+<span class="sd">If you need a unit that is not in the standard set of defined units,</span>
+<span class="sd">you can create your own units by adding to the unit definitions within</span>
+<span class="sd">pint. See :py:meth:`PyomoUnitsContainer.load_definitions_from_file` or</span>
+<span class="sd">:py:meth:`PyomoUnitsContainer.load_definitions_from_strings` for more</span>
+<span class="sd">information.</span>
+
+<span class="sd">.. note:: In this implementation of units, &quot;offset&quot; units for</span>
+<span class="sd">          temperature are not supported within expressions (i.e. the</span>
+<span class="sd">          non-absolute temperature units including degrees C and</span>
+<span class="sd">          degrees F).  This is because there are many non-obvious</span>
+<span class="sd">          combinations that are not allowable. This concern becomes</span>
+<span class="sd">          clear if you first convert the non-absolute temperature</span>
+<span class="sd">          units to absolute and then perform the operation. For</span>
+<span class="sd">          example, if you write 30 degC + 30 degC == 60 degC, but</span>
+<span class="sd">          convert each entry to Kelvin, the expression is not true</span>
+<span class="sd">          (i.e., 303.15 K + 303.15 K is not equal to 333.15</span>
+<span class="sd">          K). Therefore, there are several operations that are not</span>
+<span class="sd">          allowable with non-absolute units, including addition,</span>
+<span class="sd">          multiplication, and division.</span>
+
+<span class="sd">          This module does support conversion of offset units to</span>
+<span class="sd">          absolute units numerically, using convert_value_K_to_C,</span>
+<span class="sd">          convert_value_C_to_K, convert_value_R_to_F,</span>
+<span class="sd">          convert_value_F_to_R.  These are useful for converting input</span>
+<span class="sd">          data to absolute units, and for converting data to</span>
+<span class="sd">          convenient units for reporting.</span>
+
+<span class="sd">          Please see the pint documentation `here</span>
+<span class="sd">          &lt;https://pint.readthedocs.io/en/0.9/nonmult.html&gt;`_ for more</span>
+<span class="sd">          discussion. While pint implements &quot;delta&quot; units (e.g.,</span>
+<span class="sd">          delta_degC) to support correct unit conversions, it can be</span>
+<span class="sd">          difficult to identify and guarantee valid operations in a</span>
+<span class="sd">          general algebraic modeling environment. While future work</span>
+<span class="sd">          may support units with relative scale, the current</span>
+<span class="sd">          implementation requires use of absolute temperature units</span>
+<span class="sd">          (i.e. K and R) within expressions and a direct conversion of</span>
+<span class="sd">          numeric values using specific functions for converting input</span>
+<span class="sd">          data and reporting.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># TODO</span>
+<span class="c1">#    * create a new pint unit definition file (and load from that file)</span>
+<span class="c1">#       since the precision in pint seems insufficient for 1e-8 constraint tolerances</span>
+<span class="c1">#    * Investigate when we can and cannot handle offset units and expand capabilities if possible</span>
+<span class="c1">#    * Further investigate issues surrounding absolute and relative temperatures (delta units)</span>
+<span class="c1">#    * Extend external function interface to support units for the arguments in addition to the function itself</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">attempt_import</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">NOTSET</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NumericValue</span><span class="p">,</span>
+    <span class="n">nonpyomo_leaf_types</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">native_types</span><span class="p">,</span>
+    <span class="n">native_numeric_types</span><span class="p">,</span>
+    <span class="n">pyomo_constant_types</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.template_expr</span> <span class="kn">import</span> <span class="n">IndexTemplate</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.visitor</span> <span class="kn">import</span> <span class="n">ExpressionValueVisitor</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">pint_module</span><span class="p">,</span> <span class="n">pint_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span>
+    <span class="s1">&#39;pint&#39;</span><span class="p">,</span>
+    <span class="n">defer_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">error_message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s1">&#39;The &quot;pint&quot; package failed to import. &#39;</span>
+        <span class="s1">&#39;This package is necessary to use Pyomo units.&#39;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UnitsError"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.UnitsError">[docs]</a><span class="k">class</span> <span class="nc">UnitsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An exception class for all general errors/warnings associated with units</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InconsistentUnitsError"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.InconsistentUnitsError">[docs]</a><span class="k">class</span> <span class="nc">InconsistentUnitsError</span><span class="p">(</span><span class="n">UnitsError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An exception indicating that inconsistent units are present on an expression.</span>
+
+<span class="sd">    E.g., x == y, where x is in units of kg and y is in units of meter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exp1</span><span class="p">,</span> <span class="n">exp2</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">exp1</span><span class="si">}</span><span class="s1"> not compatible with </span><span class="si">{</span><span class="n">exp2</span><span class="si">}</span><span class="s1">.&#39;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">InconsistentUnitsError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_pint_unit_mapper</span><span class="p">(</span><span class="n">encode</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">encode</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">units</span>
+
+
+<span class="k">def</span> <span class="nf">_pint_registry_mapper</span><span class="p">(</span><span class="n">encode</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">encode</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="p">:</span>
+            <span class="c1"># FIXME: we currently will not correctly unpickle units</span>
+            <span class="c1"># associated with a unit manager other than the default</span>
+            <span class="c1"># singleton.  If we wanted to support this, we would need to</span>
+            <span class="c1"># do something like create a global units manager registry</span>
+            <span class="c1"># that would associate each unit manager with a name.  We</span>
+            <span class="c1"># could then pickle that name and then attempt to restore</span>
+            <span class="c1"># the association with the original units manager.  As we</span>
+            <span class="c1"># expect all users to just use the global default, for the</span>
+            <span class="c1"># time being we will just issue a warning that things may</span>
+            <span class="c1"># break.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;pickling a _PyomoUnit associated with a PyomoUnitsContainer &quot;</span>
+                <span class="s2">&quot;that is not the default singleton (</span><span class="si">%s</span><span class="s2">.units).  Restoring &quot;</span>
+                <span class="s2">&quot;this state will attempt to return a unit associated with &quot;</span>
+                <span class="s2">&quot;the default singleton.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="vm">__name__</span><span class="p">,)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+
+<span class="k">class</span> <span class="nc">_PyomoUnit</span><span class="p">(</span><span class="n">NumericValue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An object that represents a single unit in Pyomo (e.g., kg, meter)</span>
+
+<span class="sd">    Users should not create instances of _PyomoUnit directly, but rather access</span>
+<span class="sd">    units as attributes on an instance of a :class:`PyomoUnitsContainer`.</span>
+<span class="sd">    This module contains a global PyomoUnitsContainer object :py:data:`units`.</span>
+<span class="sd">    See module documentation for more information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_pint_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;_pint_registry&#39;</span><span class="p">)</span>
+    <span class="n">__autoslot_mappers__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;_pint_unit&#39;</span><span class="p">:</span> <span class="n">_pint_unit_mapper</span><span class="p">,</span>
+        <span class="s1">&#39;_pint_registry&#39;</span><span class="p">:</span> <span class="n">_pint_registry_mapper</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pint_unit</span><span class="p">,</span> <span class="n">pint_registry</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_PyomoUnit</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">pint_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">pint_registry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_unit</span> <span class="o">=</span> <span class="n">pint_unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span> <span class="o">=</span> <span class="n">pint_registry</span>
+
+    <span class="k">def</span> <span class="nf">_get_pint_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the pint unit corresponding to this Pyomo unit.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_unit</span>
+
+    <span class="k">def</span> <span class="nf">_get_pint_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the pint registry (pint.UnitRegistry) object used to create this unit.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span>
+
+    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fully_qualified</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name_buffer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the name of this unit as a string.</span>
+<span class="sd">        Overloaded from: :py:class:`NumericValue`. See this class for a description of the</span>
+<span class="sd">        arguments. The value of these arguments are ignored here.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : str</span>
+<span class="sd">           Returns the name of the unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># methods/properties that use the NumericValue base class implementation</span>
+    <span class="c1"># name property</span>
+    <span class="c1"># local_name</span>
+    <span class="c1"># cname</span>
+
+    <span class="k">def</span> <span class="nf">is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Indicates if the NumericValue is constant and can be replaced with a plain old number</span>
+<span class="sd">        Overloaded from: :py:class:`NumericValue`</span>
+
+<span class="sd">        This method indicates if the NumericValue is a constant and can be replaced with a plain</span>
+<span class="sd">        old number. Although units are, in fact, constant, we do NOT want this replaced - therefore</span>
+<span class="sd">        we return False here to prevent replacement.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        =======</span>
+<span class="sd">        : bool</span>
+<span class="sd">           False (This method always returns False)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Indicates if the NumericValue is fixed with respect to a &quot;solver&quot;.</span>
+<span class="sd">        Overloaded from: :py:class:`NumericValue`</span>
+
+<span class="sd">        Indicates if the Unit should be treated as fixed. Since the Unit is always treated as</span>
+<span class="sd">        a constant value of 1.0, it is fixed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        =======</span>
+<span class="sd">        : bool</span>
+<span class="sd">           True (This method always returns True)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_parameter_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is not a parameter type (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is not a variable type (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_potentially_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is not potentially variable (does not and cannot contain a variable).</span>
+<span class="sd">        Overloaded from NumericValue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_named_expression_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is not a named expression (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_expression_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression_system</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is a leaf, not an expression (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_component_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is not a component type (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_indexed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is not indexed (overloaded from NumericValue)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the polynomial degree - since units are constants, they have degree of zero.</span>
+<span class="sd">        Note that :py:meth:`NumericValue.polynomial_degree` calls this method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="c1"># Note that while it is possible to deepcopy the _pint_unit and</span>
+        <span class="c1"># _pint_registry object (in pint&gt;0.10), that version does not</span>
+        <span class="c1"># support all Python versions currently supported by Pyomo.</span>
+        <span class="c1"># Further, Pyomo&#39;s use of units relies on a model using a single</span>
+        <span class="c1"># instance of the pint unit registry.  As we regularly assemble</span>
+        <span class="c1"># block models using multiple clones (deepcopies) of a base</span>
+        <span class="c1"># model, it is important that we treat _PyomoUnit objects</span>
+        <span class="c1"># as outside the model scope and DO NOT duplicate them.</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">_PyomoUnit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="n">_pint_registry</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_unit</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_pint_unit</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="c1"># __bool__ uses NumericValue base class implementation</span>
+    <span class="c1"># __float__ uses NumericValue base class implementation</span>
+    <span class="c1"># __int__ uses NumericValue base class implementation</span>
+    <span class="c1"># __lt__ uses NumericValue base class implementation</span>
+    <span class="c1"># __gt__ uses NumericValue base class implementation</span>
+    <span class="c1"># __le__ uses NumericValue base class implementation</span>
+    <span class="c1"># __ge__ uses NumericValue base class implementation</span>
+    <span class="c1"># __eq__ uses NumericValue base class implementation</span>
+    <span class="c1"># __add__ uses NumericValue base class implementation</span>
+    <span class="c1"># __sub__ uses NumericValue base class implementation</span>
+    <span class="c1"># __mul__ uses NumericValue base class implementation</span>
+    <span class="c1"># __div__ uses NumericValue base class implementation</span>
+    <span class="c1"># __truediv__ uses NumericValue base class implementation</span>
+    <span class="c1"># __pow__ uses NumericValue vase class implementation</span>
+    <span class="c1"># __radd__ uses NumericValue base class implementation</span>
+    <span class="c1"># __rsub__ uses NumericValue base class implementation</span>
+    <span class="c1"># __rmul__ uses NumericValue base class implementation</span>
+    <span class="c1"># __rdiv__ uses NumericValue base class implementation</span>
+    <span class="c1"># __rtruediv__ uses NumericValue base class implementation</span>
+    <span class="c1"># __rpow__ uses NumericValue base class implementation</span>
+    <span class="c1"># __iadd__ uses NumericValue base class implementation</span>
+    <span class="c1"># __isub__ uses NumericValue base class implementation</span>
+    <span class="c1"># __imul__ uses NumericValue base class implementation</span>
+    <span class="c1"># __idiv__ uses NumericValue base class implementation</span>
+    <span class="c1"># __itruediv__ uses NumericValue base class implementation</span>
+    <span class="c1"># __ipow__ uses NumericValue base class implementation</span>
+    <span class="c1"># __neg__ uses NumericValue base class implementation</span>
+    <span class="c1"># __pos__ uses NumericValue base class implementation</span>
+    <span class="c1"># __add__ uses NumericValue base class implementation</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a string representing the unit&quot;&quot;&quot;</span>
+
+        <span class="c1"># The ~ returns the short form of the pint unit if the unit is</span>
+        <span class="c1"># an instance of the unit &#39;dimensionless&#39;, then pint returns &#39;&#39;</span>
+        <span class="c1"># which causes problems with some string processing in Pyomo</span>
+        <span class="c1"># that expects a name</span>
+        <span class="c1">#</span>
+        <span class="c1"># Note: Some pint units contain unicode characters (notably</span>
+        <span class="c1"># delta temperatures).  So that things work cleanly in Python 2</span>
+        <span class="c1"># and 3, we will generate the string as unicode, then explicitly</span>
+        <span class="c1"># encode it to UTF-8 in Python 2</span>
+        <span class="n">retstr</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;{:~C}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pint_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">retstr</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">retstr</span> <span class="o">=</span> <span class="s1">&#39;dimensionless&#39;</span>
+        <span class="k">return</span> <span class="n">retstr</span>
+
+    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labeler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compute_values</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the expression tree.</span>
+
+<span class="sd">        See documentation on :py:class:`NumericValue`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : bool</span>
+<span class="sd">           A string representation for the expression tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_str</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">,</span> <span class="s1">&#39; */&#39;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">_str</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_str</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unit is treated as a constant value, and this method always returns 1.0</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : float</span>
+<span class="sd">           Returns 1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+
+    <span class="k">def</span> <span class="nf">pprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ostream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Display a user readable string description of this object.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma:nocover</span>
+            <span class="n">ostream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="n">ostream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="c1"># There is also a long form, but the verbose flag is not really the correct indicator</span>
+        <span class="c1"># if verbose:</span>
+        <span class="c1">#     ostream.write(&#39;{:s}&#39;.format(self._pint_unit))</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     ostream.write(&#39;{:~s}&#39;.format(self._pint_unit))</span>
+
+
+<span class="k">class</span> <span class="nc">PintUnitExtractionVisitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">StreamBasedExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pyomo_units_container</span><span class="p">,</span> <span class="n">units_equivalence_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visitor class used to determine units of an expression. Do not use</span>
+<span class="sd">        this class directly, but rather use</span>
+<span class="sd">        &quot;py:meth:`PyomoUnitsContainer.assert_units_consistent`</span>
+<span class="sd">        or :py:meth:`PyomoUnitsContainer.get_units`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pyomo_units_container : PyomoUnitsContainer</span>
+<span class="sd">           Instance of the PyomoUnitsContainer that was used for the units</span>
+<span class="sd">           in the expressions. Pyomo does not support &quot;mixing&quot; units from</span>
+<span class="sd">           different containers</span>
+
+<span class="sd">        units_equivalence_tolerance : float (default 1e-12)</span>
+<span class="sd">            Floating point tolerance used when deciding if units are equivalent</span>
+<span class="sd">            or not.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This class inherits from the :class:`StreamBasedExpressionVisitor` to implement</span>
+<span class="sd">        a walker that returns the pyomo units and pint units corresponding to an</span>
+<span class="sd">        expression.</span>
+
+<span class="sd">        There are class attributes (dicts) that map the expression node type to the</span>
+<span class="sd">        particular method that should be called to return the units of the node based</span>
+<span class="sd">        on the units of its child arguments. This map is used in exitNode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PintUnitExtractionVisitor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span> <span class="o">=</span> <span class="n">pyomo_units_container</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_pint_units</span> <span class="o">=</span> <span class="n">pyomo_units_container</span><span class="o">.</span><span class="n">_equivalent_pint_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pyomo_units_container</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_equivalent_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to an expression node in the</span>
+<span class="sd">        expression tree where all children should have the same units (e.g. sum).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: This may be expensive for long summations and, in the</span>
+        <span class="c1"># case of reporting only, we may want to skip the checks</span>
+        <span class="k">assert</span> <span class="nb">bool</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span>
+
+        <span class="c1"># verify that the pint units are equivalent from each</span>
+        <span class="c1"># of the child nodes - assume that PyomoUnits are equivalent</span>
+        <span class="n">pint_unit_0</span> <span class="o">=</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">pint_unit_i</span> <span class="ow">in</span> <span class="n">child_units</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_pint_units</span><span class="p">(</span><span class="n">pint_unit_0</span><span class="p">,</span> <span class="n">pint_unit_i</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">InconsistentUnitsError</span><span class="p">(</span>
+                    <span class="n">pint_unit_0</span><span class="p">,</span>
+                    <span class="n">pint_unit_i</span><span class="p">,</span>
+                    <span class="s1">&#39;Error in units found in expression: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="p">,),</span>
+                <span class="p">)</span>
+
+        <span class="c1"># checks were OK, return the first one in the list</span>
+        <span class="k">return</span> <span class="n">pint_unit_0</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a product expression node</span>
+<span class="sd">        in the expression tree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+        <span class="n">pint_unit</span> <span class="o">=</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pint_unit</span><span class="p">,</span> <span class="s1">&#39;units&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">pint_unit</span><span class="o">.</span><span class="n">units</span>
+
+        <span class="k">return</span> <span class="n">pint_unit</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a division expression node</span>
+<span class="sd">        in the expression tree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+        <span class="c1"># this operation can create a quantity, but we want a pint unit object</span>
+        <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_pow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a pow expression node</span>
+<span class="sd">        in the expression tree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+        <span class="c1"># the exponent needs to be dimensionless</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span><span class="p">(</span><span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># todo: allow radians?</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error in sub-expression: </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Exponents in a pow expression must be dimensionless.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># common case - exponent is a constant number</span>
+        <span class="n">exponent</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="n">value</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span>
+
+        <span class="c1"># if base is dimensioness, exponent doesn&#39;t matter</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span><span class="p">(</span><span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+
+        <span class="c1"># base is not dimensionless, exponent is dimensionless</span>
+        <span class="c1"># ensure that the exponent is fixed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exponent</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The base of an exponent has units </span><span class="si">{</span><span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, but &quot;</span>
+                <span class="s2">&quot;the exponent is not a fixed numerical value.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="n">value</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_single_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a unary operation (e.g. negation)</span>
+<span class="sd">        expression node in the expression tree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_units_ExternalFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to make sure that any child arguments are consistent with</span>
+<span class="sd">        arg_units return the value from node.get_units() This</span>
+<span class="sd">        was written for ExternalFunctionExpression where the external</span>
+<span class="sd">        function has units assigned to its return value and arguments</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get the list of arg_units</span>
+        <span class="n">arg_units</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_arg_units</span><span class="p">()</span>
+        <span class="n">dless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+        <span class="k">if</span> <span class="n">arg_units</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># they should all be dimensionless</span>
+            <span class="n">arg_units</span> <span class="o">=</span> <span class="p">[</span><span class="n">dless</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># copy arg_units so we don&#39;t overwrite the ones in the expression object</span>
+            <span class="n">arg_units</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">arg_units</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arg_units</span><span class="p">):</span>
+                <span class="n">arg_units</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">arg_unit</span><span class="p">,</span> <span class="n">pint_unit</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_units</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">arg_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_pint_units</span><span class="p">(</span><span class="n">arg_unit</span><span class="p">,</span> <span class="n">pint_unit</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">InconsistentUnitsError</span><span class="p">(</span>
+                    <span class="n">arg_unit</span><span class="p">,</span> <span class="n">pint_unit</span><span class="p">,</span> <span class="s1">&#39;Inconsistent units found in ExternalFunction.&#39;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># now return the units in node.get_units</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">get_units</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_get_dimensionless_with_dimensionless_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to make sure that any child arguments are unitless /</span>
+<span class="sd">        dimensionless (for functions like exp()) and return dimensionless.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">pint_unit</span> <span class="ow">in</span> <span class="n">child_units</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span><span class="p">(</span><span class="n">pint_unit</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Expected no units or dimensionless units in </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">, &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;but found </span><span class="si">{</span><span class="n">pint_unit</span><span class="si">}</span><span class="s1">.&#39;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+
+    <span class="k">def</span> <span class="nf">_get_dimensionless_no_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to make sure the length of child_units is zero, and returns</span>
+<span class="sd">        dimensionless. Used for leaf nodes that should not have any units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="c1"># may need more checks for dimensionless for other types</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_unary_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a unary function expression node</span>
+<span class="sd">        in the expression tree. Checks that child_units is of length 1</span>
+<span class="sd">        and calls the appropriate method from the unary function method map.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">func_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getname</span><span class="p">()</span>
+        <span class="n">node_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unary_function_method_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;An unhandled unary function: </span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s1"> was encountered &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;while retrieving the units of expression </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">node_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_for_expr_if</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to an Expr_if expression node</span>
+<span class="sd">        in the expression tree. The _if relational expression is validated and</span>
+<span class="sd">        the _then/_else are checked to ensure they have the same units. Also checks</span>
+<span class="sd">        to make sure length of child_units is 3</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+
+        <span class="c1"># the _if should already be consistent (since the children were</span>
+        <span class="c1"># already checked)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_pint_units</span><span class="p">(</span><span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">InconsistentUnitsError</span><span class="p">(</span>
+                <span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">child_units</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="s1">&#39;Error in units found in expression: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="p">,),</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_dimensionless_with_radians_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a trig function expression node</span>
+<span class="sd">        in the expression tree. Checks that the length of child_units is 1</span>
+<span class="sd">        and that the units of that child expression are unitless or radians and</span>
+<span class="sd">        returns dimensionless for the units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span><span class="p">(</span><span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_pint_units</span><span class="p">(</span>
+            <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">radian</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+
+        <span class="c1"># units are not None, dimensionless, or radians</span>
+        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+            <span class="s1">&#39;Expected radians or dimensionless in argument to function &#39;</span>
+            <span class="s1">&#39;in expression </span><span class="si">%s</span><span class="s1">, but found </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_radians_with_dimensionless_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to an inverse trig expression node</span>
+<span class="sd">        in the expression tree. Checks that the length of child_units is 1</span>
+<span class="sd">        and that the child argument is dimensionless, and returns radians</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_to_dimensionless</span><span class="p">(</span><span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">radian</span>
+
+        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Expected dimensionless argument to function in expression </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">,&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39; but found </span><span class="si">{</span><span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_unit_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child_units</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return (and test) the units corresponding to a sqrt expression node</span>
+<span class="sd">        in the expression tree. Checks that the length of child_units is one.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : Pyomo expression node</span>
+<span class="sd">            The parent node of the children</span>
+
+<span class="sd">        child_units : list</span>
+<span class="sd">           This is a list of pint units (one for each of the children)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">child_units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="n">node_type_method_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">EqualityExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">InequalityExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">RangedExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">SumExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_SumExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span><span class="p">:</span> <span class="n">_get_unit_for_product</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">MonomialTermExpression</span><span class="p">:</span> <span class="n">_get_unit_for_product</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_ProductExpression</span><span class="p">:</span> <span class="n">_get_unit_for_product</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">DivisionExpression</span><span class="p">:</span> <span class="n">_get_unit_for_division</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_DivisionExpression</span><span class="p">:</span> <span class="n">_get_unit_for_division</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">PowExpression</span><span class="p">:</span> <span class="n">_get_unit_for_pow</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_PowExpression</span><span class="p">:</span> <span class="n">_get_unit_for_pow</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NegationExpression</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_NegationExpression</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">AbsExpression</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_AbsExpression</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">UnaryFunctionExpression</span><span class="p">:</span> <span class="n">_get_unit_for_unary_function</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_UnaryFunctionExpression</span><span class="p">:</span> <span class="n">_get_unit_for_unary_function</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">Expr_ifExpression</span><span class="p">:</span> <span class="n">_get_unit_for_expr_if</span><span class="p">,</span>
+        <span class="n">IndexTemplate</span><span class="p">:</span> <span class="n">_get_dimensionless_no_children</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">Numeric_GetItemExpression</span><span class="p">:</span> <span class="p">(</span>
+            <span class="n">_get_dimensionless_with_dimensionless_children</span>
+        <span class="p">),</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_Numeric_GetItemExpression</span><span class="p">:</span> <span class="p">(</span>
+            <span class="n">_get_dimensionless_with_dimensionless_children</span>
+        <span class="p">),</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">ExternalFunctionExpression</span><span class="p">:</span> <span class="n">_get_units_ExternalFunction</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_ExternalFunctionExpression</span><span class="p">:</span> <span class="n">_get_units_ExternalFunction</span><span class="p">,</span>
+        <span class="n">EXPR</span><span class="o">.</span><span class="n">LinearExpression</span><span class="p">:</span> <span class="n">_get_unit_for_equivalent_children</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">unary_function_method_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;log&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_dimensionless_children</span><span class="p">,</span>
+        <span class="s1">&#39;log10&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_dimensionless_children</span><span class="p">,</span>
+        <span class="s1">&#39;sin&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;cos&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;tan&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;sinh&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;cosh&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;tanh&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_radians_child</span><span class="p">,</span>
+        <span class="s1">&#39;asin&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;acos&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;atan&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;exp&#39;</span><span class="p">:</span> <span class="n">_get_dimensionless_with_dimensionless_children</span><span class="p">,</span>
+        <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span> <span class="n">_get_unit_sqrt</span><span class="p">,</span>
+        <span class="s1">&#39;asinh&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;acosh&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;atanh&#39;</span><span class="p">:</span> <span class="n">_get_radians_with_dimensionless_child</span><span class="p">,</span>
+        <span class="s1">&#39;ceil&#39;</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+        <span class="s1">&#39;floor&#39;</span><span class="p">:</span> <span class="n">_get_unit_for_single_child</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">initializeWalker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="c1"># Refresh the cached dimensionless (in case the underlying pint</span>
+        <span class="c1"># registry was either changed or had not been set when the</span>
+        <span class="c1"># PyomoUnitsContainer was originally created).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+        <span class="n">walk</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">walk</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalizeResult</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">walk</span><span class="p">,</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="n">ctype</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">in</span> <span class="n">native_types</span> <span class="ow">or</span> <span class="n">ctype</span> <span class="ow">in</span> <span class="n">pyomo_constant_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+
+        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># this is a leaf, but not a native type</span>
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="n">_PyomoUnit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">_get_pint_unit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;get_units&#39;</span><span class="p">):</span>
+            <span class="c1"># might want to add other common types here</span>
+            <span class="n">pyomo_unit</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_units</span><span class="p">()</span>
+            <span class="n">pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_units_container</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">pyomo_unit</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pint_unit</span>
+
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">exitNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visitor callback when moving up the expression tree.</span>
+
+<span class="sd">        Callback for</span>
+<span class="sd">        :class:`pyomo.core.current.StreamBasedExpressionVisitor`. This</span>
+<span class="sd">        method is called when moving back up the tree in a depth first</span>
+<span class="sd">        search.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">node_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_type_method_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># not a leaf - check if it is a named expression</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;is_named_expression_type&#39;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">is_named_expression_type</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="n">pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_unit_for_single_child</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pint_unit</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;An unhandled expression node type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="si">}</span><span class="s1"> was encountered &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;while retrieving the units of expression </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">finalizeResult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;units&#39;</span><span class="p">):</span>
+            <span class="c1"># likely, we got a quantity object and not a units object</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">units</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="PyomoUnitsContainer"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer">[docs]</a><span class="k">class</span> <span class="nc">PyomoUnitsContainer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that is used to create and contain units in Pyomo.</span>
+
+<span class="sd">    This is the class that is used to create, contain, and interact</span>
+<span class="sd">    with units in Pyomo.  The module</span>
+<span class="sd">    (:mod:`pyomo.core.base.units_container`) also contains a module</span>
+<span class="sd">    level units container :py:data:`units` that is an instance of a</span>
+<span class="sd">    PyomoUnitsContainer. This module instance should typically be used</span>
+<span class="sd">    instead of creating your own instance of a</span>
+<span class="sd">    :py:class:`PyomoUnitsContainer`.  For an overview of the usage of</span>
+<span class="sd">    this class, see the module documentation</span>
+<span class="sd">    (:mod:`pyomo.core.base.units_container`)</span>
+
+<span class="sd">    This class is based on the &quot;pint&quot; module. Documentation for</span>
+<span class="sd">    available units can be found at the following url:</span>
+<span class="sd">    https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Pre-defined units can be accessed through attributes on the</span>
+<span class="sd">        PyomoUnitsContainer class; however, these attributes are created</span>
+<span class="sd">        dynamically through the __getattr__ method, and are not present</span>
+<span class="sd">        on the class until they are requested.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pint_registry</span><span class="o">=</span><span class="n">NOTSET</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a PyomoUnitsContainer instance.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pint_registry</span> <span class="ow">is</span> <span class="n">NOTSET</span><span class="p">:</span>
+            <span class="n">pint_registry</span> <span class="o">=</span> <span class="n">pint_module</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span> <span class="o">=</span> <span class="n">pint_registry</span>
+        <span class="k">if</span> <span class="n">pint_registry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">dimensionless</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pintUnitExtractionVisitor</span> <span class="o">=</span> <span class="n">PintUnitExtractionVisitor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.load_definitions_from_file"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">load_definitions_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load new units definitions from a file</span>
+
+<span class="sd">        This method loads additional units definitions from a user</span>
+<span class="sd">        specified definition file. An example of a definitions file</span>
+<span class="sd">        can be found at:</span>
+<span class="sd">        https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</span>
+
+<span class="sd">        If we have a file called ``my_additional_units.txt`` with the</span>
+<span class="sd">        following lines::</span>
+
+<span class="sd">            USD = [currency]</span>
+
+<span class="sd">        Then we can add this to the container with:</span>
+
+<span class="sd">        .. doctest::</span>
+<span class="sd">            :skipif: not pint_available</span>
+<span class="sd">            :hide:</span>
+
+<span class="sd">            # Get a local units object (to avoid duplicate registration</span>
+<span class="sd">            # with the example in load_definitions_from_strings)</span>
+<span class="sd">            &gt;&gt;&gt; import pyomo.core.base.units_container as _units</span>
+<span class="sd">            &gt;&gt;&gt; u = _units.PyomoUnitsContainer()</span>
+<span class="sd">            &gt;&gt;&gt; with open(&#39;my_additional_units.txt&#39;, &#39;w&#39;) as FILE:</span>
+<span class="sd">            ...     tmp = FILE.write(&quot;USD = [currency]\\n&quot;)</span>
+
+<span class="sd">        .. doctest::</span>
+<span class="sd">            :skipif: not pint_available</span>
+
+<span class="sd">            &gt;&gt;&gt; u.load_definitions_from_file(&#39;my_additional_units.txt&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; print(u.USD)</span>
+<span class="sd">            USD</span>
+
+<span class="sd">        .. doctest::</span>
+<span class="sd">            :skipif: not pint_available</span>
+<span class="sd">            :hide:</span>
+
+<span class="sd">            # Clean up the file we just created</span>
+<span class="sd">            &gt;&gt;&gt; import os</span>
+<span class="sd">            &gt;&gt;&gt; os.remove(&#39;my_additional_units.txt&#39;)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">load_definitions</span><span class="p">(</span><span class="n">definition_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">dimensionless</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.load_definitions_from_strings"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_strings">[docs]</a>    <span class="k">def</span> <span class="nf">load_definitions_from_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition_string_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load new units definitions from a string</span>
+
+<span class="sd">        This method loads additional units definitions from a list of</span>
+<span class="sd">        strings (one for each line). An example of the definitions</span>
+<span class="sd">        strings can be found at:</span>
+<span class="sd">        https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</span>
+
+<span class="sd">        For example, to add the currency dimension and US dollars as a</span>
+<span class="sd">        unit, use</span>
+
+<span class="sd">        .. doctest::</span>
+<span class="sd">            :skipif: not pint_available</span>
+<span class="sd">            :hide:</span>
+
+<span class="sd">            # get a local units object (to avoid duplicate registration</span>
+<span class="sd">            # with the example in load_definitions_from_strings)</span>
+<span class="sd">            &gt;&gt;&gt; import pint</span>
+<span class="sd">            &gt;&gt;&gt; import pyomo.core.base.units_container as _units</span>
+<span class="sd">            &gt;&gt;&gt; u = _units.PyomoUnitsContainer()</span>
+
+<span class="sd">        .. doctest::</span>
+<span class="sd">            :skipif: not pint_available</span>
+
+<span class="sd">            &gt;&gt;&gt; u.load_definitions_from_strings([&#39;USD = [currency]&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; print(u.USD)</span>
+<span class="sd">            USD</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">load_definitions</span><span class="p">(</span><span class="n">definition_string_list</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Here, __getattr__ is implemented to automatically create the</span>
+<span class="sd">        necessary unit if the attribute does not already exist.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        item : str</span>
+<span class="sd">            the name of the new field requested external</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PyomoUnit</span>
+<span class="sd">            returns a PyomoUnit corresponding to the requested attribute,</span>
+<span class="sd">            or None if it cannot be created.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># since __getattr__ was called, we must not have this field yet</span>
+        <span class="c1"># try to build a unit from the requested item</span>
+        <span class="n">pint_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pint_unit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pint_registry</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">pint_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># check if the unit is an offset unit and throw an exception if necessary</span>
+                <span class="c1"># TODO: should we prevent delta versions: delta_degC and delta_degF as well?</span>
+                <span class="n">pint_unit_container</span> <span class="o">=</span> <span class="n">pint_module</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">to_units_container</span><span class="p">(</span>
+                    <span class="n">pint_unit</span><span class="p">,</span> <span class="n">pint_registry</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pint_unit_container</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">pint_registry</span><span class="o">.</span><span class="n">_units</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">is_multiplicative</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                            <span class="s1">&#39;Pyomo units system does not support the offset &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;units &quot;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&quot;. Use absolute units &#39;</span>
+                            <span class="s1">&#39;(e.g. kelvin instead of degC) instead.&#39;</span>
+                        <span class="p">)</span>
+
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">_PyomoUnit</span><span class="p">(</span><span class="n">pint_unit</span><span class="p">,</span> <span class="n">pint_registry</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">unit</span>
+        <span class="k">except</span> <span class="n">pint_module</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">UndefinedUnitError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">pint_unit</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">pint_unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Attribute </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1"> not found.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># We added support to specify a units definition file instead of this programmatic interface</span>
+    <span class="c1"># def create_new_base_dimension(self, dimension_name, base_unit_name):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Use this method to create a new base dimension (e.g. a new dimension other than Length, Mass) for the unit manager.</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     dimension_name : str</span>
+    <span class="c1">#        name of the new dimension (needs to be unique from other dimension names)</span>
+    <span class="c1">#</span>
+    <span class="c1">#     base_unit_name : str</span>
+    <span class="c1">#        base_unit_name: name of the base unit for this dimension</span>
+    <span class="c1">#</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     # TODO: Error checking - if dimension already exists then we should return a useful error message.</span>
+    <span class="c1">#     defn_str = str(base_unit_name) + &#39; = [&#39; + str(dimension_name) + &#39;]&#39;</span>
+    <span class="c1">#     self._pint_registry.define(defn_str)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def create_new_unit(self, unit_name, base_unit_name, conv_factor, conv_offset=None):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Create a new unit that is not already included in the units manager.</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Examples:</span>
+    <span class="c1">#         # create a new unit of length called football field that is 1000 yards</span>
+    <span class="c1">#         # defines: x (in yards) = y (in football fields) X 100.0</span>
+    <span class="c1">#         &gt;&gt;&gt; um.create_new_unit(&#39;football_field&#39;, &#39;yards&#39;, 100.0)</span>
+    <span class="c1">#</span>
+    <span class="c1">#         # create a new unit of temperature that is half the size of a degree F</span>
+    <span class="c1">#         # defines x (in K) = y (in half degF) X 10/9 + 255.3722222 K</span>
+    <span class="c1">#         &gt;&gt;&gt; um.create_new_unit(&#39;half_degF&#39;, &#39;kelvin&#39;, 10.0/9.0, 255.3722222)</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     unit_name : str</span>
+    <span class="c1">#        name of the new unit to create</span>
+    <span class="c1">#     base_unit_name : str</span>
+    <span class="c1">#        name of the base unit from the same &quot;dimension&quot; as the new unit</span>
+    <span class="c1">#     conv_factor : float</span>
+    <span class="c1">#        value of the multiplicative factor needed to convert the new unit</span>
+    <span class="c1">#        to the base unit</span>
+    <span class="c1">#     conv_offset : float</span>
+    <span class="c1">#        value of any offset between the new unit and the base unit</span>
+    <span class="c1">#        Note that the units of this offset are the same as the base unit,</span>
+    <span class="c1">#        and it is applied after the factor conversion</span>
+    <span class="c1">#        (e.g., base_value = new_value*conv_factor + conv_offset)</span>
+    <span class="c1">#</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     if conv_offset is None:</span>
+    <span class="c1">#         defn_str = &#39;{0!s} = {1:g} * {2!s}&#39;.format(unit_name, float(conv_factor), base_unit_name)</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         defn_str = &#39;{0!s} = {1:17.16g} * {2!s}; offset: {3:17.16g}&#39;.format(unit_name, float(conv_factor), base_unit_name,</span>
+    <span class="c1">#                                                                  float(conv_offset))</span>
+    <span class="c1">#     self._pint_registry.define(defn_str)</span>
+
+    <span class="k">def</span> <span class="nf">_rel_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
+
+    <span class="k">def</span> <span class="nf">_equivalent_pint_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">TOL</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span> <span class="ow">or</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">base_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">base_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">base_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">base_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">uc_a</span> <span class="o">=</span> <span class="n">base_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionality</span>
+            <span class="n">uc_b</span> <span class="o">=</span> <span class="n">base_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionality</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">uc_a</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">|</span> <span class="n">uc_b</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rel_diff</span><span class="p">(</span><span class="n">uc_a</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">uc_b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">TOL</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rel_diff</span><span class="p">(</span><span class="n">base_a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">base_b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">TOL</span>
+
+    <span class="k">def</span> <span class="nf">_equivalent_to_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">TOL</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="ow">or</span> <span class="n">a</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">base_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rel_diff</span><span class="p">(</span><span class="n">base_a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">TOL</span>
+
+    <span class="k">def</span> <span class="nf">_get_pint_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the pint units corresponding to the expression. This does</span>
+<span class="sd">        a number of checks as well.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        expr : Pyomo expression</span>
+<span class="sd">           the input expression for extracting units</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : pint unit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pintUnitExtractionVisitor</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">expr</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.get_units"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.get_units">[docs]</a>    <span class="k">def</span> <span class="nf">get_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the Pyomo units corresponding to this expression (also</span>
+<span class="sd">        performs validation and will raise an exception if units are not</span>
+<span class="sd">        consistent).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        expr : Pyomo expression</span>
+<span class="sd">            The expression containing the desired units</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : Pyomo unit (expression)</span>
+<span class="sd">           Returns the units corresponding to the expression</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :py:class:`pyomo.core.base.units_container.UnitsError`, :py:class:`pyomo.core.base.units_container.InconsistentUnitsError`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_PyomoUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">expr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_pint_convert_temp_from_to</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">numerical_value</span><span class="p">,</span> <span class="n">pint_from_units</span><span class="p">,</span> <span class="n">pint_to_units</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">numerical_value</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                <span class="s1">&#39;Conversion routines for absolute and relative temperatures &#39;</span>
+                <span class="s1">&#39;require a numerical value only. Pyomo objects (Var, Param, &#39;</span>
+                <span class="s1">&#39;expressions) are not supported. Please use value(x) to &#39;</span>
+                <span class="s1">&#39;extract the numerical value if necessary.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">src_quantity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">numerical_value</span><span class="p">,</span> <span class="n">pint_from_units</span><span class="p">)</span>
+        <span class="n">dest_quantity</span> <span class="o">=</span> <span class="n">src_quantity</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">pint_to_units</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dest_quantity</span><span class="o">.</span><span class="n">magnitude</span>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert_temp_K_to_C"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_K_to_C">[docs]</a>    <span class="k">def</span> <span class="nf">convert_temp_K_to_C</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in_K</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a value in Kelvin to degrees Celsius.  Note that this method</span>
+<span class="sd">        converts a numerical value only. If you need temperature</span>
+<span class="sd">        conversions in expressions, please work in absolute</span>
+<span class="sd">        temperatures only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_convert_temp_from_to</span><span class="p">(</span>
+            <span class="n">value_in_K</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">K</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">degC</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert_temp_C_to_K"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_C_to_K">[docs]</a>    <span class="k">def</span> <span class="nf">convert_temp_C_to_K</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in_C</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a value in degrees Celsius to Kelvin Note that this</span>
+<span class="sd">        method converts a numerical value only. If you need</span>
+<span class="sd">        temperature conversions in expressions, please work in</span>
+<span class="sd">        absolute temperatures only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_convert_temp_from_to</span><span class="p">(</span>
+            <span class="n">value_in_C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">degC</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">K</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert_temp_R_to_F"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_R_to_F">[docs]</a>    <span class="k">def</span> <span class="nf">convert_temp_R_to_F</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in_R</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a value in Rankine to degrees Fahrenheit.  Note that</span>
+<span class="sd">        this method converts a numerical value only. If you need</span>
+<span class="sd">        temperature conversions in expressions, please work in</span>
+<span class="sd">        absolute temperatures only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_convert_temp_from_to</span><span class="p">(</span>
+            <span class="n">value_in_R</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">rankine</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">degF</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert_temp_F_to_R"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_F_to_R">[docs]</a>    <span class="k">def</span> <span class="nf">convert_temp_F_to_R</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in_F</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a value in degrees Fahrenheit to Rankine.  Note that</span>
+<span class="sd">        this method converts a numerical value only. If you need</span>
+<span class="sd">        temperature conversions in expressions, please work in</span>
+<span class="sd">        absolute temperatures only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_convert_temp_from_to</span><span class="p">(</span>
+            <span class="n">value_in_F</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">degF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">rankine</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method returns an expression that contains the</span>
+<span class="sd">        explicit conversion from one unit to another.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        src : Pyomo expression</span>
+<span class="sd">           The source value that will be converted. This could be a</span>
+<span class="sd">           Pyomo Var, Pyomo Param, or a more complex expression.</span>
+<span class="sd">        to_units : Pyomo units expression</span>
+<span class="sd">           The desired target units for the new expression</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">           ret : Pyomo expression</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">src_pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="n">to_pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">to_units</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">src_pint_unit</span> <span class="o">==</span> <span class="n">to_pint_unit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">src</span>
+
+        <span class="c1"># We disallow offset units, so we only need a factor to convert</span>
+        <span class="c1"># between the two</span>
+        <span class="n">src_base_factor</span><span class="p">,</span> <span class="n">base_units_src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span>
+            <span class="n">src_pint_unit</span><span class="p">,</span> <span class="n">check_nonmult</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">to_base_factor</span><span class="p">,</span> <span class="n">base_units_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span>
+            <span class="n">to_pint_unit</span><span class="p">,</span> <span class="n">check_nonmult</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">base_units_src</span> <span class="o">!=</span> <span class="n">base_units_to</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InconsistentUnitsError</span><span class="p">(</span>
+                <span class="n">src_pint_unit</span><span class="p">,</span> <span class="n">to_pint_unit</span><span class="p">,</span> <span class="s1">&#39;Error in convert: units not compatible.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">src_base_factor</span> <span class="o">/</span> <span class="n">to_base_factor</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">_PyomoUnit</span><span class="p">(</span><span class="n">to_pint_unit</span> <span class="o">/</span> <span class="n">src_pint_unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">src</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PyomoUnitsContainer.convert_value"><a class="viewcode-back" href="../../../../advanced_topics/units_container.html#pyomo.core.base.units_container.PyomoUnitsContainer.convert_value">[docs]</a>    <span class="k">def</span> <span class="nf">convert_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_value</span><span class="p">,</span> <span class="n">from_units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method performs explicit conversion of a numerical value</span>
+<span class="sd">        from one unit to another, and returns the new value.</span>
+
+<span class="sd">        The argument &quot;num_value&quot; must be a native numeric type (e.g. float).</span>
+<span class="sd">        Note that this method returns a numerical value only, and not an</span>
+<span class="sd">        expression with units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num_value : float or other native numeric type</span>
+<span class="sd">           The value that will be converted</span>
+<span class="sd">        from_units : Pyomo units expression</span>
+<span class="sd">           The units to convert from</span>
+<span class="sd">        to_units : Pyomo units expression</span>
+<span class="sd">           The units to convert to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">           float : The converted value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">num_value</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                <span class="s1">&#39;The argument &quot;num_value&quot; in convert_value must be a native &#39;</span>
+                <span class="s1">&#39;numeric type, but instead type {type(num_value)} was found.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">from_pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">from_units</span><span class="p">)</span>
+        <span class="n">to_pint_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pint_units</span><span class="p">(</span><span class="n">to_units</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">from_pint_unit</span> <span class="o">==</span> <span class="n">to_pint_unit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">num_value</span>
+
+        <span class="c1"># We disallow offset units, so we only need a factor to convert</span>
+        <span class="c1"># between the two</span>
+        <span class="c1">#</span>
+        <span class="c1"># TODO: Do we need to disallow offset units here? Should we</span>
+        <span class="c1"># assume the user knows what they are doing?</span>
+        <span class="c1">#</span>
+        <span class="c1"># TODO: This check may be overkill - pint will raise an error</span>
+        <span class="c1"># that may be sufficient</span>
+        <span class="n">from_base_factor</span><span class="p">,</span> <span class="n">from_base_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span>
+            <span class="n">from_pint_unit</span><span class="p">,</span> <span class="n">check_nonmult</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">to_base_factor</span><span class="p">,</span> <span class="n">to_base_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">get_base_units</span><span class="p">(</span>
+            <span class="n">to_pint_unit</span><span class="p">,</span> <span class="n">check_nonmult</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">from_base_units</span> <span class="o">!=</span> <span class="n">to_base_units</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span>
+                <span class="s1">&#39;Cannot convert </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">. Units are not compatible.&#39;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">from_units</span><span class="p">,</span> <span class="n">to_units</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># convert the values</span>
+        <span class="n">from_quantity</span> <span class="o">=</span> <span class="n">num_value</span> <span class="o">*</span> <span class="n">from_pint_unit</span>
+        <span class="n">to_quantity</span> <span class="o">=</span> <span class="n">from_quantity</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">to_pint_unit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_quantity</span><span class="o">.</span><span class="n">magnitude</span></div>
+
+    <span class="k">def</span> <span class="nf">set_pint_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pint_registry</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pint_registry</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Changing the pint registry used by the Pyomo Units &quot;</span>
+                <span class="s2">&quot;system after the PyomoUnitsContainer was constructed.  &quot;</span>
+                <span class="s2">&quot;Pint requires that all units and dimensioned quantities &quot;</span>
+                <span class="s2">&quot;are generated by a single pint registry.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span> <span class="o">=</span> <span class="n">pint_registry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pint_dimensionless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">dimensionless</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pint_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pint_registry</span></div>
+
+
+<span class="k">class</span> <span class="nc">_QuantityVisitor</span><span class="p">(</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">native_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nonpyomo_leaf_types</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">native_types</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unary_inverse_trig</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;asin&#39;</span><span class="p">,</span> <span class="s1">&#39;acos&#39;</span><span class="p">,</span> <span class="s1">&#39;atan&#39;</span><span class="p">,</span> <span class="s1">&#39;asinh&#39;</span><span class="p">,</span> <span class="s1">&#39;acosh&#39;</span><span class="p">,</span> <span class="s1">&#39;atanh&#39;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="vm">__class__</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">native_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;get_units&#39;</span><span class="p">):</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_units</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">*</span> <span class="n">unit</span><span class="o">.</span><span class="n">_pint_unit</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">_PyomoUnit</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">_pint_unit</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">is_logical_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">Unit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">val</span>
+        <span class="c1"># else</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">val</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_dimensionless</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_handle_unary_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">getname</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unary_inverse_trig</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">radian</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="nf">_handle_external</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="c1"># External functions are units-unaware</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">val</span><span class="o">.</span><span class="n">magnitude</span> <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">units</span><span class="o">.</span><span class="n">_pint_registry</span><span class="o">.</span><span class="n">Quantity</span> <span class="k">else</span> <span class="n">val</span>
+                <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">values</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_units</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span> <span class="o">*</span> <span class="n">unit</span><span class="o">.</span><span class="n">_pint_unit</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="n">_QuantityVisitor</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">EXPR</span><span class="o">.</span><span class="n">UnaryFunctionExpression</span><span class="p">:</span> <span class="n">_QuantityVisitor</span><span class="o">.</span><span class="n">_handle_unary_function</span><span class="p">,</span>
+    <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_UnaryFunctionExpression</span><span class="p">:</span> <span class="n">_QuantityVisitor</span><span class="o">.</span><span class="n">_handle_unary_function</span><span class="p">,</span>
+    <span class="n">EXPR</span><span class="o">.</span><span class="n">ExternalFunctionExpression</span><span class="p">:</span> <span class="n">_QuantityVisitor</span><span class="o">.</span><span class="n">_handle_external</span><span class="p">,</span>
+    <span class="n">EXPR</span><span class="o">.</span><span class="n">NPV_ExternalFunctionExpression</span><span class="p">:</span> <span class="n">_QuantityVisitor</span><span class="o">.</span><span class="n">_handle_external</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">as_quantity</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_QuantityVisitor</span><span class="p">()</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_DeferredUnitsSingleton</span><span class="p">(</span><span class="n">PyomoUnitsContainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class supporting deferred interrogation of pint_available.</span>
+
+<span class="sd">    This class supports creating a module-level singleton, but deferring</span>
+<span class="sd">    the interrogation of the pint_available flag until the first time</span>
+<span class="sd">    the object is actually used.  If pint is available, this instance</span>
+<span class="sd">    object is replaced by an actual PyomoUnitsContainer.  Otherwise this</span>
+<span class="sd">    leverages the pint_module to raise an (informative)</span>
+<span class="sd">    DeferredImportError exception.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># do NOT call the base class __init__ so that the pint_module is</span>
+        <span class="c1"># not accessed</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="c1"># Note that this method will only be called ONCE: either pint is</span>
+        <span class="c1"># present, at which point this instance __class__ will fall back</span>
+        <span class="c1"># to PyomoUnitsContainer (where this method is not declared, OR</span>
+        <span class="c1"># pint is not available and an ImportError will be raised.</span>
+        <span class="k">if</span> <span class="n">pint_available</span><span class="p">:</span>
+            <span class="c1"># If the first thing that is being called is</span>
+            <span class="c1"># &quot;units.set_pint_registry(...)&quot;, then we will call __init__</span>
+            <span class="c1"># with None so that the subsequent call to set_pint_registry</span>
+            <span class="c1"># will work cleanly.  In all other cases, we will initialize</span>
+            <span class="c1"># PyomoUnitsContainer with a new (default) pint registry.</span>
+            <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;set_pint_registry&#39;</span><span class="p">:</span>
+                <span class="n">pint_registry</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pint_registry</span> <span class="o">=</span> <span class="n">pint_module</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">PyomoUnitsContainer</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pint_registry</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Generate the ImportError</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pint_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+
+<span class="c1"># Define a module level instance of a PyomoUnitsContainer to use for</span>
+<span class="c1"># all units within a Pyomo model. If pint is not available, this will</span>
+<span class="c1"># cause an error at the first usage See module level documentation for</span>
+<span class="c1"># an example.</span>
+<span class="n">units</span> <span class="o">=</span> <span class="n">_DeferredUnitsSingleton</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

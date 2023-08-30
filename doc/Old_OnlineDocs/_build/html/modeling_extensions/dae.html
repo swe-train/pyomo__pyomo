@@ -1,0 +1,1559 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Dynamic Optimization with pyomo.DAE &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generalized Disjunctive Programming" href="gdp/index.html" />
+    <link rel="prev" title="Bilevel Programming" href="bilevel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Modeling Extensions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bilevel.html">Bilevel Programming</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Optimization with pyomo.DAE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-components">Modeling Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#continuousset">ContinuousSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#derivativevar">DerivativeVar</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#declaring-differential-equations">Declaring Differential Equations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#declaring-integrals">Declaring Integrals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discretization-transformations">Discretization Transformations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#finite-difference-transformation">Finite Difference Transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#collocation-transformation">Collocation Transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#applying-multiple-discretization-transformations">Applying Multiple Discretization Transformations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-discretization-schemes">Custom Discretization Schemes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-model-simulation">Dynamic Model Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supported-simulator-packages">Supported Simulator Packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-simulator">Using the Simulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#specifying-time-varying-inputs">Specifying Time-Varying Inputs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-model-initialization">Dynamic Model Initialization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#from-simulation">From Simulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gdp/index.html">Generalized Disjunctive Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpec.html">MPEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stochastic_programming.html">Stochastic Programming in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Pyomo Network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Modeling Extensions</a> &raquo;</li>
+        
+      <li>Dynamic Optimization with pyomo.DAE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modeling_extensions/dae.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dynamic-optimization-with-pyomo-dae">
+<h1>Dynamic Optimization with pyomo.DAE<a class="headerlink" href="#dynamic-optimization-with-pyomo-dae" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/Pyomo-DAE-150.png"><img alt="../_images/Pyomo-DAE-150.png" class="align-right" src="../_images/Pyomo-DAE-150.png" style="width: 381.15px; height: 112.35px;" /></a>
+<p>The pyomo.DAE modeling extension <a class="reference internal" href="../bibliography.html#pyomodae" id="id1"><span>[PyomoDAE]</span></a> allows users to incorporate systems of
+differential algebraic equations (DAE)s in a Pyomo model. The modeling
+components in this extension are able to represent ordinary or partial
+differential equations. The differential equations do not have to be
+written in a particular format and the components are flexible enough to
+represent higher-order derivatives or mixed partial
+derivatives. Pyomo.DAE also includes model transformations which use
+simultaneous discretization approaches to transform a DAE model into an
+algebraic model. Finally, pyomo.DAE includes utilities for simulating
+DAE models and initializing dynamic optimization problems.</p>
+<div class="section" id="modeling-components">
+<h2>Modeling Components<a class="headerlink" href="#modeling-components" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo.DAE introduces three new modeling components to Pyomo:</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.dae.ContinuousSet</span></code></a></td>
+<td>Represents a bounded continuous domain</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.dae.DerivativeVar</span></code></a></td>
+<td>Represents derivatives in a model and defines how a <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> is differentiated</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.dae.Integral</span></code></a></td>
+<td>Represents an integral over a continuous domain</td>
+</tr>
+</tbody>
+</table>
+<p>As will be shown later, differential equations can be declared using
+using these new modeling components along with the standard Pyomo
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> and
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code></a> components.</p>
+<div class="section" id="continuousset">
+<h3>ContinuousSet<a class="headerlink" href="#continuousset" title="Permalink to this headline">¶</a></h3>
+<p>This component is used to define continuous bounded domains (for example
+‘spatial’ or ‘time’ domains). It is similar to a Pyomo
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a>  component and can be used to index things
+like variables and constraints. Any number of
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSets</span></code></a> can be used to index a
+component and components can be indexed by both
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sets</span></code></a> and
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSets</span></code></a> in arbitrary order.</p>
+<p>In the current implementation, models with
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> components may not be solved
+until every <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> has been
+discretized. Minimally, a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>
+must be initialized with two numeric values representing the upper and lower
+bounds of the continuous domain. A user may also specify additional points in
+the domain to be used as finite element points in the discretization.</p>
+<dl class="py class">
+<dt id="pyomo.dae.ContinuousSet">
+<em class="property">class </em><code class="descclassname">pyomo.dae.</code><code class="descname">ContinuousSet</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a bounded continuous domain</p>
+<p>Minimally, this set must contain two numeric values defining the
+bounds of a continuous range. Discrete points of interest may
+be added to the continuous set. A continuous set is one
+dimensional and may only contain numerical values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>initialize</strong> (<cite>list</cite>) – Default discretization points to be included</li>
+<li><strong>bounds</strong> (<cite>tuple</cite>) – The bounding points for the continuous domain. The bounds will
+be included as discrete points in the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>
+and will be used to bound the points added to the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> through the ‘initialize’ argument,
+a data file, or the add() method</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt id="pyomo.dae.ContinuousSet._changed">
+<code class="descname">_changed</code><a class="headerlink" href="#pyomo.dae.ContinuousSet._changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>This keeps track of whether or not the ContinuousSet was changed
+during discretization. If the user specifies all of the needed
+discretization points before the discretization then there is no
+need to go back through the model and reconstruct things indexed
+by the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>boolean</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.dae.ContinuousSet._fe">
+<code class="descname">_fe</code><a class="headerlink" href="#pyomo.dae.ContinuousSet._fe" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a sorted list of the finite element points in the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>. i.e. this list contains all the
+discrete points in the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that are not
+collocation points. Points that are both finite element points
+and collocation points will be included in this list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.dae.ContinuousSet._discretization_info">
+<code class="descname">_discretization_info</code><a class="headerlink" href="#pyomo.dae.ContinuousSet._discretization_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a dictionary which contains information on the
+discretization transformation which has been applied to the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>dict</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.construct">
+<code class="descname">construct</code><span class="sig-paren">(</span><em><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.construct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.construct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> component</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.find_nearest_index">
+<code class="descname">find_nearest_index</code><span class="sig-paren">(</span><em><span class="n">target</span></em>, <em><span class="n">tolerance</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.find_nearest_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.find_nearest_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the index of the nearest point in the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>.</p>
+<p>If a tolerance is specified, the index will only be returned
+if the distance between the target and the closest point is
+less than or equal to that tolerance. If there is a tie for
+closest point, the index on the left is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> (<cite>float</cite>) – </li>
+<li><strong>tolerance</strong> (<cite>float</cite> or <cite>None</cite>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>float</cite> or <cite>None</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.get_changed">
+<code class="descname">get_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.get_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.get_changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns flag indicating if the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> was
+changed during discretization</p>
+<p>Returns “True” if additional points were added to the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> while applying a
+discretization scheme</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>boolean</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.get_discretization_info">
+<code class="descname">get_discretization_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.get_discretization_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.get_discretization_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <cite>dict</cite> with information on the discretization scheme
+that has been applied to the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>dict</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.get_finite_elements">
+<code class="descname">get_finite_elements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.get_finite_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.get_finite_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the finite element points</p>
+<p>If the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> has been
+discretizaed using a collocation scheme, this method will return a
+list of the finite element discretization points but not the
+collocation points within each finite element. If the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> has not been
+discretized or a finite difference discretization was used,
+this method returns a list of all the discretization points in the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>list</cite> of <cite>floats</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.get_lower_element_boundary">
+<code class="descname">get_lower_element_boundary</code><span class="sig-paren">(</span><em><span class="n">point</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.get_lower_element_boundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.get_lower_element_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first finite element point that is less than or
+equal to ‘point’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> (<cite>float</cite>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.get_upper_element_boundary">
+<code class="descname">get_upper_element_boundary</code><span class="sig-paren">(</span><em><span class="n">point</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.get_upper_element_boundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.get_upper_element_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first finite element point that is greater or equal
+to ‘point’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> (<cite>float</cite>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.ContinuousSet.set_changed">
+<code class="descname">set_changed</code><span class="sig-paren">(</span><em><span class="n">newvalue</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/contset.html#ContinuousSet.set_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.ContinuousSet.set_changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <code class="docutils literal notranslate"><span class="pre">_changed</span></code> flag to ‘newvalue’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newvalue</strong> (<cite>boolean</cite>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p>The following code snippet shows examples of declaring a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> component on a
+concrete Pyomo model:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="go">Declaration by providing bounds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="go">Declaration by initializing with desired discretization points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> may not be
+constructed unless at least two numeric points are provided to bound the
+continuous domain.</p>
+</div>
+<p>The following code snippet shows an example of declaring a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> component on an
+abstract Pyomo model using the example data file.</p>
+<div class="highlight-ampl notranslate"><div class="highlight"><pre><span></span><span class="kd">set</span> <span class="nv">t</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="mf">2.25</span><span class="w"> </span><span class="mf">3.75</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="go">The ContinuousSet below will be initialized using the points</span>
+<span class="go">in the data file when a model instance is created.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If a separate data file is used to initialize a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>, it is done using
+the ‘set’ command and not ‘continuousset’</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Most valid ways to declare and initialize a
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> can be used to
+declare and initialize a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>.
+See the documentation for <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> for additional
+options.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be careful using a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> as an implicit index in an expression,
+i.e. <code class="docutils literal notranslate"><span class="pre">sum(m.v[i]</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">m.myContinuousSet)</span></code>. The expression will
+be generated using the discretization points contained in the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> at the time the
+expression was constructed and will not be updated if additional
+points are added to the set during discretization.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> components are
+always ordered (sorted) therefore the <code class="docutils literal notranslate"><span class="pre">first()</span></code> and <code class="docutils literal notranslate"><span class="pre">last()</span></code>
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> methods can be used to access the lower
+and upper boundaries of the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> respectively</p>
+</div>
+</div>
+<div class="section" id="derivativevar">
+<h3>DerivativeVar<a class="headerlink" href="#derivativevar" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="pyomo.dae.DerivativeVar">
+<em class="property">class </em><code class="descclassname">pyomo.dae.</code><code class="descname">DerivativeVar</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents derivatives in a model and defines how a
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> is differentiated</p>
+<p>The <a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">DerivativeVar</span></code></a> component is
+used to declare a derivative of a <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a>.
+The constructor accepts a single positional argument which is the
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> that’s being differentiated. A
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> may only be differentiated with
+respect to a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that it
+is indexed by. The indexing sets of a <a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">DerivativeVar</span></code></a> are identical to those of the <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> it is differentiating.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sVar</strong> (<code class="docutils literal notranslate"><span class="pre">pyomo.environ.Var</span></code>) – The variable being differentiated</li>
+<li><strong>wrt</strong> (<code class="docutils literal notranslate"><span class="pre">pyomo.dae.ContinuousSet</span></code> or tuple) – Equivalent to <cite>withrespectto</cite> keyword argument. The
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that the
+derivative is being taken with respect to. Higher order derivatives
+are represented by including the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> multiple times in
+the tuple sent to this keyword. i.e. <code class="docutils literal notranslate"><span class="pre">wrt=(m.t,</span> <span class="pre">m.t)</span></code> would be the
+second order derivative with respect to <code class="docutils literal notranslate"><span class="pre">m.t</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.dae.DerivativeVar.get_continuousset_list">
+<code class="descname">get_continuousset_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar.get_continuousset_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar.get_continuousset_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the a list of <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> components the
+derivative is being taken with respect to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.DerivativeVar.get_derivative_expression">
+<code class="descname">get_derivative_expression</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar.get_derivative_expression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar.get_derivative_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current discretization expression for this derivative or
+creates an access function to its <code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code> the first time
+this method is called. The expression gets built up as the
+discretization transformations are sequentially applied to each
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> in the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.DerivativeVar.get_state_var">
+<code class="descname">get_state_var</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar.get_state_var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar.get_state_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code> that is being differentiated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.DerivativeVar.is_fully_discretized">
+<code class="descname">is_fully_discretized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar.is_fully_discretized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar.is_fully_discretized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if all the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSets</span></code></a> this derivative
+is taken with respect to have been discretized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>boolean</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.DerivativeVar.set_derivative_expression">
+<code class="descname">set_derivative_expression</code><span class="sig-paren">(</span><em><span class="n">expr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/diffvar.html#DerivativeVar.set_derivative_expression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.DerivativeVar.set_derivative_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets``_expr``, an expression representing the discretization
+equations linking the <a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">DerivativeVar</span></code></a> to its state
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The code snippet below shows examples of declaring
+<a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">DerivativeVar</span></code></a> components on a
+Pyomo model. In each case, the variable being differentiated is supplied
+as the only positional argument and the type of derivative is specified
+using the ‘wrt’ (or the more verbose ‘withrespectto’) keyword
+argument. Any keyword argument that is valid for a Pyomo
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> component may also be specified.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">)</span>
+
+<span class="go">Declare the first derivative of model.x with respect to model.t</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dxdt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">withrespectto</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="go">Declare the second derivative of model.y with respect to model.t</span>
+<span class="go">Note that this DerivativeVar will be indexed by both model.s and model.t</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dydt2</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">))</span>
+
+<span class="go">Declare the partial derivative of model.z with respect to model.l</span>
+<span class="go">Note that this DerivativeVar will be indexed by both model.t and model.l</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dzdl</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="go">Declare the mixed second order partial derivative of model.z with respect</span>
+<span class="go">to model.t and model.l and set bounds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dz2</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The ‘initialize’ keyword argument will initialize the value of a
+derivative and is <strong>not</strong> the same as specifying an initial
+condition. Initial or boundary conditions should be specified using a
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code></a> or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ConstraintList</span></code> or
+by fixing the value of a <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code></a> at a boundary
+point.</p>
+</div>
+</div>
+</div>
+<div class="section" id="declaring-differential-equations">
+<h2>Declaring Differential Equations<a class="headerlink" href="#declaring-differential-equations" title="Permalink to this headline">¶</a></h2>
+<p>A differential equations is declared as a standard Pyomo
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code></a> and is not required to have
+any particular form. The following code snippet shows how one might declare
+an ordinary or partial differential equation.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dxdt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dydt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">dydl2</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">))</span>
+
+<span class="go">An ordinary differential equation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_ode_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="gp">... </span>      <span class="k">return</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dxdt</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">ode</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_ode_rule</span><span class="p">)</span>
+
+<span class="go">A partial differential equation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_pde_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">last</span><span class="p">():</span>
+<span class="gp">... </span>      <span class="k">return</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dydt</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">dydl2</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">pde</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_pde_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, a <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code></a> declared over a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> will be applied at every
+discretization point contained in the set. Often a modeler does not want to
+enforce a differential equation at one or both boundaries of a continuous
+domain. This may be addressed explicitly in the
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code></a> declaration using
+<code class="docutils literal notranslate"><span class="pre">Constraint.Skip</span></code> as shown above. Alternatively, the desired constraints can
+be deactivated just before the model is sent to a solver as shown below.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_ode_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dxdt</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">ode</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_ode_rule</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_pde_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dydt</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">dydl2</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">pde</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_pde_rule</span><span class="p">)</span>
+
+<span class="go">Declare other model components and apply a discretization transformation</span>
+<span class="gp">...</span>
+
+<span class="go">Deactivate the differential equations at certain boundary points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">ode</span><span class="p">[:,</span> <span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">first</span><span class="p">()]:</span>
+<span class="gp">... </span>   <span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">pde</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]:</span>
+<span class="gp">... </span>   <span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">pde</span><span class="p">[:,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">first</span><span class="p">()]:</span>
+<span class="gp">... </span>   <span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">pde</span><span class="p">[:,</span> <span class="n">model</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">last</span><span class="p">()]:</span>
+<span class="gp">... </span>  <span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+<span class="go">Solve the model</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you intend to use the pyomo.DAE
+<a class="reference internal" href="#pyomo.dae.Simulator" title="pyomo.dae.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a> on your model then you
+<strong>must</strong> use <strong>constraint deactivation</strong> instead of <strong>constraint
+skipping</strong> in the differential equation rule.</p>
+</div>
+</div>
+<div class="section" id="declaring-integrals">
+<h2>Declaring Integrals<a class="headerlink" href="#declaring-integrals" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> component is still under
+development and considered a prototype. It currently includes only basic
+functionality for simple integrals. We welcome feedback on the interface
+and functionality but <strong>we do not recommend using it</strong> on general
+models. Instead, integrals should be reformulated as differential
+equations.</p>
+</div>
+<dl class="py class">
+<dt id="pyomo.dae.Integral">
+<em class="property">class </em><code class="descclassname">pyomo.dae.</code><code class="descname">Integral</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/integral.html#Integral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Integral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an integral over a continuous domain</p>
+<p>The <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> component can be used to
+represent an integral taken over the entire domain of a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>. Once every
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> in a model has been
+discretized, any integrals in the model will be converted to algebraic
+equations using the trapezoid rule. Future development will include more
+sophisticated numerical integration methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>*args</strong> – Every indexing set needed to evaluate the integral expression</li>
+<li><strong>wrt</strong> (<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>) – The continuous domain over which the integral is being taken</li>
+<li><strong>rule</strong> (<em>function</em>) – Function returning the expression being integrated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.dae.Integral.get_continuousset">
+<code class="descname">get_continuousset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/integral.html#Integral.get_continuousset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Integral.get_continuousset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>
+the integral is being taken over</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>Declaring an <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> component is similar to
+declaring an <code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code> component. A
+simple example is shown below:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1E-3</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_intX</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">intX</span> <span class="o">=</span> <span class="n">Integral</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">rule</span><span class="o">=</span><span class="n">_intX</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_obj</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">scale</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">intX</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that the positional arguments supplied to the
+<a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> declaration must include all indices
+needed to evaluate the integral expression. The integral expression is defined
+in a function and supplied to the ‘rule’ keyword argument. Finally, a user must
+specify a <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that the integral
+is being evaluated over. This is done using the ‘wrt’ keyword argument.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> specified using the
+‘wrt’ keyword argument must be explicitly specified as one of the indexing
+sets (meaning it must be supplied as a positional argument). This is to
+ensure consistency in the ordering and dimension of the indexing sets</p>
+</div>
+<p>After an <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> has been declared, it can be
+used just like a Pyomo <code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code>
+component and can be included in constraints or the objective function as shown
+above.</p>
+<p>If an <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> is specified with multiple
+positional arguments, i.e. multiple indexing sets, the final component will be
+indexed by all of those sets except for the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that the integral was
+taken over. In other words, the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> specified with the
+‘wrt’ keyword argument is removed from the indexing sets of the
+<a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> even though it must be specified as a
+positional argument. This should become more clear with the following example
+showing a double integral over the
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> components <code class="docutils literal notranslate"><span class="pre">model.t1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">model.t2</span></code>. In addition, the expression is also indexed by the
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> <code class="docutils literal notranslate"><span class="pre">model.s</span></code>. The mathematical representation
+and implementation in Pyomo are shown below:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{s} \int_{t_2} \int_{t_1} \! X(t_1, t_2, s) \, dt_1 \, dt_2\]</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t1</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">t2</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_intX1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">intX1</span> <span class="o">=</span> <span class="n">Integral</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">rule</span><span class="o">=</span><span class="n">_intX1</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_intX2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">intX1</span><span class="p">[</span><span class="n">t2</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">intX2</span> <span class="o">=</span> <span class="n">Integral</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_intX2</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_obj</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">intX2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="discretization-transformations">
+<h2>Discretization Transformations<a class="headerlink" href="#discretization-transformations" title="Permalink to this headline">¶</a></h2>
+<p>Before a Pyomo model with <a class="reference internal" href="#pyomo.dae.DerivativeVar" title="pyomo.dae.DerivativeVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">DerivativeVar</span></code></a>
+or <a class="reference internal" href="#pyomo.dae.Integral" title="pyomo.dae.Integral"><code class="xref py py-class docutils literal notranslate"><span class="pre">Integral</span></code></a> components can be sent to a
+solver it must first be sent through a discretization transformation. These
+transformations approximate any derivatives or integrals in the model by
+using a numerical method. The numerical methods currently included in pyomo.DAE
+discretize the continuous domains in the problem and introduce equality
+constraints which approximate the derivatives and integrals at the
+discretization points. Two families of discretization schemes have been
+implemented in pyomo.DAE, Finite Difference and Collocation. These schemes are
+described in more detail below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The schemes described here are for derivatives only. All integrals will
+be transformed using the trapezoid rule.</p>
+</div>
+<p>The user must write a Python script in order to use these discretizations,
+they have not been tested on the pyomo command line. Example scripts are
+shown below for each of the discretization schemes. The transformations are
+applied to Pyomo model objects which can be further manipulated before being
+sent to a solver. Examples of this are also shown below.</p>
+<div class="section" id="finite-difference-transformation">
+<h3>Finite Difference Transformation<a class="headerlink" href="#finite-difference-transformation" title="Permalink to this headline">¶</a></h3>
+<p>This transformation includes implementations of several finite
+difference methods. For example, the Backward Difference method (also
+called Implicit or Backward Euler) has been implemented. The
+discretization equations for this method are shown below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+\mathrm{Given: } \\
+\frac{dx}{dt} = f(t, x) , \quad x(t_0) = x_{0} \\
+\text{discretize $t$ and $x$ such that } \\
+x(t_0 + kh) = x_{k} \\
+x_{k + 1} = x_{k} + h * f(t_{k + 1}, x_{k + 1}) \\
+t_{k + 1} = t_{k} + h
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(h\)</span> is the step size between discretization points or the size of
+each finite element. These equations are generated automatically as
+<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Constraint" title="pyomo.environ.Constraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Constraints</span></code></a> when the backward
+difference method is applied to a Pyomo model.</p>
+<p>There are several discretization options available to a
+<code class="docutils literal notranslate"><span class="pre">dae.finite_difference</span></code> transformation which can be specified as keyword
+arguments to the <code class="docutils literal notranslate"><span class="pre">.apply_to()</span></code> function of the transformation object. These
+keywords are summarized below:</p>
+<p>Keyword arguments for applying a finite difference transformation:</p>
+<dl class="docutils">
+<dt>‘nfe’</dt><dd>The desired number of finite element points to be included in the
+discretization. The default value is 10.</dd>
+<dt>‘wrt’</dt><dd>Indicates which <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> the
+transformation should be applied to. If this keyword argument is not
+specified then the same scheme will be applied to every
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> .</dd>
+<dt>‘scheme’</dt><dd>Indicates which finite difference method to apply. Options are
+‘BACKWARD’, ‘CENTRAL’, or ‘FORWARD’. The default scheme is the backward
+difference method.</dd>
+</dl>
+<p>If the existing number of finite element points in a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> is less than the desired
+number, new discretization points will be added to the set. If a user specifies
+a number of finite element points which is less than the number of points
+already included in the <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> then
+the transformation will ignore the specified number and proceed with the larger
+set of points. Discretization points will never be removed from a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> during the discretization.</p>
+<p>The following code is a Python script applying the backward difference
+method. The code also shows how to add a constraint to a discretized model.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Discretize model using Backward Difference method</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.finite_difference&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;BACKWARD&#39;</span><span class="p">)</span>
+
+<span class="go">Add another constraint to discretized model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_sum_limit</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con_sum_limit</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">_sum_limit</span><span class="p">)</span>
+
+<span class="go">Solve discretized model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="collocation-transformation">
+<h3>Collocation Transformation<a class="headerlink" href="#collocation-transformation" title="Permalink to this headline">¶</a></h3>
+<p>This transformation uses orthogonal collocation to discretize the
+differential equations in the model. Currently, two types of collocation
+have been implemented. They both use Lagrange polynomials with either
+Gauss-Radau roots or Gauss-Legendre roots. For more information on
+orthogonal collocation and the discretization equations associated with this
+method please see chapter 10 of the book “Nonlinear Programming: Concepts,
+Algorithms, and Applications to Chemical Processes” by L.T. Biegler.</p>
+<p>The discretization options available to a <code class="docutils literal notranslate"><span class="pre">dae.collocation</span></code> transformation
+are the same as those described above for the finite difference transformation
+with different available schemes and the addition of the ‘ncp’ option.</p>
+<p>Additional keyword arguments for collocation discretizations:</p>
+<dl class="docutils">
+<dt>‘scheme’</dt><dd>The desired collocation scheme, either ‘LAGRANGE-RADAU’ or
+‘LAGRANGE-LEGENDRE’. The default is ‘LAGRANGE-RADAU’.</dd>
+<dt>‘ncp’</dt><dd>The number of collocation points within each finite element. The
+default value is 3.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the user’s version of Python has access to the package Numpy then any
+number of collocation points may be specified, otherwise the maximum number
+is 10.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any points that exist in a
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> before discretization
+will be used as finite element boundaries and not as collocation points.
+The locations of the collocation points cannot be specified by the user,
+they must be generated by the transformation.</p>
+</div>
+<p>The following code is a Python script applying collocation with Lagrange
+polynomials and Radau roots. The code also shows how to add an objective
+function to a discretized model.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Discretize model using Radau Collocation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.collocation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">ncp</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">)</span>
+
+<span class="go">Add objective function after model has been discretized</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="nb">sum</span><span class="p">((</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">x_ref</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_rule</span><span class="p">)</span>
+
+<span class="go">Solve discretized model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="restricting-optimal-control-profiles">
+<h4>Restricting Optimal Control Profiles<a class="headerlink" href="#restricting-optimal-control-profiles" title="Permalink to this headline">¶</a></h4>
+<p>When solving an optimal control problem a user may want to restrict the
+number of degrees of freedom for the control input by forcing, for example,
+a piecewise constant profile. Pyomo.DAE provides the
+<code class="docutils literal notranslate"><span class="pre">reduce_collocation_points</span></code> function to address this use-case. This function
+is used in conjunction with the <code class="docutils literal notranslate"><span class="pre">dae.collocation</span></code> discretization
+transformation to reduce the number of free collocation points within a finite
+element for a particular variable.</p>
+<dl class="py class">
+<dt id="pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation">
+<em class="property">class </em><code class="descclassname">pyomo.dae.plugins.colloc.</code><code class="descname">Collocation_Discretization_Transformation</code><a class="reference internal" href="../_modules/pyomo/dae/plugins/colloc.html#Collocation_Discretization_Transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation.reduce_collocation_points">
+<code class="descname">reduce_collocation_points</code><span class="sig-paren">(</span><em><span class="n">instance</span></em>, <em><span class="n">var</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">ncp</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">contset</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/plugins/colloc.html#Collocation_Discretization_Transformation.reduce_collocation_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.plugins.colloc.Collocation_Discretization_Transformation.reduce_collocation_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will add additional constraints to a model to reduce the
+number of free collocation points (degrees of freedom) for a particular
+variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>instance</strong> (<em>Pyomo model</em>) – The discretized Pyomo model to add constraints to</li>
+<li><strong>var</strong> (<code class="docutils literal notranslate"><span class="pre">pyomo.environ.Var</span></code>) – The Pyomo variable for which the degrees of freedom will be reduced</li>
+<li><strong>ncp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The new number of free collocation points for <cite>var</cite>. Must be
+less that the number of collocation points used in discretizing
+the model.</li>
+<li><strong>contset</strong> (<code class="docutils literal notranslate"><span class="pre">pyomo.dae.ContinuousSet</span></code>) – The <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> that was
+discretized and for which the <cite>var</cite> will have a reduced number
+of degrees of freedom</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p>An example of using this function is shown below:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.collocation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">discretizer</span><span class="o">.</span><span class="n">reduce_collocation_points</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                              <span class="n">var</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">u</span><span class="p">,</span>
+<span class="gp">... </span>                                              <span class="n">ncp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>                                              <span class="n">contset</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, the <code class="docutils literal notranslate"><span class="pre">reduce_collocation_points</span></code> function restricts
+the variable <code class="docutils literal notranslate"><span class="pre">model.u</span></code> to have only <strong>1</strong> free collocation point per
+finite element, thereby enforcing a piecewise constant profile.
+<a class="reference internal" href="#reduce-points-fig"><span class="std std-numref">Fig. 1</span></a> shows the solution profile before and
+after applying
+the <code class="docutils literal notranslate"><span class="pre">reduce_collocation_points</span></code> function.</p>
+<div class="figure align-center" id="id2">
+<span id="reduce-points-fig"></span><a class="reference internal image-reference" href="../_images/reduce_points_demo.png"><img alt="../_images/reduce_points_demo.png" src="../_images/reduce_points_demo.png" style="width: 640.0px; height: 480.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">(left) Profile before applying the <code class="docutils literal notranslate"><span class="pre">reduce_collocation_points</span></code>
+function (right) Profile after applying the function, restricting
+<code class="docutils literal notranslate"><span class="pre">model.u</span></code> to have a piecewise constant profile.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="applying-multiple-discretization-transformations">
+<h3>Applying Multiple Discretization Transformations<a class="headerlink" href="#applying-multiple-discretization-transformations" title="Permalink to this headline">¶</a></h3>
+<p>Discretizations can be applied independently to each
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> in a model. This allows the
+user great flexibility in discretizing their model. For example the same
+numerical method can be applied with different resolutions:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.finite_difference&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This also allows the user to combine different methods. For example, applying
+the forward difference method to one
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> and the central finite
+difference method to another
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.finite_difference&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span><span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;FORWARD&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span><span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;CENTRAL&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, the user may combine finite difference and collocation
+discretizations. For example:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">disc_fe</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.finite_difference&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disc_fe</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disc_col</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.collocation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disc_col</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">wrt</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span><span class="n">nfe</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ncp</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the user would like to apply the same discretization to all
+<a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a> components in a model, just
+specify the discretization once without the ‘wrt’ keyword argument. This will
+apply that scheme to all <a class="reference internal" href="#pyomo.dae.ContinuousSet" title="pyomo.dae.ContinuousSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContinuousSet</span></code></a>
+components in the model that haven’t already been discretized.</p>
+</div>
+<div class="section" id="custom-discretization-schemes">
+<h3>Custom Discretization Schemes<a class="headerlink" href="#custom-discretization-schemes" title="Permalink to this headline">¶</a></h3>
+<p>A transformation framework along with certain utility functions has been
+created so that advanced users may easily implement custom discretization
+schemes other than those listed above. The transformation framework consists of
+the following steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Specify Discretization Options</li>
+<li>Discretize the ContinuousSet(s)</li>
+<li>Update Model Components</li>
+<li>Add Discretization Equations</li>
+<li>Return Discretized Model</li>
+</ol>
+</div></blockquote>
+<p>If a user would like to create a custom finite difference scheme then they only
+have to worry about step (4) in the framework. The discretization equations for
+a particular scheme have been isolated from of the rest of the code for
+implementing the transformation. The function containing these discretization
+equations can be found at the top of the source code file for the
+transformation. For example, below is the function for the forward
+difference method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_forward_transform</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Applies the Forward Difference formula of order O(h) for first derivatives</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_fwd_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">tmp</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">v</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">_fwd_fun</span>
+</pre></div>
+</div>
+<p>In this function, ‘v’ represents the continuous variable or function that the
+method is being applied to. ‘s’ represents the set of discrete points in the
+continuous domain. In order to implement a custom finite difference method, a
+user would have to copy the above function and just replace the equation next
+to the first return statement with their method.</p>
+<p>After implementing a custom finite difference method using the above function
+template, the only other change that must be made is to add the custom method
+to the ‘all_schemes’ dictionary in the <code class="docutils literal notranslate"><span class="pre">dae.finite_difference</span></code>
+class.</p>
+<p>In the case of a custom collocation method, changes will have to be made in
+steps (2) and (4) of the transformation framework. In addition to implementing
+the discretization equations, the user would also have to ensure that the
+desired collocation points are added to the ContinuousSet being discretized.</p>
+</div>
+</div>
+<div class="section" id="dynamic-model-simulation">
+<h2>Dynamic Model Simulation<a class="headerlink" href="#dynamic-model-simulation" title="Permalink to this headline">¶</a></h2>
+<p>The pyomo.dae Simulator class can be used to simulate systems of ODEs and
+DAEs. It provides an interface to integrators available in other Python
+packages.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The pyomo.dae Simulator does not include integrators directly. The user
+must have at least one of the supported Python packages installed in
+order to use this class.</p>
+</div>
+<dl class="py class">
+<dt id="pyomo.dae.Simulator">
+<em class="property">class </em><code class="descclassname">pyomo.dae.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em><span class="n">m</span></em>, <em><span class="n">package</span><span class="o">=</span><span class="default_value">'scipy'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/simulator.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulator objects allow a user to simulate a dynamic model formulated
+using pyomo.dae.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m</strong> (<em>Pyomo Model</em>) – The Pyomo model to be simulated should be passed as the first argument</li>
+<li><strong>package</strong> (<cite>string</cite>) – The Python simulator package to use. Currently ‘scipy’ and ‘casadi’ are
+the only supported packages</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.dae.Simulator.get_variable_order">
+<code class="descname">get_variable_order</code><span class="sig-paren">(</span><em><span class="n">vartype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/simulator.html#Simulator.get_variable_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Simulator.get_variable_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the ordered list of differential variable
+names. The order corresponds to the order being sent to the
+integrator function. Knowing the order allows users to provide
+initial conditions for the differential equations using a
+list or map the profiles returned by the simulate function to
+the Pyomo variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vartype</strong> (<cite>string</cite> or None) – Optional argument for specifying the type of variables to return
+the order for. The default behavior is to return the order of
+the differential variables. ‘time-varying’ will return the order
+of all the time-dependent algebraic variables identified in the
+model. ‘algebraic’ will return the order of algebraic variables
+used in the most recent call to the simulate function. ‘input’
+will return the order of the time-dependent algebraic variables
+that were treated as inputs in the most recent call to the
+simulate function.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.Simulator.initialize_model">
+<code class="descname">initialize_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/simulator.html#Simulator.initialize_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Simulator.initialize_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will initialize the model using the profile obtained
+from simulating the dynamic model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.dae.Simulator.simulate">
+<code class="descname">simulate</code><span class="sig-paren">(</span><em><span class="n">numpoints</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">tstep</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">integrator</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">varying_inputs</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">initcon</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">integrator_options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/dae/simulator.html#Simulator.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.dae.Simulator.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate the model. Integrator-specific options may be specified as
+keyword arguments and will be passed on to the integrator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>numpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of points for the profiles returned by the simulator.
+Default is 100</li>
+<li><strong>tstep</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The time step to use in the profiles returned by the simulator.
+This is not the time step used internally by the integrators.
+This is an optional parameter that may be specified in place of
+‘numpoints’.</li>
+<li><strong>integrator</strong> (<em>string</em>) – The string name of the integrator to use for simulation. The
+default is ‘lsoda’ when using Scipy and ‘idas’ when using CasADi</li>
+<li><strong>varying_inputs</strong> (<code class="docutils literal notranslate"><span class="pre">pyomo.environ.Suffix</span></code>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Suffix</span></code> object containing the
+piecewise constant profiles to be used for certain time-varying
+algebraic variables.</li>
+<li><strong>initcon</strong> (<em>list of floats</em>) – The initial conditions for the the differential variables. This
+is an optional argument. If not specified then the simulator
+will use the current value of the differential variables at the
+lower bound of the ContinuousSet for the initial condition.</li>
+<li><strong>integrator_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Dictionary containing options that should be passed to the
+integrator. See the documentation for a specific integrator for a
+list of valid options.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The first return value is a 1D array of time points corresponding
+to the second return value which is a 2D array of the profiles for
+the simulated differential and algebraic variables.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy array, numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any keyword options supported by the integrator may be specified as
+keyword options to the simulate function and will be passed to the
+integrator.</p>
+</div>
+<div class="section" id="supported-simulator-packages">
+<h3>Supported Simulator Packages<a class="headerlink" href="#supported-simulator-packages" title="Permalink to this headline">¶</a></h3>
+<p>The Simulator currently includes interfaces to SciPy and CasADi. ODE
+simulation is supported in both packages however, DAE simulation is only
+supported by CasADi. A list of available integrators for each package is
+given below. Please refer to the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html">SciPy</a>
+and <a class="reference external" href="http://casadi.sourceforge.net/api/html/db/d3d/classcasadi_1_1Integrator.html">CasADi</a> documentation directly for the most up-to-date information about
+these packages and for more information about the various integrators and
+options.</p>
+<dl class="docutils">
+<dt>SciPy Integrators:</dt><dd><ul class="simple">
+<li><strong>‘vode’</strong> :  Real-valued Variable-coefficient ODE solver, options for
+non-stiff and stiff systems</li>
+<li><strong>‘zvode’</strong> : Complex-values Variable-coefficient ODE solver, options for
+non-stiff and stiff systems</li>
+<li><strong>‘lsoda’</strong> : Real-values Variable-coefficient ODE solver, automatic
+switching of algorithms for non-stiff or stiff systems</li>
+<li><strong>‘dopri5’</strong> : Explicit runge-kutta  method of order (4)5 ODE solver</li>
+<li><strong>‘dop853’</strong> : Explicit runge-kutta method of order 8(5,3) ODE solver</li>
+</ul>
+</dd>
+<dt>CasADi Integrators:</dt><dd><ul class="simple">
+<li><strong>‘cvodes’</strong> : CVodes from the Sundials suite, solver for stiff or
+non-stiff ODE systems</li>
+<li><strong>‘idas’</strong> : IDAS from the Sundials suite, DAE solver</li>
+<li><strong>‘collocation’</strong> : Fixed-step implicit runge-kutta method, ODE/DAE
+solver</li>
+<li><strong>‘rk’</strong> : Fixed-step explicit runge-kutta method, ODE solver</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="using-the-simulator">
+<h3>Using the Simulator<a class="headerlink" href="#using-the-simulator" title="Permalink to this headline">¶</a></h3>
+<p>We now show how to use the Simulator to simulate the following system of ODEs:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+\frac{d\theta}{dt} = \omega \\
+\frac{d\omega}{dt} = -b*\omega -c*sin(\theta)
+\end{array}\end{split}\]</div>
+<p>We begin by formulating the model using pyomo.DAE</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">domegadt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dthetadt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="go">Setting the initial conditions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">3.14</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_diffeq1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">domegadt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">diffeq1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_diffeq1</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_diffeq2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dthetadt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">diffeq2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_diffeq2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that the initial conditions are set by <cite>fixing</cite> the values of
+<code class="docutils literal notranslate"><span class="pre">m.omega</span></code> and <code class="docutils literal notranslate"><span class="pre">m.theta</span></code> at t=0 instead of being specified as extra
+equality constraints. Also notice that the differential equations are
+specified without using <code class="docutils literal notranslate"><span class="pre">Constraint.Skip</span></code> to skip enforcement at t=0. The
+Simulator cannot simulate any constraints that contain if-statements in
+their construction rules.</p>
+<p>To simulate the model you must first create a Simulator object. Building
+this object prepares the Pyomo model for simulation with a particular Python
+package and performs several checks on the model to ensure compatibility
+with the Simulator. Be sure to read through the list of limitations at the
+end of this section to understand the types of models supported by the
+Simulator.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>After creating a Simulator object, the model can be simulated by calling the
+simulate function. Please see the API documentation for the
+<a class="reference internal" href="#pyomo.dae.Simulator" title="pyomo.dae.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a> for more information about the
+valid keyword arguments for this function.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsim</span><span class="p">,</span> <span class="n">profiles</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">numpoints</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">integrator</span><span class="o">=</span><span class="s1">&#39;vode&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">simulate</span></code> function returns numpy arrays containing time points and
+the corresponding values for the dynamic variable profiles.</p>
+<dl class="docutils">
+<dt><cite>Simulator Limitations</cite>:</dt><dd><ul class="simple">
+<li>Differential equations must be first-order and separable</li>
+<li>Model can only contain a single ContinuousSet</li>
+<li>Can’t simulate constraints with if-statements in the construction rules</li>
+<li>Need to provide initial conditions for dynamic states by setting the
+value or using fix()</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="specifying-time-varying-inputs">
+<h3>Specifying Time-Varying Inputs<a class="headerlink" href="#specifying-time-varying-inputs" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#pyomo.dae.Simulator" title="pyomo.dae.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a> supports simulation of a system
+of ODE’s or DAE’s with time-varying parameters or control inputs. Time-varying
+inputs can be specified using a Pyomo <code class="docutils literal notranslate"><span class="pre">Suffix</span></code>. We currently only support
+piecewise constant profiles. For more complex inputs defined by a continuous
+function of time we recommend adding an algebraic variable and constraint to
+your model.</p>
+<p>The profile for a time-varying input should be specified
+using a Python dictionary where the keys correspond to the switching times
+and the values correspond to the value of the input at a time point. A
+<code class="docutils literal notranslate"><span class="pre">Suffix</span></code> is then used to associate this dictionary with the appropriate
+<code class="docutils literal notranslate"><span class="pre">Var</span></code> or <code class="docutils literal notranslate"><span class="pre">Param</span></code> and pass the information to the
+<a class="reference internal" href="#pyomo.dae.Simulator" title="pyomo.dae.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a>. The code snippet below shows an
+example.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">))</span>
+
+<span class="go">Time-varying inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">domegadt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dthetadt</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="go">Setting the initial conditions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14</span> <span class="o">-</span> <span class="mf">0.1</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_diffeq1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">domegadt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">-</span> \
+<span class="gp">... </span>                            <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">diffeq1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_diffeq1</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_diffeq2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dthetadt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">diffeq2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_diffeq2</span><span class="p">)</span>
+
+<span class="go">Specifying the piecewise constant inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b_profile</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">15</span><span class="p">:</span> <span class="mf">0.025</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c_profile</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+
+<span class="go">Declaring a Pyomo Suffix to pass the time-varying inputs to the Simulator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">var_input</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">LOCAL</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">var_input</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_profile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">var_input</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_profile</span>
+
+<span class="go">Simulate the model using scipy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsim</span><span class="p">,</span> <span class="n">profiles</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">numpoints</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="gp">... </span>                              <span class="n">integrator</span><span class="o">=</span><span class="s1">&#39;vode&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                              <span class="n">varying_inputs</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">var_input</span><span class="p">)</span> 
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Simulator does not support multi-indexed inputs (i.e. if <code class="docutils literal notranslate"><span class="pre">m.b</span></code> in
+the above example was indexed by another set besides <code class="docutils literal notranslate"><span class="pre">m.t</span></code>)</p>
+</div>
+</div>
+</div>
+<div class="section" id="dynamic-model-initialization">
+<h2>Dynamic Model Initialization<a class="headerlink" href="#dynamic-model-initialization" title="Permalink to this headline">¶</a></h2>
+<p>Providing a good initial guess is an important factor in solving dynamic
+optimization problems. There are several model initialization tools under
+development in pyomo.DAE to help users initialize their models. These tools
+will be documented here as they become available.</p>
+<div class="section" id="from-simulation">
+<h3>From Simulation<a class="headerlink" href="#from-simulation" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#pyomo.dae.Simulator" title="pyomo.dae.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simulator</span></code></a> includes a function for
+initializing discretized dynamic optimization models using the profiles
+returned from the simulator. An example using this function is shown below</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Simulate the model using scipy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsim</span><span class="p">,</span> <span class="n">profiles</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">numpoints</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">integrator</span><span class="o">=</span><span class="s1">&#39;vode&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                              <span class="n">varying_inputs</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">var_input</span><span class="p">)</span> 
+
+<span class="go">Discretize the model using Orthogonal Collocation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.collocation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="go">Initialize the discretized model using the simulator profiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">initialize_model</span><span class="p">()</span> 
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A model must be simulated before it can be initialized using this function</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="gdp/index.html" class="btn btn-neutral float-right" title="Generalized Disjunctive Programming" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="bilevel.html" class="btn btn-neutral float-left" title="Bilevel Programming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

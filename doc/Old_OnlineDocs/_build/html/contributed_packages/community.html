@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Community Detection for Pyomo models &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pyomo.DoE" href="doe/doe.html" />
+    <link rel="prev" title="Third-Party Contributions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Community Detection for Pyomo models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-package-and-detect-communities-function">Description of Package and <code class="docutils literal notranslate"><span class="pre">detect_communities</span></code> function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-packages">External Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage-examples">Usage Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyomo.contrib.community_detection.detection">Functions in this Package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Third-Party Contributions</a> &raquo;</li>
+        
+      <li>Community Detection for Pyomo models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/contributed_packages/community.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="community-detection-for-pyomo-models">
+<h1>Community Detection for Pyomo models<a class="headerlink" href="#community-detection-for-pyomo-models" title="Permalink to this headline">¶</a></h1>
+<p>This package separates model components (variables, constraints, and objectives) into different communities
+distinguished by the degree of connectivity between community members.</p>
+<div class="section" id="description-of-package-and-detect-communities-function">
+<h2>Description of Package and <code class="docutils literal notranslate"><span class="pre">detect_communities</span></code> function<a class="headerlink" href="#description-of-package-and-detect-communities-function" title="Permalink to this headline">¶</a></h2>
+<p>The community detection package allows users to obtain a community map of a Pyomo model - a Python dictionary-like
+object that maps sequential integer values to communities within the Pyomo model. The package
+takes in a model, organizes the model components into a graph of nodes and edges, then uses Louvain
+community detection (<a class="reference external" href="https://dx.doi.org/10.1088/1742-5468/2008/10/P10008">Blondel et al, 2008</a>) to determine the communities that exist within the model.</p>
+<p>In graph theory, a community is defined as a subset of nodes that have a greater degree of connectivity within
+themselves than they do with the rest of the nodes in the graph. In the context of Pyomo models, a community
+represents a subproblem within the overall optimization problem. Identifying these subproblems and then solving them
+independently can save computational work compared with trying to solve the entire model at once. Thus, it
+can be very useful to know the communities that exist in a model.</p>
+<p>The manner in which the graph of nodes and edges is constructed from the model directly affects the community
+detection. Thus, this package provides the user with a lot of control over the construction of the graph. The
+function we use for this community detection is shown below:</p>
+<dl class="py function">
+<dt>
+<code class="descclassname">pyomo.contrib.community_detection.detection.</code><code class="descname">detect_communities</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">type_of_community_map</span><span class="o">=</span><span class="default_value">'constraint'</span></em>, <em><span class="n">with_objective</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">weighted_graph</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">random_seed</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">use_only_active_components</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/detection.html#detect_communities"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Detects communities in a Pyomo optimization model</p>
+<p>This function takes in a Pyomo optimization model and organizes the variables and constraints into a graph of nodes
+and edges. Then, by using Louvain community detection on the graph, a dictionary (community_map) is created, which
+maps (arbitrary) community keys to the detected communities within the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> (<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Block" title="pyomo.environ.Block"><em>Block</em></a>) – a Pyomo model or block to be used for community detection</li>
+<li><strong>type_of_community_map</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – a string that specifies the type of community map to be returned, the default is ‘constraint’.
+‘constraint’ returns a dictionary (community_map) with communities based on constraint nodes,
+‘variable’ returns a dictionary (community_map) with communities based on variable nodes,
+‘bipartite’ returns a dictionary (community_map) with communities based on a bipartite graph (both constraint
+and variable nodes)</li>
+<li><strong>with_objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether or not the objective function is
+included in the model graph (and thus in ‘community_map’); the default is True</li>
+<li><strong>weighted_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether community_map is created based on a weighted model graph or an
+unweighted model graph; the default is True (type_of_community_map=’bipartite’ creates an unweighted
+model graph regardless of this parameter)</li>
+<li><strong>random_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – an integer that is used as the random seed for the (heuristic) Louvain community detection</li>
+<li><strong>use_only_active_components</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether inactive constraints/objectives are included in the community map</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The CommunityMap object acts as a Python dictionary, mapping integer keys to tuples containing two lists
+(which contain the components in the given community) - a constraint list and variable list. Furthermore,
+the CommunityMap object stores relevant information about the given community map (dict), such as the model
+used to create it, its networkX representation, etc.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CommunityMap object (dict-like object)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>As stated above, the characteristics of the NetworkX graph of the Pyomo model are very important to the
+community detection. The main graph features the user can specify are the type of community map,
+whether the graph is weighted or unweighted, and whether the objective function(s) is included
+in the graph generation. Below, the significance and reasoning behind including each of these options are
+explained in greater depth.</p>
+<dl class="docutils">
+<dt>Type of Community Map (<cite>type_of_community_map</cite>)</dt><dd><p>In this package’s main function (<code class="docutils literal notranslate"><span class="pre">detect_communities</span></code>), the user can select <code class="docutils literal notranslate"><span class="pre">'bipartite'</span></code>, <code class="docutils literal notranslate"><span class="pre">'constraint'</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">'variable'</span></code> as an input for the ‘type_of_community_map’ argument, and these result in a community map
+based on a bipartite graph, a constraint node graph, or a variable node graph (respectively).</p>
+<p>If the user sets <code class="docutils literal notranslate"><span class="pre">type_of_community_map='constraint'</span></code>, then each entry in the community map (which is a dictionary) contains
+a list of all the constraints in the community as well as all the variables contained in those constraints.
+For the model graph, a node is created for every active constraint in the model, an edge between two
+constraint nodes is created only if those two constraint equations share a variable, and the
+weight of each edge is equal to the number of variables the two constraint equations have in common.</p>
+<p>If the user sets <code class="docutils literal notranslate"><span class="pre">type_of_community_map='variable'</span></code>, then each entry in the community map (which is a dictionary) contains
+a list of all the variables in the community as well as all the constraints that contain those variables.
+For the model graph, a node is created for every variable in the model, an edge between two variable nodes is
+created only if those two variables occur in the same constraint equation, and the weight of each edge is equal
+to the number of constraint equations in which the two variables occur together.</p>
+<p>If the user sets <code class="docutils literal notranslate"><span class="pre">type_of_community_map='bipartite'</span></code>, then each entry in the community map (which is a dictionary) is
+simply all of the nodes in the community but split into a list of constraints and a list of variables.
+For the model graph, a node is created for every variable and every constraint in the model. An edge is created
+between a constraint node and a variable node only if the constraint equation contains the variable. (Edges are
+not drawn between nodes of the same type in a bipartite graph.) And as for the edge weights, the edges in the
+bipartite graph are unweighted regardless of what the user specifies for the <code class="docutils literal notranslate"><span class="pre">weighted_graph</span></code> parameter. (This is
+because for our purposes, the number of times a variable appears in a constraint is not particularly
+useful.)</p>
+</dd>
+<dt>Weighted Graph/Unweighted Graph (<cite>weighted_graph</cite>)</dt><dd>The Louvain community detection algorithm takes edge weights into account, so depending on whether the graph is
+weighted or unweighted, the communities that are found will vary. This can be valuable depending on how
+the user intends to use the community detection information. For example, if a user plans on feeding that
+information into an algorithm, the algorithm may be better suited to the communities detected in a weighted
+graph (or vice versa).</dd>
+<dt>With/Without Objective in the Graph (<cite>with_objective</cite>)</dt><dd>This argument determines whether the objective function(s) will be included when creating the graphical
+representation of the model and thus whether the objective function(s) will be included in the community map.
+Some models have an objective function that contains so many of the model variables that it obscures potential
+communities within a model. Thus, it can be useful to call <code class="docutils literal notranslate"><span class="pre">detect_communities(model,</span> <span class="pre">with_objective=False)</span></code>
+on such a model to see whether isolating the other components of the model provides any new insights.</dd>
+</dl>
+</div>
+<div class="section" id="external-packages">
+<h2>External Packages<a class="headerlink" href="#external-packages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>NetworkX</li>
+<li>Python-Louvain</li>
+</ul>
+<p>The community detection package relies on two external packages, the NetworkX package and the Louvain community
+detection package. Both of these packages can be installed at the following URLs (respectively):</p>
+<p><a class="reference external" href="https://pypi.org/project/networkx/">https://pypi.org/project/networkx/</a></p>
+<p><a class="reference external" href="https://pypi.org/project/python-louvain/">https://pypi.org/project/python-louvain/</a></p>
+<p>The pip install and conda install commands are included below as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">networkx</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">louvain</span>
+
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">anaconda</span> <span class="n">networkx</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">python</span><span class="o">-</span><span class="n">louvain</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start off by taking a look at how we can use <code class="docutils literal notranslate"><span class="pre">detect_communities</span></code> to create a CommunityMap object.
+We’ll first use a model from <a class="reference external" href="https://doi.org/10.1007/s11081-019-09450-5">Allman et al, 2019</a> :</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required Imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib.community_detection.detection</span> <span class="kn">import</span> <span class="n">detect_communities</span><span class="p">,</span> <span class="n">CommunityMap</span><span class="p">,</span> <span class="n">generate_model_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib.mindtpy.tests.eight_process_problem</span> <span class="kn">import</span> <span class="n">EightProcessFlowsheet</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.core</span> <span class="kn">import</span> <span class="n">ConcreteModel</span><span class="p">,</span> <span class="n">Var</span><span class="p">,</span> <span class="n">Constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="go">Let&#39;s define a model for our use</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">decode_model_1</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=-</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">x3</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=-</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">x4</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x1</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">c3</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x4</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">c4</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x3</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x4</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">c5</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x3</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x4</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">m</span> <span class="o">=</span> <span class="n">decode_model_1</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seed</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># To be used as a random seed value for the heuristic Louvain community detection</span>
+
+<span class="go">Let&#39;s create an instance of the CommunityMap class (which is what gets returned by the</span>
+<span class="go">function detect_communities):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">community_map_object</span> <span class="o">=</span> <span class="n">detect_communities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_community_map</span><span class="o">=</span><span class="s1">&#39;bipartite&#39;</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This community map object has many attributes that contain the relevant information about the
+community map itself (such as the parameters used to create it, the networkX representation, and other useful
+information).</p>
+<p>An important point to note is that the community_map attribute of the CommunityMap class is the
+actual dictionary that maps integers to the communities within the model. It is expected that the user will be
+most interested in the actual dictionary itself, so dict-like usage is permitted.</p>
+<p>If a user wishes to modify the actual dictionary (the community_map attribute of the CommunityMap object),
+creating a deep copy is highly recommended (or else any destructive modifications could
+have unintended consequences): <code class="docutils literal notranslate"><span class="pre">new_community_map</span> <span class="pre">=</span> <span class="pre">copy.deepcopy(community_map_object.community_map)</span></code></p>
+<p>Let’s take a closer look at the actual community map object generated by <cite>detect_communities</cite>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">community_map_object</span><span class="p">)</span> 
+<span class="go">{0: ([&#39;c1&#39;, &#39;c2&#39;], [&#39;x1&#39;, &#39;x2&#39;]), 1: ([&#39;c3&#39;, &#39;c4&#39;, &#39;c5&#39;], [&#39;x3&#39;, &#39;x4&#39;])}</span>
+</pre></div>
+</div>
+<p>Printing a community map object is made to be user-friendly (by showing the community map with components
+replaced by their strings). However, if the default Pyomo representation of components is desired, then the
+community_map attribute or the repr() function can be used:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">community_map_object</span><span class="o">.</span><span class="n">community_map</span><span class="p">)</span>  <span class="c1"># or print(repr(community_map_object))  </span>
+<span class="go">{0: ([&lt;pyomo.core.base.constraint.ScalarConstraint object at 0x0000028DA74BB588&gt;, &lt;pyomo.core.base.constraint.ScalarConstraint object at 0x0000028DA74BB5F8&gt;], [&lt;pyomo.core.base.var.ScalarVar object at 0x0000028DA74BB3C8&gt;, &lt;pyomo.core.base.var.ScalarVar object at 0x0000028DA74BB438&gt;]), 1: ([&lt;pyomo.core.base.constraint.ScalarConstraint object at 0x0000028DA74BB668&gt;, &lt;pyomo.core.base.constraint.ScalarConstraint object at 0x0000028DA74BB6D8&gt;, &lt;pyomo.core.base.constraint.ScalarConstraint object at 0x0000028DA74BB748&gt;], [&lt;pyomo.core.base.var.ScalarVar object at 0x0000028DA74BB4A8&gt;, &lt;pyomo.core.base.var.ScalarVar object at 0x0000028DA74BB518&gt;])}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>generate_structured_model</cite> method of CommunityMap objects</dt><dd><p>It may be useful to create a new model based on the communities found in the model - we can use the
+<code class="docutils literal notranslate"><span class="pre">generate_structured_model</span></code> method of the CommunityMap class to do this. Calling this method on a CommunityMap object
+returns a new model made up of blocks that correspond to each of the communities found in the original model. Let’s
+take a look at the example below:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Use the CommunityMap object made from the first code example</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">structured_model</span> <span class="o">=</span> <span class="n">community_map_object</span><span class="o">.</span><span class="n">generate_structured_model</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">structured_model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>  
+<span class="go">2 Set Declarations</span>
+<span class="go">    b_index : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">        Key  : Dimen : Domain : Size : Members</span>
+<span class="go">        None :     1 :    Any :    2 : {0, 1}</span>
+<span class="go">    equality_constraint_list_index : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">        Key  : Dimen : Domain : Size : Members</span>
+<span class="go">        None :     1 :    Any :    1 :    {1,}</span>
+
+<span class="go">1 Var Declarations</span>
+<span class="go">    x2 : Size=1, Index=None</span>
+<span class="go">        Key  : Lower : Value : Upper : Fixed : Stale : Domain</span>
+<span class="go">        None :  None :  None :  None : False :  True :  Reals</span>
+
+<span class="go">1 Constraint Declarations</span>
+<span class="go">    equality_constraint_list : Equality Constraints for the different forms of a given variable</span>
+<span class="go">        Size=1, Index=equality_constraint_list_index, Active=True</span>
+<span class="go">        Key : Lower : Body         : Upper : Active</span>
+<span class="go">          1 :   0.0 : b[0].x2 - x2 :   0.0 :   True</span>
+
+<span class="go">1 Block Declarations</span>
+<span class="go">    b : Size=2, Index=b_index, Active=True</span>
+<span class="go">        b[0] : Active=True</span>
+<span class="go">            2 Var Declarations</span>
+<span class="go">                x1 : Size=1, Index=None</span>
+<span class="go">                    Key  : Lower : Value : Upper : Fixed : Stale : Domain</span>
+<span class="go">                    None :  None :  None :  None : False :  True :  Reals</span>
+<span class="go">                x2 : Size=1, Index=None</span>
+<span class="go">                    Key  : Lower : Value : Upper : Fixed : Stale : Domain</span>
+<span class="go">                    None :  None :  None :  None : False :  True :  Reals</span>
+
+<span class="go">            2 Constraint Declarations</span>
+<span class="go">                c1 : Size=1, Index=None, Active=True</span>
+<span class="go">                    Key  : Lower : Body              : Upper : Active</span>
+<span class="go">                    None :  -Inf : b[0].x1 + b[0].x2 :   0.0 :   True</span>
+<span class="go">                c2 : Size=1, Index=None, Active=True</span>
+<span class="go">                    Key  : Lower : Body                : Upper : Active</span>
+<span class="go">                    None :  -Inf : b[0].x1 - 3*b[0].x2 :   0.0 :   True</span>
+
+<span class="go">            4 Declarations: x1 x2 c1 c2</span>
+<span class="go">        b[1] : Active=True</span>
+<span class="go">            2 Var Declarations</span>
+<span class="go">                x3 : Size=1, Index=None</span>
+<span class="go">                    Key  : Lower : Value : Upper : Fixed : Stale : Domain</span>
+<span class="go">                    None :  None :  None :  None : False :  True :  Reals</span>
+<span class="go">                x4 : Size=1, Index=None</span>
+<span class="go">                    Key  : Lower : Value : Upper : Fixed : Stale : Domain</span>
+<span class="go">                    None :  None :  None :  None : False :  True :  Reals</span>
+
+<span class="go">            3 Constraint Declarations</span>
+<span class="go">                c3 : Size=1, Index=None, Active=True</span>
+<span class="go">                    Key  : Lower : Body                        : Upper : Active</span>
+<span class="go">                    None :   0.0 : x2 + b[1].x3 + 4*b[1].x4**2 :   0.0 :   True</span>
+<span class="go">                c4 : Size=1, Index=None, Active=True</span>
+<span class="go">                    Key  : Lower : Body              : Upper : Active</span>
+<span class="go">                    None :  -Inf : b[1].x3 + b[1].x4 :   0.0 :   True</span>
+<span class="go">                c5 : Size=1, Index=None, Active=True</span>
+<span class="go">                    Key  : Lower : Body                         : Upper : Active</span>
+<span class="go">                    None :   0.0 : b[1].x3**2 + b[1].x4**2 - 10 :   0.0 :   True</span>
+
+<span class="go">            5 Declarations: x3 x4 c3 c4 c5</span>
+
+<span class="go">5 Declarations: b_index b x2 equality_constraint_list_index equality_constraint_list</span>
+</pre></div>
+</div>
+<p>We see that there is an equality constraint list (<cite>equality_constraint_list</cite>) that has been created. This is due to
+the fact that the <code class="docutils literal notranslate"><span class="pre">detect_communities</span></code> function can return a community map that has Pyomo components (variables,
+constraints, or objectives) in more than one community, and thus, an equality_constraint_list is created to ensure that
+the new model still corresponds to the original model. This is explained in more detail below.</p>
+<p>Consider the case where community detection is done on a constraint node graph - this would result in communities
+that are made up of the corresponding constraints as well as all the variables that occur in the given constraints.
+Thus, it is possible for certain Pyomo components to be in multiple communities (and a similar argument exists
+for community detection done on a variable node graph). As a result, our structured model (the model returned by
+the <code class="docutils literal notranslate"><span class="pre">generate_structured_model</span></code> method) may need to have several “copies” of a certain component. For example,
+a variable <cite>original_model.x1</cite> that exists in the original model may have corresponding forms
+<cite>structured_model.b[0].x1</cite>, <cite>structured_model.b[0].x1</cite>, <cite>structured_model.x1</cite>. In order for these components to
+meaningfully correspond to their counterparts in the original model, they must be bounded by equality constraints.
+Thus, we use an <cite>equality_constraint_list</cite> to bind different forms of a component from the original model.</p>
+<p>The last point to make about this method is that variables will be created outside of blocks if (1) an objective
+is not inside a block (for example if the community detection is done <cite>with_objective=False</cite>) or if (2) an
+objective/constraint contains a variable that is not in the same block as the given objective/constraint.</p>
+</dd>
+<dt><cite>visualize_model_graph</cite> method of CommunityMap objects</dt><dd><p>If we want a visualization of the communities within the Pyomo model, we can use <code class="docutils literal notranslate"><span class="pre">visualize_model_graph</span></code> to do
+so. Let’s take a look at how this can be done in the following example:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Create a CommunityMap object (so we can demonstrate the visualize_model_graph method)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">community_map_object</span> <span class="o">=</span> <span class="n">cmo</span> <span class="o">=</span> <span class="n">detect_communities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_community_map</span><span class="o">=</span><span class="s1">&#39;bipartite&#39;</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="go">Generate a matplotlib figure (left_figure) - a constraint graph of the community map</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">left_figure</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cmo</span><span class="o">.</span><span class="n">visualize_model_graph</span><span class="p">(</span><span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;constraint&#39;</span><span class="p">)</span>
+
+<span class="go">Now, we will generate the figure on the right (a bipartite graph of the community map)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">right_figure</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cmo</span><span class="o">.</span><span class="n">visualize_model_graph</span><span class="p">(</span><span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;bipartite&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>An example of the two separate graphs created for these two function calls is shown below:</dt><dd><a class="reference internal image-reference" href="../_images/communities_decode_1.png"><img alt="Graphical representation of the communities in the model 'decode_model_1' for two different types of graphs" src="../_images/communities_decode_1.png" style="width: 100%;" /></a>
+<p>These graph drawings very clearly demonstrate the communities within this model. The constraint graph (which is colored
+using the bipartite community map) shows a very simple illustration - one node for each constraint, with only one edge
+connecting the two communities (which represents the variable <cite>m.x2</cite> common to <cite>m.c2</cite> and <cite>m.c3</cite> in separate
+communities)
+The bipartite graph is slightly more complicated and we can see again how there is only one edge between the two
+communities and more edges within each community. This is an ideal situation for breaking a
+model into separate communities since there is little connectivity between the communities. Also, note that we can
+choose different graph types (such as a variable node graph, constraint node graph, or bipartite graph) for a given
+community map.</p>
+<p>Let’s try a more complicated model (taken from <a class="reference external" href="https://dx.doi.org/10.1007/BF02592064">Duran &amp; Grossmann, 1986</a>) - this example will demonstrate how the same
+graph can be illustrated using different community maps (in the previous example we illustrated different graphs with a
+single community map):</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Define the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">EightProcessFlowsheet</span><span class="p">()</span>
+
+<span class="go">Now, we follow steps similar to the example above (see above for explanations)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">community_map_object</span> <span class="o">=</span> <span class="n">cmo</span> <span class="o">=</span> <span class="n">detect_communities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_community_map</span><span class="o">=</span><span class="s1">&#39;constraint&#39;</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">left_fig</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">cmo</span><span class="o">.</span><span class="n">visualize_model_graph</span><span class="p">(</span><span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span>
+
+<span class="go">As we did before, we will use the returned &#39;pos&#39; to create a consistent graph layout</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">community_map_object</span> <span class="o">=</span> <span class="n">cmo</span> <span class="o">=</span> <span class="n">detect_communities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_community_map</span><span class="o">=</span><span class="s1">&#39;bipartite&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">middle_fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cmo</span><span class="o">.</span><span class="n">visualize_model_graph</span><span class="p">(</span><span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">community_map_object</span> <span class="o">=</span> <span class="n">cmo</span> <span class="o">=</span> <span class="n">detect_communities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_community_map</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">right_fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cmo</span><span class="o">.</span><span class="n">visualize_model_graph</span><span class="p">(</span><span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>We can see an example for the three separate graphs created by these three function calls below:</dt><dd><a class="reference internal image-reference" href="../_images/communities_8pp.png"><img alt="Graphical representation of the communities in the model 'decode_model_1' for slightly different function calls" src="../_images/communities_8pp.png" style="width: 100%;" /></a>
+<p>The three graphs above are all variable graphs - which means the nodes represent variables in the model, and the edges
+represent constraint equations. The coloring differs because the three graphs rely on community maps that were
+created based on a constraint node graph, a bipartite graph, and a variable node graph (from left to right). For
+example, the community map that was generated from a constraint node graph (<code class="docutils literal notranslate"><span class="pre">type_of_community_map='constraint'</span></code>)
+resulted in three communities (as seen by the purple, yellow, and blue nodes).</p>
+</dd>
+<dt><cite>generate_model_graph</cite> function</dt><dd><p>Now, we will take a look at <code class="docutils literal notranslate"><span class="pre">generate_model_graph</span></code> - this function can be used to create a NetworkX
+graph for a Pyomo model (and is used in <cite>detect_communities</cite>). Here, we will create a NetworkX graph from
+the model in our first example and then create the edge and adjacency list for the graph.</p>
+<p><code class="docutils literal notranslate"><span class="pre">generate_model_graph</span></code> returns three things:</p>
+<ul class="simple">
+<li>a NetworkX graph of the given model</li>
+<li>a dictionary that maps the numbers used to represent the model components to
+the actual components (because Pyomo components cannot be directly added to a NetworkX graph)</li>
+<li>a dictionary that maps constraints to the variables in them.</li>
+</ul>
+<p>For this example, we will only need the NetworkX graph of the model and the number-to-component mapping.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Define the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">decode_model_1</span><span class="p">()</span>
+
+<span class="go">See above for the description of the items returned by &#39;generate_model_graph&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_graph</span><span class="p">,</span> <span class="n">number_component_map</span><span class="p">,</span> <span class="n">constr_var_map</span> <span class="o">=</span> <span class="n">generate_model_graph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">type_of_graph</span><span class="o">=</span><span class="s1">&#39;constraint&#39;</span><span class="p">)</span>
+
+<span class="go">The next two lines create and implement a mapping to change the node values from numbers into</span>
+<span class="go">strings. The second line uses this mapping to create string_model_graph, which has</span>
+<span class="go">the relabeled nodes (strings instead of numbers).</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">number</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">comp</span><span class="p">))</span> <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">number_component_map</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string_model_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="n">model_graph</span><span class="p">,</span> <span class="n">string_map</span><span class="p">)</span>
+
+<span class="go">Now, we print the edge list and the adjacency list:</span>
+<span class="go">Edge List:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">generate_edgelist</span><span class="p">(</span><span class="n">string_model_graph</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>  
+<span class="go">c1 c2 {&#39;weight&#39;: 2}</span>
+<span class="go">c1 c3 {&#39;weight&#39;: 1}</span>
+<span class="go">c2 c3 {&#39;weight&#39;: 1}</span>
+<span class="go">c3 c5 {&#39;weight&#39;: 2}</span>
+<span class="go">c3 c4 {&#39;weight&#39;: 2}</span>
+<span class="go">c4 c5 {&#39;weight&#39;: 2}</span>
+
+<span class="go">Adjacency List:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">generate_adjlist</span><span class="p">(</span><span class="n">string_model_graph</span><span class="p">)))</span>  
+<span class="go">[&#39;c1 c2 c3&#39;, &#39;c2 c3&#39;, &#39;c3 c5 c4&#39;, &#39;c4 c5&#39;, &#39;c5&#39;]</span>
+</pre></div>
+</div>
+<p>It’s worth mentioning that in the code above, we do not have to create <code class="docutils literal notranslate"><span class="pre">string_map</span></code> to create an edge list
+or adjacency list, but for the sake of having an easily understandable output, it is quite helpful. (Without
+relabeling the nodes, the output below would not have the strings of the components but instead would have
+integer values.) This code will hopefully make it easier for a user to do the same.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="module-pyomo.contrib.community_detection.detection">
+<span id="functions-in-this-package"></span><h2>Functions in this Package<a class="headerlink" href="#module-pyomo.contrib.community_detection.detection" title="Permalink to this headline">¶</a></h2>
+<p>Main module for community detection integration with Pyomo models.</p>
+<p>This module separates model components (variables, constraints, and objectives) into different communities
+distinguished by the degree of connectivity between community members.</p>
+<p>Original implementation developed by Rahul Joglekar in the Grossmann research group.</p>
+<dl class="py class">
+<dt id="pyomo.contrib.community_detection.detection.CommunityMap">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.community_detection.detection.</code><code class="descname">CommunityMap</code><span class="sig-paren">(</span><em><span class="n">community_map</span></em>, <em><span class="n">type_of_community_map</span></em>, <em><span class="n">with_objective</span></em>, <em><span class="n">weighted_graph</span></em>, <em><span class="n">random_seed</span></em>, <em><span class="n">use_only_active_components</span></em>, <em><span class="n">model</span></em>, <em><span class="n">graph</span></em>, <em><span class="n">graph_node_mapping</span></em>, <em><span class="n">constraint_variable_map</span></em>, <em><span class="n">graph_partition</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/detection.html#CommunityMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.community_detection.detection.CommunityMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is used to create CommunityMap objects which are returned by the detect_communities function. Instances
+of this class allow dict-like usage and store relevant information about the given community map, such as the
+model used to create them, their networkX representation, etc.</p>
+<p>The CommunityMap object acts as a Python dictionary, mapping integer keys to tuples containing two lists
+(which contain the components in the given community) - a constraint list and variable list.</p>
+<p>Methods:
+generate_structured_model
+visualize_model_graph</p>
+<dl class="py method">
+<dt id="pyomo.contrib.community_detection.detection.CommunityMap.generate_structured_model">
+<code class="descname">generate_structured_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/detection.html#CommunityMap.generate_structured_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.community_detection.detection.CommunityMap.generate_structured_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using the community map and the original model used to create this community map, we will create
+structured_model, which will be based on the original model but will place variables, constraints, and
+objectives into or outside of various blocks (communities) based on the community map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>structured_model</strong> – a Pyomo model that reflects the nature of the community map</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Block" title="pyomo.environ.Block">Block</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.community_detection.detection.CommunityMap.visualize_model_graph">
+<code class="descname">visualize_model_graph</code><span class="sig-paren">(</span><em><span class="n">type_of_graph</span><span class="o">=</span><span class="default_value">'constraint'</span></em>, <em><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">pos</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/detection.html#CommunityMap.visualize_model_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.community_detection.detection.CommunityMap.visualize_model_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function draws a graph of the communities for a Pyomo model.</p>
+<p>The type_of_graph parameter is used to create either a variable-node graph, constraint-node graph, or
+bipartite graph of the Pyomo model. Then, the nodes are colored based on the communities they are in - which
+is based on the community map (self.community_map). A filename can be provided to save the figure, otherwise
+the figure is illustrated with matplotlib.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type_of_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – a string that specifies the types of nodes drawn on the model graph, the default is ‘constraint’.
+‘constraint’ draws a graph with constraint nodes,
+‘variable’ draws a graph with variable nodes,
+‘bipartite’ draws a bipartite graph (with both constraint and variable nodes)</li>
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – a string that specifies a path for the model graph illustration to be saved</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – a dictionary that maps node keys to their positions on the illustration</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>fig</strong> (<em>matplotlib figure</em>) – the figure for the model graph drawing</li>
+<li><strong>pos</strong> (<em>dict</em>) – a dictionary that maps node keys to their positions on the illustration - can be used to create consistent
+layouts for graphs of a given model</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.contrib.community_detection.detection.detect_communities">
+<code class="descclassname">pyomo.contrib.community_detection.detection.</code><code class="descname">detect_communities</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">type_of_community_map</span><span class="o">=</span><span class="default_value">'constraint'</span></em>, <em><span class="n">with_objective</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">weighted_graph</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">random_seed</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">use_only_active_components</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/detection.html#detect_communities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.community_detection.detection.detect_communities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detects communities in a Pyomo optimization model</p>
+<p>This function takes in a Pyomo optimization model and organizes the variables and constraints into a graph of nodes
+and edges. Then, by using Louvain community detection on the graph, a dictionary (community_map) is created, which
+maps (arbitrary) community keys to the detected communities within the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> (<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Block" title="pyomo.environ.Block"><em>Block</em></a>) – a Pyomo model or block to be used for community detection</li>
+<li><strong>type_of_community_map</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – a string that specifies the type of community map to be returned, the default is ‘constraint’.
+‘constraint’ returns a dictionary (community_map) with communities based on constraint nodes,
+‘variable’ returns a dictionary (community_map) with communities based on variable nodes,
+‘bipartite’ returns a dictionary (community_map) with communities based on a bipartite graph (both constraint
+and variable nodes)</li>
+<li><strong>with_objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether or not the objective function is
+included in the model graph (and thus in ‘community_map’); the default is True</li>
+<li><strong>weighted_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether community_map is created based on a weighted model graph or an
+unweighted model graph; the default is True (type_of_community_map=’bipartite’ creates an unweighted
+model graph regardless of this parameter)</li>
+<li><strong>random_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – an integer that is used as the random seed for the (heuristic) Louvain community detection</li>
+<li><strong>use_only_active_components</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether inactive constraints/objectives are included in the community map</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The CommunityMap object acts as a Python dictionary, mapping integer keys to tuples containing two lists
+(which contain the components in the given community) - a constraint list and variable list. Furthermore,
+the CommunityMap object stores relevant information about the given community map (dict), such as the model
+used to create it, its networkX representation, etc.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CommunityMap object (dict-like object)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-pyomo.contrib.community_detection.community_graph"></span><p>Model Graph Generator Code</p>
+<dl class="py function">
+<dt id="pyomo.contrib.community_detection.community_graph.generate_model_graph">
+<code class="descclassname">pyomo.contrib.community_detection.community_graph.</code><code class="descname">generate_model_graph</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">type_of_graph</span></em>, <em><span class="n">with_objective</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">weighted_graph</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">use_only_active_components</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/community_detection/community_graph.html#generate_model_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.community_detection.community_graph.generate_model_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a networkX graph of nodes and edges based on a Pyomo optimization model</p>
+<p>This function takes in a Pyomo optimization model, then creates a graphical representation of the model with
+specific features of the graph determined by the user (see Parameters below).</p>
+<p>(This function is designed to be called by detect_communities, but can be used solely for the purpose of
+creating model graphs as well.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> (<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Block" title="pyomo.environ.Block"><em>Block</em></a>) – a Pyomo model or block to be used for community detection</li>
+<li><strong>type_of_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – a string that specifies the type of graph that is created from the model
+‘constraint’ creates a graph based on constraint nodes,
+‘variable’ creates a graph based on variable nodes,
+‘bipartite’ creates a graph based on constraint and variable nodes (bipartite graph).</li>
+<li><strong>with_objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether or not the objective function is included in the graph; the
+default is True</li>
+<li><strong>weighted_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether a weighted or unweighted graph is to be created from the Pyomo
+model; the default is True (type_of_graph=’bipartite’ creates an unweighted graph regardless of this parameter)</li>
+<li><strong>use_only_active_components</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – a Boolean argument that specifies whether inactive constraints/objectives are included in the networkX graph</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>bipartite_model_graph/projected_model_graph</strong> (<em>nx.Graph</em>) – a NetworkX graph with nodes and edges based on the given Pyomo optimization model</li>
+<li><strong>number_component_map</strong> (<em>dict</em>) – a dictionary that (deterministically) maps a number to a component in the model</li>
+<li><strong>constraint_variable_map</strong> (<em>dict</em>) – a dictionary that maps a numbered constraint to a list of (numbered) variables that appear in the constraint</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="doe/doe.html" class="btn btn-neutral float-right" title="Pyomo.DoE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Third-Party Contributions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

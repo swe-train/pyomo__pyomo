@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Suffixes &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Solving Pyomo Models" href="../solving_pyomo_models.html" />
+    <link rel="prev" title="Expressions" href="Expressions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Pyomo Modeling Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Sets.html">Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters.html">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objectives.html">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Expressions.html">Expressions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Suffixes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#suffix-notation-and-the-pyomo-nl-file-interface">Suffix Notation and the Pyomo NL File Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations">Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-suffix-data">Importing Suffix Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-suffix-data">Exporting Suffix Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-suffixes-with-an-abstractmodel">Using Suffixes With an AbstractModel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Modeling Components</a> &raquo;</li>
+        
+      <li>Suffixes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pyomo_modeling_components/Suffixes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="suffixes">
+<span id="id1"></span><h1>Suffixes<a class="headerlink" href="#suffixes" title="Permalink to this headline">¶</a></h1>
+<p>Suffixes provide a mechanism for declaring extraneous model data, which
+can be used in a number of contexts. Most commonly, suffixes are used by
+solver plugins to store extra information about the solution of a
+model. This and other suffix functionality is made available to the
+modeler through the use of the Suffix component class.  Uses of Suffix
+include:</p>
+<ul class="simple">
+<li>Importing extra information from a solver about the solution of a
+mathematical program (e.g., constraint duals, variable reduced costs,
+basis information).</li>
+<li>Exporting information to a solver or algorithm to aid in solving a
+mathematical program (e.g., warm-starting information, variable
+branching priorities).</li>
+<li>Tagging modeling components with local data for later use in advanced
+scripting algorithms.</li>
+</ul>
+<div class="section" id="suffix-notation-and-the-pyomo-nl-file-interface">
+<h2>Suffix Notation and the Pyomo NL File Interface<a class="headerlink" href="#suffix-notation-and-the-pyomo-nl-file-interface" title="Permalink to this headline">¶</a></h2>
+<p>The Suffix component used in Pyomo has been adapted from the suffix
+notation used in the modeling language AMPL <a class="reference internal" href="../bibliography.html#ampl" id="id2"><span>[AMPL]</span></a>. Therefore, it
+follows naturally that AMPL style suffix functionality is fully
+available using Pyomo’s NL file interface. For information on AMPL style
+suffixes the reader is referred to the AMPL website:</p>
+<blockquote>
+<div><a class="reference external" href="http://www.ampl.com">http://www.ampl.com</a></div></blockquote>
+<p>A number of scripting examples that highlight the use AMPL style suffix
+functionality are available in the <code class="docutils literal notranslate"><span class="pre">examples/pyomo/suffixes</span></code> directory
+distributed with Pyomo.</p>
+</div>
+<div class="section" id="declaration">
+<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<p>The effects of declaring a Suffix component on a Pyomo model are
+determined by the following traits:</p>
+<ul class="simple">
+<li>direction: This trait defines the direction of information flow for
+the suffix. A suffix direction can be assigned one of four possible
+values:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">LOCAL</span></code> - suffix data stays local to the modeling framework and
+will not be imported or exported by a solver plugin (default)</li>
+<li><code class="docutils literal notranslate"><span class="pre">IMPORT</span></code> - suffix data will be imported from the solver by its
+respective solver plugin</li>
+<li><code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> - suffix data will be exported to a solver by its
+respective solver plugin</li>
+<li><code class="docutils literal notranslate"><span class="pre">IMPORT_EXPORT</span></code> - suffix data flows in both directions between the
+model and the solver or algorithm</li>
+</ul>
+</li>
+<li>datatype: This trait advertises the type of data held on the suffix
+for those interfaces where it matters (e.g., the NL file interface). A
+suffix datatype can be assigned one of three possible values:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">FLOAT</span></code> - the suffix stores floating point data (default)</li>
+<li><code class="docutils literal notranslate"><span class="pre">INT</span></code> - the suffix stores integer data</li>
+<li><code class="docutils literal notranslate"><span class="pre">None</span></code> - the suffix stores any type of data</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exporting suffix data through Pyomo’s NL file interface requires all
+active export suffixes have a strict datatype (i.e.,
+<code class="docutils literal notranslate"><span class="pre">datatype=None</span></code> is not allowed).</p>
+</div>
+<p>The following code snippet shows examples of declaring a Suffix
+component on a Pyomo model:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="c1"># Export integer data</span>
+<span class="n">model</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span>
+    <span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">INT</span><span class="p">)</span>
+
+<span class="c1"># Export and import floating point data</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT_EXPORT</span><span class="p">)</span>
+
+<span class="c1"># Store floating point data</span>
+<span class="n">model</span><span class="o">.</span><span class="n">junk</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Declaring a Suffix with a non-local direction on a model is not
+guaranteed to be compatible with all solver plugins in Pyomo. Whether a
+given Suffix is acceptable or not depends on both the solver and solver
+interface being used. In some cases, a solver plugin will raise an
+exception if it encounters a Suffix type that it does not handle, but
+this is not true in every situation. For instance, the NL file interface
+is generic to all AMPL-compatible solvers, so there is no way to
+validate that a Suffix of a given name, direction, and datatype is
+appropriate for a solver. One should be careful in verifying that Suffix
+declarations are being handled as expected when switching to a different
+solver or solver interface.</p>
+</div>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p>The Suffix component class provides a dictionary interface for mapping
+Pyomo modeling components to arbitrary data. This mapping functionality
+is captured within the ComponentMap base class, which is also available
+within Pyomo’s modeling environment. The ComponentMap can be used as a
+more lightweight replacement for Suffix in cases where a simple mapping
+from Pyomo modeling components to arbitrary data values is required.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ComponentMap and Suffix use the built-in <code class="docutils literal notranslate"><span class="pre">id()</span></code> function for
+hashing entry keys. This design decision arises from the fact that
+most of the modeling components found in Pyomo are either not
+hashable or use a hash based on a mutable numeric value, making them
+unacceptable for use as keys with the built-in <code class="docutils literal notranslate"><span class="pre">dict</span></code> class.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The use of the built-in <code class="docutils literal notranslate"><span class="pre">id()</span></code> function for hashing entry keys in
+ComponentMap and Suffix makes them inappropriate for use in
+situations where built-in object types must be used as keys. It is
+strongly recommended that only Pyomo modeling components be used as
+keys in these mapping containers (<code class="docutils literal notranslate"><span class="pre">Var</span></code>, <code class="docutils literal notranslate"><span class="pre">Constraint</span></code>, etc.).</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not attempt to pickle or deepcopy instances of ComponentMap or
+Suffix unless doing so along with the components for which they hold
+mapping entries. As an example, placing one of these objects on a
+model and then cloning or pickling that model is an acceptable
+scenario.</p>
+</div>
+<p>In addition to the dictionary interface provided through the
+ComponentMap base class, the Suffix component class also provides a
+number of methods whose default semantics are more convenient for
+working with indexed modeling components.  The easiest way to highlight
+this functionality is through the use of an example.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this example we have a concrete Pyomo model with two different types
+of variable components (indexed and non-indexed) as well as a Suffix
+declaration (foo). The next code snippet shows examples of adding
+entries to the suffix foo.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assign a suffix value of 1.0 to model.x</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Same as above with dict interface</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># Assign a suffix value of 0.0 to all indices of model.y</span>
+<span class="c1"># By default this expands so that entries are created for</span>
+<span class="c1"># every index (y[1], y[2], y[3]) and not model.y itself</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="c1"># The same operation using the dict interface results in an entry only</span>
+<span class="c1"># for the parent component model.y</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mf">50.0</span>
+
+<span class="c1"># Assign a suffix value of -1.0 to model.y[1]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Same as above with the dict interface</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+</pre></div>
+</div>
+<p>In this example we highlight the fact that the <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code> and
+<code class="docutils literal notranslate"><span class="pre">setValue</span></code> entry methods can be used interchangeably except in the
+case where indexed components are used (model.y). In the indexed case,
+the <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code> approach creates a single entry for the parent
+indexed component itself, whereas the <code class="docutils literal notranslate"><span class="pre">setValue</span></code> approach by default
+creates an entry for each index of the component. This behavior can be
+controlled using the optional keyword ‘expand’, where assigning it a
+value of <code class="docutils literal notranslate"><span class="pre">False</span></code> results in the same behavior as <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code>.</p>
+<p>Other operations like accessing or removing entries in our mapping can
+performed as if the built-in <code class="docutils literal notranslate"><span class="pre">dict</span></code> class is in use.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">])</span>
+<span class="go">1.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="go">-1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="go">-1.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+<span class="go">0.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="go">50.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+<span class="go">50.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="go">None</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&quot;Component with id &#39;...&#39;: y&quot;</span>
+</pre></div>
+</div>
+<p>The non-dict method <code class="docutils literal notranslate"><span class="pre">clear_value</span></code> can be used in place of
+<code class="docutils literal notranslate"><span class="pre">__delitem__</span></code> to remove entries, where it inherits the same default
+behavior as <code class="docutils literal notranslate"><span class="pre">setValue</span></code> for indexed components and does not raise a
+KeyError when the argument does not exist as a key in the mapping.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">clear_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&quot;Component with id &#39;...&#39;: y[1]&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&quot;Component with id &#39;...&#39;: y[1]&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">clear_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>A summary non-dict Suffix methods is provided here:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">clearAllValues()</div>
+<div class="line-block">
+<div class="line">Clears all suffix data.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">clear_value(component, expand=True)</div>
+<div class="line-block">
+<div class="line">Clears suffix information for a component.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">setAllValues(value)</div>
+<div class="line-block">
+<div class="line">Sets the value of this suffix on all components.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">setValue(component, value, expand=True)</div>
+<div class="line-block">
+<div class="line">Sets the value of this suffix on the specified component.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">updateValues(data_buffer, expand=True)</div>
+<div class="line-block">
+<div class="line">Updates the suffix data given a list of component,value tuples. Provides</div>
+<div class="line">an improvement in efficiency over calling setValue on every component.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">getDatatype()</div>
+<div class="line-block">
+<div class="line">Return the suffix datatype.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">setDatatype(datatype)</div>
+<div class="line-block">
+<div class="line">Set the suffix datatype.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">getDirection()</div>
+<div class="line-block">
+<div class="line">Return the suffix direction.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">setDirection(direction)</div>
+<div class="line-block">
+<div class="line">Set the suffix direction.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">importEnabled()</div>
+<div class="line-block">
+<div class="line">Returns True when this suffix is enabled for import from solutions.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">exportEnabled()</div>
+<div class="line-block">
+<div class="line">Returns True when this suffix is enabled for export to solvers.</div>
+</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="importing-suffix-data">
+<h2>Importing Suffix Data<a class="headerlink" href="#importing-suffix-data" title="Permalink to this headline">¶</a></h2>
+<p>Importing suffix information from a solver solution is achieved by
+declaring a Suffix component with the appropriate name and
+direction. Suffix names available for import may be specific to
+third-party solvers as well as individual solver interfaces within
+Pyomo. The most common of these, available with most solvers and solver
+interfaces, is constraint dual multipliers. Requesting that duals be
+imported into suffix data can be accomplished by declaring a Suffix
+component on the model.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The existence of an active suffix with the name dual that has an import
+style suffix direction will cause constraint dual information to be
+collected into the solver results (assuming the solver supplies dual
+information). In addition to this, after loading solver results into a
+problem instance (using a python script or Pyomo callback functions in
+conjunction with the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> command), one can access the dual values
+associated with constraints using the dual Suffix component.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">assert_optimal_termination</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="p">])</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<p>Alternatively, the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> option <code class="docutils literal notranslate"><span class="pre">--solver-suffixes</span></code> can be used to
+request suffix information from a solver. In the event that suffix names
+are provided via this command-line option, the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> script will
+automatically declare these Suffix components on the constructed
+instance making these suffixes available for import.</p>
+</div>
+<div class="section" id="exporting-suffix-data">
+<h2>Exporting Suffix Data<a class="headerlink" href="#exporting-suffix-data" title="Permalink to this headline">¶</a></h2>
+<p>Exporting suffix data is accomplished in a similar manner as to that of
+importing suffix data. One simply needs to declare a Suffix component on
+the model with an export style suffix direction and associate modeling
+component values with it. The following example shows how one can
+declare a special ordered set of type 1 using AMPL-style suffix notation
+in conjunction with Pyomo’s NL file interface.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">sosno</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+
+<span class="c1"># Add entry for each index of model.y</span>
+<span class="n">model</span><span class="o">.</span><span class="n">sosno</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Most AMPL-compatible solvers will recognize the suffix names <code class="docutils literal notranslate"><span class="pre">sosno</span></code>
+and <code class="docutils literal notranslate"><span class="pre">ref</span></code> as declaring a special ordered set, where a positive value
+for <code class="docutils literal notranslate"><span class="pre">sosno</span></code> indicates a special ordered set of type 1 and a negative
+value indicates a special ordered set of type 2.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pyomo provides the <code class="xref py py-class docutils literal notranslate"><span class="pre">SOSConstraint</span></code> component for declaring special
+ordered sets, which is recognized by all solver interfaces, including
+the NL file interface.</p>
+</div>
+<p>Pyomo’s NL file interface will recognize an EXPORT style Suffix
+component with the name ‘dual’ as supplying initializations for
+constraint multipliers. As such it will be treated separately than all
+other EXPORT style suffixes encountered in the NL writer, which are
+treated as AMPL-style suffixes. The following example script shows how
+one can warmstart the interior-point solver Ipopt by supplying both
+primal (variable values) and dual (suffixes) solution information. This
+dual suffix information can be both imported and exported using a single
+Suffix component with an IMPORT_EXPORT direction.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x3</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x4</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span>
+    <span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x4</span><span class="o">*</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x2</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">inequality</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+    <span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x2</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x3</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x4</span> <span class="o">&gt;=</span> <span class="mf">25.0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">equality</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+    <span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x3</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">x4</span><span class="o">**</span><span class="mi">2</span> <span class="o">==</span> <span class="mf">40.0</span><span class="p">)</span>
+
+<span class="c1">### Declare all suffixes</span>
+<span class="c1"># Ipopt bound multipliers (obtained from solution)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_out</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_out</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+<span class="c1"># Ipopt bound multipliers (sent to solver)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_in</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_in</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+<span class="c1"># Obtain dual solutions from first solve and send to warm start</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT_EXPORT</span><span class="p">)</span>
+
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The difference in performance can be seen by examining Ipopt’s iteration
+log with and without warm starting:</p>
+<ul>
+<li><p class="first">Without Warmstart:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>...
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  1.6109693e+01 1.12e+01 5.28e-01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  1.6982239e+01 7.30e-01 1.02e+01  -1.0 6.11e-01    -  7.19e-02 1.00e+00f  1
+   2  1.7318411e+01 ...
+   ...
+   8  1.7014017e+01 ...
+
+Number of Iterations....: 8
+...
+</pre></div>
+</div>
+</li>
+<li><p class="first">With Warmstart:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Set Ipopt options for warm-start</span>
+<span class="c1"># The current values on the ipopt_zU_out and ipopt_zL_out suffixes will</span>
+<span class="c1"># be used as initial conditions for the bound multipliers to solve the</span>
+<span class="c1"># new problem</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_out</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_out</span><span class="p">)</span>
+<span class="n">ipopt</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;warm_start_init_point&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+<span class="n">ipopt</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;warm_start_bound_push&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">ipopt</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;warm_start_mult_bound_push&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">ipopt</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;mu_init&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+
+<span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>...
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  1.7014032e+01 2.00e-06 4.07e-06  -6.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  1.7014019e+01 3.65e-12 1.00e-11  -6.0 2.50e-01    -  1.00e+00 1.00e+00h  1
+   2  1.7014017e+01 ...
+
+Number of Iterations....: 2
+...
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="using-suffixes-with-an-abstractmodel">
+<h2>Using Suffixes With an AbstractModel<a class="headerlink" href="#using-suffixes-with-an-abstractmodel" title="Permalink to this headline">¶</a></h2>
+<p>In order to allow the declaration of suffix data within the framework of
+an AbstractModel, the Suffix component can be initialized with an
+optional construction rule. As with constraint rules, this function will
+be executed at the time of model construction. The following simple
+example highlights the use of the <code class="docutils literal notranslate"><span class="pre">rule</span></code> keyword in suffix
+initialization. Suffix rules are expected to return an iterable of
+(component, value) tuples, where the <code class="docutils literal notranslate"><span class="pre">expand=True</span></code> semantics are
+applied for indexed components.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">foo_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+   <span class="k">return</span> <span class="p">((</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">foo_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inst</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">inst</span><span class="o">.</span><span class="n">x</span><span class="p">])</span>
+<span class="go">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">inst</span><span class="o">.</span><span class="n">c</span><span class="p">])</span>
+<span class="go">3.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Note that model.x and inst.x are not the same object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&quot;Component with id &#39;...&#39;: x&quot;</span>
+</pre></div>
+</div>
+<p>The next example shows an abstract model where suffixes are attached
+only to the variables:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">c_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">i</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">c_rule</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">foo_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">foo_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># instantiate the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inst</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inst</span><span class="o">.</span><span class="n">I</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">inst</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]]))</span>
+<span class="go">(1, 3.0)</span>
+<span class="go">(2, 6.0)</span>
+<span class="go">(3, 9.0)</span>
+<span class="go">(4, 12.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../solving_pyomo_models.html" class="btn btn-neutral float-right" title="Solving Pyomo Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Expressions.html" class="btn btn-neutral float-left" title="Expressions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.kernel.piecewise_library.util &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.kernel.piecewise_library.util</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.kernel.piecewise_library.util</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">numpy</span><span class="p">,</span> <span class="n">numpy_available</span><span class="p">,</span> <span class="n">scipy</span><span class="p">,</span> <span class="n">scipy_available</span>
+
+
+<div class="viewcode-block" id="PiecewiseValidationError"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.PiecewiseValidationError">[docs]</a><span class="k">class</span> <span class="nc">PiecewiseValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An exception raised when validation of piecewise</span>
+<span class="sd">    linear functions fail.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="is_constant"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.is_constant">[docs]</a><span class="k">def</span> <span class="nf">is_constant</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if a list of points is constant&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">eq</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="is_nondecreasing"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.is_nondecreasing">[docs]</a><span class="k">def</span> <span class="nf">is_nondecreasing</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if a list of points is nondecreasing&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">ge</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="is_nonincreasing"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.is_nonincreasing">[docs]</a><span class="k">def</span> <span class="nf">is_nonincreasing</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if a list of points is nonincreasing&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">le</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="is_positive_power_of_two"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.is_positive_power_of_two">[docs]</a><span class="k">def</span> <span class="nf">is_positive_power_of_two</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if a number is a nonzero and positive power of 2&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="log2floor"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.log2floor">[docs]</a><span class="k">def</span> <span class="nf">log2floor</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computes the exact value of floor(log2(n)) without</span>
+<span class="sd">    using floating point calculations. Input argument must</span>
+<span class="sd">    be a positive integer.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">n</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="generate_gray_code"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.generate_gray_code">[docs]</a><span class="k">def</span> <span class="nf">generate_gray_code</span><span class="p">(</span><span class="n">nbits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generates a Gray code of nbits as list of lists&quot;&quot;&quot;</span>
+    <span class="n">bitset</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbits</span><span class="p">)]</span>
+    <span class="c1"># important that we copy bitset each time</span>
+    <span class="n">graycode</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">bitset</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">nbits</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">nbits</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">bitset</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">bitset</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bitset</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="mi">1</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bitset</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bitset</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="mi">1</span>
+        <span class="c1"># important that we copy bitset each time</span>
+        <span class="n">graycode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bitset</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">graycode</span></div>
+
+
+<div class="viewcode-block" id="characterize_function"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.characterize_function">[docs]</a><span class="k">def</span> <span class="nf">characterize_function</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Characterizes a piecewise linear function described by a</span>
+<span class="sd">    list of breakpoints and function values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        breakpoints (list): The list of breakpoints of the</span>
+<span class="sd">            piecewise linear function. It is assumed that</span>
+<span class="sd">            the list of breakpoints is in non-decreasing</span>
+<span class="sd">            order.</span>
+<span class="sd">        values (list): The values of the piecewise linear</span>
+<span class="sd">            function corresponding to the breakpoints.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (int, list): a function characterization code and</span>
+<span class="sd">            the list of slopes.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The function characterization codes are</span>
+
+<span class="sd">          * 1: affine</span>
+<span class="sd">          * 2: convex</span>
+<span class="sd">          * 3: concave</span>
+<span class="sd">          * 4: step</span>
+<span class="sd">          * 5: other</span>
+
+<span class="sd">        If the function has step points, some of the slopes</span>
+<span class="sd">        may be :const:`None`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_nondecreasing</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The list of breakpoints must be nondecreasing&quot;</span><span class="p">)</span>
+
+    <span class="n">step</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">slopes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="n">slope</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span>
+                <span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">slope</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">slopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">step</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">slopes</span>
+    <span class="k">elif</span> <span class="n">is_constant</span><span class="p">(</span><span class="n">slopes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">slopes</span>
+    <span class="k">elif</span> <span class="n">is_nondecreasing</span><span class="p">(</span><span class="n">slopes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">convex</span><span class="p">,</span> <span class="n">slopes</span>
+    <span class="k">elif</span> <span class="n">is_nonincreasing</span><span class="p">(</span><span class="n">slopes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">concave</span><span class="p">,</span> <span class="n">slopes</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">other</span><span class="p">,</span> <span class="n">slopes</span></div>
+
+
+<span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">characterize_function</span><span class="o">.</span><span class="n">convex</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">characterize_function</span><span class="o">.</span><span class="n">concave</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">characterize_function</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">characterize_function</span><span class="o">.</span><span class="n">other</span> <span class="o">=</span> <span class="mi">5</span>
+
+
+<div class="viewcode-block" id="generate_delaunay"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/util.html#pyomo.core.kernel.piecewise_library.util.generate_delaunay">[docs]</a><span class="k">def</span> <span class="nf">generate_delaunay</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a Delaunay triangulation of the D-dimensional</span>
+<span class="sd">    bounded variable domain given a list of D variables.</span>
+
+<span class="sd">    Requires numpy and scipy.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        variables: A list of variables, each having a finite</span>
+<span class="sd">            upper and lower bound.</span>
+<span class="sd">        num (int): The number of grid points to generate for</span>
+<span class="sd">            each variable (default=10).</span>
+<span class="sd">        **kwds: All additional keywords are passed to the</span>
+<span class="sd">          scipy.spatial.Delaunay constructor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A scipy.spatial.Delaunay object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">linegrids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">linegrids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Variable </span><span class="si">%s</span><span class="s2"> does not have a finite lower and upper bound.&quot;</span>
+            <span class="p">)</span>
+    <span class="c1"># generates a meshgrid and then flattens and transposes</span>
+    <span class="c1"># the meshgrid into an (npoints, D) shaped array of</span>
+    <span class="c1"># coordinates</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">linegrids</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">Delaunay</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

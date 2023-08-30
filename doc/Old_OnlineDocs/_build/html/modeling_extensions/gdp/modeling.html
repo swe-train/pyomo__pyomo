@@ -1,0 +1,643 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modeling in Pyomo.GDP &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Solving Logic-based Models with Pyomo.GDP" href="solving.html" />
+    <link rel="prev" title="Key Concepts" href="concepts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Modeling Extensions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bilevel.html">Bilevel Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html">Dynamic Optimization with pyomo.DAE</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Generalized Disjunctive Programming</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="concepts.html">Key Concepts</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Modeling in Pyomo.GDP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#disjunctions">Disjunctions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logical-propositions">Logical Propositions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-logicalconstraint-examples">Advanced LogicalConstraint Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-examples">Additional Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="solving.html">Solving Logic-based Models with Pyomo.GDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#literature-references">Literature References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mpec.html">MPEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stochastic_programming.html">Stochastic Programming in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network.html">Pyomo Network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Modeling Extensions</a> &raquo;</li>
+        
+          <li><a href="index.html">Generalized Disjunctive Programming</a> &raquo;</li>
+        
+      <li>Modeling in Pyomo.GDP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/modeling_extensions/gdp/modeling.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="../../_images/Pyomo-GDP-150.png" class="no-scaled-link align-right" src="../../_images/Pyomo-GDP-150.png" style="width: 200.8px; height: 64.2px;" />
+<div class="section" id="modeling-in-pyomo-gdp">
+<h1>Modeling in Pyomo.GDP<a class="headerlink" href="#modeling-in-pyomo-gdp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="disjunctions">
+<h2>Disjunctions<a class="headerlink" href="#disjunctions" title="Permalink to this headline">¶</a></h2>
+<p>To demonstrate modeling with disjunctions in Pyomo.GDP, we revisit the small example from <a class="reference internal" href="concepts.html#gdp-disjunctions-concept"><span class="std std-ref">the previous page</span></a>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[\begin{gathered}
+Y_1 \\
+\exp(x_2) - 1 = x_1 \\
+x_3 = x_4 = 0
+\end{gathered}
+\right] \bigvee \left[\begin{gathered}
+Y_2 \\
+\exp\left(\frac{x_4}{1.2}\right) - 1 = x_3 \\
+x_1 = x_2 = 0
+\end{gathered}
+\right]\end{split}\]</div>
+<div class="section" id="explicit-syntax-more-descriptive">
+<h3>Explicit syntax: more descriptive<a class="headerlink" href="#explicit-syntax-more-descriptive" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo.GDP explicit syntax (see below) provides more clarity in the declaration of each modeling object,  and gives the user explicit control over the <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> names.
+Assuming the <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> object <code class="code docutils literal notranslate"><span class="pre">m</span></code> and variables have been defined, lines 1 and 5 declare the <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> objects corresponding to selection of unit 1 and 2, respectively.
+Lines 2 and 6 define the input-output relations for each unit, and lines 3-4 and 7-8 enforce zero flow through the unit that is not selected.
+Finally, line 9 declares the logical disjunction between the two disjunctive terms.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">inout</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">no_unit2_flow1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">no_unit2_flow2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit2</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">inout</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1.2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">no_unit1_flow1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">no_unit1_flow2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">use_unit1or2</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+<p>The indicator variables for each disjunct <span class="math notranslate nohighlight">\(Y_1\)</span> and <span class="math notranslate nohighlight">\(Y_2\)</span> are automatically generated by Pyomo.GDP, accessible via <code class="code docutils literal notranslate"><span class="pre">m.unit1.indicator_var</span></code> and <code class="code docutils literal notranslate"><span class="pre">m.unit2.indicator_var</span></code>.</p>
+</div>
+<div class="section" id="compact-syntax-more-concise">
+<h3>Compact syntax: more concise<a class="headerlink" href="#compact-syntax-more-concise" title="Permalink to this headline">¶</a></h3>
+<p>For more advanced users, a compact syntax is also available below, taking advantage of the ability to declare disjuncts and constraints implicitly.
+When the <code class="docutils literal notranslate"><span class="pre">Disjunction</span></code> object constructor is passed a list of lists, the outer list defines the disjuncts and the inner list defines the constraint expressions associated with the respective disjunct.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">use1or2</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">[</span>
+    <span class="c1"># First disjunct</span>
+    <span class="p">[</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+     <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="c1"># Second disjunct</span>
+    <span class="p">[</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">/</span><span class="mf">1.2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+     <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, Pyomo.GDP <code class="docutils literal notranslate"><span class="pre">Disjunction</span></code> objects enforce an implicit “exactly one” relationship among the selection of the disjuncts (generalization of exclusive-OR).
+That is, exactly one of the <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> indicator variables should take a <code class="docutils literal notranslate"><span class="pre">True</span></code> value.
+This can be seen as an implicit logical proposition, in our example, <span class="math notranslate nohighlight">\(Y_1 \veebar Y_2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="logical-propositions">
+<h2>Logical Propositions<a class="headerlink" href="#logical-propositions" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo.GDP also supports the use of logical propositions through the use of the <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> and <code class="docutils literal notranslate"><span class="pre">LogicalConstraint</span></code> objects.
+The <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> object in Pyomo represents Boolean variables, analogous to <code class="docutils literal notranslate"><span class="pre">Var</span></code> for numeric variables.
+<code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> can be indexed over a Pyomo <code class="docutils literal notranslate"><span class="pre">Set</span></code>, as below:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">my_set</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">BooleanVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">my_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">Y : Size=4, Index=my_set</span>
+<span class="go">    Key : Value : Fixed : Stale</span>
+<span class="go">      1 :  None : False :  True</span>
+<span class="go">      2 :  None : False :  True</span>
+<span class="go">      3 :  None : False :  True</span>
+<span class="go">      4 :  None : False :  True</span>
+</pre></div>
+</div>
+<p>Using these Boolean variables, we can define <code class="docutils literal notranslate"><span class="pre">LogicalConstraint</span></code> objects, analogous to algebraic <code class="docutils literal notranslate"><span class="pre">Constraint</span></code> objects.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">implies</span><span class="p">(</span><span class="n">land</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">lor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">p : Size=1, Index=None, Active=True</span>
+<span class="go">    Key  : Body                          : Active</span>
+<span class="go">    None : (Y[1] --&gt; Y[2] ∧ Y[3]) ∨ Y[4] :   True</span>
+</pre></div>
+</div>
+<div class="section" id="supported-logical-operators">
+<h3>Supported Logical Operators<a class="headerlink" href="#supported-logical-operators" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo.GDP logical expression system supported operators and their usage are listed in the table below.</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Operator</th>
+<th class="head">Method</th>
+<th class="head">Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Conjunction</td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">Y[1].land(Y[2])</span></code></td>
+<td><code class="code docutils literal notranslate"><span class="pre">land(Y[1],Y[2])</span></code></td>
+</tr>
+<tr class="row-odd"><td>Disjunction</td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">Y[1].lor(Y[2])</span></code></td>
+<td><code class="code docutils literal notranslate"><span class="pre">lor(Y[1],Y[2])</span></code></td>
+</tr>
+<tr class="row-even"><td>Negation</td>
+<td><code class="code docutils literal notranslate"><span class="pre">~Y[1]</span></code></td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">lnot(Y[1])</span></code></td>
+</tr>
+<tr class="row-odd"><td>Exclusive OR</td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">Y[1].xor(Y[2])</span></code></td>
+<td><code class="code docutils literal notranslate"><span class="pre">xor(Y[1],</span> <span class="pre">Y[2])</span></code></td>
+</tr>
+<tr class="row-even"><td>Implication</td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">Y[1].implies(Y[2])</span></code></td>
+<td><code class="code docutils literal notranslate"><span class="pre">implies(Y[1],</span> <span class="pre">Y[2])</span></code></td>
+</tr>
+<tr class="row-odd"><td>Equivalence</td>
+<td>&#160;</td>
+<td><code class="code docutils literal notranslate"><span class="pre">Y[1].equivalent_to(Y[2])</span></code></td>
+<td><code class="code docutils literal notranslate"><span class="pre">equivalent(Y[1],</span> <span class="pre">Y[2])</span></code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We omit support for most infix operators, e.g. <code class="code docutils literal notranslate"><span class="pre">Y[1]</span> <span class="pre">&gt;&gt;</span> <span class="pre">Y[2]</span></code>, due to concerns about non-intuitive Python operator precedence.
+That is <code class="code docutils literal notranslate"><span class="pre">Y[1]</span> <span class="pre">|</span> <span class="pre">Y[2]</span> <span class="pre">&gt;&gt;</span> <span class="pre">Y[3]</span></code> would translate to <span class="math notranslate nohighlight">\(Y_1 \lor (Y_2 \Rightarrow Y_3)\)</span> rather than <span class="math notranslate nohighlight">\((Y_1 \lor Y_2) \Rightarrow Y_3\)</span></p>
+</div>
+<p>In addition, the following constraint-programming-inspired operators are provided: <code class="docutils literal notranslate"><span class="pre">exactly</span></code>, <code class="docutils literal notranslate"><span class="pre">atmost</span></code>, and <code class="docutils literal notranslate"><span class="pre">atleast</span></code>.
+These predicates enforce, respectively, that exactly, at most, or at least N of their <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> arguments are <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>Usage:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">atleast(3,</span> <span class="pre">Y[1],</span> <span class="pre">Y[2],</span> <span class="pre">Y[3])</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">atmost(3,</span> <span class="pre">Y)</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">exactly(3,</span> <span class="pre">Y)</span></code></li>
+</ul>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">my_set</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">BooleanVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">my_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">atleast</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">p : Size=1, Index=None, Active=True</span>
+<span class="go">    Key  : Body                                 : Active</span>
+<span class="go">    None : atleast(3: [Y[1], Y[2], Y[3], Y[4]]) :   True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;core.logical_to_linear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># constraint auto-generated by transformation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">logic_to_linear</span><span class="o">.</span><span class="n">transformed_constraints</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">transformed_constraints : Size=1, Index=logic_to_linear.transformed_constraints_index, Active=True</span>
+<span class="go">    Key : Lower : Body                                                          : Upper : Active</span>
+<span class="go">      1 :   3.0 : Y_asbinary[1] + Y_asbinary[2] + Y_asbinary[3] + Y_asbinary[4] :  +Inf :   True</span>
+</pre></div>
+</div>
+<p>We elaborate on the <code class="docutils literal notranslate"><span class="pre">logical_to_linear</span></code> transformation <a class="reference internal" href="solving.html#gdp-reformulations"><span class="std std-ref">on the next page</span></a>.</p>
+</div>
+<div class="section" id="indexed-logical-constraints">
+<h3>Indexed logical constraints<a class="headerlink" href="#indexed-logical-constraints" title="Permalink to this headline">¶</a></h3>
+<p>Like <code class="docutils literal notranslate"><span class="pre">Constraint</span></code> objects for algebraic expressions, <code class="docutils literal notranslate"><span class="pre">LogicalConstraint</span></code> objects can be indexed.
+An example of this usage may be found below for the expression:</p>
+<div class="math notranslate nohighlight">
+\[Y_{i+1} \Rightarrow Y_{i}, \quad i \in \{1, 2, \dots, n-1\}\]</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">BooleanVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@m</span><span class="o">.</span><span class="n">LogicalConstraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">implies</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="k">else</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">p : Size=4, Index=I, Active=True</span>
+<span class="go">    Key : Body          : Active</span>
+<span class="go">      1 : Y[2] --&gt; Y[1] :   True</span>
+<span class="go">      2 : Y[3] --&gt; Y[2] :   True</span>
+<span class="go">      3 : Y[4] --&gt; Y[3] :   True</span>
+<span class="go">      4 : Y[5] --&gt; Y[4] :   True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integration-with-disjunctions">
+<h3>Integration with Disjunctions<a class="headerlink" href="#integration-with-disjunctions" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Historically, the <code class="docutils literal notranslate"><span class="pre">indicator_var</span></code> on <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> objects was
+implemented as a binary <code class="docutils literal notranslate"><span class="pre">Var</span></code>.  Beginning in Pyomo 6.0, that has
+been changed to the more mathematically correct <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code>, with
+the associated binary variable available as
+<code class="docutils literal notranslate"><span class="pre">binary_indicator_var</span></code>.</p>
+</div>
+<p>The logical expression system is designed to augment the previously
+introduced <code class="docutils literal notranslate"><span class="pre">Disjunct</span></code> and <code class="docutils literal notranslate"><span class="pre">Disjunction</span></code> components.  Mathematically,
+the disjunct indicator variable is Boolean, and can be used directly in
+logical propositions.</p>
+<p>Here, we demonstrate this capability with a toy example:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\min~&amp;x\\
+\text{s.t.}~&amp;\left[\begin{gathered}Y_1\\x \geq 2\end{gathered}\right] \vee \left[\begin{gathered}Y_2\\x \geq 3\end{gathered}\right]\\
+&amp;\left[\begin{gathered}Y_3\\x \leq 8\end{gathered}\right] \vee \left[\begin{gathered}Y_4\\x = 2.5\end{gathered}\right] \\
+&amp;Y_1 \veebar Y_2\\
+&amp;Y_3 \veebar Y_4\\
+&amp;Y_1 \Rightarrow Y_4\end{split}\]</div>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">ds</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">djn</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">ds</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">djn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">djn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mf">2.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add the logical proposition</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">indicator_var</span><span class="o">.</span><span class="n">implies</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">indicator_var</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Note: the implicit XOR enforced by m.djn[1] and m.djn[2] still apply</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Apply the Big-M reformulation: It will convert the logical</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># propositions to algebraic expressions.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;gdp.bigm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Before solve, Boolean vars have no value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Reference</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[:]</span><span class="o">.</span><span class="n">indicator_var</span><span class="p">)</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">IndexedBooleanVar : Size=4, Index=s, ReferenceTo=d[:].indicator_var</span>
+<span class="go">    Key : Value : Fixed : Stale</span>
+<span class="go">      1 :  None : False :  True</span>
+<span class="go">      2 :  None : False :  True</span>
+<span class="go">      3 :  None : False :  True</span>
+<span class="go">      4 :  None : False :  True</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Solve the reformulated model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_data</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Reference</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">d</span><span class="p">[:]</span><span class="o">.</span><span class="n">indicator_var</span><span class="p">)</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">IndexedBooleanVar : Size=4, Index=s, ReferenceTo=d[:].indicator_var</span>
+<span class="go">    Key : Value : Fixed : Stale</span>
+<span class="go">      1 :  True : False : False</span>
+<span class="go">      2 : False : False : False</span>
+<span class="go">      3 : False : False : False</span>
+<span class="go">      4 :  True : False : False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-logicalconstraint-examples">
+<span id="gdp-advanced-examples"></span><h2>Advanced LogicalConstraint Examples<a class="headerlink" href="#advanced-logicalconstraint-examples" title="Permalink to this headline">¶</a></h2>
+<p>Support for complex nested expressions is a key benefit of the logical expression system.
+Below are examples of expressions that we support, and with some, an explanation of their implementation.</p>
+<div class="section" id="composition-of-standard-operators">
+<h3>Composition of standard operators<a class="headerlink" href="#composition-of-standard-operators" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[Y_1 \vee Y_2 \implies Y_3 \wedge \neg Y_4 \wedge (Y_5 \vee Y_6)\]</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">lor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">implies</span><span class="p">(</span>
+    <span class="n">land</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="o">~</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">lor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">6</span><span class="p">])))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="expressions-within-cp-type-operators">
+<h3>Expressions within CP-type operators<a class="headerlink" href="#expressions-within-cp-type-operators" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{atleast}(3, Y_1, Y_2 \vee Y_3, Y_4 \Rightarrow Y_5, Y_6)\]</div>
+<p>Here, augmented variables may be automatically added to the model as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{atleast}(3, &amp;Y_1, Y_A, Y_B, Y_6)\\
+&amp;Y_A \Leftrightarrow Y_2 \vee Y_3\\
+&amp;Y_B \Leftrightarrow (Y_4 \Rightarrow Y_5)\end{split}\]</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span>
+    <span class="n">expr</span><span class="o">=</span><span class="n">atleast</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Or</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">implies</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">5</span><span class="p">]),</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nested-cp-style-operators">
+<h3>Nested CP-style operators<a class="headerlink" href="#nested-cp-style-operators" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{atleast}(2, Y_1, \text{exactly}(2, Y_2, Y_3, Y_4), Y_5, Y_6)\]</div>
+<p>Here, we again need to add augmented variables:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{atleast}(2, Y_1, Y_A, Y_5, Y_6)\\
+Y_A \Leftrightarrow \text{exactly}(2, Y_2, Y_3, Y_4)\end{split}\]</div>
+<p>However, we also need to further interpret the second statement as a disjunction:</p>
+<div class="math notranslate nohighlight">
+\begin{gather*}
+\text{atleast}(2, Y_1, Y_A, Y_5, Y_6)\\
+\left[\begin{gathered}Y_A\\\text{exactly}(2, Y_2, Y_3, Y_4)\end{gathered}\right]
+\vee
+\left[\begin{gathered}\neg Y_A\\
+\left[\begin{gathered}Y_B\\\text{atleast}(3, Y_2, Y_3, Y_4)\end{gathered}\right] \vee \left[\begin{gathered}Y_C\\\text{atmost}(1, Y_2, Y_3, Y_4)\end{gathered}\right]
+\end{gathered}\right]
+\end{gather*}</div><p>or equivalently,</p>
+<div class="math notranslate nohighlight">
+\begin{gather*}
+\text{atleast}(2, Y_1, Y_A, Y_5, Y_6)\\
+\text{exactly}(1, Y_A, Y_B, Y_C)\\
+\left[\begin{gathered}Y_A\\\text{exactly}(2, Y_2, Y_3, Y_4)\end{gathered}\right]
+\vee
+\left[\begin{gathered}Y_B\\\text{atleast}(3, Y_2, Y_3, Y_4)\end{gathered}\right] \vee \left[\begin{gathered}Y_C\\\text{atmost}(1, Y_2, Y_3, Y_4)\end{gathered}\right]
+\end{gather*}</div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">LogicalConstraint</span><span class="p">(</span>
+    <span class="n">expr</span><span class="o">=</span><span class="n">atleast</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">exactly</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>In the <code class="docutils literal notranslate"><span class="pre">logical_to_linear</span></code> transformation, we automatically convert these special disjunctions to linear form using a Big M reformulation.</p>
+</div>
+</div>
+<div class="section" id="additional-examples">
+<h2>Additional Examples<a class="headerlink" href="#additional-examples" title="Permalink to this headline">¶</a></h2>
+<p>The following models all work and are equivalent for <span class="math notranslate nohighlight">\(\left[x = 0\right] \veebar \left[y = 0\right]\)</span>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Option 1: Rule-based construction</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.gdp</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Two conditions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_d</span><span class="p">(</span><span class="n">disjunct</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="n">model</span> <span class="o">=</span> <span class="n">disjunct</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+<span class="gp">... </span>      <span class="c1"># x == 0</span>
+<span class="gp">... </span>      <span class="n">disjunct</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>      <span class="c1"># y == 0</span>
+<span class="gp">... </span>      <span class="n">disjunct</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">rule</span><span class="o">=</span><span class="n">_d</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Define the disjunction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_c</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">_c</span><span class="p">)</span>
+
+<span class="go">Option 2: Explicit disjuncts</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.gdp</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fix_x</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fix_x</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fix_y</span> <span class="o">=</span> <span class="n">Disjunct</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fix_y</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">fix_x</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">fix_y</span><span class="p">])</span>
+
+<span class="go">Option 3: Implicit disjuncts (disjunction rule returns a list of</span>
+<span class="go">expressions or a list of lists of expressions)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.gdp</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Disjunction</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="solving.html" class="btn btn-neutral float-right" title="Solving Logic-based Models with Pyomo.GDP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="concepts.html" class="btn btn-neutral float-left" title="Key Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

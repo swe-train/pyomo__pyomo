@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MindtPy Solver &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MPC" href="mpc/index.html" />
+    <link rel="prev" title="Block Triangular Decomposition Solver" href="incidence/scc_solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MindtPy Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minlp-formulation">MINLP Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solve-convex-minlps">Solve Convex MINLPs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lp-nlp-based-branch-and-bound">LP/NLP Based Branch-and-Bound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#regularized-outer-approximation">Regularized Outer-Approximation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solution-pool-implementation">Solution Pool Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#feasibility-pump">Feasibility Pump</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#solve-nonconvex-minlps">Solve Nonconvex MINLPs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#equality-relaxation">Equality Relaxation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#augmented-penalty">Augmented Penalty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-outer-approximation">Global Outer-Approximation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mindtpy-implementation-and-optional-arguments">MindtPy Implementation and Optional Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-help">Get Help</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#report-a-bug">Report a Bug</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Third-Party Contributions</a> &raquo;</li>
+        
+      <li>MindtPy Solver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/contributed_packages/mindtpy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mindtpy-solver">
+<h1>MindtPy Solver<a class="headerlink" href="#mindtpy-solver" title="Permalink to this headline">¶</a></h1>
+<p>The Mixed-Integer Nonlinear Decomposition Toolbox in Pyomo (MindtPy) solver
+allows users to solve Mixed-Integer Nonlinear Programs (MINLP) using decomposition algorithms.
+These decomposition algorithms usually rely on the solution of Mixed-Intger Linear Programs
+(MILP) and Nonlinear Programs (NLP).</p>
+<p>The following algorithms are currently available in MindtPy:</p>
+<ul class="simple">
+<li><strong>Outer-Approximation (OA)</strong> [<a class="reference external" href="https://dx.doi.org/10.1007/BF02592064">Duran &amp; Grossmann, 1986</a>]</li>
+<li><strong>LP/NLP based Branch-and-Bound (LP/NLP BB)</strong> [<a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/0098135492800288">Quesada &amp; Grossmann, 1992</a>]</li>
+<li><strong>Extended Cutting Plane (ECP)</strong>  [<a class="reference external" href="http://dx.doi.org/10.1016/0098-1354(95)87027-X">Westerlund &amp; Petterson, 1995</a>]</li>
+<li><strong>Global Outer-Approximation (GOA)</strong> [<a class="reference external" href="https://link.springer.com/article/10.1007/s10107-004-0503-1">Kesavan &amp; Allgor, 2004</a>, <a class="reference external" href="https://pyomo.readthedocs.io/en/stable/contributed_packages/mcpp.html">MC++</a>]</li>
+<li><strong>Regularized Outer-Approximation (ROA)</strong> [<a class="reference external" href="http://www.optimization-online.org/DB_HTML/2021/06/8452.html">Bernal &amp; Peng, 2021</a>, <a class="reference external" href="https://link.springer.com/article/10.1007%2Fs10107-018-1356-3">Kronqvist &amp; Bernal, 2018</a>]</li>
+<li><strong>Feasibility Pump (FP)</strong> [<a class="reference external" href="https://www.tandfonline.com/doi/abs/10.1080/10556788.2019.1641498">Bernal &amp; Vigerske, 2019</a>, <a class="reference external" href="https://link.springer.com/article/10.1007/s10107-008-0212-2">Bonami &amp; Cornuéjols, 2009</a>]</li>
+</ul>
+<p>Usage and early implementation details for MindtPy can be found in the PSE 2018 paper Bernal et al.,
+(<a class="reference external" href="https://doi.org/10.1016/B978-0-444-64241-7.50144-0">ref</a>,
+<a class="reference external" href="http://egon.cheme.cmu.edu/Papers/Bernal_Chen_MindtPy_PSE2018Paper.pdf">preprint</a>).</p>
+<div class="section" id="minlp-formulation">
+<h2>MINLP Formulation<a class="headerlink" href="#minlp-formulation" title="Permalink to this headline">¶</a></h2>
+<p>The general formulation of the mixed integer nonlinear programming (MINLP) models is as follows.</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+\label{eq:MINLP}
+\tag{MINLP}
+\begin{aligned}
+  &amp;\min_{\mathbf{x,y}} &amp;&amp;f(\mathbf{x,y})\\
+&amp; \text{s.t.} \ &amp;&amp;g_j(\mathbf{x,y}) \leq 0 \quad \ \forall j=1,\dots l,\\
+&amp; &amp;&amp;\mathbf{A}\mathbf{x} +\mathbf{B}\mathbf{y} \leq \mathbf{b}, \\
+&amp; &amp;&amp;\mathbf{x}\in {\mathbb R}^n,\ \mathbf{y} \in {\mathbb Z}^m.
+\end{aligned}
+\end{equation}</div><p>where</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(\mathbf{x}\in {\mathbb R}^n\)</span> are continuous variables,</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{y} \in {\mathbb Z}^m\)</span> are discrete variables,</li>
+<li><span class="math notranslate nohighlight">\(f, g_1, \dots, g_l\)</span> are non-linear smooth functions,</li>
+<li><span class="math notranslate nohighlight">\(\mathbf{A}\mathbf{x} +\mathbf{B}\mathbf{y} \leq \mathbf{b}\)</span> are linear constraints.</li>
+</ul>
+</div>
+<div class="section" id="solve-convex-minlps">
+<h2>Solve Convex MINLPs<a class="headerlink" href="#solve-convex-minlps" title="Permalink to this headline">¶</a></h2>
+<p>Usage of MindtPy to solve a convex MINLP Pyomo model involves:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example which includes the modeling approach may be found below.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required imports</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="go">Create a simple model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">),</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">Binary</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="mf">4.0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">50.0</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mf">5.0</span> <span class="o">&lt;=</span> <span class="mf">50.0</span><span class="o">*</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">minimize</span><span class="p">)</span>
+
+<span class="go">Solve the model using MindtPy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;glpk&#39;</span><span class="p">,</span> <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>The solution may then be displayed by using the commands</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When troubleshooting, it can often be helpful to turn on verbose
+output using the <code class="docutils literal notranslate"><span class="pre">tee</span></code> flag.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;glpk&#39;</span><span class="p">,</span> <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>MindtPy also supports setting options for mip solvers and nlp solvers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="go">                                   strategy=&#39;OA&#39;,</span>
+<span class="go">                                   time_limit=3600,</span>
+<span class="go">                                   mip_solver=&#39;gams&#39;,</span>
+<span class="go">                                   mip_solver_args=dict(solver=&#39;cplex&#39;, warmstart=True),</span>
+<span class="go">                                   nlp_solver=&#39;ipopt&#39;,</span>
+<span class="go">                                   tee=True)</span>
+</pre></div>
+</div>
+<p>There are three initialization strategies in MindtPy: <code class="docutils literal notranslate"><span class="pre">rNLP</span></code>, <code class="docutils literal notranslate"><span class="pre">initial_binary</span></code>, <code class="docutils literal notranslate"><span class="pre">max_binary</span></code>. In OA and GOA strategies, the default initialization strategy is <code class="docutils literal notranslate"><span class="pre">rNLP</span></code>. In ECP strategy, the default initialization strategy is <code class="docutils literal notranslate"><span class="pre">max_binary</span></code>.</p>
+<div class="section" id="lp-nlp-based-branch-and-bound">
+<h3>LP/NLP Based Branch-and-Bound<a class="headerlink" href="#lp-nlp-based-branch-and-bound" title="Permalink to this headline">¶</a></h3>
+<p>MindtPy also supports single-tree implementation of Outer-Approximation (OA) algorithm, which is known as LP/NLP based branch-and-bound algorithm originally described in [<a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/0098135492800288">Quesada &amp; Grossmann, 1992</a>].
+The LP/NLP based branch-and-bound algorithm in MindtPy is implemented based on the LazyConstraintCallback function in commercial solvers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Pyomo, <a class="reference external" href="https://pyomo.readthedocs.io/en/stable/advanced_topics/persistent_solvers.html?highlight=persistent">persistent solvers</a> are necessary to set or register callback functions. The single tree implementation currently only works with CPLEX and GUROBI, more exactly <code class="docutils literal notranslate"><span class="pre">cplex_persistent</span></code> and <code class="docutils literal notranslate"><span class="pre">gurobi_persistent</span></code>. To use the <a class="reference external" href="https://www.ibm.com/docs/en/icos/20.1.0?topic=classes-cplexcallbackslazyconstraintcallback">LazyConstraintCallback</a> function of CPLEX from Pyomo, the <a class="reference external" href="https://www.ibm.com/docs/en/icos/20.1.0?topic=cplex-setting-up-python-api">CPLEX Python API</a> is required. This means both IBM ILOG CPLEX Optimization Studio and the CPLEX-Python modules should be installed on your computer. To use the <a class="reference external" href="https://www.gurobi.com/documentation/9.1/refman/py_model_cblazy.html">cbLazy</a> function of GUROBI from pyomo, <a class="reference external" href="https://www.gurobi.com/documentation/9.1/quickstart_mac/cs_grbpy_the_gurobi_python.html">gurobipy</a> is required.</p>
+</div>
+<p>A usage example for LP/NLP based branch-and-bound algorithm is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;OA&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex_persistent&#39;</span><span class="p">,</span>  <span class="c1"># or &#39;gurobi_persistent&#39;</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">single_tree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="regularized-outer-approximation">
+<h3>Regularized Outer-Approximation<a class="headerlink" href="#regularized-outer-approximation" title="Permalink to this headline">¶</a></h3>
+<p>As a new implementation in MindtPy, we provide a flexible regularization technique implementation. In this technique, an extra mixed-integer problem is solved in each decomposition iteration or incumbent solution of the single-tree solution methods. The extra mixed-integer program is constructed to provide a point where the NLP problem is solved closer to the feasible region described by the non-linear constraint. This approach has been proposed in [<a class="reference external" href="https://link.springer.com/article/10.1007/s10107-018-1356-3">Kronqvist et al., 2020</a>], and it has shown to be efficient for highly non-linear convex MINLP problems. In [<a class="reference external" href="https://link.springer.com/article/10.1007/s10107-018-1356-3">Kronqvist et al., 2020</a>], two different regularization approaches are proposed, using a squared Euclidean norm which was proved to make the procedure equivalent to adding a trust-region constraint to Outer-approximation, and a second-order approximation of the Lagrangian of the problem, which showed better performance. We implement these methods, using PyomoNLP as the interface to compute the second-order approximation of the Lagrangian, and extend them to consider linear norm objectives and first-order approximations of the Lagrangian. Finally, we implemented an approximated second-order expansion of the Lagrangian, drawing inspiration from the Sequential Quadratic Programming (SQP) literature. The details of this implementation are included in [<a class="reference external" href="http://www.optimization-online.org/DB_HTML/2021/06/8452.html">Bernal et al., 2021</a>].</p>
+<p>A usage example for regularized OA is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;OA&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">add_regularization</span><span class="o">=</span><span class="s1">&#39;level_L1&#39;</span>
+<span class="gp">... </span>                                   <span class="c1"># alternative regularizations</span>
+<span class="gp">... </span>                                   <span class="c1"># &#39;level_L1&#39;, &#39;level_L2&#39;, &#39;level_L_infinity&#39;,</span>
+<span class="gp">... </span>                                   <span class="c1"># &#39;grad_lag&#39;, &#39;hess_lag&#39;, &#39;hess_only_lag&#39;, &#39;sqp_lag&#39;</span>
+<span class="gp">... </span>                                   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="solution-pool-implementation">
+<h3>Solution Pool Implementation<a class="headerlink" href="#solution-pool-implementation" title="Permalink to this headline">¶</a></h3>
+<p>MindtPy supports solution pool of the MILP solver, CPLEX and GUROBI. With the help of the solution, MindtPy can explore several integer combinations in one iteration.</p>
+<p>A usage example for OA with solution pool is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;OA&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex_persistent&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">solution_pool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">num_solution_iteration</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># default=5</span>
+<span class="gp">... </span>                                   <span class="n">tee</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>                                   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="feasibility-pump">
+<h3>Feasibility Pump<a class="headerlink" href="#feasibility-pump" title="Permalink to this headline">¶</a></h3>
+<p>For some MINLP problems, the Outer Approximation method might have difficulty in finding a feasible solution. MindtPy provides the Feasibility Pump implementation to find feasible solutions for convex MINLPs quickly. The main idea of the Feasibility Pump is to decompose the original mixed-integer problem into two parts: integer feasibility and constraint feasibility. For convex MINLPs, a MIP is solved to obtain a solution, which satisfies the integrality constraints on <cite>y</cite>, but may violate some of the nonlinear constraints; next, by solving an NLP, a solution is computed that satisfies the nonlinear constraints but might again violate the integrality constraints on <cite>y</cite>. By minimizing the distance between these two types of solutions iteratively, a constraint and integer feasible solution can be expected. In MindtPy, the Feasibility Pump can be used both as an initialization strategy and a decomposition strategy. For details of this implementation are included in [<a class="reference external" href="http://www.optimization-online.org/DB_HTML/2017/08/6171.html">Bernal et al., 2017</a>].</p>
+<p>A usage example for Feasibility Pump as the initialization strategy is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;OA&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">init_strategy</span><span class="o">=</span><span class="s1">&#39;FP&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">tee</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>                                   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A usage example for Feasibility Pump as the decomposition strategy is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;FP&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">tee</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>                                   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="solve-nonconvex-minlps">
+<h2>Solve Nonconvex MINLPs<a class="headerlink" href="#solve-nonconvex-minlps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="equality-relaxation">
+<h3>Equality Relaxation<a class="headerlink" href="#equality-relaxation" title="Permalink to this headline">¶</a></h3>
+<p>Under certain assumptions concerning the convexity of the nonlinear functions, an equality constraint can be relaxed to be an inequality constraint. This property can be used in the MIP master problem to accumulate linear approximations(OA cuts). The sense of the equivalent inequality constraint is based on the sign of the dual values of the equality constraint. Therefore, the sense of the OA cuts for equality constraint should be determined according to both the objective sense and the sign of the dual values. In MindtPy, the dual value of the equality constraint is calculated as follows.</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">constraint</th>
+<th class="head">status at <span class="math notranslate nohighlight">\(x_1\)</span></th>
+<th class="head">dual values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(g(x) \le b\)</span></td>
+<td><span class="math notranslate nohighlight">\(g(x_1) \le b\)</span></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(g(x) \le b\)</span></td>
+<td><span class="math notranslate nohighlight">\(g(x_1) &gt; b\)</span></td>
+<td><span class="math notranslate nohighlight">\(g(x1) - b\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(g(x) \ge b\)</span></td>
+<td><span class="math notranslate nohighlight">\(g(x_1) \ge b\)</span></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(g(x) \ge b\)</span></td>
+<td><span class="math notranslate nohighlight">\(g(x_1) &lt; b\)</span></td>
+<td><span class="math notranslate nohighlight">\(b - g(x1)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="augmented-penalty">
+<h3>Augmented Penalty<a class="headerlink" href="#augmented-penalty" title="Permalink to this headline">¶</a></h3>
+<p>Augmented Penalty refers to the introduction of (non-negative) slack variables on the right hand sides of the just described inequality constraints and the modification of the objective function when assumptions concerning convexity do not hold. (From DICOPT)</p>
+</div>
+<div class="section" id="global-outer-approximation">
+<h3>Global Outer-Approximation<a class="headerlink" href="#global-outer-approximation" title="Permalink to this headline">¶</a></h3>
+<p>Apart from the decomposition methods for convex MINLP problems [<a class="reference external" href="https://link.springer.com/article/10.1007/s11081-018-9411-8">Kronqvist et al., 2019</a>], MindtPy provides an implementation of Global Outer Approximation (GOA) as described in [<a class="reference external" href="https://link.springer.com/article/10.1007/s10107-004-0503-1">Kesavan &amp; Allgor, 2004</a>], to provide optimality guaranteed for nonconvex MINLP problems. Here, the validity of the Mixed-integer Linear Programming relaxation of the original problem is guaranteed via the usage of Generalized McCormick envelopes, computed using the package <a class="reference external" href="https://pyomo.readthedocs.io/en/stable/contributed_packages/mcpp.html">MC++</a>. The NLP subproblems, in this case, need to be solved to global optimality, which can be achieved through global NLP solvers such as <a class="reference external" href="https://minlp.com/baron-solver">BARON</a> or <a class="reference external" href="https://www.scipopt.org/">SCIP</a>.</p>
+<div class="section" id="convergence">
+<h4>Convergence<a class="headerlink" href="#convergence" title="Permalink to this headline">¶</a></h4>
+<p>MindtPy provides two ways to guarantee the finite convergence of the algorithm.</p>
+<ul class="simple">
+<li><strong>No-good cuts</strong>. No-good cuts(integer cuts) are added to the MILP master problem in each iteration.</li>
+<li><strong>Tabu list</strong>. Tabu list is only supported if the <code class="docutils literal notranslate"><span class="pre">mip_solver</span></code> is <code class="docutils literal notranslate"><span class="pre">cplex_persistent</span></code> (<code class="docutils literal notranslate"><span class="pre">gurobi_persistent</span></code> pending). In each iteration, the explored integer combinations will be added to the <cite>tabu_list</cite>. When solving the next MILP problem, the MIP solver will reject the previously explored solutions in the branch and bound process through IncumbentCallback.</li>
+</ul>
+</div>
+<div class="section" id="bound-calculation">
+<h4>Bound Calculation<a class="headerlink" href="#bound-calculation" title="Permalink to this headline">¶</a></h4>
+<p>Since no-good cuts or tabu list is applied in the Global Outer-Approximation (GOA) method, the MILP master problem cannot provide a valid bound for the original problem. After the GOA method has converged, MindtPy will remove the no-good cuts or the tabu integer combinations added when and after the optimal solution has been found. Solving this problem will give us a valid bound for the original problem.</p>
+<p>The GOA method also has a single-tree implementation with <code class="docutils literal notranslate"><span class="pre">cplex_persistent</span></code> and <code class="docutils literal notranslate"><span class="pre">gurobi_persistent</span></code>. Notice that this method is more computationally expensive than the other strategies implemented for convex MINLP like OA and ECP, which can be used as heuristics for nonconvex MINLP problems.</p>
+<p>A usage example for GOA is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;mindtpy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;GOA&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">mip_solver</span><span class="o">=</span><span class="s1">&#39;cplex&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">nlp_solver</span><span class="o">=</span><span class="s1">&#39;baron&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="mindtpy-implementation-and-optional-arguments">
+<h2>MindtPy Implementation and Optional Arguments<a class="headerlink" href="#mindtpy-implementation-and-optional-arguments" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">MindtPy optional arguments should be considered beta code and are
+subject to change.</p>
+</div>
+<dl class="py class">
+<dt id="pyomo.contrib.mindtpy.MindtPy.MindtPySolver">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.mindtpy.MindtPy.</code><code class="descname">MindtPySolver</code><a class="reference internal" href="../_modules/pyomo/contrib/mindtpy/MindtPy.html#MindtPySolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.mindtpy.MindtPy.MindtPySolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decomposition solver for Mixed-Integer Nonlinear Programming (MINLP) problems.</p>
+<p>The MindtPy (Mixed-Integer Nonlinear Decomposition Toolbox in Pyomo) solver
+applies a variety of decomposition-based approaches to solve Mixed-Integer
+Nonlinear Programming (MINLP) problems.
+These approaches include:</p>
+<ul class="simple">
+<li>Outer approximation (OA)</li>
+<li>Global outer approximation (GOA)</li>
+<li>Regularized outer approximation (ROA)</li>
+<li>LP/NLP based branch-and-bound (LP/NLP)</li>
+<li>Global LP/NLP based branch-and-bound (GLP/NLP)</li>
+<li>Regularized LP/NLP based branch-and-bound (RLP/NLP)</li>
+<li>Feasibility pump (FP)</li>
+</ul>
+<p>This solver implementation has been developed by David Bernal &lt;<a class="reference external" href="https://github.com/bernalde">https://github.com/bernalde</a>&gt;
+and Zedong Peng &lt;<a class="reference external" href="https://github.com/ZedongPeng">https://github.com/ZedongPeng</a>&gt; as part of research efforts at the Grossmann
+Research Group (<a class="reference external" href="http://egon.cheme.cmu.edu/">http://egon.cheme.cmu.edu/</a>) at the Department of Chemical Engineering at
+Carnegie Mellon University.</p>
+<dl class="py method">
+<dt id="pyomo.contrib.mindtpy.MindtPy.MindtPySolver.available">
+<code class="descname">available</code><span class="sig-paren">(</span><em><span class="n">exception_flag</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/mindtpy/MindtPy.html#MindtPySolver.available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.mindtpy.MindtPy.MindtPySolver.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if solver is available.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.mindtpy.MindtPy.MindtPySolver.solve">
+<code class="descname">solve</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/mindtpy/MindtPy.html#MindtPySolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.mindtpy.MindtPy.MindtPySolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> (<a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Block" title="pyomo.environ.Block"><em>Block</em></a>) – a Pyomo model or block to be solved</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>iteration_limit</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeInt" title="pyomo.common.config.NonNegativeInt"><em>NonNegativeInt</em></a><em>, </em><em>default=50</em>) – Number of maximum iterations in the decomposition methods.</li>
+<li><strong>stalling_limit</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><em>PositiveInt</em></a><em>, </em><em>default=15</em>) – Stalling limit for primal bound progress in the decomposition methods.</li>
+<li><strong>time_limit</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><em>PositiveInt</em></a><em>, </em><em>default=600</em>) – Seconds allowed until terminated. Note that the time limit
+cancurrently only be enforced between subsolver invocations. You
+mayneed to set subsolver time limits as well.</li>
+<li><strong>strategy</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'OA'</em><em>, </em><em>'ECP'</em><em>, </em><em>'GOA'</em><em>, </em><em>'FP'</em><em>]</em><em>, </em><em>default='OA'</em>) – MINLP Decomposition strategy to be applied to the method. Currently
+available Outer Approximation (OA), Extended Cutting Plane (ECP),
+Global Outer Approximation (GOA) and Feasibility Pump (FP).</li>
+<li><strong>add_regularization</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'level_L1'</em><em>, </em><em>'level_L2'</em><em>, </em><em>'level_L_infinity'</em><em>, </em><em>'grad_lag'</em><em>, </em><em>'hess_lag'</em><em>, </em><em>'hess_only_lag'</em><em>, </em><em>'sqp_lag'</em><em>]</em><em>, </em><em>optional</em>) – Solving a regularization problem before solve the fixed subproblemthe
+objective function of the regularization problem.</li>
+<li><strong>call_after_main_solve</strong> (<em>default=&lt;pyomo.contrib.gdpopt.util._DoNothing object at 0x7fc11aa9b690&gt;</em>) – Callback hook after a solution of the main problem.</li>
+<li><strong>call_after_subproblem_solve</strong> (<em>default=&lt;pyomo.contrib.gdpopt.util._DoNothing object at 0x7fc11aa9b6d0&gt;</em>) – Callback hook after a solution of the nonlinear subproblem.</li>
+<li><strong>call_after_subproblem_feasible</strong> (<em>default=&lt;pyomo.contrib.gdpopt.util._DoNothing object at 0x7fc11aa9b710&gt;</em>) – Callback hook after a feasible solution of the nonlinear subproblem.</li>
+<li><strong>tee</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Stream output to terminal.</li>
+<li><strong>logger</strong> (<em>a_logger</em><em>, </em><em>default='pyomo.contrib.mindtpy'</em>) – The logger object or name to use for reporting.</li>
+<li><strong>logging_level</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeInt" title="pyomo.common.config.NonNegativeInt"><em>NonNegativeInt</em></a><em>, </em><em>default=20</em>) – The logging level for MindtPy.CRITICAL = 50, ERROR = 40, WARNING = 30,
+INFO = 20, DEBUG = 10, NOTSET = 0</li>
+<li><strong>integer_to_binary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Convert integer variables to binaries (for no-good cuts).</li>
+<li><strong>add_no_good_cuts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Add no-good cuts (no-good cuts) to binary variables to disallow same
+integer solution again.Note that integer_to_binary flag needs to be
+used to apply it to actual integers and not just binaries.</li>
+<li><strong>use_tabu_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Use tabu list and incumbent callback to disallow same integer solution
+again.</li>
+<li><strong>single_tree</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Use single tree implementation in solving the MIP main problem.</li>
+<li><strong>solution_pool</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Use solution pool in solving the MIP main problem.</li>
+<li><strong>num_solution_iteration</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><em>PositiveInt</em></a><em>, </em><em>default=5</em>) – The number of MIP solutions (from the solution pool) used to generate
+the fixed NLP subproblem in each iteration.</li>
+<li><strong>cycling_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Check if OA algorithm is stalled in a cycle and terminate.</li>
+<li><strong>feasibility_norm</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'L1'</em><em>, </em><em>'L2'</em><em>, </em><em>'L_infinity'</em><em>]</em><em>, </em><em>default='L_infinity'</em>) – Different forms of objective function in feasibility subproblem.</li>
+<li><strong>differentiate_mode</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'reverse_symbolic'</em><em>, </em><em>'sympy'</em><em>]</em><em>, </em><em>default='reverse_symbolic'</em>) – Differentiate mode to calculate jacobian.</li>
+<li><strong>use_mcpp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Use package MC++ to set a bound for variable ‘objective_value’, which
+is introduced when the original problem’s objective function is
+nonlinear.</li>
+<li><strong>calculate_dual_at_solution</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Calculate duals of the NLP subproblem.</li>
+<li><strong>use_fbbt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Use fbbt to tighten the feasible region of the problem.</li>
+<li><strong>use_dual_bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Add dual bound constraint to enforce the objective satisfies best-
+found dual bound.</li>
+<li><strong>partition_obj_nonlinear_terms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Partition objective with the sum of nonlinear terms using epigraph
+reformulation.</li>
+<li><strong>quadratic_strategy</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>0</em><em>, </em><em>1</em><em>, </em><em>2</em><em>]</em><em>, </em><em>default=0</em>) – How to treat the quadratic terms in MINLP.0 : treat as nonlinear
+terms1 : only use quadratic terms in objective function directly in
+main problem2 : use quadratic terms in objective function and
+constraints in main problem</li>
+<li><strong>move_objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether to replace the objective function to constraint using epigraph
+constraint.</li>
+<li><strong>add_cuts_at_incumbent</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether to add lazy cuts to the main problem at the incumbent solution
+found in the branch &amp; bound tree</li>
+<li><strong>nlp_solver</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'ipopt'</em><em>, </em><em>'appsi_ipopt'</em><em>, </em><em>'gams'</em><em>, </em><em>'baron'</em><em>]</em><em>, </em><em>default='ipopt'</em>) – Which NLP subsolver is going to be used for solving the
+nonlinearsubproblems.</li>
+<li><strong>nlp_solver_args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – Which NLP subsolver options to be passed to the solver while solving
+the nonlinear subproblems.</li>
+<li><strong>mip_solver</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'gurobi'</em><em>, </em><em>'cplex'</em><em>, </em><em>'cbc'</em><em>, </em><em>'glpk'</em><em>, </em><em>'gams'</em><em>, </em><em>'gurobi_persistent'</em><em>, </em><em>'cplex_persistent'</em><em>, </em><em>'appsi_cplex'</em><em>, </em><em>'appsi_gurobi'</em><em>]</em><em>, </em><em>default='glpk'</em>) – Which MIP subsolver is going to be used for solving the mixed-integer
+main problems.</li>
+<li><strong>mip_solver_args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – Which MIP subsolver options to be passed to the solver while solving
+the mixed-integer main problems.</li>
+<li><strong>mip_solver_mipgap</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.0001</em>) – Mipgap passed to MIP solver.</li>
+<li><strong>threads</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeInt" title="pyomo.common.config.NonNegativeInt"><em>NonNegativeInt</em></a><em>, </em><em>default=0</em>) – Threads used by MIP solver and NLP solver.</li>
+<li><strong>regularization_mip_threads</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeInt" title="pyomo.common.config.NonNegativeInt"><em>NonNegativeInt</em></a><em>, </em><em>default=0</em>) – Threads used by MIP solver to solve regularization main problem.</li>
+<li><strong>solver_tee</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Stream the output of MIP solver and NLP solver to terminal.</li>
+<li><strong>mip_solver_tee</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Stream the output of MIP solver to terminal.</li>
+<li><strong>nlp_solver_tee</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Stream the output of nlp solver to terminal.</li>
+<li><strong>mip_regularization_solver</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'gurobi'</em><em>, </em><em>'cplex'</em><em>, </em><em>'cbc'</em><em>, </em><em>'glpk'</em><em>, </em><em>'gams'</em><em>, </em><em>'gurobi_persistent'</em><em>, </em><em>'cplex_persistent'</em><em>, </em><em>'appsi_cplex'</em><em>, </em><em>'appsi_gurobi'</em><em>]</em><em>, </em><em>optional</em>) – Which MIP subsolver is going to be used for solving the regularization
+problem.</li>
+<li><strong>absolute_bound_tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.0001</em>) – Absolute tolerance for bound feasibility checks.</li>
+<li><strong>relative_bound_tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.001</em>) – Relative tolerance for bound feasibility checks. <span class="math notranslate nohighlight">\(|Primal Bound
+- Dual Bound| / (1e-10 + |Primal Bound|) &lt;= relative tolerance\)</span></li>
+<li><strong>small_dual_tolerance</strong> (<em>default=1e-08</em>) – When generating cuts, small duals multiplied by expressions can cause
+problems. Exclude all duals smaller in absolute value than the
+following.</li>
+<li><strong>integer_tolerance</strong> (<em>default=1e-05</em>) – Tolerance on integral values.</li>
+<li><strong>constraint_tolerance</strong> (<em>default=1e-06</em>) – Tolerance on constraint satisfaction.</li>
+<li><strong>variable_tolerance</strong> (<em>default=1e-08</em>) – Tolerance on variable bounds.</li>
+<li><strong>zero_tolerance</strong> (<em>default=1e-08</em>) – Tolerance on variable equal to zero.</li>
+<li><strong>fp_cutoffdecr</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.1</em>) – Additional relative decrement of cutoff value for the original
+objective function.</li>
+<li><strong>fp_iteration_limit</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><em>PositiveInt</em></a><em>, </em><em>default=20</em>) – Number of maximum iterations in the feasibility pump methods.</li>
+<li><strong>fp_projcuts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Whether to add cut derived from regularization of MIP solution onto
+NLP feasible set.</li>
+<li><strong>fp_transfercuts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Whether to transfer cuts from the Feasibility Pump MIP to main MIP in
+selected strategy (all except from the round in which the FP MIP
+became infeasible).</li>
+<li><strong>fp_projzerotol</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.0001</em>) – Tolerance on when to consider optimal value of regularization problem
+as zero, which may trigger the solution of a Sub-NLP.</li>
+<li><strong>fp_mipgap</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.01</em>) – Optimality tolerance (relative gap) to use for solving MIP
+regularization problem.</li>
+<li><strong>fp_discrete_only</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Only calculate the distance among discrete variables in regularization
+problems.</li>
+<li><strong>fp_main_norm</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'L1'</em><em>, </em><em>'L2'</em><em>, </em><em>'L_infinity'</em><em>]</em><em>, </em><em>default='L1'</em>) – Different forms of objective function MIP regularization problem.</li>
+<li><strong>fp_norm_constraint</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – Whether to add the norm constraint to FP-NLP</li>
+<li><strong>fp_norm_constraint_coef</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=1</em>) – The coefficient in the norm constraint, correspond to the Beta in the
+paper.</li>
+<li><strong>obj_bound</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=1000000000000000.0</em>) – Bound applied to the linearization of the objective function if main
+MIP is unbounded.</li>
+<li><strong>continuous_var_bound</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=10000000000.0</em>) – Default bound added to unbounded continuous variables in nonlinear
+constraint if single tree is activated.</li>
+<li><strong>integer_var_bound</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=1000000000.0</em>) – Default bound added to unbounded integral variables in nonlinear
+constraint if single tree is activated.</li>
+<li><strong>initial_bound_coef</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.1</em>) – The coefficient used to approximate the initial primal/dual bound.</li>
+<li><strong>level_coef</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><em>PositiveFloat</em></a><em>, </em><em>default=0.5</em>) – The coefficient in the regularization main problemrepresents how much
+the linear approximation of the MINLP problem is trusted.</li>
+<li><strong>solution_limit</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><em>PositiveInt</em></a><em>, </em><em>default=10</em>) – The solution limit for the regularization problem since it does not
+need to be solved to optimality.</li>
+<li><strong>reduce_level_coef</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether to reduce level coefficient in ROA single tree when
+regularization problem is infeasible.</li>
+<li><strong>use_bb_tree_incumbent</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether to use the incumbent solution of branch &amp; bound tree in ROA
+single tree when regularization problem is infeasible.</li>
+<li><strong>sqp_lag_scaling_coef</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>[</em><em>'fixed'</em><em>, </em><em>'variable_dependent'</em><em>]</em><em>, </em><em>default='fixed'</em>) – The coefficient used to scale the L2 norm in sqp_lag.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.mindtpy.MindtPy.MindtPySolver.version">
+<code class="descname">version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/mindtpy/MindtPy.html#MindtPySolver.version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.mindtpy.MindtPy.MindtPySolver.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a 3-tuple describing the solver version.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="get-help">
+<h2>Get Help<a class="headerlink" href="#get-help" title="Permalink to this headline">¶</a></h2>
+<p>Ways to get help: <a class="reference external" href="https://github.com/Pyomo/pyomo#getting-help">https://github.com/Pyomo/pyomo#getting-help</a></p>
+</div>
+<div class="section" id="report-a-bug">
+<h2>Report a Bug<a class="headerlink" href="#report-a-bug" title="Permalink to this headline">¶</a></h2>
+<p>If you find a bug in MindtPy, we will be grateful if you could</p>
+<ul class="simple">
+<li>submit an <a class="reference external" href="https://github.com/Pyomo/pyomo/issues">issue</a> in Pyomo repository</li>
+<li>directly contact David Bernal &lt;<a class="reference external" href="mailto:bernalde&#37;&#52;&#48;cmu&#46;edu">bernalde<span>&#64;</span>cmu<span>&#46;</span>edu</a>&gt; and Zedong Peng &lt;<a class="reference external" href="mailto:peng_zedong&#37;&#52;&#48;126&#46;com">peng_zedong<span>&#64;</span>126<span>&#46;</span>com</a>&gt;.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="mpc/index.html" class="btn btn-neutral float-right" title="MPC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="incidence/scc_solver.html" class="btn btn-neutral float-left" title="Block Triangular Decomposition Solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

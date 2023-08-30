@@ -1,0 +1,1321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.base.constraint &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.base.constraint</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.base.constraint</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Constraint&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;_ConstraintData&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ConstraintList&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;simple_constraint_rule&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;simple_constraintlist_rule&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">ref</span> <span class="k">as</span> <span class="n">weakref_ref</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.pyomo_typing</span> <span class="kn">import</span> <span class="n">overload</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">RenamedClass</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">DeveloperError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.formatting</span> <span class="kn">import</span> <span class="n">tabular_writer</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.log</span> <span class="kn">import</span> <span class="n">is_debug_set</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">NOTSET</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">ConstructionTimer</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NumericValue</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">as_numeric</span><span class="p">,</span>
+    <span class="n">is_fixed</span><span class="p">,</span>
+    <span class="n">native_numeric_types</span><span class="p">,</span>
+    <span class="n">native_types</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.expr_common</span> <span class="kn">import</span> <span class="n">ExpressionType</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.current</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EqualityExpression</span><span class="p">,</span>
+    <span class="n">InequalityExpression</span><span class="p">,</span>
+    <span class="n">RangedExpression</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.component</span> <span class="kn">import</span> <span class="n">ActiveComponentData</span><span class="p">,</span> <span class="n">ModelComponentFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.global_set</span> <span class="kn">import</span> <span class="n">UnindexedComponent_index</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.indexed_component</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ActiveIndexedComponent</span><span class="p">,</span>
+    <span class="n">UnindexedComponent_set</span><span class="p">,</span>
+    <span class="n">rule_wrapper</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.set</span> <span class="kn">import</span> <span class="n">Set</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.disable_methods</span> <span class="kn">import</span> <span class="n">disable_methods</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.initializer</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Initializer</span><span class="p">,</span>
+    <span class="n">IndexedCallInitializer</span><span class="p">,</span>
+    <span class="n">CountedCallInitializer</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.core&#39;</span><span class="p">)</span>
+
+<span class="n">_inf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+<span class="n">_nonfinite_values</span> <span class="o">=</span> <span class="p">{</span><span class="n">_inf</span><span class="p">,</span> <span class="o">-</span><span class="n">_inf</span><span class="p">}</span>
+<span class="n">_known_relational_expressions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">EqualityExpression</span><span class="p">,</span>
+    <span class="n">InequalityExpression</span><span class="p">,</span>
+    <span class="n">RangedExpression</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">_rule_returned_none_error</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39;: rule returned None.</span>
+
+<span class="s2">Constraint rules must return either a valid expression, a 2- or 3-member</span>
+<span class="s2">tuple, or one of Constraint.Skip, Constraint.Feasible, or</span>
+<span class="s2">Constraint.Infeasible.  The most common cause of this error is</span>
+<span class="s2">forgetting to include the &quot;return&quot; statement at the end of your rule.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">simple_constraint_rule</span><span class="p">(</span><span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a decorator that translates None/True/False return</span>
+<span class="sd">    values into Constraint.Skip/Constraint.Feasible/Constraint.Infeasible.</span>
+<span class="sd">    This supports a simpler syntax in constraint rules, though these</span>
+<span class="sd">    can be more difficult to debug when errors occur.</span>
+
+<span class="sd">    Example use:</span>
+
+<span class="sd">    @simple_constraint_rule</span>
+<span class="sd">    def C_rule(model, i, j):</span>
+<span class="sd">        ...</span>
+
+<span class="sd">    model.c = Constraint(rule=simple_constraint_rule(...))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">rule_wrapper</span><span class="p">(</span>
+        <span class="n">rule</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="kc">None</span><span class="p">:</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span><span class="p">,</span>
+            <span class="kc">True</span><span class="p">:</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Feasible</span><span class="p">,</span>
+            <span class="kc">False</span><span class="p">:</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">simple_constraintlist_rule</span><span class="p">(</span><span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a decorator that translates None/True/False return values</span>
+<span class="sd">    into ConstraintList.End/Constraint.Feasible/Constraint.Infeasible.</span>
+<span class="sd">    This supports a simpler syntax in constraint rules, though these can be</span>
+<span class="sd">    more difficult to debug when errors occur.</span>
+
+<span class="sd">    Example use:</span>
+
+<span class="sd">    @simple_constraintlist_rule</span>
+<span class="sd">    def C_rule(model, i, j):</span>
+<span class="sd">        ...</span>
+
+<span class="sd">    model.c = ConstraintList(expr=simple_constraintlist_rule(...))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">rule_wrapper</span><span class="p">(</span>
+        <span class="n">rule</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="kc">None</span><span class="p">:</span> <span class="n">ConstraintList</span><span class="o">.</span><span class="n">End</span><span class="p">,</span>
+            <span class="kc">True</span><span class="p">:</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Feasible</span><span class="p">,</span>
+            <span class="kc">False</span><span class="p">:</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># This class is a pure interface</span>
+<span class="c1">#</span>
+
+
+<span class="k">class</span> <span class="nc">_ConstraintData</span><span class="p">(</span><span class="n">ActiveComponentData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines the data for a single constraint.</span>
+
+<span class="sd">    Constructor arguments:</span>
+<span class="sd">        component       The Constraint object that owns this data.</span>
+
+<span class="sd">    Public class attributes:</span>
+<span class="sd">        active          A boolean that is true if this constraint is</span>
+<span class="sd">                            active in the model.</span>
+<span class="sd">        body            The Pyomo expression for this constraint</span>
+<span class="sd">        lower           The Pyomo expression for the lower bound</span>
+<span class="sd">        upper           The Pyomo expression for the upper bound</span>
+<span class="sd">        equality        A boolean that indicates whether this is an</span>
+<span class="sd">                            equality constraint</span>
+<span class="sd">        strict_lower    A boolean that indicates whether this</span>
+<span class="sd">                            constraint uses a strict lower bound</span>
+<span class="sd">        strict_upper    A boolean that indicates whether this</span>
+<span class="sd">                            constraint uses a strict upper bound</span>
+
+<span class="sd">    Private class attributes:</span>
+<span class="sd">        _component      The objective component.</span>
+<span class="sd">        _active         A boolean that indicates whether this data is active</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="c1"># Set to true when a constraint class stores its expression</span>
+    <span class="c1"># in linear canonical form</span>
+    <span class="n">_linear_canonical_form</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># These lines represent in-lining of the</span>
+        <span class="c1"># following constructors:</span>
+        <span class="c1">#   - _ConstraintData,</span>
+        <span class="c1">#   - ActiveComponentData</span>
+        <span class="c1">#   - ComponentData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_component</span> <span class="o">=</span> <span class="n">weakref_ref</span><span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">NOTSET</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Interface</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the value of the body of this constraint.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` when the lower bound is</span>
+<span class="sd">        :const:`None` or negative infinity&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">has_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` when the upper bound is</span>
+<span class="sd">        :const:`None` or positive infinity&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">lslack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the value of f(x)-L for constraints of the form:</span>
+<span class="sd">            L &lt;= f(x) (&lt;= U)</span>
+<span class="sd">            (U &gt;=) f(x) &gt;= L</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span>
+        <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_inf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span> <span class="o">-</span> <span class="n">lb</span>
+
+    <span class="k">def</span> <span class="nf">uslack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the value of U-f(x) for constraints of the form:</span>
+<span class="sd">            (L &lt;=) f(x) &lt;= U</span>
+<span class="sd">            U &gt;= f(x) (&gt;= L)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span>
+        <span class="k">if</span> <span class="n">ub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_inf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">slack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the smaller of lslack and uslack values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">body</span>
+        <span class="k">elif</span> <span class="n">ub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">lb</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ub</span> <span class="o">-</span> <span class="n">body</span><span class="p">,</span> <span class="n">body</span> <span class="o">-</span> <span class="n">lb</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Abstract Interface</span>
+    <span class="c1">#</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the body of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the lower bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the upper bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the value of the lower bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the value of the upper bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">equality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A boolean indicating whether this is an equality constraint.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if this constraint has a strict lower bound.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if this constraint has a strict upper bound.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the expression on this constraint.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the expression on this constraint.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+
+<span class="k">class</span> <span class="nc">_GeneralConstraintData</span><span class="p">(</span><span class="n">_ConstraintData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines the data for a single general constraint.</span>
+
+<span class="sd">    Constructor arguments:</span>
+<span class="sd">        component       The Constraint object that owns this data.</span>
+<span class="sd">        expr            The Pyomo expression stored in this constraint.</span>
+
+<span class="sd">    Public class attributes:</span>
+<span class="sd">        active          A boolean that is true if this constraint is</span>
+<span class="sd">                            active in the model.</span>
+<span class="sd">        body            The Pyomo expression for this constraint</span>
+<span class="sd">        lower           The Pyomo expression for the lower bound</span>
+<span class="sd">        upper           The Pyomo expression for the upper bound</span>
+<span class="sd">        equality        A boolean that indicates whether this is an</span>
+<span class="sd">                            equality constraint</span>
+<span class="sd">        strict_lower    A boolean that indicates whether this</span>
+<span class="sd">                            constraint uses a strict lower bound</span>
+<span class="sd">        strict_upper    A boolean that indicates whether this</span>
+<span class="sd">                            constraint uses a strict upper bound</span>
+
+<span class="sd">    Private class attributes:</span>
+<span class="sd">        _component      The objective component.</span>
+<span class="sd">        _active         A boolean that indicates whether this data is active</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_body&#39;</span><span class="p">,</span> <span class="s1">&#39;_lower&#39;</span><span class="p">,</span> <span class="s1">&#39;_upper&#39;</span><span class="p">,</span> <span class="s1">&#39;_expr&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># These lines represent in-lining of the</span>
+        <span class="c1"># following constructors:</span>
+        <span class="c1">#   - _ConstraintData,</span>
+        <span class="c1">#   - ActiveComponentData</span>
+        <span class="c1">#   - ComponentData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_component</span> <span class="o">=</span> <span class="n">weakref_ref</span><span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Abstract Interface</span>
+    <span class="c1">#</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the body of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The incoming RangedInequality had a potentially variable</span>
+            <span class="c1"># bound.  The &quot;body&quot; is fine, but the bounds may not be</span>
+            <span class="c1"># (although the responsibility for those checks lies with the</span>
+            <span class="c1"># lower/upper properties)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">body</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_types</span> <span class="ow">and</span> <span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">as_numeric</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">body</span>
+
+    <span class="k">def</span> <span class="nf">_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">bound</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; is a Ranged Inequality with a &quot;</span>
+                    <span class="s2">&quot;variable </span><span class="si">%s</span><span class="s2"> bound.  Cannot normalize the &quot;</span>
+                    <span class="s2">&quot;constraint or send it to a solver.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">bound</span>
+
+    <span class="k">def</span> <span class="nf">_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">bound</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; is a Ranged Inequality with a &quot;</span>
+                    <span class="s2">&quot;variable </span><span class="si">%s</span><span class="s2"> bound.  Cannot normalize the &quot;</span>
+                    <span class="s2">&quot;constraint or send it to a solver.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">bound</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the lower bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span><span class="p">()</span>
+        <span class="c1"># Historically, constraint.lower was guaranteed to return a type</span>
+        <span class="c1"># derived from Pyomo NumericValue (or None).  Replicate that</span>
+        <span class="c1"># functionality, although clients should in almost all cases</span>
+        <span class="c1"># move to using ConstraintData.lb instead of accessing</span>
+        <span class="c1"># lower/body/upper to avoid the unnecessary creation (and</span>
+        <span class="c1"># inevitable destruction) of the NumericConstant wrappers.</span>
+        <span class="k">if</span> <span class="n">bound</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">as_numeric</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the upper bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span><span class="p">()</span>
+        <span class="c1"># Historically, constraint.upper was guaranteed to return a type</span>
+        <span class="c1"># derived from Pyomo NumericValue (or None).  Replicate that</span>
+        <span class="c1"># functionality, although clients should in almost all cases</span>
+        <span class="c1"># move to using ConstraintData.ub instead of accessing</span>
+        <span class="c1"># lower/body/upper to avoid the unnecessary creation (and</span>
+        <span class="c1"># inevitable destruction) of the NumericConstant wrappers.</span>
+        <span class="k">if</span> <span class="n">bound</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">as_numeric</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the value of the lower bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">_nonfinite_values</span> <span class="ow">or</span> <span class="n">bound</span> <span class="o">!=</span> <span class="n">bound</span><span class="p">:</span>
+            <span class="c1"># Note that &quot;bound != bound&quot; catches float(&#39;nan&#39;)</span>
+            <span class="k">if</span> <span class="n">bound</span> <span class="o">==</span> <span class="o">-</span><span class="n">_inf</span><span class="p">:</span>
+                <span class="n">bound</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; created with an invalid non-finite &quot;</span>
+                    <span class="s2">&quot;lower bound (</span><span class="si">%s</span><span class="s2">).&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">bound</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">bound</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the value of the upper bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">_nonfinite_values</span> <span class="ow">or</span> <span class="n">bound</span> <span class="o">!=</span> <span class="n">bound</span><span class="p">:</span>
+            <span class="c1"># Note that &quot;bound != bound&quot; catches float(&#39;nan&#39;)</span>
+            <span class="k">if</span> <span class="n">bound</span> <span class="o">==</span> <span class="n">_inf</span><span class="p">:</span>
+                <span class="n">bound</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; created with an invalid non-finite &quot;</span>
+                    <span class="s2">&quot;upper bound (</span><span class="si">%s</span><span class="s2">).&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">bound</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">bound</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">equality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A boolean indicating whether this is an equality constraint.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">EqualityExpression</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">RangedExpression</span><span class="p">:</span>
+            <span class="c1"># TODO: this is a very restrictive form of structural equality.</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">lb</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if this constraint has a strict lower bound.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if this constraint has a strict upper bound.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the expression associated with this constraint.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the expression on this constraint.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the expression on this constraint.&quot;&quot;&quot;</span>
+        <span class="c1"># Clear any previously-cached normalized constraint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">_known_relational_expressions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">expr</span>
+        <span class="k">elif</span> <span class="n">expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>  <span class="c1"># or expr_type is list:</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">expr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">or</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                    <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">NumericValue</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; does not have a proper value. &quot;</span>
+                    <span class="s2">&quot;Constraint expressions expressed as tuples must &quot;</span>
+                    <span class="s2">&quot;contain native numeric types or Pyomo NumericValue &quot;</span>
+                    <span class="s2">&quot;objects. Tuple </span><span class="si">%s</span><span class="s2"> contained invalid type, </span><span class="si">%s</span><span class="s2">&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1">#</span>
+                <span class="c1"># Form equality expression</span>
+                <span class="c1">#</span>
+                <span class="k">if</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">expr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; does not have a proper value. &quot;</span>
+                        <span class="s2">&quot;Equality Constraints expressed as 2-tuples &quot;</span>
+                        <span class="s2">&quot;cannot contain None [received </span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">EqualityExpression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="c1">#</span>
+                <span class="c1"># Form (ranged) inequality expression</span>
+                <span class="c1">#</span>
+                <span class="k">if</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">InequalityExpression</span><span class="p">(</span><span class="n">expr</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">expr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">InequalityExpression</span><span class="p">(</span><span class="n">expr</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">RangedExpression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; does not have a proper value. &quot;</span>
+                    <span class="s2">&quot;Found a tuple of length </span><span class="si">%d</span><span class="s2">. Expecting a tuple of &quot;</span>
+                    <span class="s2">&quot;length 2 or 3:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Equality:   (left, right)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Inequality: (lower, expression, upper)&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
+                <span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># Ignore an &#39;empty&#39; constraint</span>
+        <span class="c1">#</span>
+        <span class="k">elif</span> <span class="n">expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="n">expr</span> <span class="ow">is</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">expr</span> <span class="ow">is</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">:</span>
+                <span class="c1"># TODO: create a trivial infeasible constraint.  This</span>
+                <span class="c1"># could be useful in the case of GDP where certain</span>
+                <span class="c1"># disjuncts are trivially infeasible, but we would still</span>
+                <span class="c1"># like to express the disjunction.</span>
+                <span class="c1"># del self.parent_component()[self.index()]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; is always infeasible&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; does not have a proper &quot;</span>
+                    <span class="s2">&quot;value. Found &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">Expecting a tuple or &quot;</span>
+                    <span class="s2">&quot;relational expression. Examples:&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   sum(model.costs) == model.income&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   (0, model.price[item], 50)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
+                <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_rule_returned_none_error</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,))</span>
+
+        <span class="k">elif</span> <span class="n">expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid constraint expression. The constraint &quot;</span>
+                <span class="s2">&quot;expression resolved to a trivial Boolean (</span><span class="si">%s</span><span class="s2">) &quot;</span>
+                <span class="s2">&quot;instead of a Pyomo object. Please modify your &quot;</span>
+                <span class="s2">&quot;rule to return Constraint.</span><span class="si">%s</span><span class="s2"> instead of </span><span class="si">%s</span><span class="s2">.&quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Error thrown for Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s2">&quot;Feasible&quot;</span> <span class="k">if</span> <span class="n">expr</span> <span class="k">else</span> <span class="s2">&quot;Infeasible&quot;</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">expr</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">(</span><span class="n">ExpressionType</span><span class="o">.</span><span class="n">RELATIONAL</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="o">=</span> <span class="n">expr</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; does not have a proper &quot;</span>
+                    <span class="s2">&quot;value. Found &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">Expecting a tuple or &quot;</span>
+                    <span class="s2">&quot;relational expression. Examples:&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   sum(model.costs) == model.income&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   (0, model.price[item], 50)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># Normalize the incoming expressions, if we can</span>
+        <span class="c1">#</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">args</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">InequalityExpression</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">strict</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; encountered a strict &quot;</span>
+                    <span class="s2">&quot;inequality expression (&#39;&gt;&#39; or &#39;&lt; &#39;). All&quot;</span>
+                    <span class="s2">&quot; constraints must be formulated using &quot;</span>
+                    <span class="s2">&quot;using &#39;&lt;=&#39;, &#39;&gt;=&#39;, or &#39;==&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">EqualityExpression</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Error check: ensure equality does not have infinite RHS</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Equality constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; defined with &quot;</span>
+                    <span class="s2">&quot;non-finite term (</span><span class="si">%s</span><span class="s2">HS == None).&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># The following logic is caught below when checking for</span>
+            <span class="c1"># invalid non-finite bounds:</span>
+            <span class="c1">#</span>
+            <span class="c1"># if self._lower.__class__ in native_numeric_types and \</span>
+            <span class="c1">#    not math.isfinite(self._lower):</span>
+            <span class="c1">#     raise ValueError(</span>
+            <span class="c1">#         &quot;Equality constraint &#39;%s&#39; defined with &quot;</span>
+            <span class="c1">#         &quot;non-finite term.&quot; % (self.name))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">RangedExpression</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="n">strict</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; encountered a strict &quot;</span>
+                    <span class="s2">&quot;inequality expression (&#39;&gt;&#39; or &#39;&lt; &#39;). All&quot;</span>
+                    <span class="s2">&quot; constraints must be formulated using &quot;</span>
+                    <span class="s2">&quot;using &#39;&lt;=&#39;, &#39;&gt;=&#39;, or &#39;==&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">or</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Defensive programming: we currently only support three</span>
+            <span class="c1"># relational expression types.  This will only be hit if</span>
+            <span class="c1"># someone defines a fourth...</span>
+            <span class="k">raise</span> <span class="n">DeveloperError</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized relational expression type: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_expr</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># We have historically forced the body to be a numeric expression.</span>
+        <span class="c1"># TODO: remove this requirement</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_types</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">as_numeric</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body</span><span class="p">)</span>
+
+        <span class="c1"># We have historically mapped incoming inf to None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span>
+            <span class="k">if</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">_nonfinite_values</span> <span class="ow">or</span> <span class="n">bound</span> <span class="o">!=</span> <span class="n">bound</span><span class="p">:</span>
+                <span class="c1"># Note that &quot;bound != bound&quot; catches float(&#39;nan&#39;)</span>
+                <span class="k">if</span> <span class="n">bound</span> <span class="o">==</span> <span class="o">-</span><span class="n">_inf</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; created with an invalid non-finite &quot;</span>
+                        <span class="s2">&quot;lower bound (</span><span class="si">%s</span><span class="s2">).&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span><span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span>
+            <span class="k">if</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">_nonfinite_values</span> <span class="ow">or</span> <span class="n">bound</span> <span class="o">!=</span> <span class="n">bound</span><span class="p">:</span>
+                <span class="c1"># Note that &quot;bound != bound&quot; catches float(&#39;nan&#39;)</span>
+                <span class="k">if</span> <span class="n">bound</span> <span class="o">==</span> <span class="n">_inf</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; created with an invalid non-finite &quot;</span>
+                        <span class="s2">&quot;upper bound (</span><span class="si">%s</span><span class="s2">).&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upper</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="Constraint"><a class="viewcode-back" href="../../../../library_reference/aml/index.html#pyomo.environ.Constraint">[docs]</a><span class="nd">@ModelComponentFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;General constraint expressions.&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Constraint</span><span class="p">(</span><span class="n">ActiveIndexedComponent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This modeling component defines a constraint expression using a</span>
+<span class="sd">    rule function.</span>
+
+<span class="sd">    Constructor arguments:</span>
+<span class="sd">        expr</span>
+<span class="sd">            A Pyomo expression for this constraint</span>
+<span class="sd">        rule</span>
+<span class="sd">            A function that is used to construct constraint expressions</span>
+<span class="sd">        name</span>
+<span class="sd">            A name for this component</span>
+<span class="sd">        doc</span>
+<span class="sd">            A text string describing this component</span>
+
+<span class="sd">    Public class attributes:</span>
+<span class="sd">        doc</span>
+<span class="sd">            A text string describing this component</span>
+<span class="sd">        name</span>
+<span class="sd">            A name for this component</span>
+<span class="sd">        active</span>
+<span class="sd">            A boolean that is true if this component will be used to</span>
+<span class="sd">            construct a model instance</span>
+<span class="sd">        rule</span>
+<span class="sd">           The rule used to initialize the constraint(s)</span>
+
+<span class="sd">    Private class attributes:</span>
+<span class="sd">        _constructed</span>
+<span class="sd">            A boolean that is true if this component has been constructed</span>
+<span class="sd">        _data</span>
+<span class="sd">            A dictionary from the index set to component data objects</span>
+<span class="sd">        _index</span>
+<span class="sd">            The set of valid indices</span>
+<span class="sd">        _implicit_subsets</span>
+<span class="sd">            A tuple of set objects that represents the index set</span>
+<span class="sd">        _model</span>
+<span class="sd">            A weakref to the model that owns this component</span>
+<span class="sd">        _parent</span>
+<span class="sd">            A weakref to the parent block that owns this component</span>
+<span class="sd">        _type</span>
+<span class="sd">            The class type for the derived subclass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_ComponentDataClass</span> <span class="o">=</span> <span class="n">_GeneralConstraintData</span>
+
+    <span class="k">class</span> <span class="nc">Infeasible</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="n">Feasible</span> <span class="o">=</span> <span class="n">ActiveIndexedComponent</span><span class="o">.</span><span class="n">Skip</span>
+    <span class="n">NoConstraint</span> <span class="o">=</span> <span class="n">ActiveIndexedComponent</span><span class="o">.</span><span class="n">Skip</span>
+    <span class="n">Violated</span> <span class="o">=</span> <span class="n">Infeasible</span>
+    <span class="n">Satisfied</span> <span class="o">=</span> <span class="n">Feasible</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="o">!=</span> <span class="n">Constraint</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">UnindexedComponent_set</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">AbstractScalarConstraint</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">IndexedConstraint</span><span class="p">)</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">indexes</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">_init</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pop_from_kwargs</span><span class="p">(</span><span class="s1">&#39;Constraint&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;rule&#39;</span><span class="p">,</span> <span class="s1">&#39;expr&#39;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Special case: we accept 2- and 3-tuples as constraints</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">_init</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="o">=</span> <span class="n">Initializer</span><span class="p">(</span><span class="n">_init</span><span class="p">,</span> <span class="n">treat_sequences_as_mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="o">=</span> <span class="n">Initializer</span><span class="p">(</span><span class="n">_init</span><span class="p">)</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;ctype&#39;</span><span class="p">,</span> <span class="n">Constraint</span><span class="p">)</span>
+        <span class="n">ActiveIndexedComponent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Constraint.construct"><a class="viewcode-back" href="../../../../library_reference/aml/index.html#pyomo.environ.Constraint.construct">[docs]</a>    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the expression(s) for this constraint.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">ConstructionTimer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_debug_set</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Constructing constraint </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># We do not (currently) accept data for constructing Constraints</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">assert</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">rule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># If there is no rule, then we are immediately done.</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">constant</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39;: Cannot initialize multiple indices &quot;</span>
+                    <span class="s2">&quot;of a constraint with a single expression&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+                <span class="p">)</span>
+
+            <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">contains_indices</span><span class="p">():</span>
+                <span class="c1"># The index is coming in externally; we need to validate it</span>
+                <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">rule</span><span class="o">.</span><span class="n">indices</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">rule</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">isfinite</span><span class="p">():</span>
+                <span class="c1"># If the index is not finite, then we cannot iterate</span>
+                <span class="c1"># over it.  Since the rule doesn&#39;t provide explicit</span>
+                <span class="c1"># indices, then there is nothing we can do (the</span>
+                <span class="c1"># assumption is that the user will trigger specific</span>
+                <span class="c1"># indices to be created at a later time).</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Bypass the index validation and create the member directly</span>
+                <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_set</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_setitem_when_not_present</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">rule</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Rule failed when generating expression for &quot;</span>
+                <span class="s2">&quot;Constraint </span><span class="si">%s</span><span class="s2"> with index </span><span class="si">%s</span><span class="s2">:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">timer</span><span class="o">.</span><span class="n">report</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_getitem_when_not_present</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setitem_when_not_present</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="n">idx</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">con</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">con</span>
+
+    <span class="k">def</span> <span class="nf">_pprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return data that will be printed for this component.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s2">&quot;Index&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_set</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;Active&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+            <span class="p">(</span><span class="s2">&quot;Lower&quot;</span><span class="p">,</span> <span class="s2">&quot;Body&quot;</span><span class="p">,</span> <span class="s2">&quot;Upper&quot;</span><span class="p">,</span> <span class="s2">&quot;Active&quot;</span><span class="p">),</span>
+            <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;-Inf&quot;</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+                <span class="s2">&quot;+Inf&quot;</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">upper</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">v</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Constraint.display"><a class="viewcode-back" href="../../../../library_reference/aml/index.html#pyomo.environ.Constraint.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ostream</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print component state information</span>
+
+<span class="sd">        This duplicates logic in Component.pprint()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">ostream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ostream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
+        <span class="n">ostream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_name</span> <span class="o">+</span> <span class="s2">&quot; : &quot;</span><span class="p">)</span>
+        <span class="n">ostream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Size=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+        <span class="n">ostream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">tabular_writer</span><span class="p">(</span>
+            <span class="n">ostream</span><span class="p">,</span>
+            <span class="n">prefix</span> <span class="o">+</span> <span class="n">tab</span><span class="p">,</span>
+            <span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">active</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Lower&quot;</span><span class="p">,</span> <span class="s2">&quot;Body&quot;</span><span class="p">,</span> <span class="s2">&quot;Upper&quot;</span><span class="p">),</span>
+            <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">ScalarConstraint</span><span class="p">(</span><span class="n">_GeneralConstraintData</span><span class="p">,</span> <span class="n">Constraint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ScalarConstraint is the implementation representing a single,</span>
+<span class="sd">    non-indexed constraint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">Constraint</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">UnindexedComponent_index</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Singleton constraints are strange in that we want them to be</span>
+    <span class="c1"># both be constructed but have len() == 0 when not initialized with</span>
+    <span class="c1"># anything (at least according to the unit tests that are</span>
+    <span class="c1"># currently in place). So during initialization only, we will</span>
+    <span class="c1"># treat them as &quot;indexed&quot; objects where things like</span>
+    <span class="c1"># Constraint.Skip are managed. But after that they will behave</span>
+    <span class="c1"># like _ConstraintData objects where set_value does not handle</span>
+    <span class="c1"># Constraint.Skip but expects a valid expression or None.</span>
+    <span class="c1">#</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the body of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the body of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the lower bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the lower bound of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">lower</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access the upper bound of a constraint expression.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the upper bound of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">upper</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">equality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A boolean indicating whether this is an equality constraint.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the equality flag of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">equality</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A boolean indicating whether this constraint has a strict lower bound.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the strict_lower flag of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">strict_lower</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict_upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A boolean indicating whether this constraint has a strict upper bound.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Accessing the strict_upper flag of ScalarConstraint &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; before the Constraint has been assigned &quot;</span>
+                <span class="s2">&quot;an expression. There is currently &quot;</span>
+                <span class="s2">&quot;nothing to access.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_GeneralConstraintData</span><span class="o">.</span><span class="n">strict_upper</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the expression on this constraint.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ScalarConstraint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Leaving this method for backward compatibility reasons.</span>
+    <span class="c1"># (probably should be removed)</span>
+    <span class="c1">#</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint with a given index.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;ScalarConstraint object &#39;</span><span class="si">%s</span><span class="s2">&#39; does not accept &quot;</span>
+                <span class="s2">&quot;index values other than None. Invalid value: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleConstraint</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">RenamedClass</span><span class="p">):</span>
+    <span class="n">__renamed__new_class__</span> <span class="o">=</span> <span class="n">ScalarConstraint</span>
+    <span class="n">__renamed__version__</span> <span class="o">=</span> <span class="s1">&#39;6.0&#39;</span>
+
+
+<span class="nd">@disable_methods</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;add&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;set_value&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;body&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lower&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;upper&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;equality&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;strict_lower&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;strict_upper&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">AbstractScalarConstraint</span><span class="p">(</span><span class="n">ScalarConstraint</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractSimpleConstraint</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">RenamedClass</span><span class="p">):</span>
+    <span class="n">__renamed__new_class__</span> <span class="o">=</span> <span class="n">AbstractScalarConstraint</span>
+    <span class="n">__renamed__version__</span> <span class="o">=</span> <span class="s1">&#39;6.0&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">IndexedConstraint</span><span class="p">(</span><span class="n">Constraint</span><span class="p">):</span>
+    <span class="c1">#</span>
+    <span class="c1"># Leaving this method for backward compatibility reasons</span>
+    <span class="c1">#</span>
+    <span class="c1"># Note: Beginning after Pyomo 5.2 this method will now validate that</span>
+    <span class="c1"># the index is in the underlying index set (through 5.2 the index</span>
+    <span class="c1"># was not checked).</span>
+    <span class="c1">#</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint with a given index.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+
+
+<span class="nd">@ModelComponentFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;A list of constraint expressions.&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ConstraintList</span><span class="p">(</span><span class="n">IndexedConstraint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A constraint component that represents a list of constraints.</span>
+<span class="sd">    Constraints can be indexed by their index, but when they are</span>
+<span class="sd">    added an index value is not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">End</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;expr&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ConstraintList does not accept the &#39;expr&#39; keyword&quot;</span><span class="p">)</span>
+        <span class="n">_rule</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;rule&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_starting_index</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;starting_index&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">1</span><span class="p">),)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConstraintList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="o">=</span> <span class="n">Initializer</span><span class="p">(</span>
+            <span class="n">_rule</span><span class="p">,</span> <span class="n">treat_sequences_as_mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_generators</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="c1"># HACK to make the &quot;counted call&quot; syntax work.  We wait until</span>
+        <span class="c1"># after the base class is set up so that is_indexed() is</span>
+        <span class="c1"># reliable.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexedCallInitializer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="o">=</span> <span class="n">CountedCallInitializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_starting_index</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the expression(s) for this constraint.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">is_debug_set</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Constructing constraint list </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="p">())</span>
+            <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">_rule</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">cc</span> <span class="ow">is</span> <span class="n">ConstraintList</span><span class="o">.</span><span class="n">End</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">cc</span> <span class="ow">is</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint with an implicit index.&quot;&quot;&quot;</span>
+        <span class="n">next_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_set</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_starting_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">next_idx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">next_idx</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

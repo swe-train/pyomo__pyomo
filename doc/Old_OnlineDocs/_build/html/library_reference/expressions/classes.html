@@ -1,0 +1,2407 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Core Classes &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Visitor Classes" href="visitors.html" />
+    <link rel="prev" title="Context Managers" href="context_managers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Expression Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="building.html">Utilities to Build Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Utilities to Manage and Analyze Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="context_managers.html">Context Managers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Core Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sets-with-expression-types">Sets with Expression Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#numericvalue-and-numericexpression">NumericValue and NumericExpression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-public-classes">Other Public Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="visitors.html">Visitor Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Expression Reference</a> &raquo;</li>
+        
+      <li>Core Classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/expressions/classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="core-classes">
+<h1>Core Classes<a class="headerlink" href="#core-classes" title="Permalink to this headline">¶</a></h1>
+<p>The following are the two core classes documented here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#pyomo.core.expr.numvalue.NumericValue" title="pyomo.core.expr.numvalue.NumericValue"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericValue</span></code></a></li>
+<li><a class="reference internal" href="#pyomo.core.expr.current.NumericExpression" title="pyomo.core.expr.current.NumericExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericExpression</span></code></a></li>
+</ul>
+</div></blockquote>
+<p>The remaining classes are the public classes for expressions, which
+developers may need to know about. The methods for these classes are not
+documented because they are described in the
+<a class="reference internal" href="#pyomo.core.expr.current.NumericExpression" title="pyomo.core.expr.current.NumericExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericExpression</span></code></a> class.</p>
+<div class="section" id="sets-with-expression-types">
+<h2>Sets with Expression Types<a class="headerlink" href="#sets-with-expression-types" title="Permalink to this headline">¶</a></h2>
+<p>The following sets can be used to develop visitor patterns for
+Pyomo expressions.</p>
+<dl class="py data">
+<dt id="pyomo.core.expr.numvalue.native_numeric_types">
+<code class="descclassname">pyomo.core.expr.numvalue.</code><code class="descname">native_numeric_types</code><em class="property"> = {&lt;class 'int'&gt;, &lt;class 'numpy.uint64'&gt;, &lt;class 'complex'&gt;, &lt;class 'numpy.int64'&gt;, &lt;class 'float'&gt;, &lt;class 'numpy.float16'&gt;, &lt;class 'numpy.uint8'&gt;, &lt;class 'numpy.int8'&gt;, &lt;class 'numpy.float32'&gt;, &lt;class 'numpy.uint16'&gt;, &lt;class 'numpy.int16'&gt;, &lt;class 'numpy.float64'&gt;, &lt;class 'numpy.uint32'&gt;, &lt;class 'numpy.int32'&gt;}</em><a class="headerlink" href="#pyomo.core.expr.numvalue.native_numeric_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>set() -&gt; new empty set object
+set(iterable) -&gt; new set object</p>
+<p>Build an unordered collection of unique elements.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="pyomo.core.expr.numvalue.native_types">
+<code class="descclassname">pyomo.core.expr.numvalue.</code><code class="descname">native_types</code><em class="property"> = {&lt;class 'numpy.uint64'&gt;, &lt;class 'numpy.int64'&gt;, &lt;class 'numpy.float64'&gt;, &lt;class 'numpy.uint32'&gt;, &lt;class 'numpy.int32'&gt;, &lt;class 'bool'&gt;, &lt;class 'numpy.float32'&gt;, &lt;class 'bytes'&gt;, &lt;class 'slice'&gt;, &lt;class 'numpy.int16'&gt;, &lt;class 'numpy.uint16'&gt;, &lt;class 'numpy.bool_'&gt;, &lt;class 'int'&gt;, &lt;class 'complex'&gt;, &lt;class 'numpy.float16'&gt;, &lt;class 'numpy.uint8'&gt;, &lt;class 'numpy.int8'&gt;, &lt;class 'NoneType'&gt;, &lt;class 'str'&gt;, &lt;class 'float'&gt;}</em><a class="headerlink" href="#pyomo.core.expr.numvalue.native_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>set() -&gt; new empty set object
+set(iterable) -&gt; new set object</p>
+<p>Build an unordered collection of unique elements.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="pyomo.core.expr.numvalue.nonpyomo_leaf_types">
+<code class="descclassname">pyomo.core.expr.numvalue.</code><code class="descname">nonpyomo_leaf_types</code><em class="property"> = {&lt;class 'numpy.uint64'&gt;, &lt;class 'numpy.int64'&gt;, &lt;class 'numpy.float64'&gt;, &lt;class 'numpy.uint32'&gt;, &lt;class 'numpy.int32'&gt;, &lt;class 'bool'&gt;, &lt;class 'pyomo.core.expr.numvalue.NonNumericValue'&gt;, &lt;class 'numpy.float32'&gt;, &lt;class 'bytes'&gt;, &lt;class 'slice'&gt;, &lt;class 'numpy.int16'&gt;, &lt;class 'numpy.uint16'&gt;, &lt;class 'numpy.bool_'&gt;, &lt;class 'int'&gt;, &lt;class 'complex'&gt;, &lt;class 'numpy.float16'&gt;, &lt;class 'numpy.uint8'&gt;, &lt;class 'numpy.int8'&gt;, &lt;class 'NoneType'&gt;, &lt;class 'str'&gt;, &lt;class 'float'&gt;}</em><a class="headerlink" href="#pyomo.core.expr.numvalue.nonpyomo_leaf_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>set() -&gt; new empty set object
+set(iterable) -&gt; new set object</p>
+<p>Build an unordered collection of unique elements.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="numericvalue-and-numericexpression">
+<h2>NumericValue and NumericExpression<a class="headerlink" href="#numericvalue-and-numericexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.core.expr.numvalue.NumericValue">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.numvalue.</code><code class="descname">NumericValue</code><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the base class for numeric values used in Pyomo.</p>
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__abs__">
+<code class="descname">__abs__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__abs__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__abs__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Absolute value</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__add__">
+<code class="descname">__add__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary addition</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__bool__">
+<code class="descname">__bool__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__bool__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__bool__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coerce the value to a bool</p>
+<p>Numeric values can be coerced to bool only if the value /
+expression is constant.  Fixed (but non-constant) or variable
+values will raise an exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>PyomoException</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__div__">
+<code class="descname">__div__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__div__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__div__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">/</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__eq__">
+<code class="descname">__eq__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equal to operator</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__float__">
+<code class="descname">__float__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__float__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__float__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coerce the value to a floating point</p>
+<p>Numeric values can be coerced to float only if the value /
+expression is constant.  Fixed (but non-constant) or variable
+values will raise an exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__ge__">
+<code class="descname">__ge__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__ge__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Greater than or equal operator</p>
+<p>This method is called when Python processes statements of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">&gt;=</span> <span class="n">other</span>
+<span class="n">other</span> <span class="o">&lt;=</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__gt__">
+<code class="descname">__gt__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__gt__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Greater than operator</p>
+<p>This method is called when Python processes statements of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">&gt;</span> <span class="n">other</span>
+<span class="n">other</span> <span class="o">&lt;</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__iadd__">
+<code class="descname">__iadd__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary addition</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">+=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__idiv__">
+<code class="descname">__idiv__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__idiv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__idiv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">/=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__imul__">
+<code class="descname">__imul__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__imul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__imul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary multiplication</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">*=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__int__">
+<code class="descname">__int__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__int__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__int__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coerce the value to an integer</p>
+<p>Numeric values can be coerced to int only if the value /
+expression is constant.  Fixed (but non-constant) or variable
+values will raise an exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__ipow__">
+<code class="descname">__ipow__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__ipow__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__ipow__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary power</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">**=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__isub__">
+<code class="descname">__isub__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__isub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__isub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary subtraction</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">-=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__itruediv__">
+<code class="descname">__itruediv__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__itruediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__itruediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division (when __future__.division is in effect)</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">/=</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__le__">
+<code class="descname">__le__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__le__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Less than or equal operator</p>
+<p>This method is called when Python processes statements of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">&lt;=</span> <span class="n">other</span>
+<span class="n">other</span> <span class="o">&gt;=</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__lt__">
+<code class="descname">__lt__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__lt__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Less than operator</p>
+<p>This method is called when Python processes statements of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">&lt;</span> <span class="n">other</span>
+<span class="n">other</span> <span class="o">&gt;</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary multiplication</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">*</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__neg__">
+<code class="descname">__neg__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__neg__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__neg__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negation</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__pos__">
+<code class="descname">__pos__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__pos__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__pos__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Positive expression</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__pow__">
+<code class="descname">__pow__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__pow__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__pow__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary power</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">**</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__radd__">
+<code class="descname">__radd__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__radd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__radd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary addition</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">+</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__rdiv__">
+<code class="descname">__rdiv__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__rdiv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__rdiv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__rmul__">
+<code class="descname">__rmul__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__rmul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary multiplication</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">*</span> <span class="bp">self</span>
+</pre></div>
+</div>
+<p>when other is not a <a class="reference internal" href="#pyomo.core.expr.numvalue.NumericValue" title="pyomo.core.expr.numvalue.NumericValue"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericValue</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__rpow__">
+<code class="descname">__rpow__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__rpow__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__rpow__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary power</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">**</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__rsub__">
+<code class="descname">__rsub__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__rsub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__rsub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary subtraction</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">-</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__rtruediv__">
+<code class="descname">__rtruediv__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__rtruediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__rtruediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division (when __future__.division is in effect)</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__sub__">
+<code class="descname">__sub__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary subtraction</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">-</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.__truediv__">
+<code class="descname">__truediv__</code><span class="sig-paren">(</span><em><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.__truediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.__truediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary division (when __future__.division is in effect)</p>
+<p>This method is called when Python processes the statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">/</span> <span class="n">other</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="n">fully_qualified</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">name_buffer</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this is a component, return the component’s name on the owning
+block; otherwise return the value converted to a string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_constant">
+<code class="descname">is_constant</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if this numeric value is a constant value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_fixed">
+<code class="descname">is_fixed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if this is a non-constant value that has been fixed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_indexed">
+<code class="descname">is_indexed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_indexed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_indexed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if this numeric value is an indexed object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_numeric_type">
+<code class="descname">is_numeric_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_numeric_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_numeric_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if this class is a Pyomo numeric object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_potentially_variable">
+<code class="descname">is_potentially_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_potentially_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_potentially_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if variables can appear in this expression</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.is_relational">
+<code class="descname">is_relational</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.is_relational"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.is_relational" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<blockquote>
+<div>Return True if this numeric value represents a relational expression.</div></blockquote>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.4.3: </span>is_relational() is deprecated in favor of is_expression_type(ExpressionType.RELATIONAL)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.polynomial_degree">
+<code class="descname">polynomial_degree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the polynomial degree of the expression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.numvalue.NumericValue.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><em><span class="n">verbose</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">labeler</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">smap</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">compute_values</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numvalue.html#NumericValue.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.numvalue.NumericValue.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representation of the expression tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an infix algebraic equation.
+Defaults to <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><strong>labeler</strong> – An object that generates string labels for
+non-constant in the expression tree.  Defaults to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>smap</strong> – A SymbolMap instance that stores string labels for
+non-constant nodes in the expression tree.  Defaults to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>compute_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then fixed
+expressions are evaluated and the string representation
+of the resulting value is returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for the expression tree.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.NumericExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">NumericExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.base.ExpressionBase</span></code>, <a class="reference internal" href="#pyomo.core.expr.numvalue.NumericValue" title="pyomo.core.expr.numvalue.NumericValue"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numvalue.NumericValue</span></code></a></p>
+<p>The base class for Pyomo expressions.</p>
+<p>This class is used to define nodes in a numeric expression
+tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – Children of this node.</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression.args">
+<em class="property">property </em><code class="descname">args</code><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression.args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the child nodes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Sequence containing only the child nodes of this node.  The
+return type depends on the node storage model.  Users are
+not permitted to change the returned data (even for the case
+of data returned as a list), as that breaks the promise of
+tree immutability.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression.create_potentially_variable_object">
+<code class="descname">create_potentially_variable_object</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression.create_potentially_variable_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression.create_potentially_variable_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<blockquote>
+<div><p>Create a potentially variable version of this object.</p>
+<p>This method returns an object that is a potentially variable
+version of the current object.  In the simplest
+case, this simply sets the value of <cite>__class__</cite>:</p>
+<blockquote>
+<div>self.__class__ = self.__class__.__mro__[1]</div></blockquote>
+<p>Note that this method is allowed to modify the current object
+and return it.  But in some cases it may create a new
+potentially variable object.</p>
+<dl class="docutils">
+<dt>Returns:</dt><dd>An object that is potentially variable.</dd>
+</dl>
+</div></blockquote>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.4.3: </span>The implicit recasting of a “not potentially variable” expression node to a potentially variable one is no longer supported (this violates that immutability promise for Pyomo5 expression trees).</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NumericExpression.polynomial_degree">
+<code class="descname">polynomial_degree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NumericExpression.polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NumericExpression.polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the polynomial degree of the expression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A non-negative integer that is the polynomial
+degree if the expression is polynomial, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="other-public-classes">
+<h2>Other Public Classes<a class="headerlink" href="#other-public-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.core.expr.current.NegationExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">NegationExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>Negation expressions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">x</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.NegationExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 4</em><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NegationExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NegationExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NegationExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NegationExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.NegationExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#NegationExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.NegationExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">ExternalFunctionExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">fcn</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>External function expressions</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">ExternalFunction</span><span class="p">(</span><span class="n">library</span><span class="o">=</span><span class="s1">&#39;foo.so&#39;</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – children of this node</li>
+<li><strong>fcn</strong> – a class that defines this external function</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = None</em><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression._fcn">
+<code class="descname">_fcn</code><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression._fcn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.create_node_with_local_data">
+<code class="descname">create_node_with_local_data</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">classtype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression.create_node_with_local_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.create_node_with_local_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a node using given arguments.</p>
+<p>This method provides a consistent interface for constructing a
+node, which is used in tree visitor scripts.  In the simplest
+case, this returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But in general this creates an expression object using local
+data as well as arguments that represent the child nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of child nodes for the new expression
+object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new expression object with the same type as the current
+class.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.get_arg_units">
+<code class="descname">get_arg_units</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression.get_arg_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.get_arg_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the units for this external functions arguments</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.get_units">
+<code class="descname">get_units</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression.get_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.get_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the units of the return value for this external function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExternalFunctionExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ExternalFunctionExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExternalFunctionExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.ProductExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">ProductExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>Product expressions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">*</span><span class="n">y</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.ProductExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 4</em><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ProductExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ProductExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ProductExpression._is_fixed">
+<code class="descname">_is_fixed</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression._is_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression._is_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute whether this expression is fixed given
+the fixed values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_IsFixedVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of boolean values that indicate whether
+the children of this expression are fixed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A boolean that is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> if the fixed values of the
+children are all <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ProductExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ProductExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#ProductExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ProductExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.DivisionExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">DivisionExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#DivisionExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>Division expressions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">/</span><span class="n">y</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.DivisionExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 4</em><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.DivisionExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#DivisionExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.DivisionExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#DivisionExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.DivisionExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#DivisionExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.DivisionExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#DivisionExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.DivisionExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.InequalityExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">InequalityExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">strict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#InequalityExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.relational_expr.RelationalExpression</span></code></p>
+<p>Inequality expressions, which define less-than or
+less-than-or-equal relations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>
+<span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – child nodes</li>
+<li><strong>strict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – a flag that indicates whether the inequality is strict</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.InequalityExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 9</em><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.InequalityExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#InequalityExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.InequalityExpression._strict">
+<code class="descname">_strict</code><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression._strict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.InequalityExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#InequalityExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.InequalityExpression.create_node_with_local_data">
+<code class="descname">create_node_with_local_data</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#InequalityExpression.create_node_with_local_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression.create_node_with_local_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a node using given arguments.</p>
+<p>This method provides a consistent interface for constructing a
+node, which is used in tree visitor scripts.  In the simplest
+case, this returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But in general this creates an expression object using local
+data as well as arguments that represent the child nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of child nodes for the new expression
+object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new expression object with the same type as the current
+class.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.InequalityExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#InequalityExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.InequalityExpression.strict">
+<em class="property">property </em><code class="descname">strict</code><a class="headerlink" href="#pyomo.core.expr.current.InequalityExpression.strict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.EqualityExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">EqualityExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#EqualityExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.EqualityExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.relational_expr.RelationalExpression</span></code></p>
+<p>Equality expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.EqualityExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 9</em><a class="headerlink" href="#pyomo.core.expr.current.EqualityExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.EqualityExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#EqualityExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.EqualityExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.EqualityExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#EqualityExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.EqualityExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.EqualityExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/relational_expr.html#EqualityExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.EqualityExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.SumExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">SumExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>Sum expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>This node represents an “n-ary” sum expression over at least 2 arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Children nodes</td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.SumExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 6</em><a class="headerlink" href="#pyomo.core.expr.current.SumExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.SumExpression._nargs">
+<code class="descname">_nargs</code><a class="headerlink" href="#pyomo.core.expr.current.SumExpression._nargs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em><span class="n">new_arg</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.5.1.dev0: </span>SumExpression.add() is deprecated.  Please use regular Python operators (infix ‘+’ or inplace ‘+=’.)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression.args">
+<em class="property">property </em><code class="descname">args</code><a class="headerlink" href="#pyomo.core.expr.current.SumExpression.args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the child nodes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Sequence containing only the child nodes of this node.  The
+return type depends on the node storage model.  Users are
+not permitted to change the returned data (even for the case
+of data returned as a list), as that breaks the promise of
+tree immutability.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SumExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#SumExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SumExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.GetItemExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">GetItemExpression</code><span class="sig-paren">(</span><em><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.base.ExpressionBase</span></code></p>
+<p>Expression to call <code class="xref py py-func docutils literal notranslate"><span class="pre">__getitem__()</span></code> on the base object.</p>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.GetItemExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = 1</em><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression._is_fixed">
+<code class="descname">_is_fixed</code><span class="sig-paren">(</span><em><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression._is_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression._is_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute whether this expression is fixed given
+the fixed values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_IsFixedVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of boolean values that indicate whether
+the children of this expression are fixed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A boolean that is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> if the fixed values of the
+children are all <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression._resolve_template">
+<code class="descname">_resolve_template</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression._resolve_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression._resolve_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.GetItemExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/template_expr.html#GetItemExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.GetItemExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.Expr_ifExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">Expr_ifExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>A numeric ternary (if-then-else) expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Expr_if</span><span class="p">(</span><span class="n">IF</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">THEN</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ELSE</span><span class="o">=</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this is a mixed expression: <cite>IF</cite> can be numeric or logical;
+<cite>THEN</cite> and <cite>ELSE</cite> are numeric, and the result is a numeric expression.</p>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.Expr_ifExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = None</em><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression._compute_polynomial_degree">
+<code class="descname">_compute_polynomial_degree</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression._compute_polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression._compute_polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the polynomial degree of this expression given
+the degree values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_PolynomialDegreeVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the degree
+of the children expression.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A nonnegative integer that is the polynomial degree of the
+expression, or <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression._is_fixed">
+<code class="descname">_is_fixed</code><span class="sig-paren">(</span><em><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression._is_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression._is_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute whether this expression is fixed given
+the fixed values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_IsFixedVisitor</span></code> class.  It can
+be over-written by expression classes to customize this
+logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of boolean values that indicate whether
+the children of this expression are fixed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A boolean that is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> if the fixed values of the
+children are all <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.Expr_ifExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#Expr_ifExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.Expr_ifExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">UnaryFunctionExpression</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">fcn</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.NumericExpression</span></code></p>
+<p>An expression object for intrinsic (math) functions (e.g. sin, cos, tan).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – Children nodes</li>
+<li><strong>name</strong> (<em>string</em>) – The function name</li>
+<li><strong>fcn</strong> – The function that is used to evaluate this expression</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression.PRECEDENCE">
+<code class="descname">PRECEDENCE</code><em class="property"> = None</em><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression._apply_operation">
+<code class="descname">_apply_operation</code><span class="sig-paren">(</span><em><span class="n">result</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression._apply_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression._apply_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the values of this node given the values of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_EvaluationVisitor</span></code> class.  It must
+be over-written by expression classes to customize this logic.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method applies the logical operation of the
+operator to the arguments.  It does <em>not</em> evaluate
+the arguments in the process, but assumes that they
+have been previously evaluated.  But note that if
+this class contains auxiliary data (e.g. like the
+numeric coefficients in the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class) then
+those values <em>must</em> be evaluated as part of this
+function call.  An uninitialized parameter value
+encountered during the execution of this method is
+considered an error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of values that indicate the value
+of the children expressions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A floating point value for this expression.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression._fcn">
+<code class="descname">_fcn</code><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression._fcn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression._name">
+<code class="descname">_name</code><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression._name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression._to_string">
+<code class="descname">_to_string</code><span class="sig-paren">(</span><em><span class="n">values</span></em>, <em><span class="n">verbose</span></em>, <em><span class="n">smap</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression._to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression._to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a string representation for this node, using the string
+representations of its children.</p>
+<p>This method is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">_ToStringVisitor</span></code> class.  It must
+must be defined in subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The string representations of the children of this
+node.</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the string
+representation consists of nested functions.  Otherwise,
+the string representation is an algebraic equation.</li>
+<li><strong>smap</strong> – If specified, this <a class="reference internal" href="managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a> is
+used to cache labels for variables.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string representation for this node.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression.create_node_with_local_data">
+<code class="descname">create_node_with_local_data</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">classtype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression.create_node_with_local_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression.create_node_with_local_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a node using given arguments.</p>
+<p>This method provides a consistent interface for constructing a
+node, which is used in tree visitor scripts.  In the simplest
+case, this returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But in general this creates an expression object using local
+data as well as arguments that represent the child nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of child nodes for the new expression
+object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new expression object with the same type as the current
+class.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression.getname">
+<code class="descname">getname</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression.getname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression.getname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the text name of a function associated with this expression
+object.</p>
+<p>In general, no arguments are passed to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>*arg</strong> – a variable length list of arguments</li>
+<li><strong>**kwds</strong> – keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string name for the function.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.UnaryFunctionExpression.nargs">
+<code class="descname">nargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#UnaryFunctionExpression.nargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.UnaryFunctionExpression.nargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of child nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Individual expression nodes may use different internal storage
+schemes, so it is imperative that developers use this method and
+not assume the existence of a particular attribute!</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A nonnegative integer that is the number of child nodes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.AbsExpression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">AbsExpression</code><span class="sig-paren">(</span><em><span class="n">arg</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#AbsExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.AbsExpression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.expr.numeric_expr.UnaryFunctionExpression</span></code></p>
+<p>An expression object for the <a class="reference external" href="https://docs.python.org/3/library/functions.html#abs" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">abs()</span></code></a> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>) – Children nodes</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.core.expr.current.AbsExpression.create_node_with_local_data">
+<code class="descname">create_node_with_local_data</code><span class="sig-paren">(</span><em><span class="n">args</span></em>, <em><span class="n">classtype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#AbsExpression.create_node_with_local_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.AbsExpression.create_node_with_local_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a node using given arguments.</p>
+<p>This method provides a consistent interface for constructing a
+node, which is used in tree visitor scripts.  In the simplest
+case, this returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But in general this creates an expression object using local
+data as well as arguments that represent the child nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of child nodes for the new expression
+object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new expression object with the same type as the current
+class.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="visitors.html" class="btn btn-neutral float-right" title="Visitor Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="context_managers.html" class="btn btn-neutral float-left" title="Context Managers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Building Expressions Faster &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Design Overview" href="overview.html" />
+    <link rel="prev" title="Pyomo Expressions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config.html">The Pyomo Configuration System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecation.html">Deprecation and Removal of Functionality</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Pyomo Expressions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Building Expressions Faster</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#expression-generation">Expression Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linear-quadratic-and-general-nonlinear-expressions">Linear, Quadratic and General Nonlinear Expressions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyomo-utility-functions">Pyomo Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Design Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Managing Expressions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Developer Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Expressions</a> &raquo;</li>
+        
+      <li>Building Expressions Faster</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/developer_reference/expressions/performance.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="building-expressions-faster">
+<h1>Building Expressions Faster<a class="headerlink" href="#building-expressions-faster" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="expression-generation">
+<h2>Expression Generation<a class="headerlink" href="#expression-generation" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo expressions can be constructed using native binary operators
+in Python.  For example, a sum can be created in a simple loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Additionally, Pyomo expressions can be constructed using functions
+that iteratively apply Python binary operators.  For example, the
+Python <a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> function can be used to replace the previous
+loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> function is both more compact and more efficient.
+Using <a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> avoids the creation of temporary variables, and
+the summation logic is executed in the Python interpreter while the
+loop is interpreted.</p>
+</div>
+<div class="section" id="linear-quadratic-and-general-nonlinear-expressions">
+<h2>Linear, Quadratic and General Nonlinear Expressions<a class="headerlink" href="#linear-quadratic-and-general-nonlinear-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo can express a very wide range of algebraic expressions, and
+there are three general classes of expressions that are recognized
+by Pyomo:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>linear polynomials</strong></li>
+<li><strong>quadratic polynomials</strong></li>
+<li><strong>nonlinear expressions</strong>, including higher-order polynomials and
+expressions with intrinsic functions</li>
+</ul>
+</div></blockquote>
+<p>These classes of expressions are leveraged to efficiently generate
+compact representations of expressions, and to transform expression
+trees into standard forms used to interface with solvers.  Note
+that There not all quadratic polynomials are recognized by Pyomo;
+in other words, some quadratic expressions are treated as nonlinear
+expressions.</p>
+<p>For example, consider the following quadratic polynomial:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>This quadratic polynomial is treated as a nonlinear expression
+unless the expression is explicitly processed to identify quadratic
+terms.  This <em>lazy</em> identification of of quadratic terms allows
+Pyomo to tailor the search for quadratic terms only when they are
+explicitly needed.</p>
+</div>
+<div class="section" id="pyomo-utility-functions">
+<h2>Pyomo Utility Functions<a class="headerlink" href="#pyomo-utility-functions" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo includes several similar functions that can be used to
+create expressions:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.prod" title="pyomo.core.util.prod"><code class="xref py py-func docutils literal notranslate"><span class="pre">prod</span></code></a></dt><dd>A function to compute a product of Pyomo expressions.</dd>
+<dt><a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a></dt><dd>A function to efficiently compute a sum of Pyomo expressions.</dd>
+<dt><a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.sum_product" title="pyomo.core.util.sum_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum_product</span></code></a></dt><dd>A function that computes a generalized dot product.</dd>
+</dl>
+<div class="section" id="prod">
+<h3>prod<a class="headerlink" href="#prod" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.prod" title="pyomo.core.util.prod"><code class="xref py py-func docutils literal notranslate"><span class="pre">prod</span></code></a> function is analogous to the builtin
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> function.  Its main argument is a variable length
+argument list, <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code>, which represents expressions that are multiplied
+together.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">M</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="c1"># The product M.x[0] * M.x[1] * ... * M.x[4]</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">prod</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># The product M.x[0]*M.z</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">prod</span><span class="p">([</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">M</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
+
+<span class="c1"># The product M.z*(M.x[0] + ... + M.x[4])</span>
+<span class="n">e3</span> <span class="o">=</span> <span class="n">prod</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">M</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quicksum">
+<h3>quicksum<a class="headerlink" href="#quicksum" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a> function is
+similar to the builtin <a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> function, but this function often
+generates a more compact Pyomo expression. Its main argument is a
+variable length argument list, <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code>, which represents
+expressions that are summed together.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Summation using the Python sum() function</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Summation using the Pyomo quicksum function</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">quicksum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The summation is customized based on the <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code> and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> arguments.  The <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code> defines the initial
+value for summation, which defaults to zero.  If <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code> is
+a numeric value, then the <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> argument determines how
+the sum is processed:</p>
+<ul class="simple">
+<li>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>, then the terms in <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> are assumed to be nonlinear.</li>
+<li>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the terms in <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> are assumed to be linear.</li>
+<li>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, the first term in <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> is analyze to determine whether the terms are linear or nonlinear.</li>
+</ul>
+<p>This argument allows the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a>
+function to customize the expression representation used, and
+specifically a more compact representation is used for linear
+polynomials.  The <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a>
+function can be slower than the builtin <a class="reference external" href="https://docs.python.org/3/library/functions.html#sum" title="(in Python v3.11)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum()</span></code></a> function,
+but this compact representation can generate problem representations
+more quickly.</p>
+<p>Consider the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">e</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">M</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum:      </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;repn:     </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">quicksum</span><span class="p">((</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">M</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;quicksum: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;repn:     </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+
+</pre></div>
+</div>
+<p>The sum consists of linear terms because the exponents are one.
+The following output illustrates that quicksum can identify this
+linear structure to generate expressions more quickly:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sum:      1.447861
+repn:     0.870225
+quicksum: 1.388344
+repn:     0.864316
+</pre></div>
+</div>
+<p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code> is not a numeric value, then the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a> sets the initial value to <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code>
+and executes a simple loop to sum the terms.  This allows the sum
+to be stored in an object that is passed into the function (e.g. the linear context manager
+<a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.linear_expression" title="pyomo.core.expr.current.linear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">linear_expression</span></code></a>).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>By default, <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.  While this allows
+for efficient expression generation in normal cases, there are
+circumstances where the inspection of the first
+term in <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> is misleading.  Consider the following
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">quicksum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="last">The first term created by the generator is linear, but the
+subsequent terms are nonlinear.  Pyomo gracefully transitions
+to a nonlinear sum, but in this case <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a>
+is doing additional work that is not useful.</p>
+</div>
+</div>
+<div class="section" id="sum-product">
+<h3>sum_product<a class="headerlink" href="#sum-product" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.sum_product" title="pyomo.core.util.sum_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum_product</span></code></a> function supports
+a generalized dot product.  The <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> argument contains one
+or more components that are used to create terms in the summation.
+If the <code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> argument contains a single components, then its
+sequence of terms are summed together; the sum is equivalent to
+calling <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a>.  If two or more components are
+provided, then the result is the summation of their terms multiplied
+together.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">RangeSet</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Sum the elements of x</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Sum the product of elements in x and y</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Sum the product of elements in x and y, over the index set z</span>
+<span class="n">e3</span> <span class="o">=</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-attr docutils literal notranslate"><span class="pre">denom</span></code> argument specifies components whose terms are in
+the denominator.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sum the product of x_i/y_i</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">denom</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Sum the product of 1/(x_i*y_i)</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">denom</span><span class="o">=</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The terms summed by this function are explicitly specified, so
+<a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.sum_product" title="pyomo.core.util.sum_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum_product</span></code></a> can identify
+whether the resulting expression is linear, quadratic or nonlinear.
+Consequently, this function is typically faster than simple loops,
+and it generates compact representations of expressions..</p>
+<p>Finally, note that the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.dot_product" title="pyomo.core.util.dot_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">dot_product</span></code></a>
+function is an alias for <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.sum_product" title="pyomo.core.util.sum_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum_product</span></code></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="overview.html" class="btn btn-neutral float-right" title="Design Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Pyomo Expressions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

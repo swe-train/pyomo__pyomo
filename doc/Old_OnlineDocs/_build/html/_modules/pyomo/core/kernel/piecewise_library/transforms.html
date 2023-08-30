@@ -1,0 +1,1545 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.kernel.piecewise_library.transforms &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.kernel.piecewise_library.transforms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.kernel.piecewise_library.transforms</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains transformations for representing a</span>
+<span class="sd">single-variate piecewise linear function using a</span>
+<span class="sd">mixed-integer problem formulation. Reference::</span>
+
+<span class="sd">  Mixed-Integer Models for Non-separable Piecewise Linear</span>
+<span class="sd">Optimization: Unifying framework and Extensions (Vielma,</span>
+<span class="sd">Nemhauser 2008)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">bisect</span>
+
+<span class="c1"># TODO: Figure out of the &#39;log&#39; and &#39;dlog&#39; representations</span>
+<span class="c1"># really do require (2^n)+1 points or if there is a way to</span>
+<span class="c1"># handle the between sizes.</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span> <span class="k">as</span> <span class="n">_value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.set_types</span> <span class="kn">import</span> <span class="n">IntegerSet</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.block</span> <span class="kn">import</span> <span class="n">block</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.expression</span> <span class="kn">import</span> <span class="n">expression</span><span class="p">,</span> <span class="n">expression_tuple</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.variable</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IVariable</span><span class="p">,</span>
+    <span class="n">variable_list</span><span class="p">,</span>
+    <span class="n">variable_tuple</span><span class="p">,</span>
+    <span class="n">variable_dict</span><span class="p">,</span>
+    <span class="n">variable</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.constraint</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">constraint_list</span><span class="p">,</span>
+    <span class="n">constraint_tuple</span><span class="p">,</span>
+    <span class="n">linear_constraint</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.sos</span> <span class="kn">import</span> <span class="n">sos2</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.piecewise_library.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">characterize_function</span><span class="p">,</span>
+    <span class="n">is_nondecreasing</span><span class="p">,</span>
+    <span class="n">is_positive_power_of_two</span><span class="p">,</span>
+    <span class="n">log2floor</span><span class="p">,</span>
+    <span class="n">generate_gray_code</span><span class="p">,</span>
+    <span class="n">PiecewiseValidationError</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.core&#39;</span><span class="p">)</span>
+
+<span class="n">registered_transforms</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="c1"># wrapper that allows a list containing parameters to be</span>
+<span class="c1"># used with the bisect module</span>
+<span class="k">class</span> <span class="nc">_shadow_list</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_x&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="piecewise"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise">[docs]</a><span class="k">def</span> <span class="nf">piecewise</span><span class="p">(</span>
+    <span class="n">breakpoints</span><span class="p">,</span>
+    <span class="n">values</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;eq&#39;</span><span class="p">,</span>
+    <span class="n">repn</span><span class="o">=</span><span class="s1">&#39;sos2&#39;</span><span class="p">,</span>
+    <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">simplify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">require_bounded_input_variable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">require_variable_domain_coverage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Models a single-variate piecewise linear function.</span>
+
+<span class="sd">    This function takes a list breakpoints and function</span>
+<span class="sd">    values describing a piecewise linear function and</span>
+<span class="sd">    transforms this input data into a block of variables and</span>
+<span class="sd">    constraints that enforce a piecewise linear relationship</span>
+<span class="sd">    between an input variable and an output variable. In the</span>
+<span class="sd">    general case, this transformation requires the use of</span>
+<span class="sd">    discrete decision variables.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        breakpoints (list): The list of breakpoints of the</span>
+<span class="sd">            piecewise linear function. This can be a list of</span>
+<span class="sd">            numbers or a list of objects that store mutable</span>
+<span class="sd">            data (e.g., mutable parameters). If mutable data</span>
+<span class="sd">            is used validation might need to be disabled by</span>
+<span class="sd">            setting the :attr:`validate` keyword to</span>
+<span class="sd">            :const:`False`. The list of breakpoints must be</span>
+<span class="sd">            in non-decreasing order.</span>
+<span class="sd">        values (list): The values of the piecewise linear</span>
+<span class="sd">            function corresponding to the breakpoints.</span>
+<span class="sd">        input: The variable constrained to be the input of</span>
+<span class="sd">            the piecewise linear function.</span>
+<span class="sd">        output: The variable constrained to be the output of</span>
+<span class="sd">            the piecewise linear function.</span>
+<span class="sd">        bound (str): The type of bound to impose on the</span>
+<span class="sd">            output expression. Can be one of:</span>
+
+<span class="sd">              - &#39;lb&#39;: y &lt;= f(x)</span>
+<span class="sd">              - &#39;eq&#39;: y  = f(x)</span>
+<span class="sd">              - &#39;ub&#39;: y &gt;= f(x)</span>
+<span class="sd">        repn (str): The type of piecewise representation to</span>
+<span class="sd">            use. Choices are shown below (+ means step</span>
+<span class="sd">            functions are supported)</span>
+
+<span class="sd">                - &#39;sos2&#39;: standard representation using sos2 constraints (+)</span>
+<span class="sd">                -  &#39;dcc&#39;: disaggregated convex combination (+)</span>
+<span class="sd">                - &#39;dlog&#39;: logarithmic disaggregated convex combination (+)</span>
+<span class="sd">                -   &#39;cc&#39;: convex combination (+)</span>
+<span class="sd">                -  &#39;log&#39;: logarithmic branching convex combination (+)</span>
+<span class="sd">                -   &#39;mc&#39;: multiple choice</span>
+<span class="sd">                -  &#39;inc&#39;: incremental method (+)</span>
+<span class="sd">        validate (bool): Indicates whether or not to perform</span>
+<span class="sd">            validation of the input data. The default is</span>
+<span class="sd">            :const:`True`. Validation can be performed</span>
+<span class="sd">            manually after the piecewise object is created</span>
+<span class="sd">            by calling the :meth:`validate`</span>
+<span class="sd">            method. Validation should be performed any time</span>
+<span class="sd">            the inputs are changed (e.g., when using mutable</span>
+<span class="sd">            parameters in the breakpoints list or when the</span>
+<span class="sd">            input variable changes).</span>
+<span class="sd">        simplify (bool): Indicates whether or not to attempt</span>
+<span class="sd">            to simplify the piecewise representation to</span>
+<span class="sd">            avoid using discrete variables. This can be done</span>
+<span class="sd">            when the feasible region for the output</span>
+<span class="sd">            variable, with respect to the piecewise function</span>
+<span class="sd">            and the bound type, is a convex set. Default is</span>
+<span class="sd">            :const:`True`. Validation is required to perform</span>
+<span class="sd">            simplification, so this keyword is ignored when</span>
+<span class="sd">            the :attr:`validate` keyword is :attr:`False`.</span>
+<span class="sd">        equal_slopes_tolerance (float): Tolerance used check</span>
+<span class="sd">            if consecutive slopes are nearly equal. If any</span>
+<span class="sd">            are found, validation will fail. Default is</span>
+<span class="sd">            1e-6. This keyword is ignored when the</span>
+<span class="sd">            :attr:`validate` keyword is :attr:`False`.</span>
+<span class="sd">        require_bounded_input_variable (bool): Indicates if</span>
+<span class="sd">            the input variable is required to have finite</span>
+<span class="sd">            upper and lower bounds. Default is</span>
+<span class="sd">            :const:`True`. Setting this keyword to</span>
+<span class="sd">            :const:`False` can be used to allow general</span>
+<span class="sd">            expressions to be used as the input in place of</span>
+<span class="sd">            a variable. This keyword is ignored when the</span>
+<span class="sd">            :attr:`validate` keyword is :attr:`False`.</span>
+<span class="sd">        require_variable_domain_coverage (bool): Indicates</span>
+<span class="sd">            if the function domain (defined by the endpoints</span>
+<span class="sd">            of the breakpoints list) needs to cover the</span>
+<span class="sd">            entire domain of the input variable. Default is</span>
+<span class="sd">            :const:`True`. Ignored for any bounds of</span>
+<span class="sd">            variables that are not finite, or when the input</span>
+<span class="sd">            is not assigned a variable. This keyword is</span>
+<span class="sd">            ignored when the :attr:`validate` keyword is</span>
+<span class="sd">            :attr:`False`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TransformedPiecewiseLinearFunction: a block that</span>
+<span class="sd">            stores any new variables, constraints, and other</span>
+<span class="sd">            modeling objects used by the piecewise representation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">registered_transforms</span><span class="p">[</span><span class="n">repn</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Keyword assignment repn=&#39;</span><span class="si">%s</span><span class="s2">&#39; is not valid. &quot;</span>
+            <span class="s2">&quot;Must be one of: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">repn</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">registered_transforms</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">:</span>
+        <span class="c1"># can not simplify if we do not validate</span>
+        <span class="n">simplify</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="n">PiecewiseLinearFunction</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">simplify</span> <span class="ow">and</span> <span class="p">(</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">piecewise_convex</span><span class="p">):</span>
+        <span class="n">ftype</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="n">equal_slopes_tolerance</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ftype</span> <span class="o">==</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">):</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">piecewise_convex</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">ftype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">convex</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">piecewise_convex</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">ftype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">concave</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">piecewise_convex</span>
+
+    <span class="k">return</span> <span class="n">transform</span><span class="p">(</span>
+        <span class="n">func</span><span class="p">,</span>
+        <span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
+        <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span>
+        <span class="n">bound</span><span class="o">=</span><span class="n">bound</span><span class="p">,</span>
+        <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">,</span>
+        <span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="n">equal_slopes_tolerance</span><span class="p">,</span>
+        <span class="n">require_bounded_input_variable</span><span class="o">=</span><span class="n">require_bounded_input_variable</span><span class="p">,</span>
+        <span class="n">require_variable_domain_coverage</span><span class="o">=</span><span class="n">require_variable_domain_coverage</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PiecewiseLinearFunction"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction">[docs]</a><span class="k">class</span> <span class="nc">PiecewiseLinearFunction</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A piecewise linear function</span>
+
+<span class="sd">    Piecewise linear functions are defined by a list of</span>
+<span class="sd">    breakpoints and a list function values corresponding to</span>
+<span class="sd">    each breakpoint. The function value between breakpoints</span>
+<span class="sd">    is implied through linear interpolation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        breakpoints (list): The list of function</span>
+<span class="sd">            breakpoints.</span>
+<span class="sd">        values (list): The list of function values (one for</span>
+<span class="sd">            each breakpoint).</span>
+<span class="sd">        validate (bool): Indicates whether or not to perform</span>
+<span class="sd">            validation of the input data. The default is</span>
+<span class="sd">            :const:`True`. Validation can be performed</span>
+<span class="sd">            manually after the piecewise object is created</span>
+<span class="sd">            by calling the :meth:`validate`</span>
+<span class="sd">            method. Validation should be performed any time</span>
+<span class="sd">            the inputs are changed (e.g., when using mutable</span>
+<span class="sd">            parameters in the breakpoints list).</span>
+<span class="sd">        **kwds: Additional keywords are passed to the</span>
+<span class="sd">            :meth:`validate` method when the :attr:`validate`</span>
+<span class="sd">            keyword is :const:`True`; otherwise, they are</span>
+<span class="sd">            ignored.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_breakpoints&quot;</span><span class="p">,</span> <span class="s2">&quot;_values&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span> <span class="o">=</span> <span class="n">breakpoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The number of breakpoints (</span><span class="si">%s</span><span class="s2">) differs from &quot;</span>
+                <span class="s2">&quot;the number of function values (</span><span class="si">%s</span><span class="s2">)&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Required for older versions of the pickle</span>
+<span class="sd">        protocol since this class uses __slots__&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Required for older versions of the pickle</span>
+<span class="sd">        protocol since this class uses __slots__&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+<div class="viewcode-block" id="PiecewiseLinearFunction.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints and values</span>
+<span class="sd">        lists (e.g., that the list of breakpoints is</span>
+<span class="sd">        nondecreasing).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            equal_slopes_tolerance (float): Tolerance used</span>
+<span class="sd">                check if consecutive slopes are nearly</span>
+<span class="sd">                equal. If any are found, validation will</span>
+<span class="sd">                fail. Default is 1e-6.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int:</span>
+<span class="sd">                a function characterization code (see</span>
+<span class="sd">                :func:`util.characterize_function`)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PiecewiseValidationError: if validation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">_value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">_value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_nondecreasing</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;The list of breakpoints is not nondecreasing: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="n">ftype</span><span class="p">,</span> <span class="n">slopes</span> <span class="o">=</span> <span class="n">characterize_function</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">slopes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">equal_slopes_tolerance</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Piecewise function validation detected slopes &quot;</span>
+                    <span class="s2">&quot;of consecutive line segments to be within </span><span class="si">%s</span><span class="s2"> &quot;</span>
+                    <span class="s2">&quot;of one another. This may cause numerical issues. &quot;</span>
+                    <span class="s2">&quot;To avoid this error, set the &#39;equal_slopes_tolerance&#39; &quot;</span>
+                    <span class="s2">&quot;keyword to a smaller value or disable validation.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">equal_slopes_tolerance</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ftype</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">breakpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The set of breakpoints used to defined this function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The set of values used to defined this function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span>
+
+<div class="viewcode-block" id="PiecewiseLinearFunction.__call__"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.PiecewiseLinearFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the piecewise linear function at the</span>
+<span class="sd">        given point using interpolation. Note that step functions are</span>
+<span class="sd">        assumed lower-semicontinuous.&quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">_shadow_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">xP</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">xP</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">):</span>
+            <span class="n">xL</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">xU</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">assert</span> <span class="n">xL</span> <span class="o">&lt;=</span> <span class="n">xU</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">xL</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">xU</span><span class="p">):</span>
+                <span class="n">yL</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">yU</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">yL</span> <span class="o">+</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">yU</span> <span class="o">-</span> <span class="n">yL</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xU</span> <span class="o">-</span> <span class="n">xL</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xL</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The point </span><span class="si">%s</span><span class="s2"> is outside of the &quot;</span>
+            <span class="s2">&quot;function domain: [</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">].&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TransformedPiecewiseLinearFunction"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction">[docs]</a><span class="k">class</span> <span class="nc">TransformedPiecewiseLinearFunction</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for transformed piecewise linear functions</span>
+
+<span class="sd">    A transformed piecewise linear functions is a block of</span>
+<span class="sd">    variables and constraints that enforce a piecewise</span>
+<span class="sd">    linear relationship between an input variable and an</span>
+<span class="sd">    output variable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f (:class:`PiecewiseLinearFunction`): The piecewise</span>
+<span class="sd">            linear function to transform.</span>
+<span class="sd">        input: The variable constrained to be the input of</span>
+<span class="sd">            the piecewise linear function.</span>
+<span class="sd">        output: The variable constrained to be the output of</span>
+<span class="sd">            the piecewise linear function.</span>
+<span class="sd">        bound (str): The type of bound to impose on the</span>
+<span class="sd">            output expression. Can be one of:</span>
+
+<span class="sd">              - &#39;lb&#39;: y &lt;= f(x)</span>
+<span class="sd">              - &#39;eq&#39;: y  = f(x)</span>
+<span class="sd">              - &#39;ub&#39;: y &gt;= f(x)</span>
+<span class="sd">        validate (bool): Indicates whether or not to perform</span>
+<span class="sd">            validation of the input data. The default is</span>
+<span class="sd">            :const:`True`. Validation can be performed</span>
+<span class="sd">            manually after the piecewise object is created</span>
+<span class="sd">            by calling the :meth:`validate`</span>
+<span class="sd">            method. Validation should be performed any time</span>
+<span class="sd">            the inputs are changed (e.g., when using mutable</span>
+<span class="sd">            parameters in the breakpoints list or when the</span>
+<span class="sd">            input variable changes).</span>
+<span class="sd">        **kwds: Additional keywords are passed to the</span>
+<span class="sd">            :meth:`validate` method when the :attr:`validate`</span>
+<span class="sd">            keyword is :const:`True`; otherwise, they are</span>
+<span class="sd">            ignored.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;eq&#39;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">PiecewiseLinearFunction</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bound</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">,</span> <span class="s1">&#39;ub&#39;</span><span class="p">,</span> <span class="s1">&#39;eq&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid bound type </span><span class="si">%r</span><span class="s2">. Must be one of: [&#39;lb&#39;,&#39;ub&#39;,&#39;eq&#39;]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bound</span> <span class="o">=</span> <span class="n">bound</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inout</span> <span class="o">=</span> <span class="n">expression_tuple</span><span class="p">([</span><span class="n">expression</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">expression</span><span class="p">(</span><span class="n">output</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The expression that stores the input to the</span>
+<span class="sd">        piecewise function. The returned object can be</span>
+<span class="sd">        updated by assigning to its :attr:`expr`</span>
+<span class="sd">        attribute.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inout</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The expression that stores the output of the</span>
+<span class="sd">        piecewise function. The returned object can be</span>
+<span class="sd">        updated by assigning to its :attr:`expr`</span>
+<span class="sd">        attribute.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inout</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The bound type assigned to the piecewise</span>
+<span class="sd">        relationship (&#39;lb&#39;,&#39;ub&#39;,&#39;eq&#39;).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound</span>
+
+<div class="viewcode-block" id="TransformedPiecewiseLinearFunction.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">require_bounded_input_variable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">require_variable_domain_coverage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            equal_slopes_tolerance (float): Tolerance used</span>
+<span class="sd">                check if consecutive slopes are nearly</span>
+<span class="sd">                equal. If any are found, validation will</span>
+<span class="sd">                fail. Default is 1e-6.</span>
+<span class="sd">            require_bounded_input_variable (bool): Indicates</span>
+<span class="sd">                if the input variable is required to have</span>
+<span class="sd">                finite upper and lower bounds. Default is</span>
+<span class="sd">                :const:`True`. Setting this keyword to</span>
+<span class="sd">                :const:`False` can be used to allow general</span>
+<span class="sd">                expressions to be used as the input in place</span>
+<span class="sd">                of a variable.</span>
+<span class="sd">            require_variable_domain_coverage (bool):</span>
+<span class="sd">                Indicates if the function domain (defined by</span>
+<span class="sd">                the endpoints of the breakpoints list) needs</span>
+<span class="sd">                to cover the entire domain of the input</span>
+<span class="sd">                variable. Default is :const:`True`. Ignored</span>
+<span class="sd">                for any bounds of variables that are not</span>
+<span class="sd">                finite, or when the input is not assigned a</span>
+<span class="sd">                variable.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int:</span>
+<span class="sd">                a function characterization code (see</span>
+<span class="sd">                :func:`util.characterize_function`)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PiecewiseValidationError: if validation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ftype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">equal_slopes_tolerance</span><span class="o">=</span><span class="n">equal_slopes_tolerance</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">ftype</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">input_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">expr</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_var</span><span class="p">,</span> <span class="n">IVariable</span><span class="p">):</span>
+            <span class="n">input_var</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">require_bounded_input_variable</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">input_var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">input_var</span><span class="o">.</span><span class="n">has_lb</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">input_var</span><span class="o">.</span><span class="n">has_ub</span><span class="p">())</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Piecewise function input is not a &quot;</span>
+                <span class="s2">&quot;variable with finite upper and lower &quot;</span>
+                <span class="s2">&quot;bounds: </span><span class="si">%s</span><span class="s2">. To avoid this error, set the &quot;</span>
+                <span class="s2">&quot;&#39;require_bounded_input_variable&#39; keyword &quot;</span>
+                <span class="s2">&quot;to False or disable validation.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">input_var</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">require_variable_domain_coverage</span> <span class="ow">and</span> <span class="p">(</span><span class="n">input_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">domain_lb</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">domain_ub</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">input_var</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="n">_value</span><span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">lb</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">domain_lb</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Piecewise function domain does not include &quot;</span>
+                    <span class="s2">&quot;the lower bound of the input variable: &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ub = </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2">. To avoid this error, set &quot;</span>
+                    <span class="s2">&quot;the &#39;require_variable_domain_coverage&#39; &quot;</span>
+                    <span class="s2">&quot;keyword to False or disable validation.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">_value</span><span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">lb</span><span class="p">),</span> <span class="n">domain_lb</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">input_var</span><span class="o">.</span><span class="n">has_ub</span><span class="p">()</span> <span class="ow">and</span> <span class="n">_value</span><span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">domain_ub</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Piecewise function domain does not include &quot;</span>
+                    <span class="s2">&quot;the upper bound of the input variable: &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ub = </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2">. To avoid this error, set &quot;</span>
+                    <span class="s2">&quot;the &#39;require_variable_domain_coverage&#39; &quot;</span>
+                    <span class="s2">&quot;keyword to False or disable validation.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">_value</span><span class="p">(</span><span class="n">input_var</span><span class="o">.</span><span class="n">ub</span><span class="p">),</span> <span class="n">domain_ub</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ftype</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">breakpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The set of breakpoints used to defined this function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="o">.</span><span class="n">breakpoints</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The set of values used to defined this function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="o">.</span><span class="n">values</span>
+
+<div class="viewcode-block" id="TransformedPiecewiseLinearFunction.__call__"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.TransformedPiecewiseLinearFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the piecewise linear function at the</span>
+<span class="sd">        given point using interpolation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="piecewise_convex"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_convex">[docs]</a><span class="k">class</span> <span class="nc">piecewise_convex</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simple convex piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function with a convex</span>
+<span class="sd">    feasible region for the output variable using a simple</span>
+<span class="sd">    collection of linear constraints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_convex</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">breakpoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">X0</span> <span class="o">=</span> <span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">F_AT_X0</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">dF_AT_X0</span> <span class="o">=</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">F_AT_X0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X0</span><span class="p">)</span>
+            <span class="n">const</span> <span class="o">=</span> <span class="n">F_AT_X0</span> <span class="o">-</span> <span class="n">dF_AT_X0</span> <span class="o">*</span> <span class="n">X0</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="n">linear_constraint</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dF_AT_X0</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">const</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="o">-</span><span class="n">const</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="n">const</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+
+        <span class="c1"># In order to enforce the same behavior as actual</span>
+        <span class="c1"># piecewise constraints, we need to constrain the</span>
+        <span class="c1"># input expression to be between first and last</span>
+        <span class="c1"># breakpoint. This might be duplicating the</span>
+        <span class="c1"># variable, but its not always the case, and there&#39;s</span>
+        <span class="c1"># no guarantee that the input &quot;variable&quot; is not a</span>
+        <span class="c1"># more general linear expression.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">terms</span><span class="o">=</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">lb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ub</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="piecewise_convex.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_convex.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ftype</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_convex</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ftype</span> <span class="o">!=</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;The bound type is &#39;eq&#39; but the function &quot;</span>
+                <span class="s2">&quot;was not characterized as affine (only two &quot;</span>
+                <span class="s2">&quot;breakpoints). The &#39;convex&#39; piecewise &quot;</span>
+                <span class="s2">&quot;representation does not support this function.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">ftype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">convex</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;The bound type is &#39;lb&#39; but the function &quot;</span>
+                <span class="s2">&quot;was not characterized as convex or affine. &quot;</span>
+                <span class="s2">&quot;The &#39;convex&#39; piecewise representation does &quot;</span>
+                <span class="s2">&quot;not support this function.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">ftype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">characterize_function</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">concave</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;The bound type is &#39;ub&#39; but the function &quot;</span>
+                <span class="s2">&quot;was not characterized as concave or affine. &quot;</span>
+                <span class="s2">&quot;The &#39;convex&#39; piecewise representation does &quot;</span>
+                <span class="s2">&quot;not support this function.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ftype</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;convex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_convex</span>
+
+
+<div class="viewcode-block" id="piecewise_sos2"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2">[docs]</a><span class="k">class</span> <span class="nc">piecewise_sos2</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete SOS2 piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using</span>
+<span class="sd">    the SOS2 formulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_sos2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># create vars</span>
+        <span class="n">y_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span><span class="n">y_tuple</span><span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">y_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">y_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,),</span> <span class="n">coefficients</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">y_tuple</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">sos2</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<div class="viewcode-block" id="piecewise_sos2.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_sos2.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_sos2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;sos2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_sos2</span>
+
+
+<div class="viewcode-block" id="piecewise_dcc"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc">[docs]</a><span class="k">class</span> <span class="nc">piecewise_dcc</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete DCC piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using</span>
+<span class="sd">    the DCC formulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_dcc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># create index sets</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">lmbda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">(</span>
+            <span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span>
+        <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">:</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="piecewise_dcc.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_dcc.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_dcc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;dcc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_dcc</span>
+
+
+<div class="viewcode-block" id="piecewise_cc"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_cc">[docs]</a><span class="k">class</span> <span class="nc">piecewise_cc</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete CC piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using</span>
+<span class="sd">    the CC formulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_cc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># create index sets</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">vertex_polys</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">lmbda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+        <span class="p">)</span>
+
+        <span class="n">lmbda_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">lmbda_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">lmbda_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,),</span> <span class="n">coefficients</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">lmbda_tuple</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">vertex_polys</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">v</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="piecewise_cc.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_cc.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_cc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;cc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_cc</span>
+
+
+<div class="viewcode-block" id="piecewise_mc"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_mc">[docs]</a><span class="k">class</span> <span class="nc">piecewise_mc</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete MC piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using</span>
+<span class="sd">    the MC formulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_mc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># create indexers</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># create constants (using future division)</span>
+        <span class="c1"># these might also be expressions if the breakpoints</span>
+        <span class="c1"># or values lists contain mutable objects</span>
+        <span class="n">slopes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+            <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+        <span class="p">)</span>
+        <span class="n">intercepts</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">slopes</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">lmbda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span><span class="n">variable</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">)</span>
+        <span class="n">lmbda_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+        <span class="p">)</span>
+        <span class="n">y_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">lmbda_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">lmbda</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">lmbda_tuple</span> <span class="o">+</span> <span class="n">y_tuple</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="n">slopes</span> <span class="o">+</span> <span class="n">intercepts</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">clist1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">clist2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">:</span>
+            <span class="n">clist1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">clist2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist2</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">y_tuple</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="piecewise_mc.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_mc.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ftype</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_mc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="c1"># this representation does not support step functions</span>
+        <span class="k">if</span> <span class="n">ftype</span> <span class="o">==</span> <span class="n">characterize_function</span><span class="o">.</span><span class="n">step</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PiecewiseValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;The &#39;mc&#39; piecewise representation does not support step functions.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ftype</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;mc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_mc</span>
+
+
+<div class="viewcode-block" id="piecewise_inc"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_inc">[docs]</a><span class="k">class</span> <span class="nc">piecewise_inc</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete INC piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using</span>
+<span class="sd">    the INC formulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_inc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># create indexers</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span><span class="n">variable</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">)</span>
+        <span class="n">delta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">delta</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">delta_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,)</span> <span class="o">+</span> <span class="n">delta_tuple</span><span class="p">,</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span>
+                <span class="p">),</span>
+                <span class="n">rhs</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,)</span> <span class="o">+</span> <span class="n">delta_tuple</span><span class="p">,</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">clist1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">clist2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">clist1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">clist2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">delta</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist2</span><span class="p">))</span>
+
+<div class="viewcode-block" id="piecewise_inc.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_inc.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_inc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_inc</span>
+
+
+<div class="viewcode-block" id="piecewise_dlog"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog">[docs]</a><span class="k">class</span> <span class="nc">piecewise_dlog</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete DLOG piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using the DLOG</span>
+<span class="sd">    formulation. This formulation uses logarithmic number of</span>
+<span class="sd">    discrete variables in terms of number of breakpoints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_dlog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">breakpoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_positive_power_of_two</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The list of breakpoints must be &quot;</span>
+                <span class="s2">&quot;of length (2^n)+1 for some positive &quot;</span>
+                <span class="s2">&quot;integer n. Invalid length: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="c1"># create branching schemes</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">log2floor</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="mi">2</span><span class="o">**</span><span class="n">L</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">B_LEFT</span><span class="p">,</span> <span class="n">B_RIGHT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branching_scheme</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="c1"># create indexers</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">lmbda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">(</span>
+            <span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+                <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">polytopes</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">B_LEFT</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+        <span class="k">del</span> <span class="n">clist</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+                <span class="n">lmbda</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">B_RIGHT</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polytope_verts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_branching_scheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">L</span>
+        <span class="n">B_LEFT</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
+                <span class="n">tmp</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="n">step</span><span class="p">))</span>
+                <span class="n">start</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">step</span>
+            <span class="n">B_LEFT</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+        <span class="n">biglist</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">B_RIGHT</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">B_LEFT</span><span class="p">)):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">biglist</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">B_LEFT</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">B_RIGHT</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">B_LEFT</span><span class="p">,</span> <span class="n">B_RIGHT</span>
+
+<div class="viewcode-block" id="piecewise_dlog.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_dlog.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_dlog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;dlog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_dlog</span>
+
+
+<div class="viewcode-block" id="piecewise_log"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_log">[docs]</a><span class="k">class</span> <span class="nc">piecewise_log</span><span class="p">(</span><span class="n">TransformedPiecewiseLinearFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete LOG piecewise representation</span>
+
+<span class="sd">    Expresses a piecewise linear function using the LOG</span>
+<span class="sd">    formulation. This formulation uses logarithmic number of</span>
+<span class="sd">    discrete variables in terms of number of breakpoints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_log</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">breakpoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_positive_power_of_two</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The list of breakpoints must be &quot;</span>
+                <span class="s2">&quot;of length (2^n)+1 for some positive &quot;</span>
+                <span class="s2">&quot;integer n. Invalid length: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="c1"># create branching schemes</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">log2floor</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">S</span><span class="p">,</span> <span class="n">B_LEFT</span><span class="p">,</span> <span class="n">B_RIGHT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branching_scheme</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="c1"># create indexers</span>
+        <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">))</span>
+
+        <span class="c1"># create vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">variable_dict</span><span class="p">()</span>
+        <span class="n">lmbda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_tuple</span><span class="p">(</span><span class="n">variable</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable_list</span><span class="p">(</span>
+            <span class="n">variable</span><span class="p">(</span><span class="n">domain_type</span><span class="o">=</span><span class="n">IntegerSet</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create piecewise constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">constraint_list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span>
+                <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">breakpoints</span><span class="p">,</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">values</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;ub&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;eq&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">linear_constraint</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">lmbda</span><span class="p">),</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">B_LEFT</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">s</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+        <span class="k">del</span> <span class="n">clist</span>
+
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lmbda</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">B_RIGHT</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+            <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">linear_constraint</span><span class="p">(</span>
+                    <span class="n">variables</span><span class="o">=</span><span class="n">variables</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">s</span><span class="p">],),</span>
+                    <span class="n">coefficients</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+                    <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint_tuple</span><span class="p">(</span><span class="n">clist</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_branching_scheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">generate_gray_code</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">k</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="ow">and</span> <span class="p">((</span><span class="n">k</span> <span class="o">==</span> <span class="n">N</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span>
+        <span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">k</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">and</span> <span class="p">((</span><span class="n">k</span> <span class="o">==</span> <span class="n">N</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">S</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span>
+
+<div class="viewcode-block" id="piecewise_log.validate"><a class="viewcode-back" href="../../../../../library_reference/kernel/piecewise/piecewise.html#pyomo.core.kernel.piecewise_library.transforms.piecewise_log.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate this piecewise linear function by verifying</span>
+<span class="sd">        various properties of the breakpoints, values, and</span>
+<span class="sd">        input variable (e.g., that the list of breakpoints</span>
+<span class="sd">        is nondecreasing).</span>
+
+<span class="sd">        See base class documentation for keyword</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">piecewise_log</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div></div>
+
+
+<span class="n">registered_transforms</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">piecewise_log</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

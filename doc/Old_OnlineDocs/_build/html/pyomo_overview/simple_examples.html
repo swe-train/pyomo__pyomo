@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Simple Models &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pyomo Modeling Components" href="../pyomo_modeling_components/index.html" />
+    <link rel="prev" title="Abstract Versus Concrete Models" href="abstract_concrete.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Pyomo Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="math_modeling.html">Mathematical Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview_components.html">Overview of Modeling Components and Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abstract_concrete.html">Abstract Versus Concrete Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simple Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-simple-concrete-pyomo-model">A Simple Concrete Pyomo Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-simple-abstract-pyomo-model">A Simple Abstract Pyomo Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#symbolic-index-sets">Symbolic Index Sets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solving-the-simple-examples">Solving the Simple Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Overview</a> &raquo;</li>
+        
+      <li>Simple Models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pyomo_overview/simple_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="simple-models">
+<h1>Simple Models<a class="headerlink" href="#simple-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="a-simple-concrete-pyomo-model">
+<h2>A Simple Concrete Pyomo Model<a class="headerlink" href="#a-simple-concrete-pyomo-model" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to get the same flexible behavior from models
+declared to be abstract and models declared to be concrete in Pyomo;
+however, we will focus on a straightforward concrete example here where
+the data is hard-wired into the model file. Python programmers will
+quickly realize that the data could have come from other sources.</p>
+<p>Given the following model from the previous section:</p>
+<div class="math notranslate nohighlight">
+ \begin{array}{ll}
+  \min       &amp; 2 x_1 + 3 x_2\\
+  \mathrm{s.t.} &amp; 3 x_1 + 4 x_2 \geq 1\\
+             &amp; x_1, x_2 \geq 0
+  \end{array}</div><p>This can be implemented as a concrete model as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">OBJ</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">Constraint1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Although rule functions can also be used to specify constraints and
+objectives, in this example we use the <code class="docutils literal notranslate"><span class="pre">expr</span></code> option that is available
+only in concrete models. This option gives a direct specification of the
+expression.</p>
+</div>
+<div class="section" id="a-simple-abstract-pyomo-model">
+<h2>A Simple Abstract Pyomo Model<a class="headerlink" href="#a-simple-abstract-pyomo-model" title="Permalink to this headline">¶</a></h2>
+<p>We repeat the abstract model from the previous section:</p>
+<div class="math notranslate nohighlight">
+ \begin{array}{lll}
+ \min       &amp; \sum_{j=1}^n c_j x_j &amp;\\
+  \mathrm{s.t.} &amp; \sum_{j=1}^n a_{ij} x_j \geq b_i &amp; \forall i = 1 \ldots m\\
+            &amp; x_j \geq 0 &amp; \forall j = 1 \ldots n
+ \end{array}</div><p>One way to implement this in Pyomo is as shown as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+
+<span class="c1"># the next line declares a variable indexed by the set J</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">obj_expression</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">OBJ</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_expression</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">ax_constraint_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="c1"># return the expression for the constraint for i</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="c1"># the next line creates one constraint for each member of the set model.I</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AxbConstraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">ax_constraint_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Python is interpreted one line at a time.  A line continuation
+character, <code class="docutils literal notranslate"><span class="pre">\</span></code> (backslash), is used for Python statements that need to span
+multiple lines.  In Python, indentation has meaning and must be
+consistent. For example, lines inside a function definition must be
+indented and the end of the indentation is used by Python to signal
+the end of the definition.</p>
+</div>
+<p>We will now examine the lines in this example.
+The first import line is required in every Pyomo model. Its purpose
+is to make the symbols used by Pyomo known to Python.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+</pre></div>
+</div>
+<p>The declaration of a model is also required. The use of the name <code class="docutils literal notranslate"><span class="pre">model</span></code>
+is not required. Almost any name could be used, but we will use the name
+<code class="docutils literal notranslate"><span class="pre">model</span></code> in most of our examples. In this example, we are declaring
+that it will be an abstract model.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We declare the parameters <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> using the Pyomo
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code> component. This component can take a variety of arguments; this
+example illustrates use of the <code class="docutils literal notranslate"><span class="pre">within</span></code> option that is used by Pyomo
+to validate the data value that is assigned to the parameter. If this
+option were not given, then Pyomo would not object to any type of data
+being assigned to these parameters. As it is, assignment of a value that
+is not a non-negative integer will result in an error.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Although not required, it is convenient to define index sets. In this
+example we use the <code class="xref py py-class docutils literal notranslate"><span class="pre">RangeSet</span></code> component to declare that the sets will
+be a sequence of integers starting at 1 and ending at a value specified
+by the the parameters <code class="docutils literal notranslate"><span class="pre">model.m</span></code> and <code class="docutils literal notranslate"><span class="pre">model.n</span></code>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The coefficient and right-hand-side data are defined as indexed
+parameters. When sets are given as arguments to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code> component,
+they indicate that the set will index the parameter.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next line that is interpreted by Python as part of the model
+declares the variable <span class="math notranslate nohighlight">\(x\)</span>. The first argument to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Var</span></code>
+component is a set, so it is defined as an index set for the variable. In
+this case the variable has only one index set, but multiple sets could
+be used as was the case for the declaration of the parameter
+<code class="docutils literal notranslate"><span class="pre">model.a</span></code>. The second argument specifies a domain for the
+variable. This information is part of the model and will passed to the
+solver when data is provided and the model is solved. Specification of
+the <code class="docutils literal notranslate"><span class="pre">NonNegativeReals</span></code> domain implements the requirement that the
+variables be greater than or equal to zero.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the next line declares a variable indexed by the set J</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Python, and therefore in Pyomo, any text after pound sign is
+considered to be a comment.</p>
+</div>
+<p>In abstract models, Pyomo expressions are usually provided to objective
+and constraint declarations via a function defined with a
+Python <code class="docutils literal notranslate"><span class="pre">def</span></code> statement. The <code class="docutils literal notranslate"><span class="pre">def</span></code> statement establishes a name for a
+function along with its arguments. When Pyomo uses a function to get
+objective or constraint expressions, it always passes in the
+model (i.e., itself) as the the first argument so the model is always
+the first formal argument when declaring such functions in Pyomo.
+Additional arguments, if needed, follow. Since summation is an extremely
+common part of optimization models, Pyomo provides a flexible function
+to accommodate it. When given two arguments, the <code class="xref py py-func docutils literal notranslate"><span class="pre">summation()</span></code> function
+returns an expression for the sum of the product of the two arguments
+over their indexes. This only works, of course, if the two arguments
+have the same indexes. If it is given only one argument it returns an
+expression for the sum over all indexes of that argument. So in this
+example, when <code class="xref py py-func docutils literal notranslate"><span class="pre">summation()</span></code> is passed the arguments <code class="docutils literal notranslate"><span class="pre">m.c,</span> <span class="pre">m.x</span></code>
+it returns an internal representation of the expression
+<span class="math notranslate nohighlight">\(\sum_{j=1}^{n}c_{j} x_{j}\)</span>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">obj_expression</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To declare an objective function, the Pyomo component called
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Objective</span></code> is used. The <code class="docutils literal notranslate"><span class="pre">rule</span></code> argument gives the name of a
+function that returns the objective expression. The default <em>sense</em> is
+minimization. For maximization, the <code class="docutils literal notranslate"><span class="pre">sense=pyo.maximize</span></code> argument must be
+used. The name that is declared, which is <code class="docutils literal notranslate"><span class="pre">OBJ</span></code> in this case, appears
+in some reports and can be almost any name.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">OBJ</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_expression</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Declaration of constraints is similar. A function is declared to generate
+the constraint expression. In this case, there can be multiple
+constraints of the same form because we index the constraints by
+<span class="math notranslate nohighlight">\(i\)</span> in the expression <span class="math notranslate nohighlight">\(\sum_{j=1}^n a_{ij} x_j \geq b_i
+\;\;\forall i = 1 \ldots m\)</span>, which states that we need a constraint for
+each value of <span class="math notranslate nohighlight">\(i\)</span> from one to <span class="math notranslate nohighlight">\(m\)</span>. In order to parametrize
+the expression by <span class="math notranslate nohighlight">\(i\)</span> we include it as a formal parameter to the
+function that declares the constraint expression. Technically, we could
+have used anything for this argument, but that might be confusing. Using
+an <code class="docutils literal notranslate"><span class="pre">i</span></code> for an <span class="math notranslate nohighlight">\(i\)</span> seems sensible in this situation.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ax_constraint_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="c1"># return the expression for the constraint for i</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Python, indexes are in square brackets and function arguments are
+in parentheses.</p>
+</div>
+<p>In order to declare constraints that use this expression, we use the
+Pyomo <code class="xref py py-class docutils literal notranslate"><span class="pre">Constraint</span></code> component that takes a variety of arguments. In this
+case, our model specifies that we can have more than one constraint of
+the same form and we have created a set, <code class="docutils literal notranslate"><span class="pre">model.I</span></code>, over which these
+constraints can be indexed so that is the first argument to the
+constraint declaration. The next argument gives the rule that
+will be used to generate expressions for the constraints. Taken as a
+whole, this constraint declaration says that a list of constraints
+indexed by the set <code class="docutils literal notranslate"><span class="pre">model.I</span></code> will be created and for each member of
+<code class="docutils literal notranslate"><span class="pre">model.I</span></code>, the function <code class="docutils literal notranslate"><span class="pre">ax_constraint_rule</span></code> will be called and it
+will be passed the model object as well as the member of <code class="docutils literal notranslate"><span class="pre">model.I</span></code></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the next line creates one constraint for each member of the set model.I</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AxbConstraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">ax_constraint_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the object oriented view of all of this, we would say that <code class="docutils literal notranslate"><span class="pre">model</span></code>
+object is a class instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractModel</span></code> class, and
+<code class="docutils literal notranslate"><span class="pre">model.J</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code> object that is contained by this model.  Many
+modeling components in Pyomo can be optionally specified as <em>indexed</em>
+<em>components</em>: collections of components that are referenced using one or
+more values.  In this example, the parameter <code class="docutils literal notranslate"><span class="pre">model.c</span></code> is indexed with
+set <code class="docutils literal notranslate"><span class="pre">model.J</span></code>.</p>
+<p>In order to use this model, data must be given for the values of the
+parameters. Here is one file that provides data (in AMPL “<code class="docutils literal notranslate"><span class="pre">.dat</span></code>” format).</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># one way to input the data in AMPL format
+# for indexed parameters, the indexes are given before the value
+
+param m := 1 ;
+param n := 2 ;
+
+param a :=
+1 1 3
+1 2 4
+;
+
+param c:=
+1 2
+2 3
+;
+
+param b := 1 1 ;
+</pre></div>
+</div>
+<p>There are multiple formats that can be used to provide data to a Pyomo
+model, but the AMPL format works well for our purposes because it
+contains the names of the data elements together with the data. In AMPL
+data files, text after a pound sign is treated as a comment. Lines
+generally do not matter, but statements must be terminated with a
+semi-colon.</p>
+<p>For this particular data file, there is one constraint, so the value of
+<code class="docutils literal notranslate"><span class="pre">model.m</span></code> will be one and there are two variables (i.e., the vector
+<code class="docutils literal notranslate"><span class="pre">model.x</span></code> is two elements long) so the value of <code class="docutils literal notranslate"><span class="pre">model.n</span></code> will be
+two. These two assignments are accomplished with standard
+assignments. Notice that in AMPL format input, the name of the model is
+omitted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">param</span> <span class="n">m</span> <span class="o">:=</span> <span class="mi">1</span> <span class="p">;</span>
+<span class="n">param</span> <span class="n">n</span> <span class="o">:=</span> <span class="mi">2</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>There is only one constraint, so only two values are needed for
+<code class="docutils literal notranslate"><span class="pre">model.a</span></code>. When assigning values to arrays and vectors in AMPL format,
+one way to do it is to give the index(es) and the the value. The line 1
+2 4 causes <code class="docutils literal notranslate"><span class="pre">model.a[1,2]</span></code> to get the value
+4. Since <code class="docutils literal notranslate"><span class="pre">model.c</span></code> has only one index, only one index value is needed
+so, for example, the line 1 2 causes <code class="docutils literal notranslate"><span class="pre">model.c[1]</span></code> to get the
+value 2. Line breaks generally do not matter in AMPL format data files,
+so the assignment of the value for the single index of <code class="docutils literal notranslate"><span class="pre">model.b</span></code> is
+given on one line since that is easy to read.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">param</span> <span class="n">a</span> <span class="o">:=</span>
+ <span class="mi">1</span> <span class="mi">1</span> <span class="mi">3</span>
+ <span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span>
+ <span class="p">;</span>
+
+ <span class="n">param</span> <span class="n">c</span><span class="o">:=</span>
+ <span class="mi">1</span> <span class="mi">2</span>
+ <span class="mi">2</span> <span class="mi">3</span>
+ <span class="p">;</span>
+
+ <span class="n">param</span> <span class="n">b</span> <span class="o">:=</span> <span class="mi">1</span> <span class="mi">1</span> <span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="symbolic-index-sets">
+<span id="abstract2-dat"></span><span id="abstract2-py"></span><h2>Symbolic Index Sets<a class="headerlink" href="#symbolic-index-sets" title="Permalink to this headline">¶</a></h2>
+<p>When working with Pyomo (or any other AML), it is convenient to write
+abstract models in a somewhat more abstract way by using index sets that
+contain strings rather than index sets that are implied by
+<span class="math notranslate nohighlight">\(1,\ldots,m\)</span> or the summation from 1 to <span class="math notranslate nohighlight">\(n\)</span>. When this is
+done, the size of the set is implied by the input, rather than specified
+directly. Furthermore, the index entries may have no real order.  Often,
+a mixture of integers and indexes and strings as indexes is needed in
+the same model. To start with an illustration of general indexes,
+consider a slightly different Pyomo implementation of the model we just
+presented.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># abstract2.py</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span>
+
+<span class="c1"># the next line declares a variable indexed by the set J</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">obj_expression</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">OBJ</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">obj_expression</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">ax_constraint_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="c1"># return the expression for the constraint for i</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">model</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+<span class="c1"># the next line creates one constraint for each member of the set model.I</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AxbConstraint</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">ax_constraint_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get the same instantiated model, the following data file can be used.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># abstract2a.dat AMPL format
+
+set I := 1 ;
+set J := 1 2 ;
+
+param a :=
+1 1 3
+1 2 4
+;
+
+param c:=
+1 2
+2 3
+;
+
+param b := 1 1 ;
+</pre></div>
+</div>
+<p>However, this model can also be fed different data for problems of the
+same general form using meaningful indexes.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># abstract2.dat AMPL data format
+
+set I := TV Film ;
+set J := Graham John Carol ;
+
+param a :=
+TV  Graham 3
+TV John 4.4
+TV Carol 4.9
+Film Graham 1
+Film John 2.4
+Film Carol 1.1
+;
+
+param c := [*]
+ Graham 2.2
+ John 3.1416
+ Carol 3
+;
+
+param b := TV 1 Film 1 ;
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="solving-the-simple-examples">
+<h2>Solving the Simple Examples<a class="headerlink" href="#solving-the-simple-examples" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo supports modeling and scripting but does not install a solver
+automatically. In order to solve a model, there must be a solver
+installed on the computer to be used. If there is a solver, then the
+<code class="docutils literal notranslate"><span class="pre">pyomo</span></code> command can be used to solve a problem instance.</p>
+<p>Suppose that the solver named glpk (also known as glpsol) is installed
+on the computer.  Suppose further that an abstract model is in the file
+named <code class="docutils literal notranslate"><span class="pre">abstract1.py</span></code> and a data file for it is in the file named
+<code class="docutils literal notranslate"><span class="pre">abstract1.dat</span></code>. From the command prompt, with both files in the
+current directory, a solution can be obtained with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyomo</span> <span class="n">solve</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">py</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">dat</span> <span class="o">--</span><span class="n">solver</span><span class="o">=</span><span class="n">glpk</span>
+</pre></div>
+</div>
+<p>Since glpk is the default solver, there really is no need specify it so
+the <code class="docutils literal notranslate"><span class="pre">--solver</span></code> option can be dropped.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are two dashes before the command line option names such as
+<code class="docutils literal notranslate"><span class="pre">solver</span></code>.</p>
+</div>
+<p>To continue the example, if CPLEX is installed then it can be listed as
+the solver. The command to solve with CPLEX is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyomo</span> <span class="n">solve</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">py</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">dat</span> <span class="o">--</span><span class="n">solver</span><span class="o">=</span><span class="n">cplex</span>
+</pre></div>
+</div>
+<p>This yields the following output on the screen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>    <span class="mf">0.00</span><span class="p">]</span> <span class="n">Setting</span> <span class="n">up</span> <span class="n">Pyomo</span> <span class="n">environment</span>
+<span class="p">[</span>    <span class="mf">0.00</span><span class="p">]</span> <span class="n">Applying</span> <span class="n">Pyomo</span> <span class="n">preprocessing</span> <span class="n">actions</span>
+<span class="p">[</span>    <span class="mf">0.07</span><span class="p">]</span> <span class="n">Creating</span> <span class="n">model</span>
+<span class="p">[</span>    <span class="mf">0.15</span><span class="p">]</span> <span class="n">Applying</span> <span class="n">solver</span>
+<span class="p">[</span>    <span class="mf">0.37</span><span class="p">]</span> <span class="n">Processing</span> <span class="n">results</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">solutions</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Solution</span> <span class="n">Information</span>
+<span class="n">Gap</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="n">Status</span><span class="p">:</span> <span class="n">optimal</span>
+<span class="n">Function</span> <span class="n">Value</span><span class="p">:</span> <span class="mf">0.666666666667</span>
+<span class="n">Solver</span> <span class="n">results</span> <span class="n">file</span><span class="p">:</span> <span class="n">results</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span>    <span class="mf">0.39</span><span class="p">]</span> <span class="n">Applying</span> <span class="n">Pyomo</span> <span class="n">postprocessing</span> <span class="n">actions</span>
+<span class="p">[</span>    <span class="mf">0.39</span><span class="p">]</span> <span class="n">Pyomo</span> <span class="n">Finished</span>
+</pre></div>
+</div>
+<p>The numbers in square brackets indicate how much time was required for
+each step. Results are written to the file named <code class="docutils literal notranslate"><span class="pre">results.json</span></code>, which
+has a special structure that makes it useful for post-processing. To see
+a summary of results written to the screen, use the <code class="docutils literal notranslate"><span class="pre">--summary</span></code>
+option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyomo</span> <span class="n">solve</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">py</span> <span class="n">abstract1</span><span class="o">.</span><span class="n">dat</span> <span class="o">--</span><span class="n">solver</span><span class="o">=</span><span class="n">cplex</span> <span class="o">--</span><span class="n">summary</span>
+</pre></div>
+</div>
+<p>To see a list of Pyomo command line options, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyomo</span> <span class="n">solve</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are two dashes before <code class="docutils literal notranslate"><span class="pre">help</span></code>.</p>
+</div>
+<p>For a concrete model, no data file is specified on the Pyomo command line.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../pyomo_modeling_components/index.html" class="btn btn-neutral float-right" title="Pyomo Modeling Components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="abstract_concrete.html" class="btn btn-neutral float-left" title="Abstract Versus Concrete Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

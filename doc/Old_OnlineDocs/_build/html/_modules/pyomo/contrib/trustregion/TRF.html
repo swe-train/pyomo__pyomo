@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.trustregion.TRF &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.trustregion.TRF</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.trustregion.TRF</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#</span>
+<span class="c1">#  Development of this module was conducted as part of the Institute for</span>
+<span class="c1">#  the Design of Advanced Energy Systems (IDAES) with support through the</span>
+<span class="c1">#  Simulation-Based Engineering, Crosscutting Research Program within the</span>
+<span class="c1">#  U.S. Department of Energy’s Office of Fossil Energy and Carbon Management.</span>
+<span class="c1">#</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.base.range</span> <span class="kn">import</span> <span class="n">NumericRange</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">ConfigValue</span><span class="p">,</span>
+    <span class="n">Bool</span><span class="p">,</span>
+    <span class="n">PositiveInt</span><span class="p">,</span>
+    <span class="n">PositiveFloat</span><span class="p">,</span>
+    <span class="n">In</span><span class="p">,</span>
+    <span class="n">document_kwargs_from_configdict</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.trustregion.filter</span> <span class="kn">import</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">FilterElement</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.trustregion.interface</span> <span class="kn">import</span> <span class="n">TRFInterface</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.trustregion.util</span> <span class="kn">import</span> <span class="n">IterationLogger</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.contrib.trustregion&#39;</span><span class="p">)</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.2.0&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">trust_region_method</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">decision_variables</span><span class="p">,</span> <span class="n">ext_fcn_surrogate_map_rule</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main driver of the Trust Region algorithm method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : ConcreteModel</span>
+<span class="sd">        The user&#39;s model to be solved.</span>
+<span class="sd">    degrees_of_freedom_variables : List of Vars</span>
+<span class="sd">        User-supplied input. The user must provide a list of vars which</span>
+<span class="sd">        are the degrees of freedom or decision variables within</span>
+<span class="sd">        the model.</span>
+<span class="sd">    ext_fcn_surrogate_map_rule : Function, optional</span>
+<span class="sd">        In the 2020 Yoshio/Biegler paper, this is referred to as</span>
+<span class="sd">        the basis function `b(w)`.</span>
+<span class="sd">        This is the low-fidelity model with which to solve the original</span>
+<span class="sd">        process model problem and which is integrated into the</span>
+<span class="sd">        surrogate model.</span>
+<span class="sd">        The default is 0 (i.e., no basis function rule.)</span>
+<span class="sd">    config : ConfigDict</span>
+<span class="sd">        This holds the solver and TRF-specific configuration options.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Initialize necessary TRF methods</span>
+    <span class="n">TRFLogger</span> <span class="o">=</span> <span class="n">IterationLogger</span><span class="p">()</span>
+    <span class="n">TRFilter</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">()</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="n">TRFInterface</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">decision_variables</span><span class="p">,</span> <span class="n">ext_fcn_surrogate_map_rule</span><span class="p">,</span> <span class="n">config</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialize the problem</span>
+    <span class="n">rebuildSM</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">obj_val</span><span class="p">,</span> <span class="n">feasibility</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">initializeProblem</span><span class="p">()</span>
+    <span class="c1"># Initialize first iteration feasibility/objective value to enable</span>
+    <span class="c1"># termination check</span>
+    <span class="n">feasibility_k</span> <span class="o">=</span> <span class="n">feasibility</span>
+    <span class="n">obj_val_k</span> <span class="o">=</span> <span class="n">obj_val</span>
+    <span class="c1"># Initialize step_norm_k to a bogus value to enable termination check</span>
+    <span class="n">step_norm_k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Initialize trust region radius</span>
+    <span class="n">trust_radius</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">trust_radius</span>
+
+    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">TRFLogger</span><span class="o">.</span><span class="n">newIteration</span><span class="p">(</span>
+        <span class="n">iteration</span><span class="p">,</span> <span class="n">feasibility_k</span><span class="p">,</span> <span class="n">obj_val_k</span><span class="p">,</span> <span class="n">trust_radius</span><span class="p">,</span> <span class="n">step_norm_k</span>
+    <span class="p">)</span>
+    <span class="n">TRFLogger</span><span class="o">.</span><span class="n">logIteration</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+        <span class="n">TRFLogger</span><span class="o">.</span><span class="n">printIteration</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">iteration</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">maximum_iterations</span><span class="p">:</span>
+        <span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Check termination conditions</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">feasibility_k</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">feasibility_termination</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">step_norm_k</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">step_size_termination</span>
+        <span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXIT: Optimal solution found.&#39;</span><span class="p">)</span>
+            <span class="n">interface</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+            <span class="k">break</span>
+
+        <span class="c1"># If trust region very small and no progress is being made,</span>
+        <span class="c1"># terminate. The following condition must hold for two</span>
+        <span class="c1"># consecutive iterations.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">trust_radius</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">minimum_radius</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">feasibility_k</span> <span class="o">-</span> <span class="n">feasibility</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">feasibility_termination</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">subopt_flag</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;WARNING: Insufficient progress.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXIT: Feasible solution found.&#39;</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">subopt_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># This condition holds for iteration 0, which will declare</span>
+            <span class="c1"># the boolean subopt_flag</span>
+            <span class="n">subopt_flag</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Set bounds to enforce the trust region</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">updateDecisionVariableBounds</span><span class="p">(</span><span class="n">trust_radius</span><span class="p">)</span>
+        <span class="c1"># Generate suggorate model r_k(w)</span>
+        <span class="k">if</span> <span class="n">rebuildSM</span><span class="p">:</span>
+            <span class="n">interface</span><span class="o">.</span><span class="n">updateSurrogateModel</span><span class="p">()</span>
+
+        <span class="c1"># Solve the Trust Region Subproblem (TRSP)</span>
+        <span class="n">obj_val_k</span><span class="p">,</span> <span class="n">step_norm_k</span><span class="p">,</span> <span class="n">feasibility_k</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">solveModel</span><span class="p">()</span>
+
+        <span class="n">TRFLogger</span><span class="o">.</span><span class="n">newIteration</span><span class="p">(</span>
+            <span class="n">iteration</span><span class="p">,</span> <span class="n">feasibility_k</span><span class="p">,</span> <span class="n">obj_val_k</span><span class="p">,</span> <span class="n">trust_radius</span><span class="p">,</span> <span class="n">step_norm_k</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Check filter acceptance</span>
+        <span class="n">filterElement</span> <span class="o">=</span> <span class="n">FilterElement</span><span class="p">(</span><span class="n">obj_val_k</span><span class="p">,</span> <span class="n">feasibility_k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">TRFilter</span><span class="o">.</span><span class="n">isAcceptable</span><span class="p">(</span><span class="n">filterElement</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">maximum_feasibility</span><span class="p">):</span>
+            <span class="c1"># Reject the step</span>
+            <span class="n">TRFLogger</span><span class="o">.</span><span class="n">iterrecord</span><span class="o">.</span><span class="n">rejected</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">trust_radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">minimum_radius</span><span class="p">,</span> <span class="n">step_norm_k</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">radius_update_param_gamma_c</span>
+            <span class="p">)</span>
+            <span class="n">rebuildSM</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">interface</span><span class="o">.</span><span class="n">rejectStep</span><span class="p">()</span>
+            <span class="c1"># Log iteration information</span>
+            <span class="n">TRFLogger</span><span class="o">.</span><span class="n">logIteration</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="n">TRFLogger</span><span class="o">.</span><span class="n">printIteration</span><span class="p">()</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Switching condition: Eq. (7) in Yoshio/Biegler (2020)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">obj_val</span> <span class="o">-</span> <span class="n">obj_val_k</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">switch_condition_kappa_theta</span>
+            <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">feasibility</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">switch_condition_gamma_s</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">feasibility</span> <span class="o">&lt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">minimum_feasibility</span><span class="p">):</span>
+            <span class="c1"># f-type step</span>
+            <span class="n">TRFLogger</span><span class="o">.</span><span class="n">iterrecord</span><span class="o">.</span><span class="n">fStep</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">trust_radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="nb">max</span><span class="p">(</span><span class="n">step_norm_k</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">radius_update_param_gamma_e</span><span class="p">,</span> <span class="n">trust_radius</span><span class="p">),</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">maximum_radius</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># theta-type step</span>
+            <span class="n">TRFLogger</span><span class="o">.</span><span class="n">iterrecord</span><span class="o">.</span><span class="n">thetaStep</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">filterElement</span> <span class="o">=</span> <span class="n">FilterElement</span><span class="p">(</span>
+                <span class="n">obj_val_k</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">param_filter_gamma_f</span> <span class="o">*</span> <span class="n">feasibility_k</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">param_filter_gamma_theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">feasibility_k</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">TRFilter</span><span class="o">.</span><span class="n">addToFilter</span><span class="p">(</span><span class="n">filterElement</span><span class="p">)</span>
+            <span class="c1"># Calculate ratio: Eq. (10) in Yoshio/Biegler (2020)</span>
+            <span class="n">rho_k</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">feasibility</span> <span class="o">-</span> <span class="n">feasibility_k</span> <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">feasibility_termination</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">feasibility</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">feasibility_termination</span><span class="p">)</span>
+            <span class="c1"># Ratio tests: Eq. (8) in Yoshio/Biegler (2020)</span>
+            <span class="c1"># If rho_k is between eta_1 and eta_2, trust radius stays same</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rho_k</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">ratio_test_param_eta_1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="n">feasibility</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">minimum_feasibility</span>
+            <span class="p">):</span>
+                <span class="n">trust_radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">minimum_radius</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">radius_update_param_gamma_c</span> <span class="o">*</span> <span class="n">step_norm_k</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">rho_k</span> <span class="o">&gt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">ratio_test_param_eta_2</span><span class="p">:</span>
+                <span class="n">trust_radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">maximum_radius</span><span class="p">,</span>
+                    <span class="nb">max</span><span class="p">(</span>
+                        <span class="n">trust_radius</span><span class="p">,</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">radius_update_param_gamma_e</span> <span class="o">*</span> <span class="n">step_norm_k</span><span class="p">)</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+
+        <span class="n">TRFLogger</span><span class="o">.</span><span class="n">updateIteration</span><span class="p">(</span><span class="n">trustRadius</span><span class="o">=</span><span class="n">trust_radius</span><span class="p">)</span>
+        <span class="c1"># Accept step and reset for next iteration</span>
+        <span class="n">rebuildSM</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">feasibility</span> <span class="o">=</span> <span class="n">feasibility_k</span>
+        <span class="n">obj_val</span> <span class="o">=</span> <span class="n">obj_val_k</span>
+        <span class="c1"># Log iteration information</span>
+        <span class="n">TRFLogger</span><span class="o">.</span><span class="n">logIteration</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="n">TRFLogger</span><span class="o">.</span><span class="n">printIteration</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">iteration</span> <span class="o">&gt;=</span> <span class="n">config</span><span class="o">.</span><span class="n">maximum_iterations</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s1">&#39;EXIT: Maximum iterations reached: </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maximum_iterations</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">interface</span><span class="o">.</span><span class="n">model</span>
+
+
+<span class="k">def</span> <span class="nf">_trf_config</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the configuration dictionary.</span>
+<span class="sd">    The user may change the configuration options during the instantiation</span>
+<span class="sd">    of the trustregion solver:</span>
+<span class="sd">        &gt;&gt;&gt; optTRF = SolverFactory(&#39;trustregion&#39;,</span>
+<span class="sd">        ...                        solver=&#39;ipopt&#39;,</span>
+<span class="sd">        ...                        maximum_iterations=50,</span>
+<span class="sd">        ...                        minimum_radius=1e-5,</span>
+<span class="sd">        ...                        verbose=True)</span>
+
+<span class="sd">    The user may also update the configuration after instantiation:</span>
+<span class="sd">        &gt;&gt;&gt; optTRF = SolverFactory(&#39;trustregion&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; optTRF._CONFIG.trust_radius = 0.5</span>
+
+<span class="sd">    The user may also update the configuration as part of the solve call:</span>
+<span class="sd">        &gt;&gt;&gt; optTRF = SolverFactory(&#39;trustregion&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; optTRF.solve(model, decision_variables, trust_radius=0.5)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    CONFIG : ConfigDict</span>
+<span class="sd">        This holds all configuration options to be passed to the TRF solver.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="s1">&#39;TrustRegion&#39;</span><span class="p">)</span>
+
+    <span class="c1">### Solver options</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;solver&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Solver to use. Default = ``ipopt``.&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;keepfiles&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">Bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Optional. Whether or not to &quot;</span>
+            <span class="s2">&quot;write files of sub-problems for use in debugging. &quot;</span>
+            <span class="s2">&quot;Default = False.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;tee&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">Bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Optional. Sets the ``tee`` &quot;</span>
+            <span class="s2">&quot;for sub-solver(s) utilized. &quot;</span>
+            <span class="s2">&quot;Default = False.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1">### Trust Region specific options</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;verbose&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">Bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Optional. When True, print each &quot;</span>
+            <span class="s2">&quot;iteration&#39;s relevant information to the console &quot;</span>
+            <span class="s2">&quot;as well as to the log. &quot;</span>
+            <span class="s2">&quot;Default = False.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;trust_radius&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Initial trust region radius ``delta_0``. Default = 1.0.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;minimum_radius&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Minimum allowed trust region radius ``delta_min``. &quot;</span>
+            <span class="s2">&quot;Default = 1e-6.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;maximum_radius&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">trust_radius</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum allowed trust region radius. If trust region &quot;</span>
+            <span class="s2">&quot;radius reaches maximum allowed, solver will exit. &quot;</span>
+            <span class="s2">&quot;Default = 100 * trust_radius.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;maximum_iterations&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveInt</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum allowed number of iterations. Default = 50.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1">### Termination options</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;feasibility_termination&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feasibility measure termination tolerance ``epsilon_theta``. &quot;</span>
+            <span class="s2">&quot;Default = 1e-5.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;step_size_termination&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">feasibility_termination</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Step size termination tolerance ``epsilon_s``. &quot;</span>
+            <span class="s2">&quot;Matches the feasibility termination tolerance by default.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1">### Switching Condition options</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;minimum_feasibility&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Minimum feasibility measure ``theta_min``. Default = 1e-4.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;switch_condition_kappa_theta&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Switching condition parameter ``kappa_theta``. &quot;</span>
+            <span class="s2">&quot;Contained in open set (0, 1). &quot;</span>
+            <span class="s2">&quot;Default = 0.1.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;switch_condition_gamma_s&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Switching condition parameter ``gamma_s``. &quot;</span>
+            <span class="s2">&quot;Must satisfy: ``gamma_s &gt; 1/(1+mu)`` where ``mu`` &quot;</span>
+            <span class="s2">&quot;is contained in set (0, 1]. &quot;</span>
+            <span class="s2">&quot;Default = 2.0.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1">### Trust region update/ratio test parameters</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;radius_update_param_gamma_c&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lower trust region update parameter ``gamma_c``. &quot;</span>
+            <span class="s2">&quot;Default = 0.5.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;radius_update_param_gamma_e&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Upper trust region update parameter ``gamma_e``. &quot;</span>
+            <span class="s2">&quot;Default = 2.5.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;ratio_test_param_eta_1&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lower ratio test parameter ``eta_1``. &quot;</span>
+            <span class="s2">&quot;Must satisfy: ``0 &lt; eta_1 &lt;= eta_2 &lt; 1``. &quot;</span>
+            <span class="s2">&quot;Default = 0.05.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;ratio_test_param_eta_2&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lower ratio test parameter ``eta_2``. &quot;</span>
+            <span class="s2">&quot;Must satisfy: ``0 &lt; eta_1 &lt;= eta_2 &lt; 1``. &quot;</span>
+            <span class="s2">&quot;Default = 0.2.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1">### Filter</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;maximum_feasibility&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">PositiveFloat</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum allowable feasibility measure ``theta_max``. &quot;</span>
+            <span class="s2">&quot;Parameter for use in filter method.&quot;</span>
+            <span class="s2">&quot;Default = 50.0.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;param_filter_gamma_theta&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fixed filter parameter ``gamma_theta`` within (0, 1). &quot;</span>
+            <span class="s2">&quot;Default = 0.01&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s1">&#39;param_filter_gamma_f&#39;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">NumericRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fixed filter parameter ``gamma_f`` within (0, 1). &quot;</span>
+            <span class="s2">&quot;Default = 0.01&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">CONFIG</span>
+
+
+<div class="viewcode-block" id="TrustRegionSolver"><a class="viewcode-back" href="../../../../contributed_packages/trustregion.html#pyomo.contrib.trustregion.TRF.TrustRegionSolver">[docs]</a><span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;trustregion&#39;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;Trust region algorithm &quot;solver&quot; for black box/glass box optimization&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">TrustRegionSolver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Trust Region Solver is a &#39;solver&#39; based on the 2016/2018/2020 AiChE</span>
+<span class="sd">    papers by Eason (2016/2018), Yoshio (2020), and Biegler.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">_trf_config</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if solver is available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a 3-tuple describing the solver version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">__version__</span>
+
+    <span class="k">def</span> <span class="nf">license_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        License for using Trust Region solver.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">ev</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="TrustRegionSolver.solve"><a class="viewcode-back" href="../../../../contributed_packages/trustregion.html#pyomo.contrib.trustregion.TRF.TrustRegionSolver.solve">[docs]</a>    <span class="nd">@document_kwargs_from_configdict</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">degrees_of_freedom_variables</span><span class="p">,</span>
+        <span class="n">ext_fcn_surrogate_map_rule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwds</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method calls the TRF algorithm.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : ConcreteModel</span>
+<span class="sd">            The model to be solved using the Trust Region Framework.</span>
+<span class="sd">        degrees_of_freedom_variables : List[Var]</span>
+<span class="sd">            User-supplied input. The user must provide a list of vars which</span>
+<span class="sd">            are the degrees of freedom or decision variables within</span>
+<span class="sd">            the model.</span>
+<span class="sd">        ext_fcn_surrogate_map_rule : Function, optional</span>
+<span class="sd">            In the 2020 Yoshio/Biegler paper, this is referred to as</span>
+<span class="sd">            the basis function `b(w)`.</span>
+<span class="sd">            This is the low-fidelity model with which to solve the original</span>
+<span class="sd">            process model problem and which is integrated into the</span>
+<span class="sd">            surrogate model.</span>
+<span class="sd">            The default is 0 (i.e., no basis function rule.)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;options&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext_fcn_surrogate_map_rule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If the user does not pass us a &quot;basis&quot; function,</span>
+            <span class="c1"># we default to 0.</span>
+            <span class="n">ext_fcn_surrogate_map_rule</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">comp</span><span class="p">,</span> <span class="n">ef</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">trust_region_method</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">degrees_of_freedom_variables</span><span class="p">,</span> <span class="n">ext_fcn_surrogate_map_rule</span><span class="p">,</span> <span class="n">config</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

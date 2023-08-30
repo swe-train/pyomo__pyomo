@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Contributing to Pyomo &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Third-Party Contributions" href="contributed_packages/index.html" />
+    <link rel="prev" title="Dict-like Object Storage" href="library_reference/kernel/dict_container.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to Pyomo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#contribution-requirements">Contribution Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#coding-standards">Coding Standards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-version-support">Python Version Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#working-on-forks-and-branches">Working on Forks and Branches</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-my-fork-and-the-github-online-ui">Working with my fork and the GitHub Online UI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-github-ui-to-merge-pyomo-main-into-a-branch-on-your-fork">Using GitHub UI to merge Pyomo main into a branch on your fork</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-remotes-and-the-git-command-line">Working with remotes and the git command-line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-your-development-environment">Setting up your development environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#review-process">Review Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-put-contributed-code">Where to put contributed code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyomo-contrib"><code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#including-external-packages">Including External Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contrib-packages-within-pyomo">Contrib Packages within Pyomo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Contributing to Pyomo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/contribution_guide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="contributing-to-pyomo">
+<h1>Contributing to Pyomo<a class="headerlink" href="#contributing-to-pyomo" title="Permalink to this headline">¶</a></h1>
+<p>We welcome all contributions including bug fixes, feature enhancements,
+and documentation improvements. Pyomo manages source code contributions
+via GitHub pull requests (PRs).</p>
+<div class="section" id="contribution-requirements">
+<h2>Contribution Requirements<a class="headerlink" href="#contribution-requirements" title="Permalink to this headline">¶</a></h2>
+<p>A PR should be 1 set of related changes. PRs for large-scale
+non-functional changes (i.e. PEP8, comments) should be
+separated from functional changes. This simplifies the review process
+and ensures that functional changes aren’t obscured by large amounts of
+non-functional changes.</p>
+<p>We do not squash and merge PRs so all commits in your branch will appear
+in the main history. In addition to well-documented PR descriptions,
+we encourage modular/targeted commits with descriptive commit messages.</p>
+<div class="section" id="coding-standards">
+<h3>Coding Standards<a class="headerlink" href="#coding-standards" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Required: <a class="reference external" href="https://black.readthedocs.io/en/stable/">black</a></li>
+<li>No use of <code class="docutils literal notranslate"><span class="pre">__author__</span></code></li>
+<li>Inside <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>: Contact information for the contribution
+maintainer (such as a Github ID) should be included in the Sphinx
+documentation</li>
+</ul>
+</div></blockquote>
+<p>The first step of Pyomo’s GitHub Actions workflow is to run
+<a class="reference external" href="https://black.readthedocs.io/en/stable/">black</a> and a
+<a class="reference external" href="https://github.com/crate-ci/typos">spell-checker</a> to ensure style
+guide compliance and minimize typos. Before opening a pull request, please
+run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Auto-apply correct formatting</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">black</span>
+<span class="n">black</span> <span class="o">-</span><span class="n">S</span> <span class="o">-</span><span class="n">C</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">exclude</span> <span class="n">examples</span><span class="o">/</span><span class="n">pyomobook</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">ch</span><span class="o">/</span><span class="n">BadIndent</span><span class="o">.</span><span class="n">py</span>
+<span class="c1"># Find typos in files</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">typos</span>
+<span class="n">typos</span> <span class="o">--</span><span class="n">config</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">typos</span><span class="o">.</span><span class="n">toml</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>If the spell-checker returns a failure for a word that is spelled correctly,
+please add the word to the <code class="docutils literal notranslate"><span class="pre">.github/workflows/typos.toml</span></code> file.</p>
+<p>Online Pyomo documentation is generated using <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a>
+with the <code class="docutils literal notranslate"><span class="pre">napoleon</span></code> extension enabled. For API documentation we use of one of these
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html">supported styles for docstrings</a>,
+but we prefer the NumPy standard. Whichever you choose, we require compliant docstrings for:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Modules</li>
+<li>Public and Private Classes</li>
+<li>Public and Private Functions</li>
+</ul>
+</div></blockquote>
+<p>We also encourage you to include examples, especially for new features
+and contributions to <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>.</p>
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo uses <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a>,
+<a class="reference external" href="https://docs.pytest.org/">pytest</a>,
+<a class="reference external" href="https://docs.github.com/en/free-pro-team&#64;latest/actions">GitHub Actions</a>,
+and Jenkins
+for testing and continuous integration. Submitted code should include
+tests to establish the validity of its results and/or effects. Unit
+tests are preferred but we also accept integration tests. We require
+at least 70% coverage of the lines modified in the PR and prefer coverage
+closer to 90%. We also require that all tests pass before a PR will be
+merged.</p>
+<p>The Pyomo main branch provides a Github Actions workflow (configured
+in the <code class="docutils literal notranslate"><span class="pre">.github/</span></code> directory) that will test any changes pushed to
+a branch with a subset of the complete test harness that includes
+multiple virtual machines (<code class="docutils literal notranslate"><span class="pre">ubuntu</span></code>, <code class="docutils literal notranslate"><span class="pre">mac-os</span></code>, <code class="docutils literal notranslate"><span class="pre">windows</span></code>)
+and multiple Python versions. For existing forks, fetch and merge
+your fork (and branches) with Pyomo’s main. For new forks, you will
+need to enable GitHub Actions in the ‘Actions’ tab on your fork.
+This will enable the tests to run automatically with each push to your fork.</p>
+<p>At any point in the development cycle, a “work in progress” pull request
+may be opened by including ‘[WIP]’ at the beginning of the PR
+title. This allows your code changes to be tested by the full suite of
+Pyomo’s automatic
+testing infrastructure. Any pull requests marked ‘[WIP]’ will not be
+reviewed or merged by the core development team. However, any
+‘[WIP]’ pull request left open for an extended period of time without
+active development may be marked ‘stale’ and closed.</p>
+</div>
+<div class="section" id="python-version-support">
+<h3>Python Version Support<a class="headerlink" href="#python-version-support" title="Permalink to this headline">¶</a></h3>
+<p>By policy, Pyomo supports and tests the currently supported Python versions,
+as can be seen on <a class="reference external" href="https://devguide.python.org/versions/">Status of Python Versions</a>.
+It is expected that tests will pass for all of the supported and tested
+versions of Python, unless otherwise stated.</p>
+<p>At the time of the first Pyomo release after the end-of-life of a minor Python
+version, we will remove testing and support for that Python version.</p>
+<p>This will also result in a bump in the minor Pyomo version.</p>
+<p>For example, assume Python 3.A is declared end-of-life while Pyomo is on
+version 6.3.Y. After the release of Pyomo 6.3.(Y+1), Python 3.A will be removed,
+and the next Pyomo release will be 6.4.0.</p>
+</div>
+</div>
+<div class="section" id="working-on-forks-and-branches">
+<h2>Working on Forks and Branches<a class="headerlink" href="#working-on-forks-and-branches" title="Permalink to this headline">¶</a></h2>
+<p>All Pyomo development should be done on forks of the Pyomo
+repository. In order to fork the Pyomo repository, visit
+<a class="reference external" href="https://github.com/Pyomo/pyomo">https://github.com/Pyomo/pyomo</a>, click the “Fork” button in the
+upper right corner, and follow the instructions.</p>
+<p>This section discusses two recommended workflows for contributing
+pull-requests to Pyomo. The first workflow, labeled
+<a class="reference internal" href="#forksgithubui"><span class="std std-ref">Working with my fork and the GitHub Online UI</span></a>,
+does not require the use of ‘remotes’, and
+suggests updating your fork using the GitHub online UI. The second
+workflow, labeled
+<a class="reference internal" href="#forksremotes"><span class="std std-ref">Working with remotes and the git command-line</span></a>, outlines
+a process that defines separate remotes for your fork and the main
+Pyomo repository.</p>
+<p>More information on git can be found at
+<a class="reference external" href="https://git-scm.com/book/en/v2">https://git-scm.com/book/en/v2</a>. Section 2.5 has information on working
+with remotes.</p>
+<div class="section" id="working-with-my-fork-and-the-github-online-ui">
+<span id="forksgithubui"></span><h3>Working with my fork and the GitHub Online UI<a class="headerlink" href="#working-with-my-fork-and-the-github-online-ui" title="Permalink to this headline">¶</a></h3>
+<p>After creating your fork (per the instructions above), you can
+then clone your fork of the repository with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/&lt;</span><span class="n">username</span><span class="o">&gt;/</span><span class="n">pyomo</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>For new development, we strongly recommend working on feature
+branches. When you have a new feature to implement, create
+the branch with the following.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">pyomo</span><span class="o">/</span>     <span class="c1"># to make sure you are in the folder managed by git</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Development can now be performed. When you are ready, commit
+any changes you make to your local repository. This can be
+done multiple times with informative commit messages for
+different tasks in the feature development.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">add</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">status</span>  <span class="c1"># to check that you have added the correct files</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;informative commit message to describe changes&#39;</span>
+</pre></div>
+</div>
+<p>In order to push the changes in your local branch to a branch on your fork, use</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>When you have completed all the changes and are ready for a pull request, make
+sure all the changes have been pushed to the branch &lt;branch_name&gt; on your fork.</p>
+<blockquote>
+<div><ul class="simple">
+<li>visit <a class="reference external" href="https://github.com">https://github.com</a>/&lt;username&gt;/pyomo.</li>
+<li>Just above the list of files and directories in the repository,
+you should see a button that says “Branch: main”. Click on
+this button, and choose the correct branch.</li>
+<li>Click the “New pull request” button just to the right of the
+“Branch: &lt;branch_name&gt;” button.</li>
+<li>Fill out the pull request template and click the green “Create
+pull request” button.</li>
+</ul>
+</div></blockquote>
+<p>At times during your development, you may want to merge changes from
+the Pyomo main development branch into the feature branch on your
+fork and in your local clone of the repository.</p>
+<div class="section" id="using-github-ui-to-merge-pyomo-main-into-a-branch-on-your-fork">
+<h4>Using GitHub UI to merge Pyomo main into a branch on your fork<a class="headerlink" href="#using-github-ui-to-merge-pyomo-main-into-a-branch-on-your-fork" title="Permalink to this headline">¶</a></h4>
+<p>To update your fork, you will actually be merging a pull-request from
+the head Pyomo repository into your fork.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Visit <a class="reference external" href="https://github.com/Pyomo/pyomo">https://github.com/Pyomo/pyomo</a>.</li>
+<li>Click on the “New pull request” button just above the list of
+files and directories.</li>
+<li>You will see the title “Compare changes” with some small text
+below it which says “Compare changes across branches, commits,
+tags, and more below. If you need to, you can also compare
+across forks.” Click the last part of this: “compare across
+forks”.</li>
+<li>You should now see four buttons just below this: “base
+repository: Pyomo/pyomo”, “base: main”, “head repository:
+Pyomo/pyomo”, and “compare: main”. Click the leftmost button
+and choose “&lt;username&gt;/Pyomo”.</li>
+<li>Then click the button which is second to the left, and choose
+the branch which you want to merge Pyomo main into. The four
+buttons should now read: “base repository: &lt;username&gt;/pyomo”,
+“base: &lt;branch_name&gt;”, “head repository: Pyomo/pyomo”, and
+“compare: main”. This is setting you up to merge a pull-request
+from Pyomo’s main branch into your fork’s &lt;branch_name&gt; branch.</li>
+<li>You should also now see a pull request template. If you fill out
+the pull request template and click “Create pull request”, this
+will create a pull request which will update your fork and
+branch with any changes that have been made to the main branch
+of Pyomo.</li>
+<li>You can then merge the pull request by clicking the green “Merge
+pull request” button from your fork on GitHub.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="working-with-remotes-and-the-git-command-line">
+<span id="forksremotes"></span><h3>Working with remotes and the git command-line<a class="headerlink" href="#working-with-remotes-and-the-git-command-line" title="Permalink to this headline">¶</a></h3>
+<p>After you have created your fork, you can clone the fork and setup
+git ‘remotes’ that allow you to merge changes from (and to) different
+remote repositories. Below, we have included a set of recommendations,
+but, of course, there are other valid GitHub workflows that you can
+adopt.</p>
+<p>The following commands show how to clone your fork and setup
+two remotes, one for your fork, and one for the head Pyomo repository.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/&lt;</span><span class="n">username</span><span class="o">&gt;/</span><span class="n">pyomo</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">rename</span> <span class="n">origin</span> <span class="n">my</span><span class="o">-</span><span class="n">fork</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">head</span><span class="o">-</span><span class="n">pyomo</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pyomo</span><span class="o">/</span><span class="n">pyomo</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Note, you can see a list of your remotes with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>The commands for creating a local branch and performing local commits
+are the same as those listed in the previous section above. Below are
+some common tasks based on this multi-remote setup.</p>
+<p>If you have changes that have been committed to a local feature branch
+(&lt;branch_name&gt;), you can push these changes to the branch on your fork
+with,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">my</span><span class="o">-</span><span class="n">fork</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>In order to update a local branch with changes from a branch of the
+Pyomo repository,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">branch_to_update</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="n">head</span><span class="o">-</span><span class="n">pyomo</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">head</span><span class="o">-</span><span class="n">pyomo</span><span class="o">/&lt;</span><span class="n">branch_to_update_from</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">ff</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+<p>The “–ff-only” only allows a merge if the merge can be done by a
+fast-forward. If you do not require a fast-forward, you can drop this
+option. The most common concrete example of this would be</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="n">head</span><span class="o">-</span><span class="n">pyomo</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">head</span><span class="o">-</span><span class="n">pyomo</span><span class="o">/</span><span class="n">main</span> <span class="o">--</span><span class="n">ff</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+<p>The above commands pull changes from the main branch of the head
+Pyomo repository into the main branch of your local clone. To push
+these changes to the main branch on your fork,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">my</span><span class="o">-</span><span class="n">fork</span> <span class="n">main</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-up-your-development-environment">
+<h3>Setting up your development environment<a class="headerlink" href="#setting-up-your-development-environment" title="Permalink to this headline">¶</a></h3>
+<p>After cloning your fork, you will want to install Pyomo from source.</p>
+<p>Step 1 (recommended): Create a new <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">pyomodev</span>
+</pre></div>
+</div>
+<p>You may change the environment name from <code class="docutils literal notranslate"><span class="pre">pyomodev</span></code> as you see fit.
+Then activate the environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">pyomodev</span>
+</pre></div>
+</div>
+<p>Step 2 (optional): Install PyUtilib</p>
+<p>The hard dependency on PyUtilib was removed in Pyomo 6.0.0. There is still a
+soft dependency for any code related to <code class="docutils literal notranslate"><span class="pre">pyomo.dataportal.plugins.sheet</span></code>.</p>
+<p>If your contribution requires PyUtilib, you will likely need the main branch of
+PyUtilib to contribute. Clone a copy of the repository in a new directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">PyUtilib</span><span class="o">/</span><span class="n">pyutilib</span>
+</pre></div>
+</div>
+<p>Then in the directory containing the clone of PyUtilib run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>Step 3: Install Pyomo</p>
+<p>Finally, move to the directory containing the clone of your Pyomo fork and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>These commands register the cloned code with the active python environment
+(<code class="docutils literal notranslate"><span class="pre">pyomodev</span></code>). This way, your changes to the source code for <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> are
+automatically used by the active environment. You can create another conda
+environment to switch to alternate versions of pyomo (e.g., stable).</p>
+</div>
+</div>
+<div class="section" id="review-process">
+<h2>Review Process<a class="headerlink" href="#review-process" title="Permalink to this headline">¶</a></h2>
+<p>After a PR is opened it will be reviewed by at least two members of the
+core development team. The core development team consists of anyone with
+write-access to the Pyomo repository. Pull requests opened by a core
+developer only require one review. The reviewers will decide if they
+think a PR should be merged or if more changes are necessary.</p>
+<p>Reviewers look for:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Outside of <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>: Code rigor and standards, edge cases,
+side effects, etc.</li>
+<li>Inside of <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>: No “glaringly obvious” problems with
+the code</li>
+<li>Documentation and tests</li>
+</ul>
+</div></blockquote>
+<p>The core development team tries to review pull requests in a timely
+manner but we make no guarantees on review timeframes. In addition, PRs
+might not be reviewed in the order they are opened in.</p>
+</div>
+<div class="section" id="where-to-put-contributed-code">
+<h2>Where to put contributed code<a class="headerlink" href="#where-to-put-contributed-code" title="Permalink to this headline">¶</a></h2>
+<p>In order to contribute to Pyomo, you must first make a fork of the Pyomo
+git repository. Next, you should create a branch on your fork dedicated
+to the development of the new feature or bug fix you’re interested
+in. Once you have this branch checked out, you can start coding. Bug
+fixes and minor enhancements to existing Pyomo functionality should be
+made in the appropriate files in the Pyomo code base. New examples,
+features, and packages built on Pyomo should be placed in
+<code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>. Follow the link below to find out if
+<code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> is right for your code.</p>
+</div>
+<div class="section" id="pyomo-contrib">
+<h2><code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code><a class="headerlink" href="#pyomo-contrib" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo uses the <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> package to facilitate the inclusion
+of third-party contributions that enhance Pyomo’s core functionality.
+The are two ways that <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> can be used to integrate
+third-party packages:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> can provide wrappers for separate Python packages, thereby</dt><dd>allowing these packages to be imported as subpackages of pyomo.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> can include contributed packages that are developed and</dt><dd>maintained outside of the Pyomo developer team.</dd>
+</dl>
+</li>
+</ul>
+<p>Including contrib packages in the Pyomo source tree provides a
+convenient mechanism for defining new functionality that can be
+optionally deployed by users.  We expect this mechanism to include
+Pyomo extensions and experimental modeling capabilities.  However,
+contrib packages are treated as optional packages, which are not
+maintained by the Pyomo developer team.  Thus, it is the responsibility
+of the code contributor to keep these packages up-to-date.</p>
+<p>Contrib package contributions will be considered as pull-requests,
+which will be reviewed by the Pyomo developer team.  Specifically,
+this review will consider the suitability of the proposed capability,
+whether tests are available to check the execution of the code, and
+whether documentation is available to describe the capability.
+Contrib packages will be tested along with Pyomo.  If test failures
+arise, then these packages will be disabled and an issue will be
+created to resolve these test failures.</p>
+<p>The following two examples illustrate the two ways
+that <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> can be used to integrate third-party
+contributions.</p>
+<div class="section" id="including-external-packages">
+<h3>Including External Packages<a class="headerlink" href="#including-external-packages" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="http://pyomocontrib-simplemodel.readthedocs.io/en/latest/">pyomocontrib_simplemodel</a> package
+is derived from Pyomo, and it defines the class SimpleModel that
+illustrates how Pyomo can be used in a simple, less object-oriented
+manner. Specifically, this class mimics the modeling style supported
+by <a class="reference external" href="https://github.com/coin-or/pulp">PuLP</a>.</p>
+<p>While <code class="docutils literal notranslate"><span class="pre">pyomocontrib_simplemodel</span></code> can be installed and used separate
+from Pyomo, this package is included in <code class="docutils literal notranslate"><span class="pre">pyomo/contrib/simplemodel</span></code>.
+This allows this package to be referenced as if were defined as a
+subpackage of <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.contrib.simplemodel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">SimpleModel</span><span class="p">()</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+
+<span class="n">m</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">+=</span> <span class="n">pi</span><span class="o">*</span><span class="n">h</span><span class="o">*</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">355</span>
+
+<span class="n">status</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="s2">&quot;ipopt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This example illustrates that a package can be distributed separate
+from Pyomo while appearing to be included in the <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>
+subpackage.  Pyomo requires a separate directory be defined under
+<code class="docutils literal notranslate"><span class="pre">pyomo/contrib</span></code> for each such package, and the Pyomo developer
+team will approve the inclusion of third-party packages in this
+manner.</p>
+</div>
+<div class="section" id="contrib-packages-within-pyomo">
+<h3>Contrib Packages within Pyomo<a class="headerlink" href="#contrib-packages-within-pyomo" title="Permalink to this headline">¶</a></h3>
+<p>Third-party contributions can also be included directly within the
+<code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code> package.  The <code class="docutils literal notranslate"><span class="pre">pyomo/contrib/example</span></code> package
+provides an example of how this can be done, including a directory
+for plugins and package tests.  For example, this package can be
+imported as a subpackage of <code class="docutils literal notranslate"><span class="pre">pyomo.contrib</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.example</span> <span class="kn">import</span> <span class="n">a</span>
+
+<span class="c1"># Print the value of &#39;a&#39; defined by this package</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Although <code class="docutils literal notranslate"><span class="pre">pyomo.contrib.example</span></code> is included in the Pyomo source
+tree, it is treated as an optional package.  Pyomo will attempt to
+import this package, but if an import failure occurs, Pyomo will
+silently ignore it.  Otherwise, this pyomo package will be treated
+like any other.  Specifically:</p>
+<ul class="simple">
+<li>Plugin classes defined in this package are loaded when <cite>pyomo.environ</cite> is loaded.</li>
+<li>Tests in this package are run with other Pyomo tests.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="contributed_packages/index.html" class="btn btn-neutral float-right" title="Third-Party Contributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="library_reference/kernel/dict_container.html" class="btn btn-neutral float-left" title="Dict-like Object Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

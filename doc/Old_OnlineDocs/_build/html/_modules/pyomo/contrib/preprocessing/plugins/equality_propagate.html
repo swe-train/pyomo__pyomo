@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.preprocessing.plugins.equality_propagate &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.preprocessing.plugins.equality_propagate</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.preprocessing.plugins.equality_propagate</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="sd">&quot;&quot;&quot;Transformation to propagate state through an equality set.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">ComponentMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.constraint</span> <span class="kn">import</span> <span class="n">Constraint</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.transformation</span> <span class="kn">import</span> <span class="n">TransformationFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.suffix</span> <span class="kn">import</span> <span class="n">Suffix</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.plugins.transform.hierarchy</span> <span class="kn">import</span> <span class="n">IsomorphicTransformation</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn.standard_repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConfigBlock</span><span class="p">,</span>
+    <span class="n">ConfigValue</span><span class="p">,</span>
+    <span class="n">document_kwargs_from_configdict</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">InfeasibleConstraintException</span>
+
+
+<span class="k">def</span> <span class="nf">_build_equality_set</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct an equality set map.</span>
+
+<span class="sd">    Maps all variables to the set of variables that are linked to them by</span>
+<span class="sd">    equality. Mapping takes place using id(). That is, if you have x = y, then</span>
+<span class="sd">    you would have id(x) -&gt; ComponentSet([x, y]) and id(y) -&gt; ComponentSet([x,</span>
+<span class="sd">    y]) in the mapping.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#: dict: map of var UID to the set of all equality-linked var UIDs</span>
+    <span class="n">eq_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+    <span class="n">relevant_vars</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">constr</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+        <span class="n">ctype</span><span class="o">=</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="c1"># Check to make sure the constraint is of form v1 - v2 == 0</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="ow">and</span> <span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="ow">and</span> <span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">):</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="c1"># only take the variables with nonzero coefficients</span>
+            <span class="n">vars_</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="k">if</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">vars_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+                <span class="ow">and</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="ow">and</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span> <span class="k">if</span> <span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">):</span>
+                <span class="c1"># this is an a == b constraint.</span>
+                <span class="n">v1</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">v2</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">set1</span> <span class="o">=</span> <span class="n">eq_var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">ComponentSet</span><span class="p">([</span><span class="n">v1</span><span class="p">]))</span>
+                <span class="n">set2</span> <span class="o">=</span> <span class="n">eq_var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">ComponentSet</span><span class="p">([</span><span class="n">v2</span><span class="p">]))</span>
+                <span class="n">relevant_vars</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">])</span>
+                <span class="n">set1</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>  <span class="c1"># set1 is now the union</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">set1</span><span class="p">:</span>
+                    <span class="n">eq_var_map</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">set1</span>
+
+    <span class="k">return</span> <span class="n">eq_var_map</span><span class="p">,</span> <span class="n">relevant_vars</span>
+
+
+<span class="k">def</span> <span class="nf">_detect_fixed_variables</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Detect fixed variables due to constraints of form var = const.&quot;&quot;&quot;</span>
+    <span class="n">new_fixed_vars</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">constr</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+        <span class="n">ctype</span><span class="o">=</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">constr</span><span class="o">.</span><span class="n">equality</span> <span class="ow">and</span> <span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">coef</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">const</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span>
+                <span class="n">var_val</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">value</span><span class="p">(</span><span class="n">const</span><span class="p">))</span> <span class="o">/</span> <span class="n">coef</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">var_val</span><span class="p">)</span>
+                <span class="n">new_fixed_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_fixed_vars</span>
+
+
+<div class="viewcode-block" id="FixedVarPropagator"><a class="viewcode-back" href="../../../../../contributed_packages/preprocessing.html#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator">[docs]</a><span class="nd">@TransformationFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;contrib.propagate_fixed_vars&#39;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Propagate variable fixing for equalities of type x = y.&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@document_kwargs_from_configdict</span><span class="p">(</span><span class="s1">&#39;CONFIG&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">FixedVarPropagator</span><span class="p">(</span><span class="n">IsomorphicTransformation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Propagate variable fixing for equalities of type :math:`x = y`.</span>
+
+<span class="sd">    If :math:`x` is fixed and :math:`y` is not fixed, then this transformation</span>
+<span class="sd">    will fix :math:`y` to the value of :math:`x`.</span>
+
+<span class="sd">    This transformation can also be performed as a temporary transformation,</span>
+<span class="sd">    whereby the transformed variables are saved and can be later unfixed.</span>
+
+<span class="sd">    Keyword arguments below are specified for the ``apply_to`` and</span>
+<span class="sd">    ``create_using`` functions.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;tmp&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True to store the set of transformed variables and &quot;</span>
+            <span class="s2">&quot;their old states so that they can be later restored.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_apply_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">tmp</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s1">&#39;_tmp_propagate_fixed&#39;</span><span class="p">):</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_fixed</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="n">eq_var_map</span><span class="p">,</span> <span class="n">relevant_vars</span> <span class="o">=</span> <span class="n">_build_equality_set</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="c1">#: ComponentSet: The set of all fixed variables</span>
+        <span class="n">fixed_vars</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">((</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">relevant_vars</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">fixed</span><span class="p">))</span>
+        <span class="n">newly_fixed</span> <span class="o">=</span> <span class="n">_detect_fixed_variables</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">tmp</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_fixed</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">newly_fixed</span><span class="p">)</span>
+        <span class="n">fixed_vars</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">newly_fixed</span><span class="p">)</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="c1"># Go through each fixed variable to propagate the &#39;fixed&#39; status to all</span>
+        <span class="c1"># equality-linked variables.</span>
+        <span class="k">for</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">fixed_vars</span><span class="p">:</span>
+            <span class="c1"># If we have already processed the variable, skip it.</span>
+            <span class="k">if</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">processed</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">eq_set</span> <span class="o">=</span> <span class="n">eq_var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">ComponentSet</span><span class="p">([</span><span class="n">v1</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">eq_set</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v2</span><span class="o">.</span><span class="n">fixed</span> <span class="ow">and</span> <span class="n">value</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">value</span><span class="p">(</span><span class="n">v2</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">InfeasibleConstraintException</span><span class="p">(</span>
+                        <span class="s1">&#39;Variables </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1"> have conflicting fixed &#39;</span>
+                        <span class="s1">&#39;values of </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">, but are linked by &#39;</span>
+                        <span class="s1">&#39;equality constraints.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">v1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">v2</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">v1</span><span class="p">),</span> <span class="n">value</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">v2</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                    <span class="n">v2</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">tmp</span><span class="p">:</span>
+                        <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+            <span class="c1"># Add all variables in the equality set to the set of processed</span>
+            <span class="c1"># variables.</span>
+            <span class="n">processed</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">eq_set</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FixedVarPropagator.revert"><a class="viewcode-back" href="../../../../../contributed_packages/preprocessing.html#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.revert">[docs]</a>    <span class="k">def</span> <span class="nf">revert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Revert variables fixed by the transformation.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_fixed</span><span class="p">:</span>
+            <span class="n">var</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_fixed</span></div></div>
+
+
+<div class="viewcode-block" id="VarBoundPropagator"><a class="viewcode-back" href="../../../../../contributed_packages/preprocessing.html#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator">[docs]</a><span class="nd">@TransformationFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;contrib.propagate_eq_var_bounds&#39;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Propagate variable bounds for equalities of type x = y.&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@document_kwargs_from_configdict</span><span class="p">(</span><span class="s1">&#39;CONFIG&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">VarBoundPropagator</span><span class="p">(</span><span class="n">IsomorphicTransformation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Propagate variable bounds for equalities of type :math:`x = y`.</span>
+
+<span class="sd">    If :math:`x` has a tighter bound then :math:`y`, then this transformation</span>
+<span class="sd">    will adjust the bounds on :math:`y` to match those of :math:`x`.</span>
+
+<span class="sd">    Keyword arguments below are specified for the ``apply_to`` and</span>
+<span class="sd">    ``create_using`` functions.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;tmp&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;True to store the set of transformed variables and &quot;</span>
+            <span class="s2">&quot;their old states so that they can be later restored.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_apply_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">tmp</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s1">&#39;_tmp_propagate_original_bounds&#39;</span><span class="p">):</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_original_bounds</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">LOCAL</span><span class="p">)</span>
+        <span class="n">eq_var_map</span><span class="p">,</span> <span class="n">relevant_vars</span> <span class="o">=</span> <span class="n">_build_equality_set</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="c1"># Go through each variable in an equality set to propagate the variable</span>
+        <span class="c1"># bounds to all equality-linked variables.</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">relevant_vars</span><span class="p">:</span>
+            <span class="c1"># If we have already processed the variable, skip it.</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">processed</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">var_equality_set</span> <span class="o">=</span> <span class="n">eq_var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">ComponentSet</span><span class="p">([</span><span class="n">var</span><span class="p">]))</span>
+
+            <span class="c1">#: variable lower bounds in the equality set</span>
+            <span class="n">lbs</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var_equality_set</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()]</span>
+            <span class="n">max_lb</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lbs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="c1">#: variable upper bounds in the equality set</span>
+            <span class="n">ubs</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">ub</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var_equality_set</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">has_ub</span><span class="p">()]</span>
+            <span class="n">min_ub</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ubs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ubs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+
+            <span class="c1"># Check for error due to bound cross-over</span>
+            <span class="k">if</span> <span class="n">max_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_lb</span> <span class="o">&gt;</span> <span class="n">min_ub</span><span class="p">:</span>
+                <span class="c1"># the lower bound is above the upper bound. Raise an exception.</span>
+                <span class="c1"># get variable with the highest lower bound</span>
+                <span class="n">v1</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var_equality_set</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lb</span> <span class="o">==</span> <span class="n">max_lb</span><span class="p">)</span>
+                <span class="c1"># get variable with the lowest upper bound</span>
+                <span class="n">v2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var_equality_set</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span> <span class="o">==</span> <span class="n">min_ub</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">InfeasibleConstraintException</span><span class="p">(</span>
+                    <span class="s1">&#39;Variable </span><span class="si">{}</span><span class="s1"> has a lower bound </span><span class="si">{}</span><span class="s1"> &#39;</span>
+                    <span class="s1">&#39;&gt; the upper bound </span><span class="si">{}</span><span class="s1"> of variable </span><span class="si">{}</span><span class="s1">, &#39;</span>
+                    <span class="s1">&#39;but they are linked by equality constraints.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">v1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">lb</span><span class="p">),</span> <span class="n">value</span><span class="p">(</span><span class="n">v2</span><span class="o">.</span><span class="n">ub</span><span class="p">),</span> <span class="n">v2</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var_equality_set</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">tmp</span><span class="p">:</span>
+                    <span class="c1"># TODO warn if overwriting</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_original_bounds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="n">max_lb</span><span class="p">)</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="n">min_ub</span><span class="p">)</span>
+
+            <span class="n">processed</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">var_equality_set</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VarBoundPropagator.revert"><a class="viewcode-back" href="../../../../../contributed_packages/preprocessing.html#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.revert">[docs]</a>    <span class="k">def</span> <span class="nf">revert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Revert variable bounds.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_original_bounds</span><span class="p">:</span>
+            <span class="n">old_LB</span><span class="p">,</span> <span class="n">old_UB</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_original_bounds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="n">old_LB</span><span class="p">)</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="n">old_UB</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">instance</span><span class="o">.</span><span class="n">_tmp_propagate_original_bounds</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

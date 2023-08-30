@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Gurobi &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ipopt" href="appsi.solvers.ipopt.html" />
+    <link rel="prev" title="Solvers" href="appsi.solvers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="appsi.base.html">APPSI Base Classes</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="appsi.solvers.html">Solvers</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Gurobi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="appsi.solvers.ipopt.html">Ipopt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="appsi.solvers.cplex.html">Cplex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="appsi.solvers.cbc.html">Cbc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="appsi.solvers.highs.html">HiGHS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="appsi.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="appsi.html">APPSI</a> &raquo;</li>
+        
+          <li><a href="appsi.solvers.html">Solvers</a> &raquo;</li>
+        
+      <li>Gurobi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/appsi/appsi.solvers.gurobi.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gurobi">
+<h1>Gurobi<a class="headerlink" href="#gurobi" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.GurobiResults">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.appsi.solvers.gurobi.</code><code class="descname">GurobiResults</code><span class="sig-paren">(</span><em><span class="n">solver</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#GurobiResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.GurobiResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.Results" title="pyomo.contrib.appsi.base.Results"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.contrib.appsi.base.Results</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.appsi.solvers.gurobi.</code><code class="descname">Gurobi</code><span class="sig-paren">(</span><em><span class="n">only_child_vars</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.contrib.appsi.base.PersistentBase</span></code>, <a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.PersistentSolver" title="pyomo.contrib.appsi.base.PersistentSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.contrib.appsi.base.PersistentSolver</span></code></a></p>
+<p>Interface to Gurobi</p>
+<dl class="py class">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability">
+<em class="property">class </em><code class="descname">Availability</code><span class="sig-paren">(</span><em><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.IntEnum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.IntEnum</span></code></a></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.BadLicense">
+<code class="descname">BadLicense</code><em class="property"> = -2</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.BadLicense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.BadVersion">
+<code class="descname">BadVersion</code><em class="property"> = -1</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.BadVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.FullLicense">
+<code class="descname">FullLicense</code><em class="property"> = 1</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.FullLicense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.LimitedLicense">
+<code class="descname">LimitedLicense</code><em class="property"> = 2</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.LimitedLicense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.NeedsCompiledExtension">
+<code class="descname">NeedsCompiledExtension</code><em class="property"> = -3</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.NeedsCompiledExtension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.NotFound">
+<code class="descname">NotFound</code><em class="property"> = 0</em><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.Availability.NotFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_block">
+<code class="descname">add_block</code><span class="sig-paren">(</span><em><span class="n">block</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_constraints">
+<code class="descname">add_constraints</code><span class="sig-paren">(</span><em><span class="n">cons</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.constraint._GeneralConstraintData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_constraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_params">
+<code class="descname">add_params</code><span class="sig-paren">(</span><em><span class="n">params</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.param._ParamData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_sos_constraints">
+<code class="descname">add_sos_constraints</code><span class="sig-paren">(</span><em><span class="n">cons</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.sos._SOSConstraintData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_sos_constraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_variables">
+<code class="descname">add_variables</code><span class="sig-paren">(</span><em><span class="n">variables</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.var._GeneralVarData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.add_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.available">
+<code class="descname">available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the solver is available on this system.</p>
+<p>Nominally, this will return True if the solver interface is
+valid and can be used to solve problems and False if it cannot.</p>
+<p>Note that for licensed solvers there are a number of “levels” of
+available: depending on the license, the solver may be available
+with limitations on problem size or runtime (e.g., ‘demo’
+vs. ‘community’ vs. ‘full’).  In these cases, the solver may
+return a subclass of enum.IntEnum, with members that resolve to
+True if the solver is available (possibly with limitations).
+The Enum may also have multiple members that all resolve to
+False indicating the reason why the interface is not available
+(not found, bad license, unsupported version, etc).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>available</strong> – An enum that indicates “how available” the solver is.
+Note that the enum can be cast to bool, which will
+be True if the solver is runable at all and False
+otherwise.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.Solver.Availability" title="pyomo.contrib.appsi.base.Solver.Availability">Solver.Availability</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbCut">
+<code class="descname">cbCut</code><span class="sig-paren">(</span><em><span class="n">con</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbCut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbCut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a cut within a callback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>con</strong> (<em>pyomo.core.base.constraint._GeneralConstraintData</em>) – The cut to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGet">
+<code class="descname">cbGet</code><span class="sig-paren">(</span><em><span class="n">what</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbGet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGetNodeRel">
+<code class="descname">cbGetNodeRel</code><span class="sig-paren">(</span><em><span class="n">vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbGetNodeRel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGetNodeRel" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference internal" href="../aml/index.html#pyomo.environ.Var" title="pyomo.environ.Var"><em>Var</em></a><em> or </em><em>iterable of Var</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGetSolution">
+<code class="descname">cbGetSolution</code><span class="sig-paren">(</span><em><span class="n">vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbGetSolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbGetSolution" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<em>iterable of vars</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbLazy">
+<code class="descname">cbLazy</code><span class="sig-paren">(</span><em><span class="n">con</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbLazy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbLazy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>con</strong> (<em>pyomo.core.base.constraint._GeneralConstraintData</em>) – The lazy constraint to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbSetSolution">
+<code class="descname">cbSetSolution</code><span class="sig-paren">(</span><em><span class="n">vars</span></em>, <em><span class="n">solution</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbSetSolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbSetSolution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbUseSolution">
+<code class="descname">cbUseSolution</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.cbUseSolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.cbUseSolution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.config">
+<em class="property">property </em><code class="descname">config</code><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object for configuring solve options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An object for configuring pyomo solve options such as the time limit.
+These options are mostly independent of the solver.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.SolverConfig" title="pyomo.contrib.appsi.base.SolverConfig">SolverConfig</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_duals">
+<code class="descname">get_duals</code><span class="sig-paren">(</span><em><span class="n">cons_to_load</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_duals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_duals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declare sign convention in docstring here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cons_to_load</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of the constraints whose duals should be loaded. If cons_to_load is None, then the duals for all
+constraints will be loaded.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>duals</strong> – Maps constraints to dual values</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_gurobi_param_info">
+<code class="descname">get_gurobi_param_info</code><span class="sig-paren">(</span><em><span class="n">param</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_gurobi_param_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_gurobi_param_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about a gurobi parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The gurobi parameter to get info for. See Gurobi documentation for possible options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">six-tuple containing the parameter name, <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)">type</a>, value, minimum value, maximum value, and default value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_linear_constraint_attr">
+<code class="descname">get_linear_constraint_attr</code><span class="sig-paren">(</span><em><span class="n">con</span></em>, <em><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_linear_constraint_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_linear_constraint_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute on a gurobi linear constraint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>con</strong> (<em>pyomo.core.base.constraint._GeneralConstraintData</em>) – The pyomo constraint for which the corresponding gurobi constraint attribute
+should be retrieved.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The attribute to get. See the Gurobi documentation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_model_attr">
+<code class="descname">get_model_attr</code><span class="sig-paren">(</span><em><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_model_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_model_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute on the Gurobi model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The attribute to get. See Gurobi documentation for descriptions of the attributes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_primals">
+<code class="descname">get_primals</code><span class="sig-paren">(</span><em><span class="n">vars_to_load</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">solution_number</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_primals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_primals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_quadratic_constraint_attr">
+<code class="descname">get_quadratic_constraint_attr</code><span class="sig-paren">(</span><em><span class="n">con</span></em>, <em><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_quadratic_constraint_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_quadratic_constraint_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute on a gurobi quadratic constraint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>con</strong> (<em>pyomo.core.base.constraint._GeneralConstraintData</em>) – The pyomo constraint for which the corresponding gurobi constraint attribute
+should be retrieved.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The attribute to get. See the Gurobi documentation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_reduced_costs">
+<code class="descname">get_reduced_costs</code><span class="sig-paren">(</span><em><span class="n">vars_to_load</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_reduced_costs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_reduced_costs" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars_to_load</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of the variables whose reduced cost should be loaded. If vars_to_load is None, then all reduced costs
+will be loaded.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reduced_costs</strong> – Maps variable to reduced cost</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ComponentMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_slacks">
+<code class="descname">get_slacks</code><span class="sig-paren">(</span><em><span class="n">cons_to_load</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_slacks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_slacks" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cons_to_load</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of the constraints whose slacks should be loaded. If cons_to_load is None, then the slacks for all
+constraints will be loaded.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>slacks</strong> – Maps constraints to slack values</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_sos_attr">
+<code class="descname">get_sos_attr</code><span class="sig-paren">(</span><em><span class="n">con</span></em>, <em><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_sos_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_sos_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute on a gurobi sos constraint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>con</strong> (<em>pyomo.core.base.sos._SOSConstraintData</em>) – The pyomo SOS constraint for which the corresponding gurobi SOS constraint attribute
+should be retrieved.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The attribute to get. See the Gurobi documentation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_var_attr">
+<code class="descname">get_var_attr</code><span class="sig-paren">(</span><em><span class="n">var</span></em>, <em><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.get_var_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.get_var_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute on a gurobi var.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var</strong> (<em>pyomo.core.base.var._GeneralVarData</em>) – The pyomo var for which the corresponding gurobi var attribute
+should be retrieved.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The attribute to get. See gurobi documentation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.gurobi_options">
+<em class="property">property </em><code class="descname">gurobi_options</code><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.gurobi_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary mapping solver options to values for those options. These
+are solver specific.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary mapping solver options to values for those options</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.is_persistent">
+<code class="descname">is_persistent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.is_persistent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>is_persistent</strong> – True if the solver is a persistent solver.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.load_vars">
+<code class="descname">load_vars</code><span class="sig-paren">(</span><em><span class="n">vars_to_load</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">solution_number</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.load_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.load_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the solution of the primal variables into the value attribute of the variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars_to_load</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of the variables whose solution should be loaded. If vars_to_load is None, then the solution
+to all primal variables will be loaded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.release_license">
+<code class="descname">release_license</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.release_license"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.release_license" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_block">
+<code class="descname">remove_block</code><span class="sig-paren">(</span><em><span class="n">block</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_constraints">
+<code class="descname">remove_constraints</code><span class="sig-paren">(</span><em><span class="n">cons</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.constraint._GeneralConstraintData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_constraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_params">
+<code class="descname">remove_params</code><span class="sig-paren">(</span><em><span class="n">params</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.param._ParamData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_sos_constraints">
+<code class="descname">remove_sos_constraints</code><span class="sig-paren">(</span><em><span class="n">cons</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.sos._SOSConstraintData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_sos_constraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_variables">
+<code class="descname">remove_variables</code><span class="sig-paren">(</span><em><span class="n">variables</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.var._GeneralVarData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.remove_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_callback">
+<code class="descname">set_callback</code><span class="sig-paren">(</span><em><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.set_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify a callback for gurobi to use.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>func</strong> (<em>function</em>) – <p>The function to call. The function should have three arguments. The first will be the pyomo model being
+solved. The second will be the GurobiPersistent instance. The third will be an enum member of
+gurobipy.GRB.Callback. This will indicate where in the branch and bound algorithm gurobi is at. For
+example, suppose we want to solve</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}min 2*x + y\\s.t.\\    y &gt;= (x-2)**2\\    0 &lt;= x &lt;= 4\\    y &gt;= 0\\    y integer\end{aligned}\end{align} \]</div>
+<p>as an MILP using extended cutting planes in callbacks.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.core.expr.taylor_series</span> <span class="kn">import</span> <span class="n">taylor_series_expansion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.contrib</span> <span class="kn">import</span> <span class="n">appsi</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pe</span><span class="o">.</span><span class="n">Integers</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>  <span class="c1"># for the cutting planes</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_add_cut</span><span class="p">(</span><span class="n">xval</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># a function to generate the cut</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">xval</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">cons</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">taylor_series_expansion</span><span class="p">((</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_c</span> <span class="o">=</span> <span class="n">_add_cut</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># start with 2 cuts at the bounds of x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_c</span> <span class="o">=</span> <span class="n">_add_cut</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># this is an arbitrary choice</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">appsi</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">Gurobi</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">stream_solver</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">gurobi_options</span><span class="p">[</span><span class="s1">&#39;PreCrush&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">gurobi_options</span><span class="p">[</span><span class="s1">&#39;LazyConstraints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_callback</span><span class="p">(</span><span class="n">cb_m</span><span class="p">,</span> <span class="n">cb_opt</span><span class="p">,</span> <span class="n">cb_where</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">cb_where</span> <span class="o">==</span> <span class="n">GRB</span><span class="o">.</span><span class="n">Callback</span><span class="o">.</span><span class="n">MIPSOL</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">cb_opt</span><span class="o">.</span><span class="n">cbGetSolution</span><span class="p">(</span><span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">cb_opt</span><span class="o">.</span><span class="n">cbLazy</span><span class="p">(</span><span class="n">_add_cut</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_callback</span><span class="p">(</span><span class="n">my_callback</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> 
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_gurobi_param">
+<code class="descname">set_gurobi_param</code><span class="sig-paren">(</span><em><span class="n">param</span></em>, <em><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.set_gurobi_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_gurobi_param" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a gurobi parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The gurobi parameter to set. Options include any gurobi parameter.
+Please see the Gurobi documentation for options.</li>
+<li><strong>val</strong> (<em>any</em>) – The value to set the parameter to. See Gurobi documentation for possible values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_instance">
+<code class="descname">set_instance</code><span class="sig-paren">(</span><em><span class="n">model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.set_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_linear_constraint_attr">
+<code class="descname">set_linear_constraint_attr</code><span class="sig-paren">(</span><em><span class="n">con</span></em>, <em><span class="n">attr</span></em>, <em><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.set_linear_constraint_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_linear_constraint_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of an attribute on a gurobi linear constraint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>con</strong> (<em>pyomo.core.base.constraint._GeneralConstraintData</em>) – The pyomo constraint for which the corresponding gurobi constraint attribute
+should be modified.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – <dl class="docutils">
+<dt>The attribute to be modified. Options are:</dt><dd>CBasis
+DStart
+Lazy</dd>
+</dl>
+</li>
+<li><strong>val</strong> (<em>any</em>) – See gurobi documentation for acceptable values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_objective">
+<code class="descname">set_objective</code><span class="sig-paren">(</span><em><span class="n">obj</span><span class="p">:</span> <span class="n">pyomo.core.base.objective._GeneralObjectiveData</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_objective" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_var_attr">
+<code class="descname">set_var_attr</code><span class="sig-paren">(</span><em><span class="n">var</span></em>, <em><span class="n">attr</span></em>, <em><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.set_var_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.set_var_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of an attribute on a gurobi variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var</strong> (<em>pyomo.core.base.var._GeneralVarData</em>) – The pyomo var for which the corresponding gurobi var attribute
+should be modified.</li>
+<li><strong>attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – <dl class="docutils">
+<dt>The attribute to be modified. Options are:</dt><dd>Start
+VarHintVal
+VarHintPri
+BranchPriority
+VBasis
+PStart</dd>
+</dl>
+</li>
+<li><strong>val</strong> (<em>any</em>) – See gurobi documentation for acceptable values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.solve">
+<code class="descname">solve</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">timer</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="../common/timing.html#pyomo.common.timing.HierarchicalTimer" title="pyomo.common.timing.HierarchicalTimer">pyomo.common.timing.HierarchicalTimer</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.Results" title="pyomo.contrib.appsi.base.Results">pyomo.contrib.appsi.base.Results</a><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve a Pyomo model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> (<em>_BlockData</em>) – The Pyomo model to be solved</li>
+<li><strong>timer</strong> (<a class="reference internal" href="../common/timing.html#pyomo.common.timing.HierarchicalTimer" title="pyomo.common.timing.HierarchicalTimer"><em>HierarchicalTimer</em></a>) – An option timer for reporting timing</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> – A results object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="appsi.base.html#pyomo.contrib.appsi.base.Results" title="pyomo.contrib.appsi.base.Results">Results</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.symbol_map">
+<em class="property">property </em><code class="descname">symbol_map</code><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.symbol_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em><span class="n">timer</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="../common/timing.html#pyomo.common.timing.HierarchicalTimer" title="pyomo.common.timing.HierarchicalTimer">pyomo.common.timing.HierarchicalTimer</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_config">
+<em class="property">property </em><code class="descname">update_config</code><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_params">
+<code class="descname">update_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.update_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_variables">
+<code class="descname">update_variables</code><span class="sig-paren">(</span><em><span class="n">variables</span><span class="p">:</span> <span class="n">List<span class="p">[</span>pyomo.core.base.var._GeneralVarData<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.update_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.version">
+<code class="descname">version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.version" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>version</strong> – A tuple representing the version</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.appsi.solvers.gurobi.Gurobi.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/contrib/appsi/solvers/gurobi.html#Gurobi.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.appsi.solvers.gurobi.Gurobi.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the model to a file (e.g., and lp file).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the file to which the model should be written.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="appsi.solvers.ipopt.html" class="btn btn-neutral float-right" title="Ipopt" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="appsi.solvers.html" class="btn btn-neutral float-left" title="Solvers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

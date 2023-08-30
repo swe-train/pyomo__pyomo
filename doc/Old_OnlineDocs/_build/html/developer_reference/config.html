@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Pyomo Configuration System &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deprecation and Removal of Functionality" href="deprecation.html" />
+    <link rel="prev" title="Developer Reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Pyomo Configuration System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#domain-validation">Domain validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-class-hierarchies">Configuring class hierarchies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interacting-with-argparse">Interacting with argparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-user-specified-values">Accessing user-specified values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-output-documentation">Generating output &amp; documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deprecation.html">Deprecation and Removal of Functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions/index.html">Pyomo Expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Reference</a> &raquo;</li>
+        
+      <li>The Pyomo Configuration System</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/developer_reference/config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-pyomo-configuration-system">
+<h1>The Pyomo Configuration System<a class="headerlink" href="#the-pyomo-configuration-system" title="Permalink to this headline">¶</a></h1>
+<p>The Pyomo config system provides a set of three classes
+(<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigDict" title="pyomo.common.config.ConfigDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigDict</span></code></a>, <a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigList" title="pyomo.common.config.ConfigList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigList</span></code></a>, and
+<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigValue" title="pyomo.common.config.ConfigValue"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigValue</span></code></a>) for managing and documenting structured
+configuration information and user input.  The system is based around
+the ConfigValue class, which provides storage for a single configuration
+entry.  ConfigValue objects can be grouped using two containers
+(ConfigDict and ConfigList), which provide functionality analogous to
+Python’s dict and list classes, respectively.</p>
+<p>At its simplest, the Config system allows for developers to specify a
+dictionary of documented configuration entries, allow users to provide
+values for those entries, and retrieve the current values:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">ConfigList</span><span class="p">,</span> <span class="n">ConfigValue</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Input file name&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;bound tolerance&quot;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="mf">1E-5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bound tolerance&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Relative tolerance for bound feasibility checks&quot;</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;iteration limit&quot;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Iteration limit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Number of maximum iterations in the decomposition methods&quot;</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tmp.txt&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
+<span class="go">tmp.txt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;iteration limit&#39;</span><span class="p">])</span>
+<span class="go">30</span>
+</pre></div>
+</div>
+<p>For convenience, ConfigDict objects support read/write access via
+attributes (with spaces in the declaration names replaced by
+underscores):</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+<span class="go">tmp.txt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span><span class="p">)</span>
+<span class="go">30</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span><span class="p">)</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<div class="section" id="domain-validation">
+<h2>Domain validation<a class="headerlink" href="#domain-validation" title="Permalink to this headline">¶</a></h2>
+<p>All Config objects support a <code class="docutils literal notranslate"><span class="pre">domain</span></code> keyword that accepts a callable
+object (type, function, or callable instance).  The domain callable
+should take data and map it onto the desired domain, optionally
+performing domain validation (see <a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigValue" title="pyomo.common.config.ConfigValue"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigValue</span></code></a>,
+<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigDict" title="pyomo.common.config.ConfigDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigDict</span></code></a>, and <a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigList" title="pyomo.common.config.ConfigList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigList</span></code></a> for more
+information).  This allows client code to accept a very flexible set of
+inputs without “cluttering” the code with input validation:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span> <span class="o">=</span> <span class="mf">35.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span><span class="p">)</span>
+<span class="go">35</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">iteration_limit</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="go">int</span>
+</pre></div>
+</div>
+<p>In addition to common types (like <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">str</span></code>), the config system profides a number of custom domain
+validators for common use cases:</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.Bool" title="pyomo.common.config.Bool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bool</span></code></a>(val)</td>
+<td>Domain validator for bool-like objects.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.Integer" title="pyomo.common.config.Integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Integer</span></code></a>(val)</td>
+<td>Domain validation function admitting integers</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveInt" title="pyomo.common.config.PositiveInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PositiveInt</span></code></a>(val)</td>
+<td>Domain validation function admitting strictly positive integers</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NegativeInt" title="pyomo.common.config.NegativeInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NegativeInt</span></code></a>(val)</td>
+<td>Domain validation function admitting strictly negative integers</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeInt" title="pyomo.common.config.NonNegativeInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NonNegativeInt</span></code></a>(val)</td>
+<td>Domain validation function admitting integers &gt;= 0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonPositiveInt" title="pyomo.common.config.NonPositiveInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NonPositiveInt</span></code></a>(val)</td>
+<td>Domain validation function admitting integers &lt;= 0</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PositiveFloat" title="pyomo.common.config.PositiveFloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PositiveFloat</span></code></a>(val)</td>
+<td>Domain validation function admitting strictly positive numbers</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NegativeFloat" title="pyomo.common.config.NegativeFloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NegativeFloat</span></code></a>(val)</td>
+<td>Domain validation function admitting strictly negative numbers</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonPositiveFloat" title="pyomo.common.config.NonPositiveFloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NonPositiveFloat</span></code></a>(val)</td>
+<td>Domain validation function admitting numbers less than or equal to 0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeFloat" title="pyomo.common.config.NonNegativeFloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NonNegativeFloat</span></code></a>(val)</td>
+<td>Domain validation function admitting numbers greater than or equal to 0</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><code class="xref py py-obj docutils literal notranslate"><span class="pre">In</span></code></a>(domain[,&nbsp;cast])</td>
+<td>Domain validation class admitting a Container of possible values</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.InEnum" title="pyomo.common.config.InEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InEnum</span></code></a>(domain)</td>
+<td>Domain validation class admitting an enum value/name.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ListOf" title="pyomo.common.config.ListOf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ListOf</span></code></a>(itemtype[,&nbsp;domain,&nbsp;string_lexer])</td>
+<td>Domain validator for lists of a specified type</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.Module" title="pyomo.common.config.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>([basePath,&nbsp;expandPath])</td>
+<td>Domain validator for modules.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.Path" title="pyomo.common.config.Path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a>([basePath,&nbsp;expandPath])</td>
+<td>Domain validator for path-like options.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.PathList" title="pyomo.common.config.PathList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathList</span></code></a>([basePath,&nbsp;expandPath])</td>
+<td>Domain validator for a list of path-like objects.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.DynamicImplicitDomain" title="pyomo.common.config.DynamicImplicitDomain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicImplicitDomain</span></code></a>(callback)</td>
+<td>Implicit domain that can return a custom domain based on the key.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="configuring-class-hierarchies">
+<h2>Configuring class hierarchies<a class="headerlink" href="#configuring-class-hierarchies" title="Permalink to this headline">¶</a></h2>
+<p>A feature of the Config system is that the core classes all implement
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code>, and can themselves be used as <code class="docutils literal notranslate"><span class="pre">domain</span></code> values.  Beyond
+providing domain verification for complex hierarchical structures, this
+feature allows ConfigDicts to cleanly support the configuration of
+derived objects.  Consider the following example:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;input.txt&#39;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">domain</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">))</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">c</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">domain</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">Base</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;foo.txt&#39;</span><span class="p">)</span>
+<span class="go">filename: foo.txt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">Derived</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;.*warning&#39;</span><span class="p">)</span>
+<span class="go">filename: input.txt</span>
+<span class="go">pattern: .*warning</span>
+</pre></div>
+</div>
+<p>Here, the base class <code class="docutils literal notranslate"><span class="pre">Base</span></code> declares a class-level attribute CONFIG as a
+ConfigDict containing a single entry (<code class="docutils literal notranslate"><span class="pre">filename</span></code>).  The derived class
+(<code class="docutils literal notranslate"><span class="pre">Derived</span></code>) then starts by making a copy of the base class’ <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code>,
+and then defines an additional entry (<cite>pattern</cite>).  Instances of the base
+class will still create <code class="docutils literal notranslate"><span class="pre">c</span></code> instances that only have the single
+<code class="docutils literal notranslate"><span class="pre">filename</span></code> entry, whereas instances of the derived class will have <code class="docutils literal notranslate"><span class="pre">c</span></code>
+instances with two entries: the <code class="docutils literal notranslate"><span class="pre">pattern</span></code> entry declared by the derived
+class, and the <code class="docutils literal notranslate"><span class="pre">filename</span></code> entry “inherited” from the base class.</p>
+<p>An extension of this design pattern provides a clean approach for
+handling “ephemeral” instance options.  Consider an interface to an
+external “solver”.  Our class implements a <code class="docutils literal notranslate"><span class="pre">solve()</span></code> method that takes a
+problem and sends it to the solver along with some solver configuration
+options.  We would like to be able to set those options “persistently”
+on instances of the interface class, but still override them
+“temporarily” for individual calls to <code class="docutils literal notranslate"><span class="pre">solve()</span></code>.  We implement this by
+creating copies of the class’s configuration for both specific instances
+and for use by each <code class="docutils literal notranslate"><span class="pre">solve()</span></code> call:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Solver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;iterlim&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">))</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="c1"># Solve the model with the specified iterlim</span>
+<span class="gp">... </span>        <span class="n">config</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">iterlim: 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">iterlim</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">iterlim: 20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">iterlim</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="go">iterlim: 50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">iterlim: 20</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="interacting-with-argparse">
+<h2>Interacting with argparse<a class="headerlink" href="#interacting-with-argparse" title="Permalink to this headline">¶</a></h2>
+<p>In addition to basic storage and retrieval, the Config system provides
+hooks to the argparse command-line argument parsing system.  Individual
+Config entries can be declared as argparse arguments using the
+<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.ConfigBase.declare_as_argument" title="pyomo.common.config.ConfigBase.declare_as_argument"><code class="xref py py-meth docutils literal notranslate"><span class="pre">declare_as_argument()</span></code></a> method.  To make declaration
+simpler, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">declare()</span></code> method returns the declared Config
+object so that the argument declaration can be done inline:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;iterlim&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;iteration limit&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span><span class="o">.</span><span class="n">declare_as_argument</span><span class="p">()</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;use limited memory BFGS update&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span><span class="o">.</span><span class="n">declare_as_argument</span><span class="p">()</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;linesearch&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;use line search&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span><span class="o">.</span><span class="n">declare_as_argument</span><span class="p">()</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;relative tolerance&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;relative convergence tolerance&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span><span class="o">.</span><span class="n">declare_as_argument</span><span class="p">(</span><span class="s1">&#39;--reltol&#39;</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;Tolerances&#39;</span><span class="p">)</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;absolute tolerance&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;absolute convergence tolerance&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span><span class="o">.</span><span class="n">declare_as_argument</span><span class="p">(</span><span class="s1">&#39;--abstol&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;Tolerances&#39;</span><span class="p">)</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+</pre></div>
+</div>
+<p>The ConfigDict can then be used to initialize (or augment) an argparse
+ArgumentParser object:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s2">&quot;tester&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">initialize_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Key information from the ConfigDict is automatically transferred over
+to the ArgumentParser object:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">())</span>
+<span class="go">usage: tester [-h] [--iterlim INT] [--lbfgs] [--disable-linesearch]</span>
+<span class="go">              [--reltol FLOAT] [--abstol FLOAT]</span>
+<span class="gp">...</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  --iterlim INT         iteration limit</span>
+<span class="go">  --lbfgs               use limited memory BFGS update</span>
+<span class="go">  --disable-linesearch  [DON&#39;T] use line search</span>
+
+<span class="go">Tolerances:</span>
+<span class="go">  --reltol FLOAT, -r FLOAT</span>
+<span class="go">                        relative convergence tolerance</span>
+<span class="go">  --abstol FLOAT, -a FLOAT</span>
+<span class="go">                        absolute convergence tolerance</span>
+</pre></div>
+</div>
+<p>Parsed arguments can then be imported back into the ConfigDict:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">args</span><span class="o">=</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">([</span><span class="s1">&#39;--lbfgs&#39;</span><span class="p">,</span> <span class="s1">&#39;--reltol&#39;</span><span class="p">,</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;0.2&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">import_argparse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">iterlim: 100</span>
+<span class="go">lbfgs: true</span>
+<span class="go">linesearch: true</span>
+<span class="go">relative tolerance: 0.1</span>
+<span class="go">absolute tolerance: 0.2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-user-specified-values">
+<h2>Accessing user-specified values<a class="headerlink" href="#accessing-user-specified-values" title="Permalink to this headline">¶</a></h2>
+<p>It is frequently useful to know which values a user explicitly set, and
+which values a user explicitly set but have never been retrieved.  The
+configuration system provides two generator methods to return the items
+that a user explicitly set (<code class="xref py py-meth docutils literal notranslate"><span class="pre">user_values()</span></code>) and the items that
+were set but never retrieved (<code class="xref py py-meth docutils literal notranslate"><span class="pre">unused_user_values()</span></code>):</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">user_values</span><span class="p">()])</span>
+<span class="go">[&#39;lbfgs&#39;, &#39;relative tolerance&#39;, &#39;absolute tolerance&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">relative_tolerance</span><span class="p">)</span>
+<span class="go">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">unused_user_values</span><span class="p">()])</span>
+<span class="go">[&#39;lbfgs&#39;, &#39;absolute tolerance&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-output-documentation">
+<h2>Generating output &amp; documentation<a class="headerlink" href="#generating-output-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Configuration objects support three methods for generating output and
+documentation: <code class="xref py py-meth docutils literal notranslate"><span class="pre">display()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_yaml_template()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_documentation()</span></code>.  The simplest is
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">display()</span></code>, which prints out the current values of the
+configuration object (and if it is a container type, all of it’s
+children).  <code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_yaml_template()</span></code> is simular to
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">display()</span></code>, but also includes the description fields as
+formatted comments.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">solver_config</span> <span class="o">=</span> <span class="n">config</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="s1">&#39;results.yml&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;output results filename&#39;</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;output verbosity&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;This sets the system verbosity.  The default (0) only logs &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;warnings and errors.  Larger integer values will produce &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;additional log messages.&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigValue object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;solvers&#39;</span><span class="p">,</span> <span class="n">ConfigList</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">domain</span><span class="o">=</span><span class="n">solver_config</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;list of solvers to apply&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">))</span>
+<span class="go">&lt;pyomo.common.config.ConfigList object at ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">output: results.yml</span>
+<span class="go">verbose: 0</span>
+<span class="go">solvers: []</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">generate_yaml_template</span><span class="p">())</span>
+<span class="go">output: results.yml  # output results filename</span>
+<span class="go">verbose: 0           # output verbosity</span>
+<span class="go">solvers: []          # list of solvers to apply</span>
+</pre></div>
+</div>
+<p>It is important to note that both methods document the current state of
+the configuration object.  So, in the example above, since the <cite>solvers</cite>
+list is empty, you will not get any information on the elements in the
+list.  Of course, if you add a value to the list, then the data will be
+output:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span> <span class="o">=</span> <span class="n">config</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">append</span><span class="p">({})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tmp</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="go">output: results.yml</span>
+<span class="go">verbose: 0</span>
+<span class="go">solvers:</span>
+<span class="go">  -</span>
+<span class="go">    iterlim: 100</span>
+<span class="go">    lbfgs: true</span>
+<span class="go">    linesearch: true</span>
+<span class="go">    relative tolerance: 0.1</span>
+<span class="go">    absolute tolerance: 0.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">generate_yaml_template</span><span class="p">())</span>
+<span class="go">output: results.yml          # output results filename</span>
+<span class="go">verbose: 0                   # output verbosity</span>
+<span class="go">solvers:                     # list of solvers to apply</span>
+<span class="go">  -</span>
+<span class="go">    iterlim: 100             # iteration limit</span>
+<span class="go">    lbfgs: true              # use limited memory BFGS update</span>
+<span class="go">    linesearch: true         # use line search</span>
+<span class="go">    relative tolerance: 0.1  # relative convergence tolerance</span>
+<span class="go">    absolute tolerance: 0.2  # absolute convergence tolerance</span>
+</pre></div>
+</div>
+<p>The third method (<code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_documentation()</span></code>) behaves
+differently.  This method is designed to generate reference
+documentation.  For each configuration item, the <cite>doc</cite> field is output.
+If the item has no <cite>doc</cite>, then the <cite>description</cite> field is used.</p>
+<p>List containers have their <em>domain</em> documented and not their current
+values.  The documentation can be configured through optional arguments.
+The defaults generate LaTeX documentation:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">generate_documentation</span><span class="p">())</span>
+<span class="go">\begin{description}[topsep=0pt,parsep=0.5em,itemsep=-0.4em]</span>
+<span class="go">  \item[{output}]\hfill</span>
+<span class="go">    \\output results filename</span>
+<span class="go">  \item[{verbose}]\hfill</span>
+<span class="go">    \\This sets the system verbosity.  The default (0) only logs warnings and</span>
+<span class="go">    errors.  Larger integer values will produce additional log messages.</span>
+<span class="go">  \item[{solvers}]\hfill</span>
+<span class="go">    \\list of solvers to apply</span>
+<span class="go">  \begin{description}[topsep=0pt,parsep=0.5em,itemsep=-0.4em]</span>
+<span class="go">    \item[{iterlim}]\hfill</span>
+<span class="go">      \\iteration limit</span>
+<span class="go">    \item[{lbfgs}]\hfill</span>
+<span class="go">      \\use limited memory BFGS update</span>
+<span class="go">    \item[{linesearch}]\hfill</span>
+<span class="go">      \\use line search</span>
+<span class="go">    \item[{relative tolerance}]\hfill</span>
+<span class="go">      \\relative convergence tolerance</span>
+<span class="go">    \item[{absolute tolerance}]\hfill</span>
+<span class="go">      \\absolute convergence tolerance</span>
+<span class="go">  \end{description}</span>
+<span class="go">\end{description}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="deprecation.html" class="btn btn-neutral float-right" title="Deprecation and Removal of Functionality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Developer Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

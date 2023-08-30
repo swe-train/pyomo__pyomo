@@ -1,0 +1,1222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.solvers.plugins.solvers.gurobi_direct &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.solvers.plugins.solvers.gurobi_direct</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.solvers.plugins.solvers.gurobi_direct</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">ComponentMap</span><span class="p">,</span> <span class="n">Bunch</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">attempt_import</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">ApplicationError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tee</span> <span class="kn">import</span> <span class="n">capture_output</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">is_fixed</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.direct_solver</span> <span class="kn">import</span> <span class="n">DirectSolver</span>
+<span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.direct_or_persistent_solver</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DirectOrPersistentSolver</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.objective</span> <span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.results_</span> <span class="kn">import</span> <span class="n">SolverResults</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.solution</span> <span class="kn">import</span> <span class="n">Solution</span><span class="p">,</span> <span class="n">SolutionStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.results.solver</span> <span class="kn">import</span> <span class="n">TerminationCondition</span><span class="p">,</span> <span class="n">SolverStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.suffix</span> <span class="kn">import</span> <span class="n">Suffix</span>
+<span class="kn">import</span> <span class="nn">pyomo.core.base.var</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.solvers&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DegreeError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_is_numeric</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_gurobi_version</span><span class="p">(</span><span class="n">gurobipy</span><span class="p">,</span> <span class="n">avail</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">avail</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">gurobi</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;Gurobi </span><span class="si">%s</span><span class="s2">.</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)</span>
+    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">=</span> <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="n">gurobipy</span><span class="p">,</span> <span class="n">gurobipy_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span>
+    <span class="s1">&#39;gurobipy&#39;</span><span class="p">,</span>
+    <span class="c1"># Other forms of exceptions can be thrown by the gurobi python</span>
+    <span class="c1"># import.  For example, a gurobipy.GurobiError exception is thrown</span>
+    <span class="c1"># if all tokens for Gurobi are already in use; assuming, of course,</span>
+    <span class="c1"># the license is a token license.  Unfortunately, you can&#39;t import</span>
+    <span class="c1"># without a license, which means we can&#39;t explicitly test for that</span>
+    <span class="c1"># exception!</span>
+    <span class="n">catch_exceptions</span><span class="o">=</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,),</span>
+    <span class="n">callback</span><span class="o">=</span><span class="n">_parse_gurobi_version</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">&#39;gurobi_direct&#39;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s1">&#39;Direct python interface to Gurobi&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">GurobiDirect</span><span class="p">(</span><span class="n">DirectSolver</span><span class="p">):</span>
+    <span class="n">_verified_license</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_import_messages</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_version</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_version_major</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gurobi_direct&#39;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GurobiDirect</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># flag that indicates if solver_model.update() needs called before getting variable and constraint attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback_func</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_python_api_exists</span> <span class="o">=</span> <span class="n">gurobipy_available</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_obj_degree</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="c1"># Note: Undefined capabilities default to None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">quadratic_objective</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">quadratic_constraint</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">sos1</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">sos2</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># fix for compatibility with pre-5.0 Gurobi</span>
+        <span class="c1">#</span>
+        <span class="c1"># Note: Unfortunately, this will trigger the immediate import</span>
+        <span class="c1">#    of the gurobipy module</span>
+        <span class="k">if</span> <span class="n">gurobipy_available</span> <span class="ow">and</span> <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="o">.</span><span class="n">quadratic_constraint</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># remove the instance-level definition of the gurobi version:</span>
+        <span class="c1"># because the version comes from an imported module, only one</span>
+        <span class="c1"># version of gurobi is supported (and stored as a class attribute)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">gurobipy_available</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exception_flag</span><span class="p">:</span>
+                <span class="n">gurobipy</span><span class="o">.</span><span class="n">log_import_warning</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span>
+                    <span class="s2">&quot;No Python bindings available for </span><span class="si">%s</span><span class="s2"> solver plugin&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verified_license</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">capture_output</span><span class="p">(</span><span class="n">capture_fd</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">OUT</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># verify that we can get a Gurobi license</span>
+                    <span class="c1"># Gurobipy writes out license file information when creating</span>
+                    <span class="c1"># the environment</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
+                    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_verified_license</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_import_messages</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Could not create Model - gurobi message=</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="p">,)</span>
+                    <span class="p">)</span>
+                    <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_verified_license</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">OUT</span><span class="o">.</span><span class="n">getvalue</span><span class="p">():</span>
+                <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_import_messages</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">OUT</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">exception_flag</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verified_license</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_import_messages</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span>
+                <span class="s2">&quot;Could not create a gurobipy Model for </span><span class="si">%s</span><span class="s2"> solver plugin&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verified_license</span>
+
+    <span class="k">def</span> <span class="nf">_apply_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;OutputFlag&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;OutputFlag&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span><span class="p">:</span>
+            <span class="c1"># Only save log file when the user wants to keep it.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;LogFile&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solver log file: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span><span class="p">)</span>
+
+        <span class="c1"># Options accepted by gurobi (case insensitive):</span>
+        <span class="c1"># [&#39;Cutoff&#39;, &#39;IterationLimit&#39;, &#39;NodeLimit&#39;, &#39;SolutionLimit&#39;, &#39;TimeLimit&#39;,</span>
+        <span class="c1">#  &#39;FeasibilityTol&#39;, &#39;IntFeasTol&#39;, &#39;MarkowitzTol&#39;, &#39;MIPGap&#39;, &#39;MIPGapAbs&#39;,</span>
+        <span class="c1">#  &#39;OptimalityTol&#39;, &#39;PSDTol&#39;, &#39;Method&#39;, &#39;PerturbValue&#39;, &#39;ObjScale&#39;, &#39;ScaleFlag&#39;,</span>
+        <span class="c1">#  &#39;SimplexPricing&#39;, &#39;Quad&#39;, &#39;NormAdjust&#39;, &#39;BarIterLimit&#39;, &#39;BarConvTol&#39;,</span>
+        <span class="c1">#  &#39;BarCorrectors&#39;, &#39;BarOrder&#39;, &#39;Crossover&#39;, &#39;CrossoverBasis&#39;, &#39;BranchDir&#39;,</span>
+        <span class="c1">#  &#39;Heuristics&#39;, &#39;MinRelNodes&#39;, &#39;MIPFocus&#39;, &#39;NodefileStart&#39;, &#39;NodefileDir&#39;,</span>
+        <span class="c1">#  &#39;NodeMethod&#39;, &#39;PumpPasses&#39;, &#39;RINS&#39;, &#39;SolutionNumber&#39;, &#39;SubMIPNodes&#39;, &#39;Symmetry&#39;,</span>
+        <span class="c1">#  &#39;VarBranch&#39;, &#39;Cuts&#39;, &#39;CutPasses&#39;, &#39;CliqueCuts&#39;, &#39;CoverCuts&#39;, &#39;CutAggPasses&#39;,</span>
+        <span class="c1">#  &#39;FlowCoverCuts&#39;, &#39;FlowPathCuts&#39;, &#39;GomoryPasses&#39;, &#39;GUBCoverCuts&#39;, &#39;ImpliedCuts&#39;,</span>
+        <span class="c1">#  &#39;MIPSepCuts&#39;, &#39;MIRCuts&#39;, &#39;NetworkCuts&#39;, &#39;SubMIPCuts&#39;, &#39;ZeroHalfCuts&#39;, &#39;ModKCuts&#39;,</span>
+        <span class="c1">#  &#39;Aggregate&#39;, &#39;AggFill&#39;, &#39;PreDual&#39;, &#39;DisplayInterval&#39;, &#39;IISMethod&#39;, &#39;InfUnbdInfo&#39;,</span>
+        <span class="c1">#  &#39;LogFile&#39;, &#39;PreCrush&#39;, &#39;PreDepRow&#39;, &#39;PreMIQPMethod&#39;, &#39;PrePasses&#39;, &#39;Presolve&#39;,</span>
+        <span class="c1">#  &#39;ResultFile&#39;, &#39;ImproveStartTime&#39;, &#39;ImproveStartGap&#39;, &#39;Threads&#39;, &#39;Dummy&#39;, &#39;OutputFlag&#39;]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># When options come from the pyomo command, all</span>
+            <span class="c1"># values are string types, so we try to cast</span>
+            <span class="c1"># them to a numeric value in the event that</span>
+            <span class="c1"># setting the parameter fails.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="c1"># we place the exception handling for</span>
+                <span class="c1"># checking the cast of option to a float in</span>
+                <span class="c1"># another function so that we can simply</span>
+                <span class="c1"># call raise here instead of except</span>
+                <span class="c1"># TypeError as e / raise e, because the</span>
+                <span class="c1"># latter does not preserve the Gurobi stack</span>
+                <span class="c1"># trace</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_numeric</span><span class="p">(</span><span class="n">option</span><span class="p">):</span>
+                    <span class="k">raise</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffixes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;dual&quot;</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">Param</span><span class="o">.</span><span class="n">QCPDual</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span><span class="p">:</span>
+            <span class="c1"># Change LogFile to make Gurobi close the original log file.</span>
+            <span class="c1"># May not work for all Gurobi versions, like ver. 9.5.0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;LogFile&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
+
+        <span class="c1"># FIXME: can we get a return code indicating if Gurobi had a significant failure?</span>
+        <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_repn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repn</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">referenced_vars</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+        <span class="n">degree</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">degree</span> <span class="o">&gt;</span> <span class="n">max_degree</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span>
+                <span class="s1">&#39;GurobiDirect does not support expressions of degree </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">degree</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span>
+            <span class="n">new_expr</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">LinExpr</span><span class="p">(</span>
+                <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">,</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_expr</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">quadratic_vars</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">new_expr</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">repn</span><span class="o">.</span><span class="n">quadratic_coefs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">referenced_vars</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">new_expr</span> <span class="o">+=</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span>
+
+        <span class="k">return</span> <span class="n">new_expr</span><span class="p">,</span> <span class="n">referenced_vars</span>
+
+    <span class="k">def</span> <span class="nf">_get_expr_from_pyomo_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">max_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">max_degree</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">quadratic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_repn</span><span class="p">(</span>
+                <span class="n">repn</span><span class="p">,</span> <span class="n">max_degree</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">DegreeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">expr: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DegreeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span>
+
+    <span class="k">def</span> <span class="nf">_gurobi_lb_ub_from_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">return</span> <span class="n">val</span><span class="p">,</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="o">-</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">INFINITY</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">INFINITY</span>
+        <span class="k">return</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+
+    <span class="k">def</span> <span class="nf">_add_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+        <span class="n">vtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_vtype_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gurobi_lb_ub_from_var</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="n">gurobipy_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">lb</span><span class="o">=</span><span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">ub</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">vtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">varname</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">gurobipy_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">gurobipy_var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">kwds</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_set_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unable to create Gurobi model. &quot;</span>
+                <span class="s2">&quot;Have you installed the Python &quot;</span>
+                <span class="s2">&quot;bindings for Gurobi?</span><span class="se">\n\n\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Error message: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_block</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">n_ref</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">n_ref</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fixed_variable_bounds</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;Encountered a fixed variable (</span><span class="si">%s</span><span class="s2">) inside &quot;</span>
+                            <span class="s2">&quot;an active objective or constraint &quot;</span>
+                            <span class="s2">&quot;expression on model </span><span class="si">%s</span><span class="s2">, which is usually &quot;</span>
+                            <span class="s2">&quot;indicative of a preprocessing error. Use &quot;</span>
+                            <span class="s2">&quot;the IO-option &#39;output_fixed_variable_bounds=True&#39; &quot;</span>
+                            <span class="s2">&quot;to suppress this error and fix the variable &quot;</span>
+                            <span class="s2">&quot;by overwriting its bounds in the Gurobi instance.&quot;</span>
+                            <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_trivial_constraints</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">conname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">_linear_canonical_form</span><span class="p">:</span>
+            <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_repn</span><span class="p">(</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">canonical_form</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+            <span class="p">)</span>
+        <span class="c1"># elif isinstance(con, LinearCanonicalRepn):</span>
+        <span class="c1">#    gurobi_expr, referenced_vars = self._get_expr_from_pyomo_repn(</span>
+        <span class="c1">#        con,</span>
+        <span class="c1">#        self._max_constraint_degree)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_constraint_degree</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Lower bound of constraint </span><span class="si">{0}</span><span class="s2"> is not constant.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_fixed</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Upper bound of constraint </span><span class="si">{0}</span><span class="s2"> is not constant.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span><span class="p">:</span>
+            <span class="n">gurobipy_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span>
+                <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">EQUAL</span><span class="p">,</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">conname</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="ow">and</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">gurobipy_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addRange</span><span class="p">(</span>
+                <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span> <span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">conname</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_lb</span><span class="p">():</span>
+            <span class="n">gurobipy_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span>
+                <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">GREATER_EQUAL</span><span class="p">,</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">conname</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">con</span><span class="o">.</span><span class="n">has_ub</span><span class="p">():</span>
+            <span class="n">gurobipy_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">=</span><span class="n">gurobi_expr</span><span class="p">,</span>
+                <span class="n">sense</span><span class="o">=</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">LESS_EQUAL</span><span class="p">,</span>
+                <span class="n">rhs</span><span class="o">=</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">conname</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Constraint does not have a lower &quot;</span>
+                <span class="s2">&quot;or an upper bound: </span><span class="si">{0}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">referenced_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">referenced_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">gurobipy_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">gurobipy_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_add_sos_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">conname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_map</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="p">)</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">level</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sos_type</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">SOS_TYPE1</span>
+        <span class="k">elif</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">sos_type</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">SOS_TYPE2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Solver does not support SOS level </span><span class="si">{0}</span><span class="s2"> constraints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s1">&#39;get_items&#39;</span><span class="p">):</span>
+            <span class="c1"># aml sos constraint</span>
+            <span class="n">sos_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">get_items</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># kernel sos constraint</span>
+            <span class="n">sos_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sos_items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_con</span><span class="p">[</span><span class="n">con</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">gurobi_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+        <span class="n">gurobipy_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">addSOS</span><span class="p">(</span><span class="n">sos_type</span><span class="p">,</span> <span class="n">gurobi_vars</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">gurobipy_con</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">gurobipy_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_gurobi_vtype_from_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function takes a pyomo variable and returns the appropriate gurobi variable type</span>
+<span class="sd">        :param var: pyomo.core.base.var.Var</span>
+<span class="sd">        :return: gurobipy.GRB.CONTINUOUS or gurobipy.GRB.BINARY or gurobipy.GRB.INTEGER</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
+            <span class="n">vtype</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span>
+        <span class="k">elif</span> <span class="n">var</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+            <span class="n">vtype</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">INTEGER</span>
+        <span class="k">elif</span> <span class="n">var</span><span class="o">.</span><span class="n">is_continuous</span><span class="p">():</span>
+            <span class="n">vtype</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Variable domain type is not recognized for </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">vtype</span>
+
+    <span class="k">def</span> <span class="nf">_set_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">active</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot add inactive objective to solver.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">minimize</span><span class="p">:</span>
+            <span class="n">sense</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span>
+        <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">maximize</span><span class="p">:</span>
+            <span class="n">sense</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Objective sense is not recognized: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">sense</span><span class="p">))</span>
+
+        <span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">referenced_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_expr_from_pyomo_expr</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_obj_degree</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">referenced_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">gurobi_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">sense</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objective</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_referenced_by_obj</span> <span class="o">=</span> <span class="n">referenced_vars</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># the only suffixes that we extract from GUROBI are</span>
+        <span class="c1"># constraint duals, constraint slacks, and variable</span>
+        <span class="c1"># reduced-costs. scan through the solver suffix list</span>
+        <span class="c1"># and throw an exception if the user has specified</span>
+        <span class="c1"># any others.</span>
+        <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">extract_slacks</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffixes</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;dual&quot;</span><span class="p">):</span>
+                <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;slack&quot;</span><span class="p">):</span>
+                <span class="n">extract_slacks</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;rc&quot;</span><span class="p">):</span>
+                <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;***The gurobi_direct solver plugin cannot extract solution suffix=&quot;</span>
+                    <span class="o">+</span> <span class="n">suffix</span>
+                <span class="p">)</span>
+
+        <span class="n">gprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span>
+        <span class="n">grb</span> <span class="o">=</span> <span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">Status</span>
+
+        <span class="k">if</span> <span class="n">gprob</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">Attr</span><span class="o">.</span><span class="n">IsMIP</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot get reduced costs for MIP.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot get duals for MIP.&quot;</span><span class="p">)</span>
+            <span class="n">extract_reduced_costs</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">extract_duals</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">SolverResults</span><span class="p">()</span>
+        <span class="n">soln</span> <span class="o">=</span> <span class="n">Solution</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">GurobiDirect</span><span class="o">.</span><span class="n">_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wallclock_time</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">Runtime</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">LOADED</span><span class="p">:</span>  <span class="c1"># problem is loaded, but no solution</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model is loaded, but no solution information is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">OPTIMAL</span><span class="p">:</span>  <span class="c1"># optimal</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model was solved to optimality (subject to tolerances), &quot;</span>
+                <span class="s2">&quot;and an optimal solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">INFEASIBLE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model was proven to be infeasible&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">infeasible</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">INF_OR_UNBD</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Problem proven to be infeasible or unbounded.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasibleOrUnbounded</span>
+            <span class="p">)</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unsure</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">UNBOUNDED</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Model was proven to be unbounded.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unbounded</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unbounded</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">CUTOFF</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimal objective for model was proven to be worse than the &quot;</span>
+                <span class="s2">&quot;value specified in the Cutoff parameter. No solution &quot;</span>
+                <span class="s2">&quot;information is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">minFunctionValue</span>
+            <span class="p">)</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">unknown</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">ITERATION_LIMIT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization terminated because the total number of simplex &quot;</span>
+                <span class="s2">&quot;iterations performed exceeded the value specified in the &quot;</span>
+                <span class="s2">&quot;IterationLimit parameter.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxIterations</span>
+            <span class="p">)</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">stoppedByLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">NODE_LIMIT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization terminated because the total number of &quot;</span>
+                <span class="s2">&quot;branch-and-cut nodes explored exceeded the value specified &quot;</span>
+                <span class="s2">&quot;in the NodeLimit parameter&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxEvaluations</span>
+            <span class="p">)</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">stoppedByLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">TIME_LIMIT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization terminated because the time expended exceeded &quot;</span>
+                <span class="s2">&quot;the value specified in the TimeLimit parameter.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">maxTimeLimit</span>
+            <span class="p">)</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">stoppedByLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">SOLUTION_LIMIT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization terminated because the number of solutions found &quot;</span>
+                <span class="s2">&quot;reached the value specified in the SolutionLimit parameter.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">unknown</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">stoppedByLimit</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">INTERRUPTED</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization was terminated by the user.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">NUMERIC</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Optimization was terminated due to unrecoverable numerical &quot;</span>
+                <span class="s2">&quot;difficulties.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="n">grb</span><span class="o">.</span><span class="n">SUBOPTIMAL</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unable to satisfy optimality tolerances; a sub-optimal &quot;</span>
+                <span class="s2">&quot;solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">other</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">feasible</span>
+        <span class="c1"># note that USER_OBJ_LIMIT was added in Gurobi 7.0, so it may not be present</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="s1">&#39;USER_OBJ_LIMIT&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">aborted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;User specified an objective limit &quot;</span>
+                <span class="s2">&quot;(a bound on either the best objective &quot;</span>
+                <span class="s2">&quot;or the best bound), and that limit has &quot;</span>
+                <span class="s2">&quot;been reached. Solution is available.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">other</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">stoppedByLimit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">error</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Unhandled Gurobi solve status (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">=</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">error</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">SolutionStatus</span><span class="o">.</span><span class="n">error</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ModelName</span>
+
+        <span class="k">if</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">sense</span> <span class="o">=</span> <span class="n">minimize</span>
+        <span class="k">elif</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">sense</span> <span class="o">=</span> <span class="n">maximize</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized gurobi objective sense: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">gprob</span><span class="o">.</span><span class="n">NumBinVars</span> <span class="o">+</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumIntVars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjVal</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjVal</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># minimizing</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjVal</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjBound</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># maximizing</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjBound</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">ObjVal</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GurobiError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized gurobi objective sense: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gprob</span><span class="o">.</span><span class="n">ModelSense</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">soln</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_constraints</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">gprob</span><span class="o">.</span><span class="n">NumConstrs</span> <span class="o">+</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumQConstrs</span> <span class="o">+</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumSOS</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_nonzeros</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumNZs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_variables</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumVars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_binary_variables</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumBinVars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_integer_variables</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumIntVars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_continuous_variables</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">gprob</span><span class="o">.</span><span class="n">NumVars</span> <span class="o">-</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumIntVars</span> <span class="o">-</span> <span class="n">gprob</span><span class="o">.</span><span class="n">NumBinVars</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_objectives</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">number_of_solutions</span> <span class="o">=</span> <span class="n">gprob</span><span class="o">.</span><span class="n">SolCount</span>
+
+        <span class="c1"># if a solve was stopped by a limit, we still need to check to</span>
+        <span class="c1"># see if there is a solution available - this may not always</span>
+        <span class="c1"># be the case, both in LP and MIP contexts.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_results</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This code in this if statement is only needed for backwards compatibility. It is more efficient to set</span>
+<span class="sd">            _save_results to False and use load_vars, load_duals, etc.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">gprob</span><span class="o">.</span><span class="n">SolCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">soln_variables</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">variable</span>
+                <span class="n">soln_constraints</span> <span class="o">=</span> <span class="n">soln</span><span class="o">.</span><span class="n">constraint</span>
+
+                <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getVars</span><span class="p">()</span>
+                <span class="n">gurobi_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                        <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">var_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">gurobi_vars</span><span class="p">)</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;VarName&quot;</span><span class="p">,</span> <span class="n">gurobi_vars</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">gurobi_var</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">,</span> <span class="n">var_vals</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+                    <span class="n">pyomo_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">gurobi_var</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">soln_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Value&quot;</span><span class="p">:</span> <span class="n">val</span><span class="p">}</span>
+
+                <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Rc&quot;</span><span class="p">,</span> <span class="n">gurobi_vars</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">gurobi_var</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gurobi_vars</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+                        <span class="n">pyomo_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_var_to_pyomo_var_map</span><span class="p">[</span><span class="n">gurobi_var</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">soln_variables</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Rc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span> <span class="ow">or</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="n">gurobi_cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrs</span><span class="p">()</span>
+                    <span class="n">con_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;ConstrName&quot;</span><span class="p">,</span> <span class="n">gurobi_cons</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">con_names</span><span class="p">:</span>
+                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                        <span class="n">gurobi_q_cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQConstrs</span><span class="p">()</span>
+                        <span class="n">q_con_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span>
+                            <span class="s2">&quot;QCName&quot;</span><span class="p">,</span> <span class="n">gurobi_q_cons</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">q_con_names</span><span class="p">:</span>
+                            <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Pi&quot;</span><span class="p">,</span> <span class="n">gurobi_cons</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">con_names</span><span class="p">):</span>
+                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Dual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                        <span class="n">q_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;QCPi&quot;</span><span class="p">,</span> <span class="n">gurobi_q_cons</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">q_vals</span><span class="p">,</span> <span class="n">q_con_names</span><span class="p">):</span>
+                            <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Dual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+                <span class="k">if</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="n">gurobi_range_con_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getVars</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                    <span class="p">)</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Slack&quot;</span><span class="p">,</span> <span class="n">gurobi_cons</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">gurobi_con</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gurobi_cons</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">con_names</span><span class="p">):</span>
+                        <span class="n">pyomo_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span><span class="p">[</span><span class="n">gurobi_con</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="p">:</span>
+                            <span class="n">lin_expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getRow</span><span class="p">(</span><span class="n">gurobi_con</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">lin_expr</span><span class="o">.</span><span class="n">size</span><span class="p">())):</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="n">lin_expr</span><span class="o">.</span><span class="n">getVar</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">gurobi_range_con_vars</span><span class="p">:</span>
+                                    <span class="n">Us_</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">X</span>
+                                    <span class="n">Ls_</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">UB</span> <span class="o">-</span> <span class="n">v</span><span class="o">.</span><span class="n">X</span>
+                                    <span class="k">if</span> <span class="n">Us_</span> <span class="o">&gt;</span> <span class="n">Ls_</span><span class="p">:</span>
+                                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Us_</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ls_</span>
+                                    <span class="k">break</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                        <span class="n">q_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;QCSlack&quot;</span><span class="p">,</span> <span class="n">gurobi_q_cons</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">q_vals</span><span class="p">,</span> <span class="n">q_con_names</span><span class="p">):</span>
+                            <span class="n">soln_constraints</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;Slack&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gprob</span><span class="o">.</span><span class="n">SolCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">load_vars</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_reduced_costs</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_rc</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_duals</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_duals</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">extract_slacks</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_load_slacks</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">solution</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+
+        <span class="c1"># finally, clean any temporary files registered with the temp file</span>
+        <span class="c1"># manager, created populated *directly* by this plugin.</span>
+        <span class="n">TempfileManager</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keepfiles</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">DirectOrPersistentSolver</span><span class="o">.</span><span class="n">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">warm_start_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_warm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pyomo_var</span><span class="p">,</span> <span class="n">gurobipy_var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">pyomo_var</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gurobipy_var</span><span class="o">.</span><span class="n">setAttr</span><span class="p">(</span><span class="n">gurobipy</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">Attr</span><span class="o">.</span><span class="n">Start</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">pyomo_var</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_load_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">var_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span>
+        <span class="n">ref_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vars_to_load</span> <span class="o">=</span> <span class="n">var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">gurobi_vars_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_map</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_var</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">gurobi_vars_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ref_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_rc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">rc</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">var_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span>
+        <span class="n">ref_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_referenced_variables</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">rc</span>
+        <span class="k">if</span> <span class="n">vars_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vars_to_load</span> <span class="o">=</span> <span class="n">var_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="n">gurobi_vars_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_map</span><span class="p">[</span><span class="n">pyomo_var</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_var</span> <span class="ow">in</span> <span class="n">vars_to_load</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Rc&quot;</span><span class="p">,</span> <span class="n">gurobi_vars_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ref_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">rc</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_load_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;dual&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span>
+        <span class="n">reverse_con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span>
+        <span class="n">dual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">dual</span>
+
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">linear_cons_to_load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrs</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">quadratic_cons_to_load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQConstrs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gurobi_cons_to_load</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">con_map</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">linear_cons_to_load</span> <span class="o">=</span> <span class="n">gurobi_cons_to_load</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrs</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">quadratic_cons_to_load</span> <span class="o">=</span> <span class="n">gurobi_cons_to_load</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQConstrs</span><span class="p">())</span>
+                <span class="p">)</span>
+        <span class="n">linear_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Pi&quot;</span><span class="p">,</span> <span class="n">linear_cons_to_load</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">quadratic_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;QCPi&quot;</span><span class="p">,</span> <span class="n">quadratic_cons_to_load</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">gurobi_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">linear_cons_to_load</span><span class="p">,</span> <span class="n">linear_vals</span><span class="p">):</span>
+            <span class="n">pyomo_con</span> <span class="o">=</span> <span class="n">reverse_con_map</span><span class="p">[</span><span class="n">gurobi_con</span><span class="p">]</span>
+            <span class="n">dual</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">gurobi_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">quadratic_cons_to_load</span><span class="p">,</span> <span class="n">quadratic_vals</span><span class="p">):</span>
+                <span class="n">pyomo_con</span> <span class="o">=</span> <span class="n">reverse_con_map</span><span class="p">[</span><span class="n">gurobi_con</span><span class="p">]</span>
+                <span class="n">dual</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_load_slacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="p">,</span> <span class="s1">&#39;slack&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">slack</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_con_to_solver_con_map</span>
+        <span class="n">reverse_con_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_con_to_pyomo_con_map</span>
+        <span class="n">slack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_model</span><span class="o">.</span><span class="n">slack</span>
+
+        <span class="n">gurobi_range_con_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getVars</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pyomo_var_to_solver_var_map</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cons_to_load</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">linear_cons_to_load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrs</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">quadratic_cons_to_load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQConstrs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gurobi_cons_to_load</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">con_map</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="k">for</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="n">cons_to_load</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">linear_cons_to_load</span> <span class="o">=</span> <span class="n">gurobi_cons_to_load</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getConstrs</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">quadratic_cons_to_load</span> <span class="o">=</span> <span class="n">gurobi_cons_to_load</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getQConstrs</span><span class="p">())</span>
+                <span class="p">)</span>
+        <span class="n">linear_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span><span class="s2">&quot;Slack&quot;</span><span class="p">,</span> <span class="n">linear_cons_to_load</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">quadratic_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getAttr</span><span class="p">(</span>
+                <span class="s2">&quot;QCSlack&quot;</span><span class="p">,</span> <span class="n">quadratic_cons_to_load</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">gurobi_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">linear_cons_to_load</span><span class="p">,</span> <span class="n">linear_vals</span><span class="p">):</span>
+            <span class="n">pyomo_con</span> <span class="o">=</span> <span class="n">reverse_con_map</span><span class="p">[</span><span class="n">gurobi_con</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">pyomo_con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range_constraints</span><span class="p">:</span>
+                <span class="n">lin_expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">getRow</span><span class="p">(</span><span class="n">gurobi_con</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">lin_expr</span><span class="o">.</span><span class="n">size</span><span class="p">())):</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">lin_expr</span><span class="o">.</span><span class="n">getVar</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">gurobi_range_con_vars</span><span class="p">:</span>
+                        <span class="n">Us_</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">X</span>
+                        <span class="n">Ls_</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">UB</span> <span class="o">-</span> <span class="n">v</span><span class="o">.</span><span class="n">X</span>
+                        <span class="k">if</span> <span class="n">Us_</span> <span class="o">&gt;</span> <span class="n">Ls_</span><span class="p">:</span>
+                            <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">Us_</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ls_</span>
+                        <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_major</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">gurobi_con</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">quadratic_cons_to_load</span><span class="p">,</span> <span class="n">quadratic_vals</span><span class="p">):</span>
+                <span class="n">pyomo_con</span> <span class="o">=</span> <span class="n">reverse_con_map</span><span class="p">[</span><span class="n">gurobi_con</span><span class="p">]</span>
+                <span class="n">slack</span><span class="p">[</span><span class="n">pyomo_con</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">load_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the duals into the &#39;dual&#39; suffix. The &#39;dual&#39; suffix must live on the parent model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cons_to_load: list of Constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_duals</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_rc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vars_to_load</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the reduced costs into the &#39;rc&#39; suffix. The &#39;rc&#39; suffix must live on the parent model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vars_to_load: list of Var</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_rc</span><span class="p">(</span><span class="n">vars_to_load</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_slacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cons_to_load</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the values of the slack variables into the &#39;slack&#39; suffix. The &#39;slack&#39; suffix must live on the parent</span>
+<span class="sd">        model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cons_to_load: list of Constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_slacks</span><span class="p">(</span><span class="n">cons_to_load</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_needs_updated</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

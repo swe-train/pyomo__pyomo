@@ -1,0 +1,1256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Pyomo Network &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pyomo Tutorial Examples" href="../tutorial_examples.html" />
+    <link rel="prev" title="Stochastic Programming in Pyomo" href="stochastic_programming.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Modeling Extensions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bilevel.html">Bilevel Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dae.html">Dynamic Optimization with pyomo.DAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gdp/index.html">Generalized Disjunctive Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpec.html">MPEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stochastic_programming.html">Stochastic Programming in Pyomo</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pyomo Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-components">Modeling Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#port">Port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arc">Arc</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#arc-expansion-transformation">Arc Expansion Transformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sequential-decomposition">Sequential Decomposition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-graph">Creating a Graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#computation-order">Computation Order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tear-selection">Tear Selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-sequential-decomposition-procedure">Running the Sequential Decomposition Procedure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#guesses-and-fixing-variables">Guesses and Fixing Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tear-convergence">Tear Convergence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Modeling Extensions</a> &raquo;</li>
+        
+      <li>Pyomo Network</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modeling_extensions/network.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyomo-network">
+<h1>Pyomo Network<a class="headerlink" href="#pyomo-network" title="Permalink to this headline">¶</a></h1>
+<p>Pyomo Network is a package that allows users to easily represent their model
+as a connected network of units. Units are blocks that contain ports, which
+contain variables, that are connected to other ports via arcs. The connection
+of two ports to each other via an arc typically represents a set of constraints
+equating each member of each port to each other, however there exist other
+connection rules as well, in addition to support for custom rules. Pyomo
+Network also includes a model transformation that will automatically expand
+the arcs and generate the appropriate constraints to produce an algebraic
+model that a solver can handle. Furthermore, the package also introduces a
+generic sequential decomposition tool that can leverage the modeling
+components to decompose a model and compute each unit in the model in a
+logically ordered sequence.</p>
+<div class="section" id="modeling-components">
+<h2>Modeling Components<a class="headerlink" href="#modeling-components" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo Network introduces two new modeling components to Pyomo:</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.network.Port" title="pyomo.network.Port"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.network.Port</span></code></a></td>
+<td>A collection of variables, which may be connected to other ports</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.network.Arc" title="pyomo.network.Arc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.network.Arc</span></code></a></td>
+<td>Component used for connecting the members of two Port objects</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="port">
+<h3>Port<a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="pyomo.network.Port">
+<em class="property">class </em><code class="descclassname">pyomo.network.</code><code class="descname">Port</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#Port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.Port" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collection of variables, which may be connected to other ports</p>
+<p>The idea behind Ports is to create a bundle of variables that can
+be manipulated together by connecting them to other ports via Arcs.
+A preprocess transformation will look for Arcs and expand them into
+a series of constraints that involve the original variables contained
+within the Port. The way these constraints are built can be specified
+for each Port member when adding members to the port, but by default
+the Port members will be equated to each other. Additionally, other
+objects such as expressions can be added to Ports as long as they, or
+their indexed members, can be manipulated within constraint expressions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rule</strong> (<cite>function</cite>) – A function that returns a dict of (name: var) pairs to be
+initially added to the Port. Instead of var it could also be a
+tuples of (var, rule). Or it could return an iterable of either
+vars or tuples of (var, rule) for implied names.</li>
+<li><strong>initialize</strong> – Follows same specifications as rule’s return value, gets
+initially added to the Port</li>
+<li><strong>implicit</strong> – An iterable of names to be initially added to the Port as
+implicit vars</li>
+<li><strong>extends</strong> (<cite>Port</cite>) – A Port whose vars will be added to this Port upon construction</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.network.Port.Equality">
+<em class="property">static </em><code class="descname">Equality</code><span class="sig-paren">(</span><em><span class="n">port</span></em>, <em><span class="n">name</span></em>, <em><span class="n">index_set</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#Port.Equality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.Port.Equality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Expansion procedure to generate simple equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.Port.Extensive">
+<em class="property">static </em><code class="descname">Extensive</code><span class="sig-paren">(</span><em><span class="n">port</span></em>, <em><span class="n">name</span></em>, <em><span class="n">index_set</span></em>, <em><span class="n">include_splitfrac</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">write_var_sum</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#Port.Extensive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.Port.Extensive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Expansion procedure for extensive variable properties</p>
+<p>This procedure is the rule to use when variable quantities should
+be conserved; that is, split for outlets and combined for inlets.</p>
+<p>This will first go through every destination of the port (i.e.,
+arcs whose source is this Port) and create a new variable on the
+arc’s expanded block of the same index as the current variable
+being processed to store the amount of the variable that flows
+over the arc.  For ports that have multiple outgoing arcs, this
+procedure will create a single splitfrac variable on the arc’s
+expanded block as well. Then it will generate constraints for
+the new variable that relate it to the port member variable
+using the split fraction, ensuring that all extensive variables
+in the Port are split using the same ratio.  The generation of
+the split fraction variable and constraint can be suppressed by
+setting the <cite>include_splitfrac</cite> argument to <cite>False</cite>.</p>
+<p>Once all arc-specific variables are created, this
+procedure will create the “balancing constraint” that ensures
+that the sum of all the new variables equals the original port
+member variable. This constraint can be suppressed by setting
+the <cite>write_var_sum</cite> argument to <cite>False</cite>; in which case, a single
+constraint will be written that states the sum of the split
+fractions equals 1.</p>
+<p>Finally, this procedure will go through every source for this
+port and create a new arc variable (unless it already exists),
+before generating the balancing constraint that ensures the sum
+of all the incoming new arc variables equals the original port
+variable.</p>
+<p>Model simplifications:</p>
+<blockquote>
+<div><p>If the port has a 1-to-1 connection on either side, it will not
+create the new variables and instead write a simple equality
+constraint for that side.</p>
+<p>If the outlet side is not 1-to-1 but there is only one outlet,
+it will not create a splitfrac variable or write the split
+constraint, but it will still write the outsum constraint
+which will be a simple equality.</p>
+<p>If the port only contains a single Extensive variable, the
+splitfrac variables and the splitting constraints will
+be skipped since they will be unnecessary. However, they
+can be still be included by passing <cite>include_splitfrac=True</cite>.</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If split fractions are skipped, the <cite>write_var_sum=False</cite>
+option is not allowed.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.network.port._PortData">
+<em class="property">class </em><code class="descclassname">pyomo.network.port.</code><code class="descname">_PortData</code><span class="sig-paren">(</span><em><span class="n">component</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defines the data for a single Port</p>
+<dl class="py attribute">
+<dt id="pyomo.network.port._PortData.vars">
+<code class="descname">vars</code><a class="headerlink" href="#pyomo.network.port._PortData.vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary mapping added names to variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>dict</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.__getattr__">
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <cite>self.vars[name]</cite> if it exists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em><span class="n">var</span></em>, <em><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">rule</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add <cite>var</cite> to this Port, casting it to a Pyomo numeric if necessary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var</strong> – A variable or some <cite>NumericValue</cite> like an expression</li>
+<li><strong>name</strong> (<cite>str</cite>) – Name to associate with this member of the Port</li>
+<li><strong>rule</strong> (<cite>function</cite>) – Function implementing the desired expansion procedure
+for this member. <cite>Port.Equality</cite> by default, other
+options include <cite>Port.Extensive</cite>. Customs are allowed.</li>
+<li><strong>kwds</strong> – Keyword arguments that will be passed to rule</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.arcs">
+<code class="descname">arcs</code><span class="sig-paren">(</span><em><span class="n">active</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.arcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of Arcs in which this Port is a member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.dests">
+<code class="descname">dests</code><span class="sig-paren">(</span><em><span class="n">active</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.dests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.dests" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of Arcs in which this Port is a source</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.fix">
+<code class="descname">fix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.fix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.fix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix all variables in the port at their current values.
+For expressions, fix every variable in the expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.free">
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.network.port._PortData.free" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unfix all variables in the port.
+For expressions, unfix every variable in the expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.get_split_fraction">
+<code class="descname">get_split_fraction</code><span class="sig-paren">(</span><em><span class="n">arc</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.get_split_fraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.get_split_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple (val, fix) for the split fraction of this arc that
+was set via <cite>set_split_fraction</cite> if it exists, and otherwise None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_binary">
+<code class="descname">is_binary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all variables in the Port are binary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_continuous">
+<code class="descname">is_continuous</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_continuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_continuous" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all variables in the Port are continuous</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_equality">
+<code class="descname">is_equality</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_equality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_equality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the rule for this port member is Port.Equality</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_extensive">
+<code class="descname">is_extensive</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_extensive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_extensive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the rule for this port member is Port.Extensive</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_fixed">
+<code class="descname">is_fixed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all vars/expressions in the Port are fixed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_integer">
+<code class="descname">is_integer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all variables in the Port are integer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.is_potentially_variable">
+<code class="descname">is_potentially_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.is_potentially_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.is_potentially_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True as ports may (should!) contain variables</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.iter_vars">
+<code class="descname">iter_vars</code><span class="sig-paren">(</span><em><span class="n">expr_vars</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">fixed</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">names</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.iter_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.iter_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate through every member of the port, going through
+the indices of indexed members.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>expr_vars</strong> (<cite>bool</cite>) – If True, call <cite>identify_variables</cite> on expression type members</li>
+<li><strong>fixed</strong> (<cite>bool</cite>) – Only include variables/expressions with this type of fixed</li>
+<li><strong>names</strong> (<cite>bool</cite>) – If True, yield (name, index, var/expr) tuples</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.polynomial_degree">
+<code class="descname">polynomial_degree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.polynomial_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.polynomial_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum polynomial degree of all port members</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove this member from the port</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.rule_for">
+<code class="descname">rule_for</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.rule_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.rule_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the rule associated with the given port member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.set_split_fraction">
+<code class="descname">set_split_fraction</code><span class="sig-paren">(</span><em><span class="n">arc</span></em>, <em><span class="n">val</span></em>, <em><span class="n">fix</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.set_split_fraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.set_split_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the split fraction value to be used for an arc during
+arc expansion when using <cite>Port.Extensive</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.sources">
+<code class="descname">sources</code><span class="sig-paren">(</span><em><span class="n">active</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.sources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of Arcs in which this Port is a destination</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.port._PortData.unfix">
+<code class="descname">unfix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/port.html#_PortData.unfix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.port._PortData.unfix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unfix all variables in the port.
+For expressions, unfix every variable in the expression.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The following code snippet shows examples of declaring and using a
+<a class="reference internal" href="#pyomo.network.Port" title="pyomo.network.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a> component on a
+concrete Pyomo model:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span> <span class="c1"># can be indexed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">z</span> <span class="c1"># you can add Pyomo expressions too</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Port</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c1"># implicitly name the port member &quot;x&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="c1"># name the member &quot;foo&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">)</span> <span class="c1"># specify a rule</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">,</span> <span class="n">write_var_sum</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># keyword arg</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="arc">
+<h3>Arc<a class="headerlink" href="#arc" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="pyomo.network.Arc">
+<em class="property">class </em><code class="descclassname">pyomo.network.</code><code class="descname">Arc</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/arc.html#Arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.Arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Component used for connecting the members of two Port objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> (<cite>Port</cite>) – A single Port for a directed arc. Aliases to src.</li>
+<li><strong>destination</strong> (<cite>Port</cite>) – A single`Port for a directed arc. Aliases to dest.</li>
+<li><strong>ports</strong> – A two-member list or tuple of single Ports for an undirected arc</li>
+<li><strong>directed</strong> (<cite>bool</cite>) – Set True for directed. Use along with <cite>rule</cite> to be able to
+return an implied (source, destination) tuple.</li>
+<li><strong>rule</strong> (<cite>function</cite>) – A function that returns either a dictionary of the arc arguments
+or a two-member iterable of ports</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.network.arc._ArcData">
+<em class="property">class </em><code class="descclassname">pyomo.network.arc.</code><code class="descname">_ArcData</code><span class="sig-paren">(</span><em><span class="n">component</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/arc.html#_ArcData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.arc._ArcData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defines the data for a single Arc</p>
+<dl class="py attribute">
+<dt id="pyomo.network.arc._ArcData.source">
+<code class="descname">source</code><a class="headerlink" href="#pyomo.network.arc._ArcData.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>The source Port when directed, else None. Aliases to src.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>Port</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.network.arc._ArcData.destination">
+<code class="descname">destination</code><a class="headerlink" href="#pyomo.network.arc._ArcData.destination" title="Permalink to this definition">¶</a></dt>
+<dd><p>The destination Port when directed, else None. Aliases to dest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>Port</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.network.arc._ArcData.ports">
+<code class="descname">ports</code><a class="headerlink" href="#pyomo.network.arc._ArcData.ports" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tuple containing both ports. If directed, this is in the
+order (source, destination).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>tuple</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.network.arc._ArcData.directed">
+<code class="descname">directed</code><a class="headerlink" href="#pyomo.network.arc._ArcData.directed" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if directed, False if not</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>bool</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyomo.network.arc._ArcData.expanded_block">
+<code class="descname">expanded_block</code><a class="headerlink" href="#pyomo.network.arc._ArcData.expanded_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to the block on which expanded constraints for this
+arc were placed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>Block</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.arc._ArcData.__getattr__">
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/arc.html#_ArcData.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.arc._ArcData.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <cite>self.expanded_block.name</cite> if it exists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.arc._ArcData.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em><span class="n">vals</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/arc.html#_ArcData.set_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.arc._ArcData.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the port attributes on this arc</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The following code snippet shows examples of declaring and using an
+<a class="reference internal" href="#pyomo.network.Arc" title="pyomo.network.Arc"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arc</span></code></a> component on a
+concrete Pyomo model:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span> <span class="c1"># indexes need to match</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">v</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">z</span><span class="p">})</span> <span class="c1"># names need to match</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="c1"># directed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">ports</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">))</span> <span class="c1"># undirected</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">ports</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">),</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># directed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">)</span> <span class="c1"># aliases work</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">)</span> <span class="c1"># ports can have both in and out</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="arc-expansion-transformation">
+<h2>Arc Expansion Transformation<a class="headerlink" href="#arc-expansion-transformation" title="Permalink to this headline">¶</a></h2>
+<p>The examples above show how to declare and instantiate a
+<a class="reference internal" href="#pyomo.network.Port" title="pyomo.network.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a> and an
+<a class="reference internal" href="#pyomo.network.Arc" title="pyomo.network.Arc"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arc</span></code></a>. These two components form the basis of
+the higher level representation of a connected network with sets of related
+variable quantities. Once a network model has been constructed, Pyomo Network
+implements a transformation that will expand all (active) arcs on the model
+and automatically generate the appropriate constraints. The constraints
+created for each port member will be indexed by the same indexing set as
+the port member itself.</p>
+<p>During transformation, a new block is created on the model for each arc
+(located on the arc’s parent block), which serves to contain all of the
+auto generated constraints for that arc. At the end of the
+transformation, a reference is created on the arc that points to this
+new block, available via the arc property <cite>arc.expanded_block</cite>.</p>
+<p>The constraints produced by this transformation depend on the rule assigned
+for each port member and can be different between members on the same port.
+For example, you can have two different members on a port where one member’s
+rule is <a class="reference internal" href="#pyomo.network.Port.Equality" title="pyomo.network.Port.Equality"><code class="xref py py-func docutils literal notranslate"><span class="pre">Port.Equality</span></code></a> and the other
+member’s rule is <a class="reference internal" href="#pyomo.network.Port.Extensive" title="pyomo.network.Port.Extensive"><code class="xref py py-func docutils literal notranslate"><span class="pre">Port.Extensive</span></code></a>.</p>
+<p><a class="reference internal" href="#pyomo.network.Port.Equality" title="pyomo.network.Port.Equality"><code class="xref py py-func docutils literal notranslate"><span class="pre">Port.Equality</span></code></a> is the default rule
+for port members. This rule simply generates equality constraints on the
+expanded block between the source port’s member and the destination port’s
+member. Another implemented expansion method is
+<a class="reference internal" href="#pyomo.network.Port.Extensive" title="pyomo.network.Port.Extensive"><code class="xref py py-func docutils literal notranslate"><span class="pre">Port.Extensive</span></code></a>, which essentially
+represents implied splitting and mixing of certain variable quantities.
+Users can refer to the documentation of the static method itself for more
+details on how this implicit splitting and mixing is implemented.
+Additionally, should users desire, the expansion API supports custom rules
+that can be implemented to generate whatever is needed for special cases.</p>
+<p>The following code demonstrates how to call the transformation to expand
+the arcs on a model:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">)])</span> <span class="c1"># rules must match</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s2">&quot;network.expand_arcs&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sequential-decomposition">
+<h2>Sequential Decomposition<a class="headerlink" href="#sequential-decomposition" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo Network implements a generic
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition" title="pyomo.network.SequentialDecomposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequentialDecomposition</span></code></a>
+tool that can be used to compute each unit in a network model in a logically
+ordered sequence.</p>
+<p>The sequential decomposition procedure is commenced via the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.run" title="pyomo.network.SequentialDecomposition.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run</span></code></a> method.</p>
+<div class="section" id="creating-a-graph">
+<h3>Creating a Graph<a class="headerlink" href="#creating-a-graph" title="Permalink to this headline">¶</a></h3>
+<p>To begin this procedure, the Pyomo Network model is first utilized to create
+a networkx <cite>MultiDiGraph</cite> by adding edges to the graph for every arc on the
+model, where the nodes of the graph are the parent blocks of the source and
+destination ports. This is done via the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.create_graph" title="pyomo.network.SequentialDecomposition.create_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_graph</span></code></a>
+method, which requires all arcs on the model to be both directed and already
+expanded. The <cite>MultiDiGraph</cite> class of networkx supports both direccted edges
+as well as having multiple edges between the same two nodes, so users can
+feel free to connect as many ports as desired between the same two units.</p>
+</div>
+<div class="section" id="computation-order">
+<h3>Computation Order<a class="headerlink" href="#computation-order" title="Permalink to this headline">¶</a></h3>
+<p>The order of computation is then determined by treating the resulting graph
+as a tree, starting at the roots of the tree, and making sure by the time
+each node is reached, all of its predecessors have already been computed.
+This is implemented through the <a class="reference internal" href="#pyomo.network.SequentialDecomposition.calculation_order" title="pyomo.network.SequentialDecomposition.calculation_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculation_order</span></code></a> and
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.tree_order" title="pyomo.network.SequentialDecomposition.tree_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">tree_order</span></code></a>
+methods. Before this, however, the procedure will first select a set of tear
+edges, if necessary, such that every loop in the graph is torn, while
+minimizing both the number of times any single loop is torn as well as the
+total number of tears.</p>
+</div>
+<div class="section" id="tear-selection">
+<h3>Tear Selection<a class="headerlink" href="#tear-selection" title="Permalink to this headline">¶</a></h3>
+<p>A set of tear edges can be selected in one of two ways. By default, a Pyomo
+MIP model is created and optimized resulting in an optimal set of tear edges.
+The implementation of this MIP model is based on a set of binary “torn”
+variables for every edge in the graph, and constraints on every loop in the
+graph that dictate that there must be at least one tear on the loop. Then
+there are two objectives (represented by a doubly weighted objective). The
+primary objective is to minimize the number of times any single loop is torn,
+and then secondary to that is to minimize the total number of tears. This
+process is implemented in the <a class="reference internal" href="#pyomo.network.SequentialDecomposition.select_tear_mip" title="pyomo.network.SequentialDecomposition.select_tear_mip"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_tear_mip</span></code></a> method, which uses
+the model returned from the <a class="reference internal" href="#pyomo.network.SequentialDecomposition.select_tear_mip_model" title="pyomo.network.SequentialDecomposition.select_tear_mip_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_tear_mip_model</span></code></a> method.</p>
+<p>Alternatively, there is the <a class="reference internal" href="#pyomo.network.SequentialDecomposition.select_tear_heuristic" title="pyomo.network.SequentialDecomposition.select_tear_heuristic"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_tear_heuristic</span></code></a> method. This
+uses a heuristic procedure that walks back and forth on the graph to find
+every optimal tear set, and returns each equally optimal tear set it finds.
+This method is much slower than the MIP method on larger models, but it
+maintains some use in the fact that it returns every possible optimal tear set.</p>
+<p>A custom tear set can be assigned before calling the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.run" title="pyomo.network.SequentialDecomposition.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run</span></code></a> method. This is
+useful so users can know what their tear set will be and thus what arcs will
+require guesses for uninitialized values. See the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.set_tear_set" title="pyomo.network.SequentialDecomposition.set_tear_set"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_tear_set</span></code></a>
+method for details.</p>
+</div>
+<div class="section" id="running-the-sequential-decomposition-procedure">
+<h3>Running the Sequential Decomposition Procedure<a class="headerlink" href="#running-the-sequential-decomposition-procedure" title="Permalink to this headline">¶</a></h3>
+<p>After all of this computational order preparation, the sequential
+decomposition procedure will then run through the graph in the order it
+has determined. Thus, the <cite>function</cite> that was passed to the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.run" title="pyomo.network.SequentialDecomposition.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run</span></code></a> method will be
+called on every unit in sequence. This function can perform any arbitrary
+operations the user desires. The only thing that
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition" title="pyomo.network.SequentialDecomposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequentialDecomposition</span></code></a>
+expects from the function is that after returning from it, every variable
+on every outgoing port of the unit will be specified (i.e. it will have a
+set current value). Furthermore, the procedure guarantees to the user that
+for every unit, before the function is called, every variable on every
+incoming port of the unit will be fixed.</p>
+<p>In between computing each of these units, port member values are passed
+across existing arcs involving the unit currently being computed. This means
+that after computing a unit, the expanded constraints from each arc coming
+out of this unit will be satisfied, and the values on the respective
+destination ports will be fixed at these new values. While running the
+computational order, values are not passed across tear edges, as tear edges
+represent locations in loops to stop computations (during iterations). This
+process continues until all units in the network have been computed. This
+concludes the “first pass run” of the network.</p>
+</div>
+<div class="section" id="guesses-and-fixing-variables">
+<h3>Guesses and Fixing Variables<a class="headerlink" href="#guesses-and-fixing-variables" title="Permalink to this headline">¶</a></h3>
+<p>When passing values across arcs while running the computational order,
+values at the destinations of each of these arcs will be fixed at the
+appropriate values. This is important to the fact that the procedure
+guarantees every inlet variable will be fixed before calling the function.
+However, since values are not passed across torn arcs, there is a need for
+user-supplied guesses for those values. See the <a class="reference internal" href="#pyomo.network.SequentialDecomposition.set_guesses_for" title="pyomo.network.SequentialDecomposition.set_guesses_for"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_guesses_for</span></code></a> method for details
+on how to supply these values.</p>
+<p>In addition to passing dictionaries of guesses for certain ports, users can
+also assign current values to the variables themselves and the procedure
+will pick these up and fix the variables in place. Alternatively, users can
+utilize the <cite>default_guess</cite> option to specify a value to use as a default
+guess for all free variables if they have no guess or current value. If a
+free variable has no guess or current value and there is no default guess
+option, then an error will be raised.</p>
+<p>Similarly, if the procedure attempts to pass a value to a destination port
+member but that port member is already fixed and its fixed value is different
+from what is trying to be passed to it (by a tolerance specified by the
+<cite>almost_equal_tol</cite> option), then an error will be raised. Lastly, if there
+is more than one free variable in a constraint while trying to pass values
+across an arc, an error will be raised asking the user to fix more variables
+by the time values are passed across said arc.</p>
+</div>
+<div class="section" id="tear-convergence">
+<h3>Tear Convergence<a class="headerlink" href="#tear-convergence" title="Permalink to this headline">¶</a></h3>
+<p>After completing the first pass run of the network, the sequential
+decomposition procedure will proceed to converge all tear edges in the
+network (unless the user specifies not to, or if there are no tears).
+This process occurs separately for every strongly connected component (SCC)
+in the graph, and the SCCs are computed in a logical order such that each
+SCC is computed before other SCCs downstream of it (much like
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition.tree_order" title="pyomo.network.SequentialDecomposition.tree_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">tree_order</span></code></a>).</p>
+<p>There are two implemented methods for converging tear edges: direct
+substitution and Wegstein acceleration. Both of these will iteratively run
+the computation order until every value in every tear arc has converged to
+within the specified tolerance. See the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition" title="pyomo.network.SequentialDecomposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequentialDecomposition</span></code></a>
+parameter documentation for details on what can be controlled about this
+procedure.</p>
+<p>The following code demonstrates basic usage of the
+<a class="reference internal" href="#pyomo.network.SequentialDecomposition" title="pyomo.network.SequentialDecomposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SequentialDecomposition</span></code></a>
+class:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span> <span class="o">=</span> <span class="n">Block</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span> <span class="o">=</span> <span class="n">Block</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Port</span><span class="o">.</span><span class="n">Extensive</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">unit2</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s2">&quot;network.expand_arcs&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">unit1</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seq</span> <span class="o">=</span> <span class="n">SequentialDecomposition</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1.0E-3</span><span class="p">)</span> <span class="c1"># options can go to init</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seq</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">select_tear_method</span> <span class="o">=</span> <span class="s2">&quot;heuristic&quot;</span> <span class="c1"># or set them like so</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># seq.set_tear_set([...]) # assign a custom tear set</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># seq.set_guesses_for(m.unit.inlet, {...}) # choose guesses</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># b.initialize()</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seq</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">initialize</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="pyomo.network.SequentialDecomposition">
+<em class="property">class </em><code class="descclassname">pyomo.network.</code><code class="descname">SequentialDecomposition</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sequential decomposition tool for Pyomo Network models</p>
+<p>The following parameters can be set upon construction of this class
+or via the <cite>options</cite> attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>graph</strong> (<cite>MultiDiGraph</cite>) – <p>A networkx graph representing the model to be solved.</p>
+<p><cite>default=None (will compute it)</cite></p>
+</li>
+<li><strong>tear_set</strong> (<cite>list</cite>) – <p>A list of indexes representing edges to be torn. Can be set with
+a list of edge tuples via set_tear_set.</p>
+<p><cite>default=None (will compute it)</cite></p>
+</li>
+<li><strong>select_tear_method</strong> (<cite>str</cite>) – <p>Which method to use to select a tear set, either “mip” or
+“heuristic”.</p>
+<p><cite>default=”mip”</cite></p>
+</li>
+<li><strong>run_first_pass</strong> (<cite>bool</cite>) – <p>Boolean indicating whether or not to run through network before
+running the tear stream convergence procedure.</p>
+<p><cite>default=True</cite></p>
+</li>
+<li><strong>solve_tears</strong> (<cite>bool</cite>) – <p>Boolean indicating whether or not to run iterations to converge
+tear streams.</p>
+<p><cite>default=True</cite></p>
+</li>
+<li><strong>guesses</strong> (<cite>ComponentMap</cite>) – <p>ComponentMap of guesses to use for first pass
+(see set_guesses_for method).</p>
+<p><cite>default=ComponentMap()</cite></p>
+</li>
+<li><strong>default_guess</strong> (<cite>float</cite>) – <p>Value to use if a free variable has no guess.</p>
+<p><cite>default=None</cite></p>
+</li>
+<li><strong>almost_equal_tol</strong> (<cite>float</cite>) – <p>Difference below which numbers are considered equal when checking
+port value agreement.</p>
+<p><cite>default=1.0E-8</cite></p>
+</li>
+<li><strong>log_info</strong> (<cite>bool</cite>) – <p>Set logger level to INFO during run.</p>
+<p><cite>default=False</cite></p>
+</li>
+<li><strong>tear_method</strong> (<cite>str</cite>) – <p>Method to use for converging tear streams, either “Direct” or
+“Wegstein”.</p>
+<p><cite>default=”Direct”</cite></p>
+</li>
+<li><strong>iterLim</strong> (<cite>int</cite>) – <p>Limit on the number of tear iterations.</p>
+<p><cite>default=40</cite></p>
+</li>
+<li><strong>tol</strong> (<cite>float</cite>) – <p>Tolerance at which to stop tear iterations.</p>
+<p><cite>default=1.0E-5</cite></p>
+</li>
+<li><strong>tol_type</strong> (<cite>str</cite>) – <p>Type of tolerance value, either “abs” (absolute) or
+“rel” (relative to current value).</p>
+<p><cite>default=”abs”</cite></p>
+</li>
+<li><strong>report_diffs</strong> (<cite>bool</cite>) – <p>Report the matrix of differences across tear streams for
+every iteration.</p>
+<p><cite>default=False</cite></p>
+</li>
+<li><strong>accel_min</strong> (<cite>float</cite>) – <p>Min value for Wegstein acceleration factor.</p>
+<p><cite>default=-5</cite></p>
+</li>
+<li><strong>accel_max</strong> (<cite>float</cite>) – <p>Max value for Wegstein acceleration factor.</p>
+<p><cite>default=0</cite></p>
+</li>
+<li><strong>tear_solver</strong> (<cite>str</cite>) – <p>Name of solver to use for select_tear_mip.</p>
+<p><cite>default=”cplex”</cite></p>
+</li>
+<li><strong>tear_solver_io</strong> (<cite>str</cite>) – <p>Solver IO keyword for the above solver.</p>
+<p><cite>default=None</cite></p>
+</li>
+<li><strong>tear_solver_options</strong> (<cite>dict</cite>) – <p>Keyword options to pass to solve method.</p>
+<p><cite>default={}</cite></p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.calculation_order">
+<code class="descname">calculation_order</code><span class="sig-paren">(</span><em><span class="n">G</span></em>, <em><span class="n">roots</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">nodes</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.network.SequentialDecomposition.calculation_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rely on tree_order to return a calculation order of nodes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>roots</strong> – List of nodes to consider as tree roots,
+if None then the actual roots are used</li>
+<li><strong>nodes</strong> – Subset of nodes to consider in the tree,
+if None then all nodes are used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.create_graph">
+<code class="descname">create_graph</code><span class="sig-paren">(</span><em><span class="n">model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.create_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.create_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a networkx MultiDiGraph of a Pyomo network model</p>
+<p>The nodes are units and the edges follow Pyomo Arc objects. Nodes
+that get added to the graph are determined by the parent blocks
+of the source and destination Ports of every Arc in the model.
+Edges are added for each Arc using the direction specified by
+source and destination. All Arcs in the model will be used whether
+or not they are active (since this needs to be done after expansion),
+and they all need to be directed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.indexes_to_arcs">
+<code class="descname">indexes_to_arcs</code><span class="sig-paren">(</span><em><span class="n">G</span></em>, <em><span class="n">lst</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.indexes_to_arcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.indexes_to_arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a list of edge indexes to the corresponding Arcs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> – A networkx graph corresponding to lst</li>
+<li><strong>lst</strong> – A list of edge indexes to convert to tuples</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of arcs</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">function</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a Pyomo Network model using sequential decomposition</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> – A Pyomo model</li>
+<li><strong>function</strong> – A function to be called on each block/node in the network</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.select_tear_heuristic">
+<code class="descname">select_tear_heuristic</code><span class="sig-paren">(</span><em><span class="n">G</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.network.SequentialDecomposition.select_tear_heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>This finds optimal sets of tear edges based on two criteria.
+The primary objective is to minimize the maximum number of
+times any cycle is broken. The secondary criteria is to
+minimize the number of tears.</p>
+<p>This function uses a branch and bound type approach.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><em>tsets</em> – List of lists of tear sets. All the tear sets returned
+are equally good. There are often a very large number
+of equally good tear sets.</li>
+<li><em>upperbound_loop</em> – The max number of times any single loop is torn</li>
+<li><em>upperbound_total</em> – The total number of loops</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Improvements for the future</p>
+<p>I think I can improve the efficiency of this, but it is good
+enough for now. Here are some ideas for improvement:</p>
+<blockquote>
+<div><p>1. Reduce the number of redundant solutions. It is possible
+to find tears sets [1,2] and [2,1]. I eliminate
+redundant solutions from the results, but they can
+occur and it reduces efficiency.</p>
+<p>2. Look at strongly connected components instead of whole
+graph. This would cut back on the size of graph we are
+looking at. The flowsheets are rarely one strongly
+conneted component.</p>
+<p>3. When you add an edge to a tear set you could reduce the
+size of the problem in the branch by only looking at
+strongly connected components with that edge removed.</p>
+<p>4. This returns all equally good optimal tear sets. That
+may not really be necessary. For very large flowsheets,
+there could be an extremely large number of optimial tear
+edge sets.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.select_tear_mip">
+<code class="descname">select_tear_mip</code><span class="sig-paren">(</span><em><span class="n">G</span></em>, <em><span class="n">solver</span></em>, <em><span class="n">solver_io</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">solver_options</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.select_tear_mip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.select_tear_mip" title="Permalink to this definition">¶</a></dt>
+<dd><p>This finds optimal sets of tear edges based on two criteria.
+The primary objective is to minimize the maximum number of
+times any cycle is broken. The secondary criteria is to
+minimize the number of tears.</p>
+<p>This function creates a MIP problem in Pyomo with a doubly
+weighted objective and solves it with the solver arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.select_tear_mip_model">
+<code class="descname">select_tear_mip_model</code><span class="sig-paren">(</span><em><span class="n">G</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.select_tear_mip_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.select_tear_mip_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a model for selecting tears from the given graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><em>model</em></li>
+<li><em>bin_list</em> – A list of the binary variables representing each edge,
+indexed by the edge index of the graph</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.set_guesses_for">
+<code class="descname">set_guesses_for</code><span class="sig-paren">(</span><em><span class="n">port</span></em>, <em><span class="n">guesses</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.set_guesses_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.set_guesses_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the guesses for the given port</p>
+<p>These guesses will be checked for all free variables that are
+encountered during the first pass run. If a free variable has
+no guess, its current value will be used. If its current value
+is None, the default_guess option will be used. If that is None,
+an error will be raised.</p>
+<p>All port variables that are downstream of a non-tear edge will
+already be fixed. If there is a guess for a fixed variable, it
+will be silently ignored.</p>
+<p>The guesses should be a dict that maps the following:</p>
+<blockquote>
+<div>Port Member Name -&gt; Value</div></blockquote>
+<p>Or, for indexed members, multiple dicts that map:</p>
+<blockquote>
+<div>Port Member Name -&gt; Index -&gt; Value</div></blockquote>
+<p>For extensive members, “Value” must be a list of tuples of the
+form (arc, value) to guess a value for the expanded variable
+of the specified arc. However, if the arc connecting this port
+is a 1-to-1 arc with its peer, then there will be no expanded
+variable for the single arc, so a regular “Value” should be
+provided.</p>
+<p>This dict cannot be used to pass guesses for variables within
+expression type members. Guesses for those variables must be
+assigned to the variable’s current value before calling run.</p>
+<p>While this method makes things more convenient, all it does is:</p>
+<blockquote>
+<div><cite>self.options[“guesses”][port] = guesses</cite></div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.set_tear_set">
+<code class="descname">set_tear_set</code><span class="sig-paren">(</span><em><span class="n">tset</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.set_tear_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.set_tear_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a custom tear set to be used when running the decomposition</p>
+<p>The procedure will use this custom tear set instead of finding
+its own, thus it can save some time. Additionally, this will be
+useful for knowing which edges will need guesses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tset</strong> – A list of Arcs representing edges to tear</td>
+</tr>
+</tbody>
+</table>
+<p>While this method makes things more convenient, all it does is:</p>
+<blockquote>
+<div><cite>self.options[“tear_set”] = tset</cite></div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.tear_set_arcs">
+<code class="descname">tear_set_arcs</code><span class="sig-paren">(</span><em><span class="n">G</span></em>, <em><span class="n">method</span><span class="o">=</span><span class="default_value">'mip'</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/network/decomposition.html#SequentialDecomposition.tear_set_arcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.network.SequentialDecomposition.tear_set_arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the specified tear selection method and return a list
+of arcs representing the selected tear edges.</p>
+<p>The kwds will be passed to the method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.network.SequentialDecomposition.tree_order">
+<code class="descname">tree_order</code><span class="sig-paren">(</span><em><span class="n">adj</span></em>, <em><span class="n">adjR</span></em>, <em><span class="n">roots</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.network.SequentialDecomposition.tree_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function determines the ordering of nodes in a directed
+tree. This is a generic function that can operate on any
+given tree represented by the adjaceny and reverse
+adjacency lists. If the adjacency list does not represent
+a tree the results are not valid.</p>
+<p>In the returned order, it is sometimes possible for more
+than one node to be calculated at once. So a list of lists
+is returned by this function. These represent a bredth
+first search order of the tree. Following the order, all
+nodes that lead to a particular node will be visited
+before it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>adj</strong> – An adjeceny list for a directed tree. This uses
+generic integer node indexes, not node names from the
+graph itself. This allows this to be used on sub-graphs
+and graps of components more easily.</li>
+<li><strong>adjR</strong> – The reverse adjacency list coresponing to adj</li>
+<li><strong>roots</strong> – List of node indexes to start from. These do not
+need to be the root nodes of the tree, in some cases
+like when a node changes the changes may only affect
+nodes reachable in the tree from the changed node, in
+the case that roots are supplied not all the nodes in
+the tree may appear in the ordering. If no roots are
+supplied, the roots of the tree are used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../tutorial_examples.html" class="btn btn-neutral float-right" title="Pyomo Tutorial Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="stochastic_programming.html" class="btn btn-neutral float-left" title="Stochastic Programming in Pyomo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,1276 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.network.decomposition &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.network.decomposition</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.network.decomposition</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SequentialDecomposition&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="n">Port</span><span class="p">,</span> <span class="n">Arc</span>
+<span class="kn">from</span> <span class="nn">pyomo.network.foqus_graph</span> <span class="kn">import</span> <span class="n">FOQUSGraph</span>
+<span class="kn">from</span> <span class="nn">pyomo.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Constraint</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">Objective</span><span class="p">,</span>
+    <span class="n">Var</span><span class="p">,</span>
+    <span class="n">ConcreteModel</span><span class="p">,</span>
+    <span class="n">Binary</span><span class="p">,</span>
+    <span class="n">minimize</span><span class="p">,</span>
+    <span class="n">Expression</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">ComponentMap</span><span class="p">,</span> <span class="n">Bunch</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.current</span> <span class="kn">import</span> <span class="n">identify_variables</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+<span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">networkx</span> <span class="k">as</span> <span class="n">nx</span><span class="p">,</span>
+    <span class="n">networkx_available</span><span class="p">,</span>
+    <span class="n">numpy</span><span class="p">,</span>
+    <span class="n">numpy_available</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">imports_available</span> <span class="o">=</span> <span class="n">networkx_available</span> <span class="o">&amp;</span> <span class="n">numpy_available</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.network&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SequentialDecomposition"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition">[docs]</a><span class="k">class</span> <span class="nc">SequentialDecomposition</span><span class="p">(</span><span class="n">FOQUSGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A sequential decomposition tool for Pyomo Network models</span>
+
+<span class="sd">    The following parameters can be set upon construction of this class</span>
+<span class="sd">    or via the `options` attribute.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        graph: `MultiDiGraph`</span>
+<span class="sd">            A networkx graph representing the model to be solved.</span>
+
+<span class="sd">            `default=None (will compute it)`</span>
+
+<span class="sd">        tear_set: `list`</span>
+<span class="sd">            A list of indexes representing edges to be torn. Can be set with</span>
+<span class="sd">            a list of edge tuples via set_tear_set.</span>
+
+<span class="sd">            `default=None (will compute it)`</span>
+
+<span class="sd">        select_tear_method: `str`</span>
+<span class="sd">            Which method to use to select a tear set, either &quot;mip&quot; or</span>
+<span class="sd">            &quot;heuristic&quot;.</span>
+
+<span class="sd">            `default=&quot;mip&quot;`</span>
+
+<span class="sd">        run_first_pass: `bool`</span>
+<span class="sd">            Boolean indicating whether or not to run through network before</span>
+<span class="sd">            running the tear stream convergence procedure.</span>
+
+<span class="sd">            `default=True`</span>
+
+<span class="sd">        solve_tears: `bool`</span>
+<span class="sd">            Boolean indicating whether or not to run iterations to converge</span>
+<span class="sd">            tear streams.</span>
+
+<span class="sd">            `default=True`</span>
+
+<span class="sd">        guesses: `ComponentMap`</span>
+<span class="sd">            ComponentMap of guesses to use for first pass</span>
+<span class="sd">            (see set_guesses_for method).</span>
+
+<span class="sd">            `default=ComponentMap()`</span>
+
+<span class="sd">        default_guess: `float`</span>
+<span class="sd">            Value to use if a free variable has no guess.</span>
+
+<span class="sd">            `default=None`</span>
+
+<span class="sd">        almost_equal_tol: `float`</span>
+<span class="sd">            Difference below which numbers are considered equal when checking</span>
+<span class="sd">            port value agreement.</span>
+
+<span class="sd">            `default=1.0E-8`</span>
+
+<span class="sd">        log_info: `bool`</span>
+<span class="sd">            Set logger level to INFO during run.</span>
+
+<span class="sd">            `default=False`</span>
+
+<span class="sd">        tear_method: `str`</span>
+<span class="sd">            Method to use for converging tear streams, either &quot;Direct&quot; or</span>
+<span class="sd">            &quot;Wegstein&quot;.</span>
+
+<span class="sd">            `default=&quot;Direct&quot;`</span>
+
+<span class="sd">        iterLim: `int`</span>
+<span class="sd">            Limit on the number of tear iterations.</span>
+
+<span class="sd">            `default=40`</span>
+
+<span class="sd">        tol: `float`</span>
+<span class="sd">            Tolerance at which to stop tear iterations.</span>
+
+<span class="sd">            `default=1.0E-5`</span>
+
+<span class="sd">        tol_type: `str`</span>
+<span class="sd">            Type of tolerance value, either &quot;abs&quot; (absolute) or</span>
+<span class="sd">            &quot;rel&quot; (relative to current value).</span>
+
+<span class="sd">            `default=&quot;abs&quot;`</span>
+
+<span class="sd">        report_diffs: `bool`</span>
+<span class="sd">            Report the matrix of differences across tear streams for</span>
+<span class="sd">            every iteration.</span>
+
+<span class="sd">            `default=False`</span>
+
+<span class="sd">        accel_min: `float`</span>
+<span class="sd">            Min value for Wegstein acceleration factor.</span>
+
+<span class="sd">            `default=-5`</span>
+
+<span class="sd">        accel_max: `float`</span>
+<span class="sd">            Max value for Wegstein acceleration factor.</span>
+
+<span class="sd">            `default=0`</span>
+
+<span class="sd">        tear_solver: `str`</span>
+<span class="sd">            Name of solver to use for select_tear_mip.</span>
+
+<span class="sd">            `default=&quot;cplex&quot;`</span>
+
+<span class="sd">        tear_solver_io: `str`</span>
+<span class="sd">            Solver IO keyword for the above solver.</span>
+
+<span class="sd">            `default=None`</span>
+
+<span class="sd">        tear_solver_options: `dict`</span>
+<span class="sd">            Keyword options to pass to solve method.</span>
+
+<span class="sd">            `default={}`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pass kwds to update the options attribute after setting defaults&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">()</span>
+        <span class="c1"># defaults</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;select_tear_method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;mip&quot;</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;run_first_pass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;solve_tears&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;guesses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;default_guess&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;almost_equal_tol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-8</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;log_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Direct&quot;</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;iterLim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">40</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tol_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;abs&quot;</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;report_diffs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;accel_min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;accel_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cplex&quot;</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver_io&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SequentialDecomposition.set_guesses_for"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.set_guesses_for">[docs]</a>    <span class="k">def</span> <span class="nf">set_guesses_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">guesses</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the guesses for the given port</span>
+
+<span class="sd">        These guesses will be checked for all free variables that are</span>
+<span class="sd">        encountered during the first pass run. If a free variable has</span>
+<span class="sd">        no guess, its current value will be used. If its current value</span>
+<span class="sd">        is None, the default_guess option will be used. If that is None,</span>
+<span class="sd">        an error will be raised.</span>
+
+<span class="sd">        All port variables that are downstream of a non-tear edge will</span>
+<span class="sd">        already be fixed. If there is a guess for a fixed variable, it</span>
+<span class="sd">        will be silently ignored.</span>
+
+<span class="sd">        The guesses should be a dict that maps the following:</span>
+
+<span class="sd">            Port Member Name -&gt; Value</span>
+
+<span class="sd">        Or, for indexed members, multiple dicts that map:</span>
+
+<span class="sd">            Port Member Name -&gt; Index -&gt; Value</span>
+
+<span class="sd">        For extensive members, &quot;Value&quot; must be a list of tuples of the</span>
+<span class="sd">        form (arc, value) to guess a value for the expanded variable</span>
+<span class="sd">        of the specified arc. However, if the arc connecting this port</span>
+<span class="sd">        is a 1-to-1 arc with its peer, then there will be no expanded</span>
+<span class="sd">        variable for the single arc, so a regular &quot;Value&quot; should be</span>
+<span class="sd">        provided.</span>
+
+<span class="sd">        This dict cannot be used to pass guesses for variables within</span>
+<span class="sd">        expression type members. Guesses for those variables must be</span>
+<span class="sd">        assigned to the variable&#39;s current value before calling run.</span>
+
+<span class="sd">        While this method makes things more convenient, all it does is:</span>
+
+<span class="sd">            `self.options[&quot;guesses&quot;][port] = guesses`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;guesses&quot;</span><span class="p">][</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="n">guesses</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.set_tear_set"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.set_tear_set">[docs]</a>    <span class="k">def</span> <span class="nf">set_tear_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a custom tear set to be used when running the decomposition</span>
+
+<span class="sd">        The procedure will use this custom tear set instead of finding</span>
+<span class="sd">        its own, thus it can save some time. Additionally, this will be</span>
+<span class="sd">        useful for knowing which edges will need guesses.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">            tset</span>
+<span class="sd">                A list of Arcs representing edges to tear</span>
+
+<span class="sd">        While this method makes things more convenient, all it does is:</span>
+
+<span class="sd">            `self.options[&quot;tear_set&quot;] = tset`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tset</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.tear_set_arcs"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.tear_set_arcs">[docs]</a>    <span class="k">def</span> <span class="nf">tear_set_arcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;mip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call the specified tear selection method and return a list</span>
+<span class="sd">        of arcs representing the selected tear edges.</span>
+
+<span class="sd">        The kwds will be passed to the method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;mip&quot;</span><span class="p">:</span>
+            <span class="n">tset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tear_mip</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;heuristic&quot;</span><span class="p">:</span>
+            <span class="c1"># tset is the first list in the first return value</span>
+            <span class="n">tset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tear_heuristic</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid method &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">method</span><span class="p">,))</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexes_to_arcs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">tset</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.indexes_to_arcs"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.indexes_to_arcs">[docs]</a>    <span class="k">def</span> <span class="nf">indexes_to_arcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">lst</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts a list of edge indexes to the corresponding Arcs</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">            G</span>
+<span class="sd">                A networkx graph corresponding to lst</span>
+<span class="sd">            lst</span>
+<span class="sd">                A list of edge indexes to convert to tuples</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of arcs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ei</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+            <span class="n">edge</span> <span class="o">=</span> <span class="n">edge_list</span><span class="p">[</span><span class="n">ei</span><span class="p">]</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="p">][</span><span class="s2">&quot;arc&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.run"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a Pyomo Network model using sequential decomposition</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">            model</span>
+<span class="sd">                A Pyomo model</span>
+<span class="sd">            function</span>
+<span class="sd">                A function to be called on each block/node in the network</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;log_info&quot;</span><span class="p">]:</span>
+            <span class="n">old_log_level</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">level</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_impl</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Cleanup</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;log_info&quot;</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">old_log_level</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_run_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting Sequential Decomposition&quot;</span><span class="p">)</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">G</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_graph</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="n">tset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tear_set</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;run_first_pass&quot;</span><span class="p">]:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting first pass run of network&quot;</span><span class="p">)</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculation_order</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_order</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">tset</span><span class="p">,</span> <span class="n">use_guesses</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;solve_tears&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">tset</span><span class="p">):</span>
+            <span class="c1"># Not solving tears, we&#39;re done</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Finished Sequential Decomposition in </span><span class="si">%.2f</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting tear convergence procedure&quot;</span><span class="p">)</span>
+
+        <span class="n">sccNodes</span><span class="p">,</span> <span class="n">sccEdges</span><span class="p">,</span> <span class="n">sccOrder</span><span class="p">,</span> <span class="n">outEdges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scc_collect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">lev</span> <span class="ow">in</span> <span class="n">sccOrder</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sccIndex</span> <span class="ow">in</span> <span class="n">lev</span><span class="p">:</span>
+                <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculation_order</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">sccNodes</span><span class="p">[</span><span class="n">sccIndex</span><span class="p">])</span>
+
+                <span class="c1"># only pass tears that are part of this SCC</span>
+                <span class="n">tears</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">ei</span> <span class="ow">in</span> <span class="n">tset</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ei</span> <span class="ow">in</span> <span class="n">sccEdges</span><span class="p">[</span><span class="n">sccIndex</span><span class="p">]:</span>
+                        <span class="n">tears</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ei</span><span class="p">)</span>
+
+                <span class="n">kwds</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                    <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">function</span><span class="p">,</span>
+                    <span class="n">tears</span><span class="o">=</span><span class="n">tears</span><span class="p">,</span>
+                    <span class="n">iterLim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;iterLim&quot;</span><span class="p">],</span>
+                    <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tol&quot;</span><span class="p">],</span>
+                    <span class="n">tol_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tol_type&quot;</span><span class="p">],</span>
+                    <span class="n">report_diffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;report_diffs&quot;</span><span class="p">],</span>
+                    <span class="n">outEdges</span><span class="o">=</span><span class="n">outEdges</span><span class="p">[</span><span class="n">sccIndex</span><span class="p">],</span>
+                <span class="p">)</span>
+
+                <span class="n">tear_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_method&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">tear_method</span> <span class="o">==</span> <span class="s2">&quot;Direct&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">solve_tear_direct</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">tear_method</span> <span class="o">==</span> <span class="s2">&quot;Wegstein&quot;</span><span class="p">:</span>
+                    <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;accel_min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;accel_min&quot;</span><span class="p">]</span>
+                    <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;accel_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;accel_max&quot;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">solve_tear_wegstein</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid tear_method &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tear_method</span><span class="p">,))</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished Sequential Decomposition in </span><span class="si">%.2f</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">run_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_guesses</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run computations in the order provided by calling the function</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">            G</span>
+<span class="sd">                A networkx graph corresponding to order</span>
+<span class="sd">            order</span>
+<span class="sd">                The order in which to run each node in the graph</span>
+<span class="sd">            function</span>
+<span class="sd">                The function to be called on each block/node</span>
+<span class="sd">            ignore</span>
+<span class="sd">                Edge indexes to ignore when passing values</span>
+<span class="sd">            use_guesses</span>
+<span class="sd">                If True, will check the guesses dict when fixing</span>
+<span class="sd">                free variables before calling function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fixed_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_inputs</span><span class="p">()</span>
+        <span class="n">fixed_outputs</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="n">edge_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_to_idx</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">arc_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arc_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">guesses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;guesses&quot;</span><span class="p">]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;default_guess&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">lev</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">lev</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_inputs</span><span class="p">:</span>
+                    <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+                <span class="n">fixed_ins</span> <span class="o">=</span> <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+
+                <span class="c1"># make sure all inputs are fixed</span>
+                <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">unit</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Port</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">sources</span><span class="p">()):</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">use_guesses</span> <span class="ow">and</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">guesses</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">load_guesses</span><span class="p">(</span><span class="n">guesses</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">fixed_ins</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">load_values</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed_ins</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">)</span>
+
+                <span class="n">function</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+                <span class="c1"># free the inputs that were not already fixed</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fixed_ins</span><span class="p">:</span>
+                    <span class="n">var</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                <span class="n">fixed_ins</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+                <span class="c1"># pass the values downstream for all outlet ports</span>
+                <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">unit</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Port</span><span class="p">):</span>
+                    <span class="n">dests</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">dests</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">dests</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">port</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">expr_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                        <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">dests</span><span class="p">:</span>
+                        <span class="c1"># arc might not be in the arc_map if</span>
+                        <span class="c1"># it is on a deactivated block</span>
+                        <span class="k">if</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arc_map</span> <span class="ow">and</span> <span class="n">edge_map</span><span class="p">[</span><span class="n">arc_map</span><span class="p">[</span><span class="n">arc</span><span class="p">]]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">pass_values</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">fixed_inputs</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fixed_outputs</span><span class="p">:</span>
+                        <span class="n">var</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+                    <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">pass_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arc</span><span class="p">,</span> <span class="n">fixed_inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pass the values from one unit to the next, recording only those that</span>
+<span class="sd">        were not already fixed in the provided dict that maps blocks to sets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eblock</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span>
+        <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="p">,</span> <span class="n">arc</span><span class="o">.</span><span class="n">dest</span>
+        <span class="n">dest_unit</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">eq_tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;almost_equal_tol&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">dest_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_inputs</span><span class="p">:</span>
+            <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">eblock</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="s2">&quot;splitfrac&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">sf</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+            <span class="c1"># fix the splitfrac if it has a current value or else error</span>
+            <span class="k">if</span> <span class="n">sf</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+                <span class="n">sf</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Found free splitfrac for arc &#39;</span><span class="si">%s</span><span class="s2">&#39; with no current value. &quot;</span>
+                    <span class="s2">&quot;Please use the set_split_fraction method on its source &quot;</span>
+                    <span class="s2">&quot;port to set this value before expansion, or set its value &quot;</span>
+                    <span class="s2">&quot;manually if expansion has already occurred.&quot;</span> <span class="o">%</span> <span class="n">arc</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># if there is no splitfrac, but we have extensive members, then we</span>
+            <span class="c1"># need to manually set the evar values because there will be no</span>
+            <span class="c1"># *_split constraints on the eblock, so it is up to us to set it</span>
+            <span class="c1"># TODO: what if there is no splitfrac, but it&#39;s missing because</span>
+            <span class="c1"># there&#39;s only 1 variable per port so it was simplified out?</span>
+            <span class="c1"># How do we specify the downstream evars? If we assume that the</span>
+            <span class="c1"># user&#39;s function will satisfy the *_outsum constraint before</span>
+            <span class="c1"># returning, then the evars would at least be specified such that</span>
+            <span class="c1"># they satisfy the total sum constraint. But I would think we don&#39;t</span>
+            <span class="c1"># want to rely on the user calling solve on their unit before</span>
+            <span class="c1"># returning, especially since the outsum constraint was auto</span>
+            <span class="c1"># generated and not one they made themselves.</span>
+            <span class="c1"># Potential Solution: allow the user to specify a splitfrac</span>
+            <span class="c1"># (via set_split_fraction or something else) that will be used here</span>
+            <span class="c1"># and is only relevant to this SM, and if they didn&#39;t specify</span>
+            <span class="c1"># anything, throw an error.</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">src</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">evar</span> <span class="o">=</span> <span class="n">eblock</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">evar</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">dests</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="s2">&quot;This still needs to be figured out (arc &#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span> <span class="o">%</span> <span class="n">arc</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="c1"># TODO: for now we know it&#39;s obvious what to do if there is</span>
+                <span class="c1"># only 1 destination</span>
+                <span class="k">if</span> <span class="n">mem</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">evars</span> <span class="o">=</span> <span class="p">[(</span><span class="n">evar</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">evar</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">evars</span> <span class="o">=</span> <span class="p">[(</span><span class="n">evar</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span>
+                <span class="k">for</span> <span class="n">evar</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">evars</span><span class="p">:</span>
+                    <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">evar</span><span class="p">)</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">mem</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">mem</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">()</span> <span class="k">else</span> <span class="n">mem</span><span class="p">)</span>
+                    <span class="c1"># val are numpy.float64; coerce val back to float</span>
+                    <span class="n">evar</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">eblock</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="c1"># we expect to find equality constraints with one linear variable</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span><span class="p">:</span>
+                <span class="c1"># We assume every constraint here is an equality.</span>
+                <span class="c1"># This will only be False if the transformation changes</span>
+                <span class="c1"># or if the user puts something unexpected on the eblock.</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Found inequality constraint &#39;</span><span class="si">%s</span><span class="s2">&#39;. Please do not modify &quot;</span>
+                    <span class="s2">&quot;the expanded block.&quot;</span> <span class="o">%</span> <span class="n">con</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">repn</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                <span class="c1"># the port member&#39;s peer was already fixed</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">eq_tol</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="s2">&quot;Found connected ports &#39;</span><span class="si">%s</span><span class="s2">&#39; and &#39;</span><span class="si">%s</span><span class="s2">&#39; both with fixed &quot;</span>
+                        <span class="s2">&quot;but different values (by &gt; </span><span class="si">%s</span><span class="s2">) for constraint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">eq_tol</span><span class="p">,</span> <span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">is_linear</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Constraint &#39;</span><span class="si">%s</span><span class="s2">&#39; had more than one free variable when &quot;</span>
+                    <span class="s2">&quot;trying to pass a value to its destination. Please fix &quot;</span>
+                    <span class="s2">&quot;more variables before passing across this arc.&quot;</span> <span class="o">%</span> <span class="n">con</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+            <span class="c1"># fix the value of the single variable to satisfy the constraint</span>
+            <span class="c1"># con.lower is usually a NumericConstant but call value on it</span>
+            <span class="c1"># just in case it is something else</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">)</span> <span class="o">/</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="c1"># val are numpy.float64; coerce val back to float</span>
+            <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">pass_single_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">fixed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fix the value of the port member and add it to the fixed set.</span>
+<span class="sd">        If the member is an expression, appropriately fix the value of</span>
+<span class="sd">        its free variable. Error if the member is already fixed but</span>
+<span class="sd">        different from val, or if the member has more than one free</span>
+<span class="sd">        variable.&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eq_tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;almost_equal_tol&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">member</span><span class="p">)</span> <span class="o">-</span> <span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">eq_tol</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Member &#39;</span><span class="si">%s</span><span class="s2">&#39; of port &#39;</span><span class="si">%s</span><span class="s2">&#39; is already fixed but has a &quot;</span>
+                    <span class="s2">&quot;different value (by &gt; </span><span class="si">%s</span><span class="s2">) than what is being passed to it&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">eq_tol</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">member</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="n">repn</span> <span class="o">=</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">member</span> <span class="o">-</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">repn</span><span class="o">.</span><span class="n">is_linear</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># fix the value of the single variable</span>
+                <span class="n">fval</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">repn</span><span class="o">.</span><span class="n">constant</span><span class="p">)</span> <span class="o">/</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="n">repn</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="c1"># val are numpy.float64; coerce val back to float</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">fval</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Member &#39;</span><span class="si">%s</span><span class="s2">&#39; of port &#39;</span><span class="si">%s</span><span class="s2">&#39; had more than &quot;</span>
+                    <span class="s2">&quot;one free variable when trying to pass a value &quot;</span>
+                    <span class="s2">&quot;to it. Please fix more variables before passing &quot;</span>
+                    <span class="s2">&quot;to this port.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+            <span class="c1"># val are numpy.float64; coerce val back to float</span>
+            <span class="n">member</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">load_guesses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guesses</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">fixed</span><span class="p">):</span>
+        <span class="n">srcs</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">sources</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">port</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="n">guesses</span><span class="p">[</span><span class="n">port</span><span class="p">][</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">itr</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mem</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">entry</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">mem</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Guess for indexed member &#39;</span><span class="si">%s</span><span class="s2">&#39; in port &#39;</span><span class="si">%s</span><span class="s2">&#39; must map to a &quot;</span>
+                    <span class="s2">&quot;dict of indexes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">itr</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mem</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span>
+
+            <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">itr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                    <span class="c1"># silently ignore vars already fixed</span>
+                    <span class="k">continue</span>
+                <span class="n">has_evars</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">port</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">arc</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">arc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">srcs</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                <span class="s2">&quot;Found a guess for extensive member &#39;</span><span class="si">%s</span><span class="s2">&#39; on &quot;</span>
+                                <span class="s2">&quot;port &#39;</span><span class="si">%s</span><span class="s2">&#39; using arc &#39;</span><span class="si">%s</span><span class="s2">&#39; that is not a source &quot;</span>
+                                <span class="s2">&quot;of this port&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">arc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="n">evar</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">evar</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="c1"># no evars, 1-to-1 arc</span>
+                            <span class="k">break</span>
+                        <span class="n">has_evars</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="c1"># even if idx is None, we know evar is a Var and</span>
+                        <span class="c1"># indexing by None into ScalarVars returns itself</span>
+                        <span class="n">evar</span> <span class="o">=</span> <span class="n">evar</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">evar</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                            <span class="c1"># silently ignore vars already fixed</span>
+                            <span class="k">continue</span>
+                        <span class="n">fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">evar</span><span class="p">)</span>
+                        <span class="n">evar</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">has_evars</span><span class="p">:</span>
+                    <span class="c1"># the only NumericValues in Pyomo that return True</span>
+                    <span class="c1"># for is_fixed are expressions and variables</span>
+                    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;Cannot provide guess for expression type member &quot;</span>
+                            <span class="s2">&quot;&#39;</span><span class="si">%s%s</span><span class="s2">&#39; of port &#39;</span><span class="si">%s</span><span class="s2">&#39;, must set current value of &quot;</span>
+                            <span class="s2">&quot;variables within expression&quot;</span>
+                            <span class="o">%</span> <span class="p">(</span>
+                                <span class="n">name</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span> <span class="k">if</span> <span class="n">mem</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                        <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">load_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">):</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">sources</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">port</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">evars</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">port</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="c1"># collect evars if there are any</span>
+                <span class="n">evars</span> <span class="o">=</span> <span class="p">[</span><span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">evars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># no evars, so this arc is 1-to-1</span>
+                    <span class="n">evars</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># index into them if necessary, now that</span>
+                        <span class="c1"># we know they are not None</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">evars</span><span class="p">)):</span>
+                            <span class="n">evars</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">evars</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="k">pass</span>
+            <span class="k">if</span> <span class="n">evars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">evar</span> <span class="ow">in</span> <span class="n">evars</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">evar</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">():</span>
+                        <span class="k">continue</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">check_value_fix</span><span class="p">(</span>
+                        <span class="n">port</span><span class="p">,</span> <span class="n">evar</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">,</span> <span class="n">extensive</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                <span class="c1"># now all evars should be fixed so combine them</span>
+                <span class="c1"># and fix the value of the extensive port member</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">combine_and_fix</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">evars</span><span class="p">,</span> <span class="n">fixed</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+                    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">identify_variables</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">check_value_fix</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">check_value_fix</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_value_fix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">use_guesses</span><span class="p">,</span> <span class="n">extensive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Try to fix the var at its current value or the default, else error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">default</span>
+
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Encountered a free inlet </span><span class="si">%s</span><span class="s2">variable &#39;</span><span class="si">%s</span><span class="s2">&#39; </span><span class="si">%s</span><span class="s2"> port &#39;</span><span class="si">%s</span><span class="s2">&#39; with no &quot;</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">current value, or default_guess option, while attempting &quot;</span>
+                <span class="s2">&quot;to compute the unit.&quot;</span>
+                <span class="o">%</span> <span class="p">(</span>
+                    <span class="s2">&quot;extensive &quot;</span> <span class="k">if</span> <span class="n">extensive</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">)[</span><span class="nb">int</span><span class="p">(</span><span class="n">extensive</span><span class="p">)],</span>
+                    <span class="n">port</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;guess, &quot;</span> <span class="k">if</span> <span class="n">use_guesses</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">fixed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">combine_and_fix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">evars</span><span class="p">,</span> <span class="n">fixed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For an extensive port member, combine the values of all</span>
+<span class="sd">        expanded variables and fix the port member at their sum.</span>
+<span class="sd">        Assumes that all expanded variables are fixed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">evar</span><span class="o">.</span><span class="n">is_fixed</span><span class="p">()</span> <span class="k">for</span> <span class="n">evar</span> <span class="ow">in</span> <span class="n">evars</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">evar</span><span class="p">)</span> <span class="k">for</span> <span class="n">evar</span> <span class="ow">in</span> <span class="n">evars</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pass_single_value</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">fixed</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">source_dest_peer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arc</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the object that is the peer to the source port&#39;s member.</span>
+<span class="sd">        This is either the destination port&#39;s member, or the variable</span>
+<span class="sd">        on the arc&#39;s expanded block for Extensive properties. This will</span>
+<span class="sd">        return the appropriate index of the peer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check the rule on source but dest should be the same</span>
+        <span class="k">if</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">evar</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">evar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># 1-to-1 arcs don&#39;t make evar because they&#39;re an equality</span>
+                <span class="k">return</span> <span class="n">evar</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">mem</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">dest</span><span class="o">.</span><span class="n">vars</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">mem</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">mem</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mem</span>
+
+<div class="viewcode-block" id="SequentialDecomposition.create_graph"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.create_graph">[docs]</a>    <span class="k">def</span> <span class="nf">create_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a networkx MultiDiGraph of a Pyomo network model</span>
+
+<span class="sd">        The nodes are units and the edges follow Pyomo Arc objects. Nodes</span>
+<span class="sd">        that get added to the graph are determined by the parent blocks</span>
+<span class="sd">        of the source and destination Ports of every Arc in the model.</span>
+<span class="sd">        Edges are added for each Arc using the direction specified by</span>
+<span class="sd">        source and destination. All Arcs in the model will be used whether</span>
+<span class="sd">        or not they are active (since this needs to be done after expansion),</span>
+<span class="sd">        and they all need to be directed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">block_data_objects</span><span class="p">(</span><span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Arc</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">arc</span><span class="o">.</span><span class="n">directed</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;All Arcs must be directed when creating &quot;</span>
+                        <span class="s2">&quot;a graph for a model. Found undirected &quot;</span>
+                        <span class="s2">&quot;Arc: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">arc</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;All Arcs must be expanded when creating &quot;</span>
+                        <span class="s2">&quot;a graph for a model. Found unexpanded &quot;</span>
+                        <span class="s2">&quot;Arc: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">arc</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="n">arc</span><span class="o">.</span><span class="n">dest</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">arc</span><span class="o">=</span><span class="n">arc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">G</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.select_tear_mip_model"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.select_tear_mip_model">[docs]</a>    <span class="k">def</span> <span class="nf">select_tear_mip_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a model for selecting tears from the given graph</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            model</span>
+<span class="sd">            bin_list</span>
+<span class="sd">                A list of the binary variables representing each edge,</span>
+<span class="sd">                indexed by the edge index of the graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+        <span class="n">bin_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()):</span>
+            <span class="c1"># add a binary &quot;torn&quot; variable for every edge</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="s2">&quot;edge</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">Binary</span><span class="p">)</span>
+            <span class="n">bin_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">vname</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+        <span class="c1"># var containing the maximum number of times any cycle is torn</span>
+        <span class="n">mct</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">max_cycle_tears</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">cycleEdges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_cycles</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycleEdges</span><span class="p">)):</span>
+            <span class="n">ecyc</span> <span class="o">=</span> <span class="n">cycleEdges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="c1"># expression containing sum of tears for each cycle</span>
+            <span class="n">ename</span> <span class="o">=</span> <span class="s2">&quot;cycle_sum</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">expr</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">bin_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ecyc</span><span class="p">))</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">ename</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+
+            <span class="c1"># every cycle must have at least 1 tear</span>
+            <span class="n">cname_min</span> <span class="o">=</span> <span class="s2">&quot;cycle_min</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">con_min</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">expr</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">cname_min</span><span class="p">,</span> <span class="n">con_min</span><span class="p">)</span>
+
+            <span class="c1"># mct &gt;= cycle_sum for all cycles, thus it becomes the max</span>
+            <span class="n">cname_mct</span> <span class="o">=</span> <span class="n">mct</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_geq</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">con_mct</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">mct</span> <span class="o">&gt;=</span> <span class="n">expr</span><span class="p">)</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">cname_mct</span><span class="p">,</span> <span class="n">con_mct</span><span class="p">)</span>
+
+        <span class="c1"># weigh the primary objective much greater than the secondary</span>
+        <span class="n">obj_expr</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">mct</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">bin_list</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">obj_expr</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">minimize</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">bin_list</span></div>
+
+<div class="viewcode-block" id="SequentialDecomposition.select_tear_mip"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.SequentialDecomposition.select_tear_mip">[docs]</a>    <span class="k">def</span> <span class="nf">select_tear_mip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">solver_options</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This finds optimal sets of tear edges based on two criteria.</span>
+<span class="sd">        The primary objective is to minimize the maximum number of</span>
+<span class="sd">        times any cycle is broken. The secondary criteria is to</span>
+<span class="sd">        minimize the number of tears.</span>
+
+<span class="sd">        This function creates a MIP problem in Pyomo with a doubly</span>
+<span class="sd">        weighted objective and solves it with the solver arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">bin_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tear_mip_model</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="n">solver_io</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Solver &#39;</span><span class="si">%s</span><span class="s2">&#39; (solver_io=</span><span class="si">%r</span><span class="s2">) is not available, please pass a &quot;</span>
+                <span class="s2">&quot;different solver&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">solver_io</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_options</span><span class="p">)</span>
+
+        <span class="c1"># collect final list by adding every edge with a &quot;True&quot; binary var</span>
+        <span class="n">tset</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bin_list</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">bin_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tset</span></div>
+
+    <span class="k">def</span> <span class="nf">compute_err</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svals</span><span class="p">,</span> <span class="n">dvals</span><span class="p">,</span> <span class="n">tol_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the diff between svals and dvals for the given tol_type&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tol_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;abs&quot;</span><span class="p">,</span> <span class="s2">&quot;rel&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid tol_type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tol_type</span><span class="p">,))</span>
+
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">svals</span> <span class="o">-</span> <span class="n">dvals</span>
+        <span class="k">if</span> <span class="n">tol_type</span> <span class="o">==</span> <span class="s2">&quot;abs&quot;</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">diff</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># relative: divide by current value of svals</span>
+            <span class="n">old_settings</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">diff</span> <span class="o">/</span> <span class="n">svals</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="o">**</span><span class="n">old_settings</span><span class="p">)</span>
+            <span class="c1"># isnan means 0/0 so diff is 0</span>
+            <span class="n">err</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">err</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># isinf means diff/0, so just use the diff</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">err</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">err</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">err</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                        <span class="n">err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">diff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">err</span>
+
+    <span class="k">def</span> <span class="nf">tear_diff_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">tears</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns numpy arrays of values for src and dest members</span>
+<span class="sd">        for all edges in the tears list of edge indexes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">svals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dvals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tear</span> <span class="ow">in</span> <span class="n">tears</span><span class="p">:</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">tear</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="p">,</span> <span class="n">arc</span><span class="o">.</span><span class="n">dest</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="s2">&quot;splitfrac&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># TODO: same as above, what if there&#39;s no splitfrac</span>
+                    <span class="n">svals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">mem</span> <span class="o">*</span> <span class="n">sf</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">svals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">mem</span><span class="p">))</span>
+                <span class="n">dvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_dest_peer</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">)))</span>
+        <span class="n">svals</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">svals</span><span class="p">)</span>
+        <span class="n">dvals</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dvals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">svals</span><span class="p">,</span> <span class="n">dvals</span>
+
+    <span class="k">def</span> <span class="nf">pass_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call pass values for a list of edge indexes&quot;&quot;&quot;</span>
+        <span class="n">fixed_outputs</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ei</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">ei</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">expr_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pass_values</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_inputs</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fixed_outputs</span><span class="p">:</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">pass_tear_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">tears</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pass values across all tears in the given tear set&quot;&quot;&quot;</span>
+        <span class="n">fixed_outputs</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">tear</span> <span class="ow">in</span> <span class="n">tears</span><span class="p">:</span>
+            <span class="c1"># fix everything then call pass values</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">tear</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">expr_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pass_values</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">fixed_inputs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_inputs</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fixed_outputs</span><span class="p">:</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+            <span class="n">fixed_outputs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">pass_tear_wegstein</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">tears</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the destination value of all tear edges to</span>
+<span class="sd">        the corresponding value in the numpy array x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fixed_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_inputs</span><span class="p">()</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">tear</span> <span class="ow">in</span> <span class="n">tears</span><span class="p">:</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">tear</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="n">src</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="p">,</span> <span class="n">arc</span><span class="o">.</span><span class="n">dest</span>
+            <span class="n">dest_unit</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">dest_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_inputs</span><span class="p">:</span>
+                <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="n">peer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_dest_peer</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pass_single_value</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">peer</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fixed_inputs</span><span class="p">[</span><span class="n">dest_unit</span><span class="p">])</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">generate_gofx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">tears</span><span class="p">):</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">gofx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tear</span> <span class="ow">in</span> <span class="n">tears</span><span class="p">:</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">tear</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">expanded_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="s2">&quot;splitfrac&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">is_extensive</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># TODO: same as above, what if there&#39;s no splitfrac</span>
+                    <span class="n">gofx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">mem</span> <span class="o">*</span> <span class="n">sf</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">gofx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">mem</span><span class="p">))</span>
+        <span class="n">gofx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gofx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gofx</span>
+
+    <span class="k">def</span> <span class="nf">generate_first_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">tears</span><span class="p">):</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tear</span> <span class="ow">in</span> <span class="n">tears</span><span class="p">:</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge_list</span><span class="p">[</span><span class="n">tear</span><span class="p">]][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">arc</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">iter_vars</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="n">peer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_dest_peer</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">peer</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">cacher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">fcn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">fcn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="nf">tear_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;tear_set&quot;</span>
+
+        <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+            <span class="n">tset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">tset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">arc_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arc_to_edge</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+                <span class="n">edge_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_to_idx</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">tset</span><span class="p">:</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge_map</span><span class="p">[</span><span class="n">arc_map</span><span class="p">[</span><span class="n">arc</span><span class="p">]])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_tear_set</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Tear set found in options is insufficient to solve network&quot;</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+                <span class="k">return</span> <span class="n">res</span>
+
+            <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;select_tear_method&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;mip&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tear_mip</span><span class="p">(</span>
+                    <span class="n">G</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver&quot;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver_io&quot;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;tear_solver_options&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;heuristic&quot;</span><span class="p">:</span>
+                <span class="c1"># tset is the first list in the first return value</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tear_heuristic</span><span class="p">(</span><span class="n">G</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid select_tear_method &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">method</span><span class="p">,))</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">fcn</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">arc_to_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a mapping from arcs to edges for a graph&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+                <span class="n">arc</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="p">][</span><span class="s2">&quot;arc&quot;</span><span class="p">]</span>
+                <span class="n">res</span><span class="p">[</span><span class="n">arc</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;arc_to_edge&quot;</span><span class="p">,</span> <span class="n">fcn</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fixed_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;fixed_inputs&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">idx_to_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a mapping from indexes to nodes for a graph&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;idx_to_node&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">node_to_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a mapping from nodes to indexes for a graph&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">res</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;node_to_idx&quot;</span><span class="p">,</span> <span class="n">fcn</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">idx_to_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a mapping from indexes to edges for a graph&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;idx_to_edge&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">edge_to_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a mapping from edges to indexes for a graph&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">fcn</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">res</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cacher</span><span class="p">(</span><span class="s2">&quot;edge_to_idx&quot;</span><span class="p">,</span> <span class="n">fcn</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

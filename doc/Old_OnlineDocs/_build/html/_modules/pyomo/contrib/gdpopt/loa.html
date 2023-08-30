@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.gdpopt.loa &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.gdpopt.loa</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.gdpopt.loa</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">copysign</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">document_kwargs_from_configdict</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">unique_component_name</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.algorithm_base_class</span> <span class="kn">import</span> <span class="n">_GDPoptAlgorithm</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.config_options</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_add_oa_configs</span><span class="p">,</span>
+    <span class="n">_add_mip_solver_configs</span><span class="p">,</span>
+    <span class="n">_add_nlp_solver_configs</span><span class="p">,</span>
+    <span class="n">_add_tolerance_configs</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.create_oa_subproblems</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_get_discrete_problem_and_subproblem</span><span class="p">,</span>
+    <span class="n">add_constraint_list</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.cut_generation</span> <span class="kn">import</span> <span class="n">add_no_good_cut</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.oa_algorithm_utils</span> <span class="kn">import</span> <span class="n">_OAAlgorithmMixIn</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.solve_discrete_problem</span> <span class="kn">import</span> <span class="n">solve_MILP_discrete_problem</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.gdpopt.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">time_code</span><span class="p">,</span>
+    <span class="n">_add_bigm_constraint_to_transformed_model</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Block</span><span class="p">,</span>
+    <span class="n">Constraint</span><span class="p">,</span>
+    <span class="n">minimize</span><span class="p">,</span>
+    <span class="n">NonNegativeIntegers</span><span class="p">,</span>
+    <span class="n">NonNegativeReals</span><span class="p">,</span>
+    <span class="n">Objective</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">Var</span><span class="p">,</span>
+    <span class="n">VarList</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">differentiate</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.visitor</span> <span class="kn">import</span> <span class="n">identify_variables</span>
+<span class="kn">from</span> <span class="nn">pyomo.gdp</span> <span class="kn">import</span> <span class="n">Disjunct</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.repn</span> <span class="kn">import</span> <span class="n">generate_standard_repn</span>
+
+<span class="n">MAX_SYMBOLIC_DERIV_SIZE</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">JacInfo</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;JacInfo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;vars&#39;</span><span class="p">,</span> <span class="s1">&#39;jac&#39;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="GDP_LOA_Solver"><a class="viewcode-back" href="../../../../contributed_packages/gdpopt.html#pyomo.contrib.gdpopt.loa.GDP_LOA_Solver">[docs]</a><span class="nd">@SolverFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;gdpopt.loa&#39;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The LOA (logic-based outer approximation) Generalized Disjunctive &quot;</span>
+    <span class="s2">&quot;Programming (GDP) solver&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">GDP_LOA_Solver</span><span class="p">(</span><span class="n">_GDPoptAlgorithm</span><span class="p">,</span> <span class="n">_OAAlgorithmMixIn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The GDPopt (Generalized Disjunctive Programming optimizer) logic-based</span>
+<span class="sd">    outer approximation (LOA) solver.</span>
+
+<span class="sd">    Accepts models that can include nonlinear, continuous variables and</span>
+<span class="sd">    constraints, as well as logical conditions. For nonconvex problems, LOA</span>
+<span class="sd">    may not report rigorous dual bounds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">_GDPoptAlgorithm</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">_add_oa_configs</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+    <span class="n">_add_mip_solver_configs</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+    <span class="n">_add_nlp_solver_configs</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">,</span> <span class="n">default_solver</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">)</span>
+    <span class="n">_add_tolerance_configs</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">)</span>
+
+    <span class="n">algorithm</span> <span class="o">=</span> <span class="s1">&#39;LOA&#39;</span>
+
+    <span class="c1"># Override solve() to customize the docstring for this solver</span>
+<div class="viewcode-block" id="GDP_LOA_Solver.solve"><a class="viewcode-back" href="../../../../contributed_packages/gdpopt.html#pyomo.contrib.gdpopt.loa.GDP_LOA_Solver.solve">[docs]</a>    <span class="nd">@document_kwargs_from_configdict</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">_GDPoptAlgorithm</span><span class="o">.</span><span class="n">solve</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_citation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;&quot;- LOA algorithm:</span>
+<span class="s2">        Türkay, M; Grossmann, IE.</span>
+<span class="s2">        Logic-based MINLP algorithms for the optimal synthesis of process</span>
+<span class="s2">        networks. Comp. and Chem. Eng. 1996, 20(8), 959–978.</span>
+<span class="s2">        DOI: 10.1016/0098-1354(95)00219-7.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_solve_gdp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_model</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">logger</span>
+
+        <span class="c1"># We&#39;ll need these to get dual info after solving subproblems</span>
+        <span class="n">add_constraint_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_util_block</span><span class="p">)</span>
+
+        <span class="p">(</span>
+            <span class="n">discrete_problem_util_block</span><span class="p">,</span>
+            <span class="n">subproblem_util_block</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">_get_discrete_problem_and_subproblem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+        <span class="n">discrete</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">subproblem</span> <span class="o">=</span> <span class="n">subproblem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+
+        <span class="n">original_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_augmented_penalty_objective</span><span class="p">(</span>
+            <span class="n">discrete_problem_util_block</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_header</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+
+        <span class="c1"># main loop</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">iterlim</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">iterlim</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># solve linear discrete problem</span>
+            <span class="k">with</span> <span class="n">time_code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timing</span><span class="p">,</span> <span class="s1">&#39;mip&#39;</span><span class="p">):</span>
+                <span class="n">oa_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_augmented_penalty_objective</span><span class="p">(</span>
+                    <span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="n">original_obj</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">OA_penalty_factor</span>
+                <span class="p">)</span>
+                <span class="n">mip_feasible</span> <span class="o">=</span> <span class="n">solve_MILP_discrete_problem</span><span class="p">(</span>
+                    <span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">config</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_bounds_after_discrete_problem_solve</span><span class="p">(</span>
+                    <span class="n">mip_feasible</span><span class="p">,</span> <span class="n">oa_obj</span><span class="p">,</span> <span class="n">logger</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Check termination conditions</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">any_termination_criterion_met</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+                <span class="k">break</span>
+
+            <span class="k">with</span> <span class="n">time_code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timing</span><span class="p">,</span> <span class="s1">&#39;nlp&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fix_discrete_soln_solve_subproblem_and_add_cuts</span><span class="p">(</span>
+                    <span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="n">subproblem_util_block</span><span class="p">,</span> <span class="n">config</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Add integer cut</span>
+            <span class="k">with</span> <span class="n">time_code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timing</span><span class="p">,</span> <span class="s2">&quot;integer cut generation&quot;</span><span class="p">):</span>
+                <span class="n">add_no_good_cut</span><span class="p">(</span><span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+            <span class="c1"># Check termination conditions</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">any_termination_criterion_met</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+                <span class="k">break</span>
+
+    <span class="k">def</span> <span class="nf">_setup_augmented_penalty_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discrete_problem_util_block</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">discrete_objective</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+        <span class="c1"># Set up augmented penalty objective</span>
+        <span class="n">discrete_objective</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+        <span class="c1"># placeholder for OA objective</span>
+        <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">oa_obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">sense</span><span class="o">=</span><span class="n">minimize</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">discrete_objective</span>
+
+    <span class="k">def</span> <span class="nf">_update_augmented_penalty_objective</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="n">discrete_objective</span><span class="p">,</span> <span class="n">OA_penalty_factor</span>
+    <span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">sign_adjust</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">discrete_objective</span><span class="o">.</span><span class="n">sense</span> <span class="o">==</span> <span class="n">minimize</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">OA_penalty_expr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">sign_adjust</span>
+            <span class="o">*</span> <span class="n">OA_penalty_factor</span>
+            <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">v</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span>
+                    <span class="n">ctype</span><span class="o">=</span><span class="n">Var</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">Disjunct</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span><span class="o">.</span><span class="n">local_name</span> <span class="o">==</span> <span class="s1">&#39;GDPopt_OA_slacks&#39;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">oa_obj</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">discrete_objective</span><span class="o">.</span><span class="n">expr</span> <span class="o">+</span> <span class="n">OA_penalty_expr</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">oa_obj</span><span class="o">.</span><span class="n">expr</span>
+
+    <span class="k">def</span> <span class="nf">_add_cuts_to_discrete_problem</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subproblem_util_block</span><span class="p">,</span>
+        <span class="n">discrete_problem_util_block</span><span class="p">,</span>
+        <span class="n">objective_sense</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">,</span>
+        <span class="n">timing</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add outer approximation cuts to the linear GDP model.&quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">nlp</span> <span class="o">=</span> <span class="n">subproblem_util_block</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="n">sign_adjust</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">objective_sense</span> <span class="o">==</span> <span class="n">minimize</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="c1"># Dictionary mapping blocks to their child blocks we use to store OA</span>
+        <span class="c1"># cuts. We do it this way because we don&#39;t know for sure we can have any</span>
+        <span class="c1"># given name since we are sticking these on a clone of a user-generated</span>
+        <span class="c1"># model. But this keeps track that we find one if we&#39;ve already created</span>
+        <span class="c1"># it, so that we can add the cuts as indexed constraints.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="s1">&#39;oa_cut_blocks&#39;</span><span class="p">):</span>
+            <span class="n">oa_cut_blocks</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">oa_cut_blocks</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">oa_cut_blocks</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">oa_cut_blocks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">discrete_var</span><span class="p">,</span> <span class="n">subprob_var</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">algebraic_variable_list</span><span class="p">,</span>
+            <span class="n">subproblem_util_block</span><span class="o">.</span><span class="n">algebraic_variable_list</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">subprob_var</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">discrete_var</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                <span class="n">discrete_var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Adding OA cuts.&#39;</span><span class="p">)</span>
+
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">discrete_problem_util_block</span><span class="p">,</span> <span class="s1">&#39;jacobians&#39;</span><span class="p">):</span>
+            <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">jacobians</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">constr</span><span class="p">,</span> <span class="n">subprob_constr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">constraint_list</span><span class="p">,</span>
+            <span class="n">subproblem_util_block</span><span class="o">.</span><span class="n">constraint_list</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">dual_value</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">dual</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">subprob_constr</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dual_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">generate_standard_repn</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">is_linear</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Determine if the user pre-specified that OA cuts should not be</span>
+            <span class="c1"># generated for the given constraint.</span>
+            <span class="n">parent_block</span> <span class="o">=</span> <span class="n">constr</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+            <span class="n">ignore_set</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent_block</span><span class="p">,</span> <span class="s1">&#39;GDPopt_ignore_OA&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Ignore_set </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ignore_set</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ignore_set</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">constr</span> <span class="ow">in</span> <span class="n">ignore_set</span> <span class="ow">or</span> <span class="n">constr</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ignore_set</span>
+            <span class="p">):</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s1">&#39;OA cut addition for </span><span class="si">%s</span><span class="s1"> skipped because it is in &#39;</span>
+                    <span class="s1">&#39;the ignore set.&#39;</span> <span class="o">%</span> <span class="n">constr</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;Adding OA cut for </span><span class="si">%s</span><span class="s2"> with dual value </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dual_value</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Cache jacobian</span>
+            <span class="n">jacobian</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">jacobians</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">constr</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">jacobian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">constr_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">identify_variables</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constr_vars</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">MAX_SYMBOLIC_DERIV_SIZE</span><span class="p">:</span>
+                    <span class="n">mode</span> <span class="o">=</span> <span class="n">differentiate</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">reverse_numeric</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mode</span> <span class="o">=</span> <span class="n">differentiate</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">sympy</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">jac_list</span> <span class="o">=</span> <span class="n">differentiate</span><span class="p">(</span>
+                        <span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">wrt_list</span><span class="o">=</span><span class="n">constr_vars</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span>
+                    <span class="p">)</span>
+                    <span class="n">jac_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">constr_vars</span><span class="p">,</span> <span class="n">jac_list</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="n">differentiate</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">reverse_numeric</span><span class="p">:</span>
+                        <span class="k">raise</span>
+                    <span class="n">mode</span> <span class="o">=</span> <span class="n">differentiate</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">reverse_numeric</span>
+                    <span class="n">jac_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+                <span class="n">jacobian</span> <span class="o">=</span> <span class="n">JacInfo</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="n">constr_vars</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="n">jac_map</span><span class="p">)</span>
+                <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">jacobians</span><span class="p">[</span><span class="n">constr</span><span class="p">]</span> <span class="o">=</span> <span class="n">jacobian</span>
+            <span class="c1"># Recompute numeric derivatives</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">jacobian</span><span class="o">.</span><span class="n">jac</span><span class="p">:</span>
+                <span class="n">jac_list</span> <span class="o">=</span> <span class="n">differentiate</span><span class="p">(</span>
+                    <span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">wrt_list</span><span class="o">=</span><span class="n">jacobian</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">jacobian</span><span class="o">.</span><span class="n">mode</span>
+                <span class="p">)</span>
+                <span class="n">jacobian</span><span class="o">.</span><span class="n">jac</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">jacobian</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span> <span class="n">jac_list</span><span class="p">))</span>
+
+            <span class="c1"># Create a block on which to put outer approximation cuts, if we</span>
+            <span class="c1"># don&#39;t have one already on this parent block.</span>
+            <span class="n">oa_utils</span> <span class="o">=</span> <span class="n">oa_cut_blocks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">parent_block</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">oa_utils</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nm</span> <span class="o">=</span> <span class="n">unique_component_name</span><span class="p">(</span><span class="n">parent_block</span><span class="p">,</span> <span class="s1">&#39;GDPopt_OA_cuts&#39;</span><span class="p">)</span>
+                <span class="n">oa_utils</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span>
+                    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Block holding outer approximation cuts and associated data.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">parent_block</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">oa_utils</span><span class="p">)</span>
+                <span class="n">oa_cut_blocks</span><span class="p">[</span><span class="n">parent_block</span><span class="p">]</span> <span class="o">=</span> <span class="n">oa_utils</span>
+                <span class="n">oa_utils</span><span class="o">.</span><span class="n">cuts</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">NonNegativeIntegers</span><span class="p">)</span>
+            <span class="n">discrete_prob_oa_utils</span> <span class="o">=</span> <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span>
+                <span class="s1">&#39;GDPopt_OA_slacks&#39;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">discrete_prob_oa_utils</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">discrete_prob_oa_utils</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">discrete_problem_util_block</span><span class="o">.</span><span class="n">GDPopt_OA_slacks</span>
+                <span class="p">)</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span>
+                    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Block holding outer approximation &quot;</span>
+                    <span class="s2">&quot;slacks for the whole model (so that the &quot;</span>
+                    <span class="s2">&quot;writers can find them).&quot;</span>
+                <span class="p">)</span>
+                <span class="n">discrete_prob_oa_utils</span><span class="o">.</span><span class="n">slacks</span> <span class="o">=</span> <span class="n">VarList</span><span class="p">(</span>
+                    <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">max_slack</span><span class="p">),</span> <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span>
+                <span class="p">)</span>
+
+            <span class="n">oa_cuts</span> <span class="o">=</span> <span class="n">oa_utils</span><span class="o">.</span><span class="n">cuts</span>
+            <span class="n">slack_var</span> <span class="o">=</span> <span class="n">discrete_prob_oa_utils</span><span class="o">.</span><span class="n">slacks</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+            <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="k">if</span> <span class="n">constr</span><span class="o">.</span><span class="n">has_lb</span><span class="p">()</span> <span class="k">else</span> <span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">new_oa_cut</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sign_adjust</span> <span class="o">*</span> <span class="n">dual_value</span><span class="p">)</span>
+                    <span class="o">*</span> <span class="p">(</span>
+                        <span class="n">value</span><span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+                        <span class="o">-</span> <span class="n">rhs</span>
+                        <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span>
+                            <span class="n">value</span><span class="p">(</span><span class="n">jac</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span> <span class="o">-</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+                            <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">jac</span> <span class="ow">in</span> <span class="n">jacobian</span><span class="o">.</span><span class="n">jac</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="o">-</span> <span class="n">slack_var</span>
+                    <span class="o">&lt;=</span> <span class="mi">0</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">new_oa_cut</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">oa_cuts</span><span class="p">)</span>
+                <span class="n">oa_cuts</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_oa_cut</span>
+                <span class="n">_add_bigm_constraint_to_transformed_model</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">oa_cuts</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">oa_cuts</span><span class="p">)</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cut expression: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">new_oa_cut</span><span class="p">)</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Zero division occurred attempting to generate OA cut for &quot;</span>
+                    <span class="s2">&quot;constraint </span><span class="si">%s</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;Skipping OA cut generation for this constraint.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">constr</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+                <span class="p">)</span>
+                <span class="c1"># Simply continue on to the next constraint.</span>
+            <span class="c1"># Clear out the numeric Jacobian values</span>
+            <span class="k">if</span> <span class="n">jacobian</span><span class="o">.</span><span class="n">mode</span> <span class="ow">is</span> <span class="n">differentiate</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">reverse_numeric</span><span class="p">:</span>
+                <span class="n">jacobian</span><span class="o">.</span><span class="n">jac</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="n">config</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added </span><span class="si">%s</span><span class="s1"> OA cuts&#39;</span> <span class="o">%</span> <span class="n">counter</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

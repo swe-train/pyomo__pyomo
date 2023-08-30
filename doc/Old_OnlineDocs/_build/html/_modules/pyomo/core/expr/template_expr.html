@@ -1,0 +1,1404 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.expr.template_expr &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.expr.template_expr</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.expr.template_expr</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">builtins</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.backports</span> <span class="kn">import</span> <span class="n">nullcontext</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.base</span> <span class="kn">import</span> <span class="n">ExpressionBase</span><span class="p">,</span> <span class="n">ExpressionArgs_Mixin</span><span class="p">,</span> <span class="n">NPV_Mixin</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.expr_errors</span> <span class="kn">import</span> <span class="n">TemplateExpressionError</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.logical_expr</span> <span class="kn">import</span> <span class="n">BooleanExpression</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numeric_expr</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NumericExpression</span><span class="p">,</span>
+    <span class="n">SumExpression</span><span class="p">,</span>
+    <span class="n">Numeric_NPV_Mixin</span><span class="p">,</span>
+    <span class="n">register_arg_type</span><span class="p">,</span>
+    <span class="n">ARG_TYPE</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NumericValue</span><span class="p">,</span>
+    <span class="n">native_types</span><span class="p">,</span>
+    <span class="n">nonpyomo_leaf_types</span><span class="p">,</span>
+    <span class="n">as_numeric</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">is_constant</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.visitor</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExpressionReplacementVisitor</span><span class="p">,</span>
+    <span class="n">StreamBasedExpressionVisitor</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_NotSpecified</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="GetItemExpression"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression">[docs]</a><span class="k">class</span> <span class="nc">GetItemExpression</span><span class="p">(</span><span class="n">ExpressionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression to call :func:`__getitem__` on the base object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">GetItemExpression</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">npv_args</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">&#39;is_potentially_variable&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">component</span> <span class="o">=</span> <span class="n">_reduce_template_to_component</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">cdata</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">_ComponentDataClass</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cdata</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">npv_args</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cdata</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">NPV_Numeric_GetItemExpression</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">Numeric_GetItemExpression</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cdata</span><span class="o">.</span><span class="n">is_logical_type</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">npv_args</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cdata</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">NPV_Boolean_GetItemExpression</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">Boolean_GetItemExpression</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="c1"># TypeError: error reducing to a component (usually due to</span>
+            <span class="c1">#     unbounded domain on a Var used in a GetItemExpression)</span>
+            <span class="c1"># AttributeError: resolved component did not support the</span>
+            <span class="c1">#     PyomoObject API</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">npv_args</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">NPV_Structural_GetItemExpression</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">Structural_GetItemExpression</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">GetAttrExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+<div class="viewcode-block" id="GetItemExpression.getname"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression.getname">[docs]</a>    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getname</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GetItemExpression.nargs"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression.nargs">[docs]</a>    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GetItemExpression._is_fixed"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression._is_fixed">[docs]</a>    <span class="k">def</span> <span class="nf">_is_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">_true</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;is_fixed&#39;</span><span class="p">,</span> <span class="n">_true</span><span class="p">)()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="GetItemExpression._to_string"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression._to_string">[docs]</a>    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span> <span class="ow">and</span> <span class="n">_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span> <span class="k">else</span> <span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;getitem(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
+
+<div class="viewcode-block" id="GetItemExpression._resolve_template"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression._resolve_template">[docs]</a>    <span class="k">def</span> <span class="nf">_resolve_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
+
+<div class="viewcode-block" id="GetItemExpression._apply_operation"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.GetItemExpression._apply_operation">[docs]</a>    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">arg</span>
+            <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">()</span>
+            <span class="k">else</span> <span class="n">value</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">Numeric_GetItemExpression</span><span class="p">(</span><span class="n">GetItemExpression</span><span class="p">,</span> <span class="n">NumericExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;polynomial_degree&#39;</span>
+            <span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">tmp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="n">tmp</span> <span class="o">&gt;</span> <span class="n">ans</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Numeric_GetItemExpression</span><span class="p">(</span><span class="n">Numeric_NPV_Mixin</span><span class="p">,</span> <span class="n">Numeric_GetItemExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Boolean_GetItemExpression</span><span class="p">(</span><span class="n">GetItemExpression</span><span class="p">,</span> <span class="n">BooleanExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Boolean_GetItemExpression</span><span class="p">(</span><span class="n">NPV_Mixin</span><span class="p">,</span> <span class="n">Boolean_GetItemExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Structural_GetItemExpression</span><span class="p">(</span><span class="n">ExpressionArgs_Mixin</span><span class="p">,</span> <span class="n">GetItemExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Structural_GetItemExpression</span><span class="p">(</span><span class="n">NPV_Mixin</span><span class="p">,</span> <span class="n">Structural_GetItemExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">GetAttrExpression</span><span class="p">(</span><span class="n">ExpressionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression to call :func:`__getattr__` on the base object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">GetAttrExpression</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="c1"># Ironically, we need to actually create this object in order to</span>
+        <span class="c1"># determine what the class for this object should be.</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">():</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">Structural_GetAttrExpression</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">NPV_Structural_GetAttrExpression</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">_reduce_template_to_component</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">Numeric_GetAttrExpression</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">NPV_Numeric_GetAttrExpression</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_logical_type</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">Boolean_GetAttrExpression</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">NPV_Boolean_GetAttrExpression</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="c1"># TypeError: error reducing to a component (usually due to</span>
+            <span class="c1">#     unbounded domain on a Var used in a GetItemExpression)</span>
+            <span class="c1"># AttributeError: resolved component did not support the</span>
+            <span class="c1">#     PyomoObject API</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">GetAttrExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">GetItemExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,)</span> <span class="o">+</span> <span class="n">idx</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the value of this object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Backwards compatibility with __call__(exception):</span>
+        <span class="c1">#</span>
+        <span class="c1"># TODO: deprecate (then remove) evaluating expressions by</span>
+        <span class="c1"># &quot;calling&quot; them.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;exception&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TemplateExpressionError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="c1"># Note: the only time we will implicitly create a CallExpression</span>
+        <span class="c1"># node is directly after a GetAttrExpression: that is, someone</span>
+        <span class="c1"># got the attribute (method) and is now calling it.</span>
+        <span class="c1"># Implementing the auto-generation of CallExpression in other</span>
+        <span class="c1"># contexts is likely to be confounded with evaluating expressions.</span>
+        <span class="k">return</span> <span class="n">CallExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;getattr&#39;</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;getattr(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="c1"># Note that the string argument for getattr comes quoted, so we</span>
+        <span class="c1"># need to remove the quotes.</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;</span><span class="se">\&quot;\&#39;</span><span class="s1">&#39;</span> <span class="ow">and</span> <span class="n">attr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">attr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Numeric_GetAttrExpression</span><span class="p">(</span><span class="n">GetAttrExpression</span><span class="p">,</span> <span class="n">NumericExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Numeric_GetAttrExpression</span><span class="p">(</span><span class="n">Numeric_NPV_Mixin</span><span class="p">,</span> <span class="n">Numeric_GetAttrExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Boolean_GetAttrExpression</span><span class="p">(</span><span class="n">GetAttrExpression</span><span class="p">,</span> <span class="n">BooleanExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Boolean_GetAttrExpression</span><span class="p">(</span><span class="n">NPV_Mixin</span><span class="p">,</span> <span class="n">Boolean_GetAttrExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Structural_GetAttrExpression</span><span class="p">(</span><span class="n">ExpressionArgs_Mixin</span><span class="p">,</span> <span class="n">GetAttrExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">NPV_Structural_GetAttrExpression</span><span class="p">(</span><span class="n">NPV_Mixin</span><span class="p">,</span> <span class="n">Structural_GetAttrExpression</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">CallExpression</span><span class="p">(</span><span class="n">NumericExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression to call :func:`__call__` on the base object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_kwds&#39;</span><span class="p">,)</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">GetAttrExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">GetItemExpression</span><span class="p">((</span><span class="bp">self</span><span class="p">,)</span> <span class="o">+</span> <span class="n">idx</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;call&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">na</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">na</span><span class="p">],</span> <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="n">na</span><span class="p">:])))</span>
+
+    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="n">na</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">na</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">na</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span>
+            <span class="n">args</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">na</span><span class="p">:])</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;call(</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TemplateSumExpression_argList</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A virtual list to represent the expanded SumExpression args</span>
+
+<span class="sd">    This class implements a &quot;virtual args list&quot; for</span>
+<span class="sd">    TemplateSumExpressions without actually generating the expanded</span>
+<span class="sd">    expression.  It can be accessed either in &quot;one-pass&quot; without</span>
+<span class="sd">    generating a list of template argument values (more efficient), or</span>
+<span class="sd">    as a random-access list (where it will have to create the full list</span>
+<span class="sd">    of argument values (less efficient).</span>
+
+<span class="sd">    The instance can be used as a context manager to both lock the</span>
+<span class="sd">    IndexTemplate values within this context and to restore their original</span>
+<span class="sd">    values upon exit.</span>
+
+<span class="sd">    It is (intentionally) not iterable.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TSE</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span> <span class="o">=</span> <span class="n">TSE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_iter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_iter_vals</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Switch to random-access mode.  If we have already</span>
+            <span class="c1"># retrieved one of the indices, then we need to regenerate</span>
+            <span class="c1"># the iterator from scratch.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iter</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_iter_vals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_iter_vals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">_local_args_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock_iters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unlock_iters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_get_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Note: by definition, all _set pointers within an itergroup</span>
+        <span class="c1"># point to the same Set</span>
+        <span class="n">_sets</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span> <span class="k">for</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">_iters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">_sets</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_lock_iters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">)</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterGroup</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">_iters</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_unlock_iters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_iter_vals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">_iters</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterGroup</span><span class="p">:</span>
+                <span class="n">it</span><span class="o">.</span><span class="n">unlock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_iter_vals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tse</span><span class="o">.</span><span class="n">_iters</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterGroup</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                    <span class="n">iterGroup</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TemplateSumExpression</span><span class="p">(</span><span class="n">NumericExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression to represent an unexpanded sum over one or more sets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_iters&#39;</span><span class="p">,</span> <span class="s1">&#39;_local_args_&#39;</span><span class="p">)</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_iters</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iters</span> <span class="o">=</span> <span class="n">_iters</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Note: by definition, all _set pointers within an itergroup</span>
+        <span class="c1"># point to the same Set</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iters</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_TemplateSumExpression_argList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_args_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_TemplateSumExpression_argList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@_args_</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">_args_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local_args_</span> <span class="o">=</span> <span class="n">args</span>
+
+    <span class="k">def</span> <span class="nf">create_node_with_local_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iters</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;SUM&quot;</span>
+
+    <span class="k">def</span> <span class="nf">is_potentially_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">arg</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_args_</span>
+            <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nonpyomo_leaf_types</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_is_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span> <span class="ow">and</span> <span class="n">_balanced_parens</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">iterStrGenerator</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">iterGroup</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">,</span> <span class="s1">&#39;to_string&#39;</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">iterGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">iterGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iters</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">iterStr</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;iter(</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterStrGenerator</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;templatesum(</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">iterStr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iterStr</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;for </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterStrGenerator</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;SUM(</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">iterStr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SumExpression</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IndexTemplate</span><span class="p">(</span><span class="n">NumericValue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A &quot;placeholder&quot; for an index value in template expressions.</span>
+
+<span class="sd">    This class is a placeholder for an index value within a template</span>
+<span class="sd">    expression.  That is, given the expression template for &quot;m.x[i]&quot;,</span>
+<span class="sd">    where `m.z` is indexed by `m.I`, the expression tree becomes:</span>
+
+<span class="sd">    _GetItem:</span>
+<span class="sd">       - m.x</span>
+<span class="sd">       - IndexTemplate(_set=m.I, _value=None)</span>
+
+<span class="sd">    Constructor Arguments:</span>
+<span class="sd">       _set: the Set from which this IndexTemplate can take values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_set&#39;</span><span class="p">,</span> <span class="s1">&#39;_value&#39;</span><span class="p">,</span> <span class="s1">&#39;_index&#39;</span><span class="p">,</span> <span class="s1">&#39;_id&#39;</span><span class="p">,</span> <span class="s1">&#39;_group&#39;</span><span class="p">,</span> <span class="s1">&#39;_lock&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_set</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set</span> <span class="o">=</span> <span class="n">_set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">_NotSpecified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_group</span> <span class="o">=</span> <span class="n">_group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="c1"># Because we leverage deepcopy for expression/component cloning,</span>
+        <span class="c1"># we need to see if this is a Component.clone() operation and</span>
+        <span class="c1"># *not* copy the template.</span>
+        <span class="c1">#</span>
+        <span class="c1"># TODO: JDS: We should consider converting the IndexTemplate to</span>
+        <span class="c1"># a proper Component: that way it could leverage the normal</span>
+        <span class="c1"># logic of using the parent_block scope to dictate the behavior</span>
+        <span class="c1"># of deepcopy.</span>
+        <span class="k">if</span> <span class="s1">&#39;__block_scope__&#39;</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+            <span class="n">memo</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="c1">#</span>
+        <span class="c1"># &quot;Normal&quot; deepcopying outside the context of pyomo.</span>
+        <span class="c1">#</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__deepcopy__</span><span class="p">(</span><span class="n">memo</span><span class="p">)</span>
+
+    <span class="c1"># Note: because NONE of the slots on this class need to be edited,</span>
+    <span class="c1"># we don&#39;t need to implement a specialized __setstate__ method.</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the value of this object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exception</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">TemplateExpressionError</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Evaluating uninitialized IndexTemplate (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,)</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">args</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True because this value is fixed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_potentially_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns False because index values cannot be variables.</span>
+
+<span class="sd">        The IndexTemplate represents a placeholder for an index value</span>
+<span class="sd">        for an IndexedComponent, and at the moment, Pyomo does not</span>
+<span class="sd">        support variable indirection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getname</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fully_qualified</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name_buffer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relative_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,)</span>
+
+        <span class="n">_set_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">getname</span><span class="p">(</span><span class="n">fully_qualified</span><span class="p">,</span> <span class="n">name_buffer</span><span class="p">,</span> <span class="n">relative_to</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="o">.</span><span class="n">dimen</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">_set_name</span> <span class="o">+=</span> <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">,)</span>
+        <span class="k">return</span> <span class="s2">&quot;{&quot;</span> <span class="o">+</span> <span class="n">_set_name</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">_NotSpecified</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># It might be nice to check if the value is valid for the base</span>
+        <span class="c1"># set, but things are tricky when the base set is not dimension</span>
+        <span class="c1"># 1.  So, for the time being, we will just &quot;trust&quot; the user.</span>
+        <span class="c1"># After all, the actual Set will raise exceptions if the value</span>
+        <span class="c1"># is not present.</span>
+        <span class="k">if</span> <span class="n">lock</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;The TemplateIndex </span><span class="si">%s</span><span class="s2"> is currently locked by </span><span class="si">%s</span><span class="s2"> and &quot;</span>
+                <span class="s2">&quot;cannot be set through lock </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">,</span> <span class="n">lock</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="n">_NotSpecified</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">_NotSpecified</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">values</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">values</span>
+
+    <span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">lock</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="k">def</span> <span class="nf">unlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="ow">is</span> <span class="n">lock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># Instead of special-casing _categorize_arg_type for this class, we</span>
+<span class="c1"># will directly register that it should be treated as an NPV arg</span>
+<span class="n">register_arg_type</span><span class="p">(</span><span class="n">IndexTemplate</span><span class="p">,</span> <span class="n">ARG_TYPE</span><span class="o">.</span><span class="n">NPV</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resolve_template</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Resolve a template into a concrete expression</span>
+
+<span class="sd">    This takes a template expression and returns the concrete equivalent</span>
+<span class="sd">    by substituting the current values of all IndexTemplate objects and</span>
+<span class="sd">    resolving (evaluating and removing) all GetItemExpression,</span>
+<span class="sd">    GetAttrExpression, and TemplateSumExpression expression nodes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wildcards</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">wildcard_groups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="c1"># Efficiency: do not descend into leaf nodes.</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;_resolve_template&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">_resolve_template</span><span class="p">(())</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;_resolve_template&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_resolve_template</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_constant</span><span class="p">,</span> <span class="n">args</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">create_node_with_local_data</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">walker</span> <span class="o">=</span> <span class="n">StreamBasedExpressionVisitor</span><span class="p">(</span>
+        <span class="n">initializeWalker</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">beforeChild</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">beforeChild</span><span class="o">=</span><span class="n">beforeChild</span><span class="p">,</span>
+        <span class="n">exitNode</span><span class="o">=</span><span class="n">exitNode</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">walker</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_wildcard_info</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;iter&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;original_value&#39;</span><span class="p">,</span> <span class="s1">&#39;objects&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_value</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objects</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_value</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">_NotSpecified</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">_TemplateIterManager</span><span class="o">.</span><span class="n">pause</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Because we want to actually iterate over the underlying</span>
+        <span class="c1"># template expression, we will temporarily pause our overrides</span>
+        <span class="c1"># of sum() and the set iters</span>
+        <span class="k">with</span> <span class="n">_TemplateIterManager</span><span class="o">.</span><span class="n">pause</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_value</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_reduce_template_to_component</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Resolve a template into a concrete component</span>
+
+<span class="sd">    This takes a template expression and returns the concrete equivalent</span>
+<span class="sd">    by substituting the current values of all IndexTemplate objects and</span>
+<span class="sd">    resolving (evaluating and removing) all GetItemExpression,</span>
+<span class="sd">    GetAttrExpression, and TemplateSumExpression expression nodes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pyomo.core.base.set</span>
+
+    <span class="c1"># wildcards holds lists of</span>
+    <span class="c1">#   [iterator, source, value, orig_value, object0, ...]</span>
+    <span class="c1"># &#39;iterator&#39; iterates over &#39;source&#39; to provide &#39;value&#39;s for each of</span>
+    <span class="c1"># the 1 or more &#39;objects&#39;.  Objects can be IndexTemplate objects or</span>
+    <span class="c1"># (discrete) Variables</span>
+    <span class="n">wildcards</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">wildcard_groups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="c1"># Efficiency: do not descend into leaf nodes.</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;_resolve_template&#39;</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">_resolve_template</span><span class="p">(())</span>
+                <span class="k">except</span> <span class="n">TemplateExpressionError</span><span class="p">:</span>
+                    <span class="c1"># We are attempting &quot;loose&quot; template resolution: for</span>
+                    <span class="c1"># every unset IndexTemplate, search the underlying</span>
+                    <span class="c1"># set to find *any* valid match.</span>
+                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">_group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wildcard_groups</span><span class="p">:</span>
+                        <span class="n">wildcard_groups</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">_group</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wildcards</span><span class="p">)</span>
+                        <span class="n">info</span> <span class="o">=</span> <span class="n">_wildcard_info</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">_set</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+                        <span class="n">wildcards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">info</span> <span class="o">=</span> <span class="n">wildcards</span><span class="p">[</span><span class="n">wildcard_groups</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">_group</span><span class="p">]]</span>
+                        <span class="n">info</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                        <span class="n">child</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">_resolve_template</span><span class="p">(())</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ans</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">is_variable_type</span><span class="p">():</span>
+                <span class="kn">from</span> <span class="nn">pyomo.core.base.set</span> <span class="kn">import</span> <span class="n">RangeSet</span>
+
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">isdiscrete</span><span class="p">():</span>
+                    <span class="n">domain</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">domain</span>
+                    <span class="n">bounds</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">bounds</span>
+                    <span class="k">if</span> <span class="n">bounds</span> <span class="o">!=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">bounds</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                            <span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span> <span class="o">&amp;</span> <span class="n">bounds</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                    <span class="n">info</span> <span class="o">=</span> <span class="n">_wildcard_info</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+                    <span class="n">wildcards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;_resolve_template&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_resolve_template</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">nargs</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_constant</span><span class="p">,</span> <span class="n">args</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">create_node_with_local_data</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">walker</span> <span class="o">=</span> <span class="n">StreamBasedExpressionVisitor</span><span class="p">(</span>
+        <span class="n">initializeWalker</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">beforeChild</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">beforeChild</span><span class="o">=</span><span class="n">beforeChild</span><span class="p">,</span>
+        <span class="n">exitNode</span><span class="o">=</span><span class="n">exitNode</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">_TemplateIterManager</span><span class="o">.</span><span class="n">pause</span><span class="p">():</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">walker</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+            <span class="c1"># We are attempting &quot;loose&quot; template resolution: for every</span>
+            <span class="c1"># unset IndexTemplate, search the underlying set to find</span>
+            <span class="c1"># *any* valid match.</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wildcards</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="n">wildcards</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">info</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                    <span class="c1"># Because we want to actually iterate over the</span>
+                    <span class="c1"># underlying template expression, we will</span>
+                    <span class="c1"># temporarily pause our overrides of sum() and the</span>
+                    <span class="c1"># set iters</span>
+                    <span class="n">info</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+                    <span class="n">info</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+                    <span class="n">level</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">wildcards</span><span class="p">:</span>
+                    <span class="n">info</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+                <span class="k">raise</span>
+    <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">wildcards</span><span class="p">:</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="k">class</span> <span class="nc">ReplaceTemplateExpression</span><span class="p">(</span><span class="n">ExpressionReplacementVisitor</span><span class="p">):</span>
+    <span class="n">template_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">IndexTemplate</span><span class="p">,</span>
+        <span class="n">GetItemExpression</span><span class="p">,</span>
+        <span class="n">Numeric_GetItemExpression</span><span class="p">,</span>
+        <span class="n">NPV_Numeric_GetItemExpression</span><span class="p">,</span>
+        <span class="n">Boolean_GetItemExpression</span><span class="p">,</span>
+        <span class="n">NPV_Boolean_GetItemExpression</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">substituter</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;remove_named_expressions&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">substituter</span> <span class="o">=</span> <span class="n">substituter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">substituter_args</span> <span class="o">=</span> <span class="n">args</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ReplaceTemplateExpression</span><span class="o">.</span><span class="n">template_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">substituter</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">substituter_args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">substitute_template_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">substituter</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Substitute IndexTemplates in an expression tree.</span>
+
+<span class="sd">    This is a general utility function for walking the expression tree</span>
+<span class="sd">    and substituting all occurrences of IndexTemplate and</span>
+<span class="sd">    GetItemExpression nodes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        substituter: method taking (expression, *args) and returning</span>
+<span class="sd">           the new object</span>
+<span class="sd">        *args: these are passed directly to the substituter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a new expression tree with all substitutions done</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">ReplaceTemplateExpression</span><span class="p">(</span><span class="n">substituter</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_GetItemIndexer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># Note that this class makes the assumption that only one template</span>
+    <span class="c1"># ever appears in an expression for a single index</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">_hash</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">)</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">_hash</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">TemplateExpressionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">template</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s2">&quot;Cannot use the param substituter with expression &quot;</span>
+                        <span class="s2">&quot;templates</span><span class="se">\n</span><span class="s2">where the component index has the &quot;</span>
+                        <span class="s2">&quot;IndexTemplate in an expression.</span><span class="se">\n\t</span><span class="s2">Found in </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">expr</span><span class="p">,)</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
+                <span class="n">_hash</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">_set</span><span class="p">))</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_hash</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hash</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">_GetItemIndexer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_hash</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">substitute_getitem_with_param</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">_map</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A simple substituter to replace _GetItem nodes with mutable Params.</span>
+
+<span class="sd">    This substituter will replace all GetItemExpression nodes with a</span>
+<span class="sd">    new Param.  For example, this method will create expressions</span>
+<span class="sd">    suitable for passing to DAE integrators</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pyomo.core.base.param</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">expr</span>
+
+    <span class="n">_id</span> <span class="o">=</span> <span class="n">_GetItemIndexer</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_map</span><span class="p">:</span>
+        <span class="n">_map</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_map</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+        <span class="n">_map</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_id</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_id</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">_map</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">substitute_template_with_value</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A simple substituter to expand expression for current template</span>
+
+<span class="sd">    This substituter will replace all GetItemExpression / IndexTemplate</span>
+<span class="sd">    nodes with the actual _ComponentData based on the current value of</span>
+<span class="sd">    the IndexTemplate(s)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">as_numeric</span><span class="p">(</span><span class="n">expr</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">resolve_template</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_set_iterator_template_generator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replacement iterator that returns IndexTemplates</span>
+
+<span class="sd">    In order to generate template expressions, we hijack the normal Set</span>
+<span class="sd">    iteration mechanisms so that this iterator is returned instead of</span>
+<span class="sd">    the usual iterator.  This iterator will return IndexTemplate</span>
+<span class="sd">    object(s) instead of the actual Set items the first time next() is</span>
+<span class="sd">    called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_set</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set</span> <span class="o">=</span> <span class="n">_set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Prevent context from ever being called more than once</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">()</span>
+        <span class="n">context</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="n">_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span>
+        <span class="k">if</span> <span class="n">_set</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">_reduce_template_to_component</span><span class="p">(</span><span class="n">_set</span><span class="p">)</span><span class="o">.</span><span class="n">dimen</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">_set</span><span class="o">.</span><span class="n">dimen</span>
+        <span class="n">grp</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">next_group</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">IndexTemplate</span><span class="p">(</span><span class="n">_set</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">next_id</span><span class="p">(),</span> <span class="n">grp</span><span class="p">),)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+                <span class="n">IndexTemplate</span><span class="p">(</span><span class="n">_set</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">next_id</span><span class="p">(),</span> <span class="n">grp</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">idx</span>
+
+    <span class="nb">next</span> <span class="o">=</span> <span class="fm">__next__</span>
+
+
+<span class="k">class</span> <span class="nc">_template_iter_context</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manage the iteration context when generating templatized rules</span>
+
+<span class="sd">    This class manages the context tracking when generating templatized</span>
+<span class="sd">    rules.  It has two methods (`sum_template` and `get_iter`) that</span>
+<span class="sd">    replace standard functions / methods (`sum` and</span>
+<span class="sd">    :py:meth:`_FiniteSetMixin.__iter__`, respectively).  It also tracks</span>
+<span class="sd">    unique identifiers for IndexTemplate objects and their groupings</span>
+<span class="sd">    within `sum()` generators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_group</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">get_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_set</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_set_iterator_template_generator</span><span class="p">(</span><span class="n">_set</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">npop_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="k">def</span> <span class="nf">next_group</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_group</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span>
+
+    <span class="k">def</span> <span class="nf">sum_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generator</span><span class="p">):</span>
+        <span class="n">init_cache</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+        <span class="n">expr</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+        <span class="n">final_cache</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TemplateSumExpression</span><span class="p">((</span><span class="n">expr</span><span class="p">,),</span> <span class="bp">self</span><span class="o">.</span><span class="n">npop_cache</span><span class="p">(</span><span class="n">final_cache</span> <span class="o">-</span> <span class="n">init_cache</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_template_iter_manager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">_iter_wrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_class&#39;</span><span class="p">,</span> <span class="s1">&#39;_iter&#39;</span><span class="p">,</span> <span class="s1">&#39;_old_iter&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">_iter_fcn</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">get_iter</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_class</span> <span class="o">=</span> <span class="bp">cls</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_old_iter</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__iter__</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span> <span class="o">=</span> <span class="n">_iter_fcn</span>
+
+        <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_class</span><span class="o">.</span><span class="fm">__iter__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span>
+
+        <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_class</span><span class="o">.</span><span class="fm">__iter__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old_iter</span>
+
+    <span class="k">class</span> <span class="nc">_pause_template_iter_manager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;iter_manager&#39;</span><span class="p">,)</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iter_manager</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iter_manager</span> <span class="o">=</span> <span class="n">iter_manager</span>
+
+        <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iter_manager</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">ev</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iter_manager</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paused</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">builtin_sum</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">sum</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="n">iter_fcns</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_wrapper</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iter_fcns</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">paused</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paused</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">builtins</span><span class="o">.</span><span class="n">sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">sum_template</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="p">:</span>
+            <span class="n">it</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">paused</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paused</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">builtins</span><span class="o">.</span><span class="n">sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_sum</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="p">:</span>
+            <span class="n">it</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">ev</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paused</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nullcontext</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pause_template_iter_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="c1"># Global manager for coordinating overriding set iteration</span>
+<span class="n">_TemplateIterManager</span> <span class="o">=</span> <span class="n">_template_iter_manager</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">templatize_rule</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">index_set</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pyomo.core.base.set</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">_template_iter_context</span><span class="p">()</span>
+    <span class="n">internal_error</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Override Set iteration to return IndexTemplates</span>
+        <span class="k">with</span> <span class="n">_TemplateIterManager</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">,</span>
+            <span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">_FiniteSetMixin</span><span class="p">,</span>
+            <span class="n">GetItemExpression</span><span class="p">,</span>
+            <span class="n">GetAttrExpression</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="c1"># Get the index templates needed for calling the rule</span>
+            <span class="k">if</span> <span class="n">index_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Note, do not rely on the __iter__ overload, as non-finite</span>
+                <span class="c1"># Sets don&#39;t have an __iter__.</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_iter</span><span class="p">(</span><span class="n">index_set</span><span class="p">)))</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="n">indices</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span><span class="p">,)</span>
+            <span class="c1"># Call the rule, returning the template expression and the</span>
+            <span class="c1"># top-level IndexTemplate(s) generated when calling the rule.</span>
+            <span class="c1">#</span>
+            <span class="c1"># TBD: Should this just return a &quot;FORALL()&quot; expression node that</span>
+            <span class="c1"># behaves similarly to the GetItemExpression node?</span>
+            <span class="k">return</span> <span class="n">rule</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">indices</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">internal_error</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+        <span class="k">raise</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">cache</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">internal_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;The following exception was raised when &quot;</span>
+                    <span class="s2">&quot;templatizing the rule &#39;</span><span class="si">%s</span><span class="s2">&#39;:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">internal_error</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TemplateExpressionError</span><span class="p">(</span>
+                <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;Explicit iteration (for loops) over Sets is not supported &quot;</span>
+                <span class="s2">&quot;by template expressions.  Encountered loop over </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">,),</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">indices</span>
+
+
+<span class="k">def</span> <span class="nf">templatize_constraint</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">templatize_rule</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">parent_block</span><span class="p">(),</span> <span class="n">con</span><span class="o">.</span><span class="n">rule</span><span class="p">,</span> <span class="n">con</span><span class="o">.</span><span class="n">index_set</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

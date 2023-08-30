@@ -1,0 +1,978 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.doe.result &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.doe.result</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.doe.result</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo.DoE was produced under the Department of Energy Carbon Capture Simulation</span>
+<span class="c1">#  Initiative (CCSI), and is copyright (c) 2022 by the software owners:</span>
+<span class="c1">#  TRIAD National Security, LLC., Lawrence Livermore National Security, LLC.,</span>
+<span class="c1">#  Lawrence Berkeley National Laboratory, Pacific Northwest National Laboratory,</span>
+<span class="c1">#  Battelle Memorial Institute, University of Notre Dame,</span>
+<span class="c1">#  The University of Pittsburgh, The University of Texas at Austin,</span>
+<span class="c1">#  University of Toledo, West Virginia University, et al. All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  NOTICE. This Software was developed under funding from the</span>
+<span class="c1">#  U.S. Department of Energy and the U.S. Government consequently retains</span>
+<span class="c1">#  certain rights. As such, the U.S. Government has been granted for itself</span>
+<span class="c1">#  and others acting on its behalf a paid-up, nonexclusive, irrevocable,</span>
+<span class="c1">#  worldwide license in the Software to reproduce, distribute copies to the</span>
+<span class="c1">#  public, prepare derivative works, and perform publicly and display</span>
+<span class="c1">#  publicly, and to permit other to do so.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="p">,</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span><span class="p">,</span> <span class="n">matplotlib</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverStatus</span><span class="p">,</span> <span class="n">TerminationCondition</span>
+
+
+<div class="viewcode-block" id="FisherResults"><a class="viewcode-back" href="../../../../contributed_packages/doe/doe.html#pyomo.contrib.doe.result.FisherResults">[docs]</a><span class="k">class</span> <span class="nc">FisherResults</span><span class="p">:</span>
+<div class="viewcode-block" id="FisherResults.__init__"><a class="viewcode-back" href="../../../../contributed_packages/doe/doe.html#pyomo.contrib.doe.result.FisherResults.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parameter_names</span><span class="p">,</span>
+        <span class="n">measurements</span><span class="p">,</span>
+        <span class="n">jacobian_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">all_jacobian_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">prior_FIM</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">store_FIM</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">scale_constant_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_condition_number</span><span class="o">=</span><span class="mf">1.0e12</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Analyze the FIM result for a single run</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        parameter_names:</span>
+<span class="sd">            A ``list`` of parameter names</span>
+<span class="sd">        measurements:</span>
+<span class="sd">            A ``MeasurementVariables`` which contains the Pyomo variable names and their corresponding indices and</span>
+<span class="sd">            bounds for experimental measurements</span>
+<span class="sd">        jacobian_info:</span>
+<span class="sd">            the jacobian for this measurement object</span>
+<span class="sd">        all_jacobian_info:</span>
+<span class="sd">            the overall jacobian</span>
+<span class="sd">        prior_FIM:</span>
+<span class="sd">            if there&#39;s prior FIM to be added</span>
+<span class="sd">        store_FIM:</span>
+<span class="sd">            if storing the FIM in a .csv or .txt, give the file name here as a string</span>
+<span class="sd">        scale_constant_value:</span>
+<span class="sd">            scale all elements in Jacobian matrix, default is 1.</span>
+<span class="sd">        max_condition_number:</span>
+<span class="sd">            max condition number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span> <span class="o">=</span> <span class="n">parameter_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurements</span> <span class="o">=</span> <span class="n">measurements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_variables</span> <span class="o">=</span> <span class="n">measurements</span><span class="o">.</span><span class="n">variable_names</span>
+
+        <span class="k">if</span> <span class="n">jacobian_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">jaco_information</span> <span class="o">=</span> <span class="n">all_jacobian_info</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">jaco_information</span> <span class="o">=</span> <span class="n">jacobian_info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_jacobian_info</span> <span class="o">=</span> <span class="n">all_jacobian_info</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_FIM</span> <span class="o">=</span> <span class="n">prior_FIM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_FIM</span> <span class="o">=</span> <span class="n">store_FIM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_constant_value</span> <span class="o">=</span> <span class="n">scale_constant_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fim_scale_constant_value</span> <span class="o">=</span> <span class="n">scale_constant_value</span><span class="o">**</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_condition_number</span> <span class="o">=</span> <span class="n">max_condition_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARN</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FisherResults.result_analysis"><a class="viewcode-back" href="../../../../contributed_packages/doe/doe.html#pyomo.contrib.doe.result.FisherResults.result_analysis">[docs]</a>    <span class="k">def</span> <span class="nf">result_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate FIM from Jacobian information. This is for grid search (combined models) results</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        result:</span>
+<span class="sd">            solver status returned by IPOPT</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doe_result</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># get number of parameters</span>
+        <span class="n">no_param</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">)</span>
+
+        <span class="n">fim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">no_param</span><span class="p">,</span> <span class="n">no_param</span><span class="p">))</span>
+
+        <span class="c1"># convert dictionary to a numpy array</span>
+        <span class="n">Q_all</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">:</span>
+            <span class="n">Q_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jaco_information</span><span class="p">[</span><span class="n">par</span><span class="p">])</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">)</span>
+
+        <span class="n">Q_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jaco_information</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="c1"># add the FIM for each measurement variables together</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mea_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurement_variables</span><span class="p">):</span>
+            <span class="n">fim</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="mi">1</span>
+                <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">variance</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">mea_name</span><span class="p">)]</span>  <span class="c1"># variance of measurement</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="n">Q_all</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">Q_all</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                <span class="p">)</span>  <span class="c1"># Q.T @ Q for each measurement variable</span>
+            <span class="p">)</span>
+
+        <span class="c1"># add prior information</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_FIM</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fim</span> <span class="o">=</span> <span class="n">fim</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_FIM</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Existed information has been added.&#39;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Check the shape of prior FIM.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">fim</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_condition_number</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Warning: FIM is near singular. The condition number is: </span><span class="si">%s</span><span class="s2"> ;&quot;</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">fim</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s1">&#39;A condition number bigger than </span><span class="si">%s</span><span class="s1"> is considered near singular.&#39;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max_condition_number</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># call private methods</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_FIM_info</span><span class="p">(</span><span class="n">fim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_solver_info</span><span class="p">()</span>
+
+        <span class="c1"># if given store file name, store the FIM</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_FIM</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_store_FIM</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">subset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_subset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create new FisherResults object corresponding to provided measurement_subset.</span>
+<span class="sd">        This requires that measurement_subset is a true subset of the original measurement object.</span>
+<span class="sd">        Arguments:</span>
+<span class="sd">            measurement_subset: Instance of Measurements class</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            new_result: New instance of FisherResults</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check that measurement_subset is a valid subset of self.measurement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">check_subset</span><span class="p">(</span><span class="n">measurement_subset</span><span class="p">)</span>
+
+        <span class="c1"># Split Jacobian (should already be 3D)</span>
+        <span class="n">small_jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_jacobian</span><span class="p">(</span><span class="n">measurement_subset</span><span class="p">)</span>
+
+        <span class="c1"># create a new subject</span>
+        <span class="n">FIM_subset</span> <span class="o">=</span> <span class="n">FisherResults</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">,</span>
+            <span class="n">measurement_subset</span><span class="p">,</span>
+            <span class="n">jacobian_info</span><span class="o">=</span><span class="n">small_jac</span><span class="p">,</span>
+            <span class="n">prior_FIM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_FIM</span><span class="p">,</span>
+            <span class="n">store_FIM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">store_FIM</span><span class="p">,</span>
+            <span class="n">scale_constant_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale_constant_value</span><span class="p">,</span>
+            <span class="n">max_condition_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_condition_number</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">FIM_subset</span>
+
+    <span class="k">def</span> <span class="nf">_split_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_subset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split jacobian</span>
+<span class="sd">        Args:</span>
+<span class="sd">            measurement_subset: the object of the measurement subsets</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            jaco_info: split Jacobian</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># create a dict for FIM. It has the same keys as the Jacobian dict.</span>
+        <span class="n">jaco_info</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># reorganize the jacobian subset with the same form of the jacobian</span>
+        <span class="c1"># loop over parameters</span>
+        <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">:</span>
+            <span class="n">jaco_info</span><span class="p">[</span><span class="n">par</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># loop over measurements</span>
+            <span class="k">for</span> <span class="n">nam</span> <span class="ow">in</span> <span class="n">measurement_subset</span><span class="o">.</span><span class="n">variable_names</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">n_all_measure</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measurement_variables</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">nam</span><span class="p">)</span>
+                    <span class="n">jaco_info</span><span class="p">[</span><span class="n">par</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_jacobian_info</span><span class="p">[</span><span class="n">par</span><span class="p">][</span><span class="n">n_all_measure</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Measurement &quot;</span><span class="p">,</span> <span class="n">nam</span><span class="p">,</span> <span class="s2">&quot; is not in original measurement set.&quot;</span>
+                    <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jaco_info</span>
+
+    <span class="k">def</span> <span class="nf">_print_FIM_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FIM</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        using a dictionary to store all FIM information</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        FIM: the Fisher Information Matrix, needs to be P.D. and symmetric</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">        ------</span>
+<span class="sd">        fim_info: a FIM dictionary containing the following key:value pairs</span>
+<span class="sd">            ~[&#39;FIM&#39;]: a list of FIM itself</span>
+<span class="sd">            ~[design variable name]: a list of design variable values at each time point</span>
+<span class="sd">            ~[&#39;Trace&#39;]: a scalar number of Trace</span>
+<span class="sd">            ~[&#39;Determinant&#39;]: a scalar number of determinant</span>
+<span class="sd">            ~[&#39;Condition number:&#39;]: a scalar number of condition number</span>
+<span class="sd">            ~[&#39;Minimal eigen value:&#39;]: a scalar number of minimal eigen value</span>
+<span class="sd">            ~[&#39;Eigen values:&#39;]: a list of all eigen values</span>
+<span class="sd">            ~[&#39;Eigen vectors:&#39;]: a list of all eigen vectors</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">FIM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FIM</span> <span class="o">=</span> <span class="n">FIM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">FIM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">FIM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_eig</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cond</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">eig</span><span class="p">)</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">eig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eig_vals</span> <span class="o">=</span> <span class="n">eig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eig_vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">FIM</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s1">&#39;FIM: </span><span class="si">%s</span><span class="s1">; </span><span class="se">\n</span><span class="s1"> Trace: </span><span class="si">%s</span><span class="s1">; </span><span class="se">\n</span><span class="s1"> Determinant: </span><span class="si">%s</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">det</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s1">&#39;Condition number: </span><span class="si">%s</span><span class="s1">; </span><span class="se">\n</span><span class="s1"> Min eigenvalue: </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cond</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_eig</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_solution_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">dv_set</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solution information. Only for optimization problem</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        m: model</span>
+<span class="sd">        dv_set: design variable dictionary</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">        ------</span>
+<span class="sd">        model_info: model solutions dictionary containing the following key:value pairs</span>
+<span class="sd">            -[&#39;obj&#39;]: a scalar number of objective function value</span>
+<span class="sd">            -[&#39;det&#39;]: a scalar number of determinant calculated by the model (different from FIM_info[&#39;det&#39;] which</span>
+<span class="sd">            is calculated by numpy)</span>
+<span class="sd">            -[&#39;trace&#39;]: a scalar number of trace calculated by the model</span>
+<span class="sd">            -[design variable name]: a list of design variable solution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj_value</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># When scaled with constant values, the effect of the scaling factors are removed here</span>
+        <span class="c1"># For determinant, the scaling factor to determinant is scaling factor ** (Dim of FIM)</span>
+        <span class="c1"># For trace, the scaling factor to trace is the scaling factor.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">==</span> <span class="s1">&#39;det&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obj_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">obj</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fim_scale_constant_value</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">==</span> <span class="s1">&#39;trace&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obj_trace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">obj</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fim_scale_constant_value</span><span class="p">)</span>
+
+        <span class="n">design_variable_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dv_set</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">dv_times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dv_set</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="n">solution</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">dname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">design_variable_names</span><span class="p">):</span>
+            <span class="n">sol</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">dv_times</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dv_times</span><span class="p">[</span><span class="n">d</span><span class="p">]):</span>
+                    <span class="n">newvar</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dname</span><span class="p">)[</span><span class="n">time</span><span class="p">]</span>
+                    <span class="n">sol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">newvar</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newvar</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
+                <span class="n">sol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">newvar</span><span class="p">))</span>
+
+            <span class="n">solution</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">sol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solution</span> <span class="o">=</span> <span class="n">solution</span>
+
+    <span class="k">def</span> <span class="nf">_store_FIM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># if given store file name, store the FIM</span>
+        <span class="n">store_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">):</span>
+            <span class="n">store_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIM</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">FIM_store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">store_dict</span><span class="p">)</span>
+        <span class="n">FIM_store</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_FIM</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_solver_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solver information dictionary</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">        ------</span>
+<span class="sd">        solver_status: a solver information dictionary containing the following key:value pairs</span>
+<span class="sd">            -[&#39;square&#39;]: a string of square result solver status</span>
+<span class="sd">            -[&#39;doe&#39;]: a string of doe result solver status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;converged&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;infeasible&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span></div>
+
+
+<div class="viewcode-block" id="GridSearchResult"><a class="viewcode-back" href="../../../../contributed_packages/doe/doe.html#pyomo.contrib.doe.result.GridSearchResult">[docs]</a><span class="k">class</span> <span class="nc">GridSearchResult</span><span class="p">:</span>
+<div class="viewcode-block" id="GridSearchResult.__init__"><a class="viewcode-back" href="../../../../contributed_packages/doe/doe.html#pyomo.contrib.doe.result.GridSearchResult.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">design_ranges</span><span class="p">,</span>
+        <span class="n">design_dimension_names</span><span class="p">,</span>
+        <span class="n">FIM_result_list</span><span class="p">,</span>
+        <span class="n">store_optimality_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class deals with the FIM results from grid search, providing A, D, E, ME-criteria results for each design variable.</span>
+<span class="sd">        Can choose to draw 1D sensitivity curves and 2D heatmaps.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        design_ranges:</span>
+<span class="sd">            a ``dict`` whose keys are design variable names, values are a list of design variable values to go over</span>
+<span class="sd">        design_dimension_names:</span>
+<span class="sd">            a ``list`` of design variables names</span>
+<span class="sd">        FIM_result_list:</span>
+<span class="sd">            a ``dict`` containing FIM results, keys are a tuple of design variable values, values are FIM result objects</span>
+<span class="sd">        store_optimality_name:</span>
+<span class="sd">            a .csv file name containing all four optimalities value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># design variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_names</span> <span class="o">=</span> <span class="n">design_dimension_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_ranges</span> <span class="o">=</span> <span class="n">design_ranges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FIM_result_list</span> <span class="o">=</span> <span class="n">FIM_result_list</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_optimality_name</span> <span class="o">=</span> <span class="n">store_optimality_name</span></div>
+
+    <span class="k">def</span> <span class="nf">extract_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract design criteria values for every &#39;grid&#39; (design variable combination) searched.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.store_all_results_dataframe: a pandas dataframe with columns as design variable names and A, D, E, ME-criteria names.</span>
+<span class="sd">            Each row contains the design variable value for this &#39;grid&#39;, and the 4 design criteria value for this &#39;grid&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># a list store all results</span>
+        <span class="n">store_all_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># generate combinations of design variable values to go over</span>
+        <span class="n">search_design_set</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">design_ranges</span><span class="p">)</span>
+
+        <span class="c1"># loop over deign value combinations</span>
+        <span class="k">for</span> <span class="n">design_set_iter</span> <span class="ow">in</span> <span class="n">search_design_set</span><span class="p">:</span>
+            <span class="c1"># locate this grid in the dictionary of combined results</span>
+            <span class="n">result_object_asdict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIM_result_list</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">design_set_iter</span>
+            <span class="p">}</span>
+            <span class="c1"># an result object is identified by a tuple of the design variable value it uses</span>
+            <span class="n">result_object_iter</span> <span class="o">=</span> <span class="n">result_object_asdict</span><span class="p">[</span><span class="n">design_set_iter</span><span class="p">]</span>
+
+            <span class="c1"># store results as a row in the dataframe</span>
+            <span class="n">store_iteration_result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">design_set_iter</span><span class="p">)</span>
+            <span class="n">store_iteration_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_object_iter</span><span class="o">.</span><span class="n">trace</span><span class="p">)</span>
+            <span class="n">store_iteration_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_object_iter</span><span class="o">.</span><span class="n">det</span><span class="p">)</span>
+            <span class="n">store_iteration_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_object_iter</span><span class="o">.</span><span class="n">min_eig</span><span class="p">)</span>
+            <span class="n">store_iteration_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_object_iter</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+
+            <span class="c1"># add this row to the dataframe</span>
+            <span class="n">store_all_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">store_iteration_result</span><span class="p">)</span>
+
+        <span class="c1"># generate column names for the dataframe</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># this count is for repeated design variable names which can happen in dynamic problems</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_names</span><span class="p">:</span>
+            <span class="c1"># if design variables share the same value, use the first name as the column name</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># Each design criteria has a column to store values</span>
+        <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+        <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>
+        <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ME&#39;</span><span class="p">)</span>
+        <span class="c1"># generate the dataframe</span>
+        <span class="n">store_all_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">store_all_results</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_all_results_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">store_all_results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span>
+        <span class="p">)</span>
+        <span class="c1"># if needs to store the values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_optimality_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_all_results_dataframe</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_optimality_name</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">figure_drawing</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fixed_design_dimensions</span><span class="p">,</span>
+        <span class="n">sensitivity_dimension</span><span class="p">,</span>
+        <span class="n">title_text</span><span class="p">,</span>
+        <span class="n">xlabel_text</span><span class="p">,</span>
+        <span class="n">ylabel_text</span><span class="p">,</span>
+        <span class="n">font_axes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+        <span class="n">font_tick</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+        <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract results needed for drawing figures from the overall result dataframe.</span>
+<span class="sd">        Draw 1D sensitivity curve or 2D heatmap.</span>
+<span class="sd">        It can be applied to results of any dimensions, but requires design variable values in other dimensions be fixed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fixed_design_dimensions: a dictionary, keys are the design variable names to be fixed, values are the value of it to be fixed.</span>
+<span class="sd">        sensitivity_dimension: a list of design variable names to draw figures.</span>
+<span class="sd">            If only one name is given, a 1D sensitivity curve is drawn</span>
+<span class="sd">            if two names are given, a 2D heatmap is drawn.</span>
+<span class="sd">        title_text: name of the figure, a string</span>
+<span class="sd">        xlabel_text: x label title, a string.</span>
+<span class="sd">            In a 1D sensitivity curve, it is the design variable by which the curve is drawn.</span>
+<span class="sd">            In a 2D heatmap, it should be the second design variable in the design_ranges</span>
+<span class="sd">        ylabel_text: y label title, a string.</span>
+<span class="sd">            A 1D sensitivity curve does not need it. In a 2D heatmap, it should be the first design variable in the dv_ranges</span>
+<span class="sd">        font_axes: axes label font size</span>
+<span class="sd">        font_tick: tick label font size</span>
+<span class="sd">        log_scale: if True, the result matrix will be scaled by log10</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fixed_design_dimensions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fixed_design_dimensions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span> <span class="o">=</span> <span class="n">sensitivity_dimension</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">design_names</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error: All dimensions except for those the figures are drawn by should be fixed.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error: Either 1D or 2D figures can be drawn.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># generate a combination of logic sentences to filter the results of the DOF needed.</span>
+        <span class="c1"># an example filter: (self.store_all_results_dataframe[&quot;CA0&quot;]==5).</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span><span class="p">)):</span>
+                <span class="nb">filter</span> <span class="o">+=</span> <span class="s1">&#39;(self.store_all_results_dataframe[&#39;</span>
+                <span class="nb">filter</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="nb">filter</span> <span class="o">+=</span> <span class="s1">&#39;]==&#39;</span>
+                <span class="nb">filter</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="nb">filter</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_design_names</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="nb">filter</span> <span class="o">+=</span> <span class="s1">&#39;&amp;&#39;</span>
+            <span class="c1"># extract results with other dimensions fixed</span>
+            <span class="n">figure_result_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_all_results_dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="nb">filter</span><span class="p">)]</span>
+        <span class="c1"># if there is no other fixed dimensions</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">figure_result_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_all_results_dataframe</span>
+
+        <span class="c1"># add results for figures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span> <span class="o">=</span> <span class="n">figure_result_data</span>
+
+        <span class="c1"># if one design variable name is given as DOF, draw 1D sensitivity curve</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensitivity_dimension</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_curve1D</span><span class="p">(</span>
+                <span class="n">title_text</span><span class="p">,</span> <span class="n">xlabel_text</span><span class="p">,</span> <span class="n">font_axes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">font_tick</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="c1"># if two design variable names are given as DOF, draw 2D heatmaps</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensitivity_dimension</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_heatmap</span><span class="p">(</span>
+                <span class="n">title_text</span><span class="p">,</span>
+                <span class="n">xlabel_text</span><span class="p">,</span>
+                <span class="n">ylabel_text</span><span class="p">,</span>
+                <span class="n">font_axes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                <span class="n">font_tick</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_curve1D</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">title_text</span><span class="p">,</span> <span class="n">xlabel_text</span><span class="p">,</span> <span class="n">font_axes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">font_tick</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw 1D sensitivity curves for all design criteria</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title_text: name of the figure, a string</span>
+<span class="sd">        xlabel_text: x label title, a string.</span>
+<span class="sd">            In a 1D sensitivity curve, it is the design variable by which the curve is drawn.</span>
+<span class="sd">        font_axes: axes label font size</span>
+<span class="sd">        font_tick: tick label font size</span>
+<span class="sd">        log_scale: if True, the result matrix will be scaled by log10</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        4 Figures of 1D sensitivity curves for each criteria</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># extract the range of the DOF design variable</span>
+        <span class="n">x_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># decide if the results are log scaled</span>
+        <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+            <span class="n">y_range_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">y_range_D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">y_range_E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">y_range_ME</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;ME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y_range_A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">y_range_D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">y_range_E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">y_range_ME</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;ME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Draw A-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="c1"># plt.rcParams.update(params)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_A</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_A</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$log_</span><span class="si">{10}</span><span class="s1">$ Trace&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - A optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># Draw D-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="c1"># plt.rcParams.update(params)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_D</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_D</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$log_</span><span class="si">{10}</span><span class="s1">$ Determinant&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - D optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># Draw E-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="c1"># plt.rcParams.update(params)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_E</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_E</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$log_</span><span class="si">{10}</span><span class="s1">$ Minimal eigenvalue&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - E optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># Draw Modified E-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="c1"># plt.rcParams.update(params)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_ME</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range_ME</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$log_</span><span class="si">{10}</span><span class="s1">$ Condition number&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - Modified E optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_heatmap</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">title_text</span><span class="p">,</span>
+        <span class="n">xlabel_text</span><span class="p">,</span>
+        <span class="n">ylabel_text</span><span class="p">,</span>
+        <span class="n">font_axes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+        <span class="n">font_tick</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+        <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw 2D heatmaps for all design criteria</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title_text: name of the figure, a string</span>
+<span class="sd">        xlabel_text: x label title, a string.</span>
+<span class="sd">            In a 2D heatmap, it should be the second design variable in the design_ranges</span>
+<span class="sd">        ylabel_text: y label title, a string.</span>
+<span class="sd">            In a 2D heatmap, it should be the first design variable in the dv_ranges</span>
+<span class="sd">        font_axes: axes label font size</span>
+<span class="sd">        font_tick: tick label font size</span>
+<span class="sd">        log_scale: if True, the result matrix will be scaled by log10</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        4 Figures of 2D heatmap for each criteria</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># achieve the design variable ranges this figure needs</span>
+        <span class="c1"># create a dictionary for sensitivity dimensions</span>
+        <span class="n">sensitivity_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">design_names</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">:</span>
+                <span class="n">sensitivity_dict</span><span class="p">[</span><span class="n">nam</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_ranges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">nam</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">:</span>
+                <span class="n">sensitivity_dict</span><span class="p">[</span><span class="n">nam</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">design_ranges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">x_range</span> <span class="o">=</span> <span class="n">sensitivity_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">y_range</span> <span class="o">=</span> <span class="n">sensitivity_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_dimension</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="c1"># extract the design criteria values</span>
+        <span class="n">A_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">D_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">E_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">ME_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_result_data</span><span class="p">[</span><span class="s1">&#39;ME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># reshape the design criteria values for heatmaps</span>
+        <span class="n">cri_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A_range</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">))</span>
+        <span class="n">cri_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">D_range</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">))</span>
+        <span class="n">cri_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">E_range</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">))</span>
+        <span class="n">cri_e_cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ME_range</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cri_a</span> <span class="o">=</span> <span class="n">cri_a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cri_d</span> <span class="o">=</span> <span class="n">cri_d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cri_e</span> <span class="o">=</span> <span class="n">cri_e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cri_e_cond</span> <span class="o">=</span> <span class="n">cri_e_cond</span>
+
+        <span class="c1"># decide if log scaled</span>
+        <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+            <span class="n">hes_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cri_a</span><span class="p">)</span>
+            <span class="n">hes_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cri_e</span><span class="p">)</span>
+            <span class="n">hes_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cri_d</span><span class="p">)</span>
+            <span class="n">hes_e2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cri_e_cond</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hes_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cri_a</span>
+            <span class="n">hes_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cri_e</span>
+            <span class="n">hes_d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cri_d</span>
+            <span class="n">hes_e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cri_e_cond</span>
+
+        <span class="c1"># set heatmap x,y ranges</span>
+        <span class="n">xLabel</span> <span class="o">=</span> <span class="n">x_range</span>
+        <span class="n">yLabel</span> <span class="o">=</span> <span class="n">y_range</span>
+
+        <span class="c1"># A-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel_text</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hes_a</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">hot_r</span><span class="p">)</span>
+        <span class="n">ba</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+        <span class="n">ba</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;log10(trace(FIM))&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - A optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># D-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel_text</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hes_d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">hot_r</span><span class="p">)</span>
+        <span class="n">ba</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+        <span class="n">ba</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;log10(det(FIM))&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - D optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># E-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel_text</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hes_e</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">hot_r</span><span class="p">)</span>
+        <span class="n">ba</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+        <span class="n">ba</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;log10(minimal eig(FIM))&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - E optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># modified E-optimality</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">titlesize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_axes</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;xtick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;ytick&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">font_tick</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">}</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel_text</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xLabel</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel_text</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hes_e2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">hot_r</span><span class="p">)</span>
+        <span class="n">ba</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+        <span class="n">ba</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;log10(cond(FIM))&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_text</span> <span class="o">+</span> <span class="s1">&#39; - Modified E-optimality&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

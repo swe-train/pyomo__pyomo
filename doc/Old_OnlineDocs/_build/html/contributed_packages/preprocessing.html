@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Nonlinear Preprocessing Transformations &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parameter Estimation with parmest" href="parmest/index.html" />
+    <link rel="prev" title="Multistart Solver" href="multistart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpc/index.html">MPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multistart.html">Multistart Solver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nonlinear Preprocessing Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variable-aggregator">Variable Aggregator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-constraints-to-variable-bounds">Explicit Constraints to Variable Bounds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#induced-linearity-reformulation">Induced Linearity Reformulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraint-bounds-tightener">Constraint Bounds Tightener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trivial-constraint-deactivation">Trivial Constraint Deactivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixed-variable-detection">Fixed Variable Detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixed-variable-equality-propagator">Fixed Variable Equality Propagator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-bound-equality-propagator">Variable Bound Equality Propagator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-midpoint-initializer">Variable Midpoint Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-zero-initializer">Variable Zero Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zero-term-remover">Zero Term Remover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-bound-remover">Variable Bound Remover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zero-sum-propagator">Zero Sum Propagator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Third-Party Contributions</a> &raquo;</li>
+        
+      <li>Nonlinear Preprocessing Transformations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/contributed_packages/preprocessing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nonlinear-preprocessing-transformations">
+<h1>Nonlinear Preprocessing Transformations<a class="headerlink" href="#nonlinear-preprocessing-transformations" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">pyomo.contrib.preprocessing</span></code> is a contributed library of preprocessing
+transformations intended to operate upon nonlinear and mixed-integer nonlinear
+programs (NLPs and MINLPs), as well as generalized disjunctive programs (GDPs).</p>
+<p>This contributed package is maintained by <a class="reference external" href="https://github.com/qtothec">Qi Chen</a> and <a class="reference external" href="http://capd.cheme.cmu.edu/">his colleagues from Carnegie Mellon
+University</a>.</p>
+<p>The following preprocessing transformations are available. However, some may
+later be deprecated or combined, depending on their usefulness.</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator" title="pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var_aggregator.VariableAggregator</span></code></a></td>
+<td>Aggregate model variables that are linked by equality constraints.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform" title="pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds_to_vars.ConstraintToVarBoundTransform</span></code></a></td>
+<td>Change constraints to be a bound on the variable.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity" title="pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">induced_linearity.InducedLinearity</span></code></a></td>
+<td>Reformulate nonlinear constraints with induced linearity.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars" title="pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constraint_tightener.TightenConstraintFromVars</span></code></a></td>
+<td>DEPRECATED.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator" title="pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deactivate_trivial_constraints.TrivialConstraintDeactivator</span></code></a></td>
+<td>Deactivates trivial constraints.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector" title="pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect_fixed_vars.FixedVarDetector</span></code></a></td>
+<td>Detects variables that are de-facto fixed but not considered fixed.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator" title="pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equality_propagate.FixedVarPropagator</span></code></a></td>
+<td>Propagate variable fixing for equalities of type <span class="math notranslate nohighlight">\(x = y\)</span>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator" title="pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equality_propagate.VarBoundPropagator</span></code></a></td>
+<td>Propagate variable bounds for equalities of type <span class="math notranslate nohighlight">\(x = y\)</span>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint" title="pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_vars.InitMidpoint</span></code></a></td>
+<td>Initialize non-fixed variables to the midpoint of their bounds.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitZero" title="pyomo.contrib.preprocessing.plugins.init_vars.InitZero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_vars.InitZero</span></code></a></td>
+<td>Initialize non-fixed variables to zero.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms" title="pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_zero_terms.RemoveZeroTerms</span></code></a></td>
+<td>Looks for <span class="math notranslate nohighlight">\(0 v\)</span> in a constraint and removes it.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper" title="pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_bounds.VariableBoundStripper</span></code></a></td>
+<td>Strip bounds from variables.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator" title="pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_sum_propagator.ZeroSumPropagator</span></code></a></td>
+<td>Propagates fixed-to-zero for sums of only positive (or negative) vars.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="variable-aggregator">
+<h2>Variable Aggregator<a class="headerlink" href="#variable-aggregator" title="Permalink to this headline">¶</a></h2>
+<p>The following code snippet demonstrates usage of the variable aggregation
+transformation on a concrete Pyomo model:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v2</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v3</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v4</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v1</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">v2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v2</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">v3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c3</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v3</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">v4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;contrib.aggregate_vars&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To see the results of the transformation, you could then use the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.var_aggregator.</code><code class="descname">VariableAggregator</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/var_aggregator.html#VariableAggregator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate model variables that are linked by equality constraints.</p>
+<p>Before:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}x &amp;= y \\
+a &amp;= 2x + 6y + 7 \\
+b &amp;= 5y + 6 \\\end{split}\]</div>
+<p>After:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}z &amp;= x = y \\
+a &amp;= 8z + 7 \\
+b &amp;= 5z + 6\end{split}\]</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">TODO: unclear what happens to “capital-E” Expressions at this point in time.</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.update_variables">
+<code class="descname">update_variables</code><span class="sig-paren">(</span><em><span class="n">model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/var_aggregator.html#VariableAggregator.update_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.var_aggregator.VariableAggregator.update_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the values of the variables that were replaced by aggregates.</p>
+<p>TODO: reduced costs</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="explicit-constraints-to-variable-bounds">
+<h2>Explicit Constraints to Variable Bounds<a class="headerlink" href="#explicit-constraints-to-variable-bounds" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v2</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">v3</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v1</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v2</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c3</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">v3</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;contrib.constraints_to_var_bounds&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.bounds_to_vars.</code><code class="descname">ConstraintToVarBoundTransform</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/bounds_to_vars.html#ConstraintToVarBoundTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change constraints to be a bound on the variable.</p>
+<p>Looks for constraints of form: <span class="math notranslate nohighlight">\(k*v + c_1 \leq c_2\)</span>. Changes
+variable lower bound on <span class="math notranslate nohighlight">\(v\)</span> to match <span class="math notranslate nohighlight">\((c_2 - c_1)/k\)</span> if it
+results in a tighter bound. Also does the same thing for lower bounds.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeFloat" title="pyomo.common.config.NonNegativeFloat"><em>NonNegativeFloat</em></a><em>, </em><em>default=1e-13</em>) – tolerance on bound equality (<span class="math notranslate nohighlight">\(LB = UB\)</span>)</li>
+<li><strong>detect_fixed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – If True, fix variable when <span class="math notranslate nohighlight">\(| LB - UB | \leq tolerance\)</span>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.bounds_to_vars.ConstraintToVarBoundTransform.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="induced-linearity-reformulation">
+<h2>Induced Linearity Reformulation<a class="headerlink" href="#induced-linearity-reformulation" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.induced_linearity.</code><code class="descname">InducedLinearity</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/induced_linearity.html#InducedLinearity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformulate nonlinear constraints with induced linearity.</p>
+<p>Finds continuous variables <span class="math notranslate nohighlight">\(v\)</span> where <span class="math notranslate nohighlight">\(v = d_1 + d_2 + d_3\)</span>,
+where <span class="math notranslate nohighlight">\(d\)</span>’s are discrete variables. These continuous variables may
+participate nonlinearly in other expressions, which may then be induced to
+be linear.</p>
+<p>The overall algorithm flow can be summarized as:</p>
+<ol class="arabic simple">
+<li>Detect effectively discrete variables and the constraints that
+imply discreteness.</li>
+<li>Determine the set of valid values for each effectively discrete variable</li>
+<li>Find nonlinear expressions in which effectively discrete variables
+participate.</li>
+<li>Reformulate nonlinear expressions appropriately.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Tasks 1 &amp; 2 must incorporate scoping considerations (Disjuncts)</p>
+</div>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>equality_tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeFloat" title="pyomo.common.config.NonNegativeFloat"><em>NonNegativeFloat</em></a><em>, </em><em>default=1e-06</em>) – Tolerance on equality constraints.</li>
+<li><strong>pruning_solver</strong> (<em>default='glpk'</em>) – Solver to use when pruning possible values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.induced_linearity.InducedLinearity.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="constraint-bounds-tightener">
+<h2>Constraint Bounds Tightener<a class="headerlink" href="#constraint-bounds-tightener" title="Permalink to this headline">¶</a></h2>
+<p>This transformation was developed by <a class="reference external" href="https://github.com/sjkale">Sunjeev Kale</a> at Carnegie Mellon University.</p>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.constraint_tightener.</code><code class="descname">TightenConstraintFromVars</code><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/constraint_tightener.html#TightenConstraintFromVars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<p>Tightens upper and lower bound on constraints based on variable bounds.</p>
+<blockquote>
+<div><p>Iterates through each variable and tightens the constraint bounds using
+the inferred values from the variable bounds.</p>
+<p>For now, this only operates on linear constraints.</p>
+</div></blockquote>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 5.7: </span>Use of the constraint tightener transformation is deprecated. Its functionality may be partially replicated using <cite>pyomo.contrib.fbbt.compute_bounds_on_expr(constraint.body)</cite>.</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.constraint_tightener.TightenConstraintFromVars.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="trivial-constraint-deactivation">
+<h2>Trivial Constraint Deactivation<a class="headerlink" href="#trivial-constraint-deactivation" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.</code><code class="descname">TrivialConstraintDeactivator</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/deactivate_trivial_constraints.html#TrivialConstraintDeactivator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deactivates trivial constraints.</p>
+<p>Trivial constraints take form <span class="math notranslate nohighlight">\(k_1 = k_2\)</span> or <span class="math notranslate nohighlight">\(k_1 \leq k_2\)</span>,
+where <span class="math notranslate nohighlight">\(k_1\)</span> and <span class="math notranslate nohighlight">\(k_2\)</span> are constants. These constraints
+typically arise when variables are fixed.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>tmp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to store a set of transformed constraints for future reversion of
+the transformation.</li>
+<li><strong>ignore_infeasible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to skip over trivial constraints that are infeasible instead of
+raising an InfeasibleConstraintException.</li>
+<li><strong>return_trivial</strong> (<em>default=</em><em>[</em><em>]</em>) – a list to which the deactivated trivialconstraints are appended (side
+effect)</li>
+<li><strong>tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeFloat" title="pyomo.common.config.NonNegativeFloat"><em>NonNegativeFloat</em></a><em>, </em><em>default=1e-13</em>) – tolerance on constraint violations</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/deactivate_trivial_constraints.html#TrivialConstraintDeactivator.revert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.deactivate_trivial_constraints.TrivialConstraintDeactivator.revert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revert constraints deactivated by the transformation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>instance</strong> – the model instance on which trivial constraints were
+earlier deactivated.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fixed-variable-detection">
+<h2>Fixed Variable Detection<a class="headerlink" href="#fixed-variable-detection" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.detect_fixed_vars.</code><code class="descname">FixedVarDetector</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/detect_fixed_vars.html#FixedVarDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detects variables that are de-facto fixed but not considered fixed.</p>
+<p>For each variable <span class="math notranslate nohighlight">\(v\)</span> found on the model, check to see if its lower
+bound <span class="math notranslate nohighlight">\(v^{LB}\)</span> is within some tolerance of its upper bound
+<span class="math notranslate nohighlight">\(v^{UB}\)</span>. If so, fix the variable to the value of <span class="math notranslate nohighlight">\(v^{LB}\)</span>.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>tmp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to store the set of transformed variables and their old values so
+that they can be restored.</li>
+<li><strong>tolerance</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.NonNegativeFloat" title="pyomo.common.config.NonNegativeFloat"><em>NonNegativeFloat</em></a><em>, </em><em>default=1e-13</em>) – tolerance on bound equality (LB == UB)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/detect_fixed_vars.html#FixedVarDetector.revert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.detect_fixed_vars.FixedVarDetector.revert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revert variables fixed by the transformation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fixed-variable-equality-propagator">
+<h2>Fixed Variable Equality Propagator<a class="headerlink" href="#fixed-variable-equality-propagator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.equality_propagate.</code><code class="descname">FixedVarPropagator</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/equality_propagate.html#FixedVarPropagator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate variable fixing for equalities of type <span class="math notranslate nohighlight">\(x = y\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(x\)</span> is fixed and <span class="math notranslate nohighlight">\(y\)</span> is not fixed, then this transformation
+will fix <span class="math notranslate nohighlight">\(y\)</span> to the value of <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>This transformation can also be performed as a temporary transformation,
+whereby the transformed variables are saved and can be later unfixed.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><strong>tmp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to store the set of transformed variables and their old states so
+that they can be later restored.</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/equality_propagate.html#FixedVarPropagator.revert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.FixedVarPropagator.revert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revert variables fixed by the transformation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="variable-bound-equality-propagator">
+<h2>Variable Bound Equality Propagator<a class="headerlink" href="#variable-bound-equality-propagator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.equality_propagate.</code><code class="descname">VarBoundPropagator</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/equality_propagate.html#VarBoundPropagator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate variable bounds for equalities of type <span class="math notranslate nohighlight">\(x = y\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(x\)</span> has a tighter bound then <span class="math notranslate nohighlight">\(y\)</span>, then this transformation
+will adjust the bounds on <span class="math notranslate nohighlight">\(y\)</span> to match those of <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><strong>tmp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to store the set of transformed variables and their old states so
+that they can be later restored.</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/equality_propagate.html#VarBoundPropagator.revert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.equality_propagate.VarBoundPropagator.revert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revert variable bounds.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="variable-midpoint-initializer">
+<h2>Variable Midpoint Initializer<a class="headerlink" href="#variable-midpoint-initializer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.init_vars.</code><code class="descname">InitMidpoint</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/init_vars.html#InitMidpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize non-fixed variables to the midpoint of their bounds.</p>
+<ul class="simple">
+<li>If the variable does not have bounds, set the value to zero.</li>
+<li>If the variable is missing one bound, set the value to that of the
+existing bound.</li>
+</ul>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitMidpoint.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="variable-zero-initializer">
+<h2>Variable Zero Initializer<a class="headerlink" href="#variable-zero-initializer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitZero">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.init_vars.</code><code class="descname">InitZero</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/init_vars.html#InitZero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize non-fixed variables to zero.</p>
+<ul class="simple">
+<li>If setting the variable value to zero will violate a bound, set the
+variable value to the relevant bound value.</li>
+</ul>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitZero.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitZero.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.init_vars.InitZero.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.init_vars.InitZero.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="zero-term-remover">
+<h2>Zero Term Remover<a class="headerlink" href="#zero-term-remover" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.remove_zero_terms.</code><code class="descname">RemoveZeroTerms</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/remove_zero_terms.html#RemoveZeroTerms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks for <span class="math notranslate nohighlight">\(0 v\)</span> in a constraint and removes it.</p>
+<p>Currently limited to processing linear constraints of the form <span class="math notranslate nohighlight">\(x_1 =
+0 x_3\)</span>, occurring as a result of fixing <span class="math notranslate nohighlight">\(x_2 = 0\)</span>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TODO: support nonlinear expressions</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.remove_zero_terms.RemoveZeroTerms.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="variable-bound-remover">
+<h2>Variable Bound Remover<a class="headerlink" href="#variable-bound-remover" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.strip_bounds.</code><code class="descname">VariableBoundStripper</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/strip_bounds.html#VariableBoundStripper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip bounds from variables.</p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">apply_to</span></code> and
+<code class="docutils literal notranslate"><span class="pre">create_using</span></code> functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>strip_domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=True</em>) – strip the domain for discrete variables as well</li>
+<li><strong>reversible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – Whether the bound stripping will be temporary. If so, store
+information for reversion.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/strip_bounds.html#VariableBoundStripper.revert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.strip_bounds.VariableBoundStripper.revert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revert variable bounds and domains changed by the transformation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="zero-sum-propagator">
+<h2>Zero Sum Propagator<a class="headerlink" href="#zero-sum-propagator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.preprocessing.plugins.zero_sum_propagator.</code><code class="descname">ZeroSumPropagator</code><span class="sig-paren">(</span><em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/preprocessing/plugins/zero_sum_propagator.html#ZeroSumPropagator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagates fixed-to-zero for sums of only positive (or negative) vars.</p>
+<p>If <span class="math notranslate nohighlight">\(z\)</span> is fixed to zero and <span class="math notranslate nohighlight">\(z = x_1 + x_2 + x_3\)</span> and
+<span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span>, <span class="math notranslate nohighlight">\(x_3\)</span> are all non-negative or all
+non-positive, then <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span>, and <span class="math notranslate nohighlight">\(x_3\)</span> will be fixed
+to zero.</p>
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator.apply_to">
+<code class="descname">apply_to</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator.apply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the transformation to the given model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator.create_using">
+<code class="descname">create_using</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.contrib.preprocessing.plugins.zero_sum_propagator.ZeroSumPropagator.create_using" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model with this transformation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="parmest/index.html" class="btn btn-neutral float-right" title="Parameter Estimation with parmest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="multistart.html" class="btn btn-neutral float-left" title="Multistart Solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

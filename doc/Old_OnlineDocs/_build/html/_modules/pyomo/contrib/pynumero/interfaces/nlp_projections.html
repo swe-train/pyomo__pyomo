@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.pynumero.interfaces.nlp_projections &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.pynumero.interfaces.nlp_projections</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.pynumero.interfaces.nlp_projections</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyomo.contrib.pynumero.interfaces.nlp</span> <span class="kn">import</span> <span class="n">NLP</span><span class="p">,</span> <span class="n">ExtendedNLP</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+
+
+<span class="k">class</span> <span class="nc">_BaseNLPDelegator</span><span class="p">(</span><span class="n">NLP</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_nlp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a base class to make it easier to implement NLP</span>
+<span class="sd">        classes that wrap other NLP instances. This class</span>
+<span class="sd">        simply reproduces the NLP interface by passing the call</span>
+<span class="sd">        onto the original_nlp passed in the constructor. This allows</span>
+<span class="sd">        new wrapper classes to only implement the methods that change,</span>
+<span class="sd">        allowing the others to pass through.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        original_nlp : NLP-like</span>
+<span class="sd">            The original NLP object that we want to wrap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span> <span class="o">=</span> <span class="n">original_nlp</span>
+
+    <span class="k">def</span> <span class="nf">n_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">primals_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_names</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">n_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_constraints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">constraint_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">constraint_names</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">nnz_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">nnz_jacobian</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">nnz_hessian_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">nnz_hessian_lag</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">primals_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_lb</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">primals_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_ub</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">constraints_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">constraints_lb</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">constraints_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">constraints_ub</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">init_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">init_primals</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">init_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">init_duals</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_new_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">create_new_vector</span><span class="p">(</span><span class="n">vector_type</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primals</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">set_primals</span><span class="p">(</span><span class="n">primals</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_primals</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duals</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">set_duals</span><span class="p">(</span><span class="n">duals</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_duals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_duals</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_obj_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_factor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">set_obj_factor</span><span class="p">(</span><span class="n">obj_factor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_obj_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_obj_factor</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_obj_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_obj_scaling</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_primals_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_primals_scaling</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_constraints_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_constraints_scaling</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_objective</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_grad_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_grad_objective</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_constraints</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_hessian_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_hessian_lag</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">report_solver_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span> <span class="n">status_message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">report_solver_status</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">status_message</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_ExtendedNLPDelegator</span><span class="p">(</span><span class="n">_BaseNLPDelegator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_nlp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">,</span> <span class="n">ExtendedNLP</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Original NLP must be an instance of ExtendedNLP to use in&quot;</span>
+                <span class="s2">&quot; an _ExtendedNLPDelegator. Got type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">n_eq_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_eq_constraints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">n_ineq_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_ineq_constraints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_eq_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_eq_constraints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_jacobian_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian_eq</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_ineq_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_ineq_constraints</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_jacobian_ineq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian_ineq</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">RenamedNLP</span><span class="p">(</span><span class="n">_BaseNLPDelegator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_nlp</span><span class="p">,</span> <span class="n">primals_name_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class takes an NLP that and allows one to rename the primals.</span>
+<span class="sd">        It is a thin wrapper around the original NLP.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        original_nlp : NLP-like</span>
+<span class="sd">            The original NLP object that implements the NLP interface</span>
+
+<span class="sd">        primals_name_map : dict of str --&gt; str</span>
+<span class="sd">            This is a dictionary that maps from the names</span>
+<span class="sd">            in the original NLP class to the desired names</span>
+<span class="sd">            for this instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RenamedNLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_primals_name_map</span> <span class="o">=</span> <span class="n">primals_name_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_new_primals_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Todo: maybe do this on first call instead of __init__?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_new_names</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate_new_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_primals_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_primals_name_map</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_new_primals_names</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_primals_name_map</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_names</span><span class="p">()</span>
+            <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">primals_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_primals_names</span>
+
+
+<div class="viewcode-block" id="ProjectedNLP"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP">[docs]</a><span class="k">class</span> <span class="nc">ProjectedNLP</span><span class="p">(</span><span class="n">_BaseNLPDelegator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_nlp</span><span class="p">,</span> <span class="n">primals_ordering</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class takes an NLP that depends on a set of primals (original</span>
+<span class="sd">        space) and converts it to an NLP that depends on a reordered set of</span>
+<span class="sd">        primals (projected space).</span>
+
+<span class="sd">        This will impact all the returned items associated with primal</span>
+<span class="sd">        variables. E.g., the gradient will be in the new primals ordering</span>
+<span class="sd">        instead of the original primals ordering.</span>
+
+<span class="sd">        Note also that this can include additional primal variables not</span>
+<span class="sd">        in the original NLP, or can exclude primal variables that were</span>
+<span class="sd">        in the original NLP.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        original_nlp : NLP-like</span>
+<span class="sd">            The original NLP object that implements the NLP interface</span>
+
+<span class="sd">        primals_ordering: list</span>
+<span class="sd">           List of strings indicating the desired primal variable</span>
+<span class="sd">           ordering for this NLP. The list can contain new variables</span>
+<span class="sd">           that are not in the original NLP, thereby expanding the</span>
+<span class="sd">           space of the primal variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ProjectedNLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_primals_ordering</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">primals_ordering</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_maps</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_projected_primals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_primals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_jacobian</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_hessian_lag</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_generate_maps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">primals_ordering_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_primals_ordering</span><span class="p">)}</span>
+            <span class="n">original_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_names</span><span class="p">()</span>
+            <span class="n">original_idxs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">projected_idxs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">original_names</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">primals_ordering_dict</span><span class="p">:</span>
+                    <span class="c1"># we need the reordering for this element</span>
+                    <span class="n">original_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">projected_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">primals_ordering_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">original_idxs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">projected_idxs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span>
+
+<div class="viewcode-block" id="ProjectedNLP.n_primals"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.n_primals">[docs]</a>    <span class="k">def</span> <span class="nf">n_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_primals_ordering</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.primals_names"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.primals_names">[docs]</a>    <span class="k">def</span> <span class="nf">primals_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_primals_ordering</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.nnz_jacobian"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.nnz_jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">nnz_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_jacobian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_jacobian</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_jacobian</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_jacobian</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.nnz_hessian_lag"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.nnz_hessian_lag">[docs]</a>    <span class="k">def</span> <span class="nf">nnz_hessian_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_hessian_lag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_hessian_lag</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_hessian_lag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nnz_hessian_lag</span></div>
+
+    <span class="k">def</span> <span class="nf">_project_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">original_primals</span><span class="p">):</span>
+        <span class="n">projected_x</span> <span class="o">=</span> <span class="n">default</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">projected_x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_primals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">projected_x</span>
+
+<div class="viewcode-block" id="ProjectedNLP.primals_lb"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.primals_lb">[docs]</a>    <span class="k">def</span> <span class="nf">primals_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_primals</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_lb</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.primals_ub"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.primals_ub">[docs]</a>    <span class="k">def</span> <span class="nf">primals_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_primals</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">primals_ub</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.init_primals"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.init_primals">[docs]</a>    <span class="k">def</span> <span class="nf">init_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Todo: think about what to do here if an entry is not defined</span>
+        <span class="c1"># for now, we default to NaN, but there may be a better way</span>
+        <span class="c1"># (e.g., taking a new initial value in the constructor?)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_primals</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">init_primals</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.create_new_vector"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.create_new_vector">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">vector_type</span> <span class="o">==</span> <span class="s1">&#39;primals&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">create_new_vector</span><span class="p">(</span><span class="n">vector_type</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.set_primals"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.set_primals">[docs]</a>    <span class="k">def</span> <span class="nf">set_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primals</span><span class="p">):</span>
+        <span class="c1"># here, we keep a local copy of the projected primals so</span>
+        <span class="c1"># we can give back these values in get_primals. This might</span>
+        <span class="c1"># not be the best idea since we can&#39;t really support this</span>
+        <span class="c1"># same strategy for other methods (e.g., init_primals) where</span>
+        <span class="c1"># we now use NaNs to fill in any &quot;missing&quot; entries.</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_projected_primals</span><span class="p">,</span> <span class="n">primals</span><span class="p">)</span>
+        <span class="n">original_primals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_primals</span><span class="p">()</span>
+        <span class="n">original_primals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="n">primals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">set_primals</span><span class="p">(</span><span class="n">original_primals</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.get_primals"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.get_primals">[docs]</a>    <span class="k">def</span> <span class="nf">get_primals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">original_primals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_primals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_projected_primals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_projected_idxs</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_primals</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projected_primals</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.get_primals_scaling"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.get_primals_scaling">[docs]</a>    <span class="k">def</span> <span class="nf">get_primals_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_primals</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">get_primals_scaling</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.evaluate_grad_objective"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.evaluate_grad_objective">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_grad_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">original_grad_objective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_grad_objective</span><span class="p">()</span>
+        <span class="n">projected_objective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_primals</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">original_grad_objective</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">projected_objective</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">projected_objective</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.evaluate_jacobian"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.evaluate_jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">original_jacobian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">row</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">col</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># need to remap the irow, jcol to the new space and change the size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">)</span>
+
+        <span class="n">new_col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span><span class="p">]</span>
+        <span class="n">new_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span><span class="p">]</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_nz_mask</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">new_col</span><span class="p">)),</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_constraints</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.evaluate_hessian_lag"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.evaluate_hessian_lag">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_hessian_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">original_hessian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_hessian_lag</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">original_hessian</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="n">original_hessian</span><span class="o">.</span><span class="n">row</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">original_hessian</span><span class="o">.</span><span class="n">col</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">original_hessian</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># need to remap the irow, jcol to the new space and change the size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+                <span class="n">row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span>
+            <span class="p">)</span>
+
+        <span class="n">new_col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span><span class="p">]</span>
+        <span class="n">new_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span><span class="p">]</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="n">new_row</span><span class="p">]</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_hessian_nz_mask</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">new_col</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">())</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectedNLP.report_solver_status"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.projected_nlp.html#pyomo.contrib.pynumero.interfaces.nlp_projections.ProjectedNLP.report_solver_status">[docs]</a>    <span class="k">def</span> <span class="nf">report_solver_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span> <span class="n">status_message</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Need to think about this...&#39;</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">ProjectedExtendedNLP</span><span class="p">(</span><span class="n">ProjectedNLP</span><span class="p">,</span> <span class="n">_ExtendedNLPDelegator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_nlp</span><span class="p">,</span> <span class="n">primals_ordering</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ProjectedExtendedNLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_nlp</span><span class="p">,</span> <span class="n">primals_ordering</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_jacobian_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">original_jacobian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian_eq</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">row</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">col</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># need to remap the irow, jcol to the new space and change the size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">)</span>
+
+        <span class="n">new_col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span><span class="p">]</span>
+        <span class="n">new_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span><span class="p">]</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_eq_nz_mask</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">new_col</span><span class="p">)),</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_eq_constraints</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate_jacobian_ineq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">original_jacobian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_nlp</span><span class="o">.</span><span class="n">evaluate_jacobian_ineq</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">copyto</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">row</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">col</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">original_jacobian</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_idxs</span><span class="p">)</span>
+
+        <span class="n">new_col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span><span class="p">]</span>
+        <span class="n">new_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_to_projected</span><span class="p">[</span><span class="n">new_col</span><span class="p">]</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span><span class="p">]</span>
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_jacobian_ineq_nz_mask</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">new_col</span><span class="p">)),</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_ineq_constraints</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_primals</span><span class="p">()),</span>
+        <span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Managing Expressions &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Library Reference" href="../../library_reference/index.html" />
+    <link rel="prev" title="Design Details" href="design.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config.html">The Pyomo Configuration System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecation.html">Deprecation and Removal of Functionality</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Pyomo Expressions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="performance.html">Building Expressions Faster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Design Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Managing Expressions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-string-representation-of-an-expression">Creating a String Representation of an Expression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cloning-expressions">Cloning Expressions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluating-expressions">Evaluating Expressions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identifying-components-and-variables">Identifying Components and Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#walking-an-expression-tree-with-a-visitor-class">Walking an Expression Tree with a Visitor Class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Developer Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Expressions</a> &raquo;</li>
+        
+      <li>Managing Expressions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/developer_reference/expressions/managing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="managing-expressions">
+<h1>Managing Expressions<a class="headerlink" href="#managing-expressions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="creating-a-string-representation-of-an-expression">
+<h2>Creating a String Representation of an Expression<a class="headerlink" href="#creating-a-string-representation-of-an-expression" title="Permalink to this headline">¶</a></h2>
+<p>There are several ways that string representations can be created
+from an expression, but the <a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.expression_to_string" title="pyomo.core.expr.current.expression_to_string"><code class="xref py py-func docutils literal notranslate"><span class="pre">expression_to_string</span></code></a> function provides
+the most flexible mechanism for generating a string representation.
+The options to this function control distinct aspects of the string
+representation.</p>
+<div class="section" id="algebraic-vs-nested-functional-form">
+<h3>Algebraic vs. Nested Functional Form<a class="headerlink" href="#algebraic-vs-nested-functional-form" title="Permalink to this headline">¶</a></h3>
+<p>The default string representation is an algebraic form, which closely
+mimics the Python operations used to construct an expression.  The
+<code class="xref py py-data docutils literal notranslate"><span class="pre">verbose</span></code> flag can be set to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> to generate a
+string representation that is a nested functional form.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span>
+
+<span class="c1"># sin(x) + 2*x</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">expression_to_string</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+<span class="c1"># sum(sin(x), prod(2, x))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">expression_to_string</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="labeler-and-symbol-map">
+<h3>Labeler and Symbol Map<a class="headerlink" href="#labeler-and-symbol-map" title="Permalink to this headline">¶</a></h3>
+<p>The string representation used for variables in expression can be customized to
+define different label formats.  If the <code class="xref py py-data docutils literal notranslate"><span class="pre">labeler</span></code> option is specified, then this
+function (or class functor) is used to generate a string label used to represent the variable.  Pyomo
+defines a variety of labelers in the <cite>pyomo.core.base.label</cite> module.  For example, the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">NumericLabeler</span></code> defines a functor that can be used to sequentially generate
+simple labels with a prefix followed by the variable count:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span>
+
+<span class="c1"># sin(x1) + 2*x2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">expression_to_string</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">labeler</span><span class="o">=</span><span class="n">NumericLabeler</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-data docutils literal notranslate"><span class="pre">smap</span></code> option is used to specify a symbol map object
+(<a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.symbol_map.SymbolMap" title="pyomo.core.expr.symbol_map.SymbolMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymbolMap</span></code></a>), which
+caches the variable label data.  This option is normally specified
+in contexts where the string representations for many expressions
+are being generated.  In that context, a symbol map ensures that
+variables in different expressions have a consistent label in their
+associated string representations.</p>
+</div>
+<div class="section" id="standardized-string-representations">
+<h3>Standardized String Representations<a class="headerlink" href="#standardized-string-representations" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="xref py py-data docutils literal notranslate"><span class="pre">standardize</span></code> option can be used to re-order the string
+representation to print polynomial terms before nonlinear terms.  By
+default, <code class="xref py py-data docutils literal notranslate"><span class="pre">standardize</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>, and the string
+representation reflects the order in which terms were combined to
+form the expression.  Pyomo does not guarantee that the string
+representation exactly matches the Python expression order, since
+some simplification and re-ordering of terms is done automatically to
+improve the efficiency of expression generation.  But in most cases
+the string representation will closely correspond to the
+Python expression order.</p>
+<p>If <code class="xref py py-data docutils literal notranslate"><span class="pre">standardize</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, then the pyomo expression
+is processed to identify polynomial terms, and the string representation
+consists of the constant and linear terms followed by
+an expression that contains other nonlinear terms.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">3</span>
+
+<span class="c1"># -3 + 2*y + sin(x) + x*y</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">expression_to_string</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="other-ways-to-generate-string-representations">
+<h3>Other Ways to Generate String Representations<a class="headerlink" href="#other-ways-to-generate-string-representations" title="Permalink to this headline">¶</a></h3>
+<p>There are two other standard ways to generate string representations:</p>
+<ul class="simple">
+<li>Call the <code class="xref py py-func docutils literal notranslate"><span class="pre">__str__()</span></code> magic method (e.g. using the Python <code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code> function.  This
+calls <a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.expression_to_string" title="pyomo.core.expr.current.expression_to_string"><code class="xref py py-func docutils literal notranslate"><span class="pre">expression_to_string</span></code></a> with
+the option <code class="xref py py-data docutils literal notranslate"><span class="pre">standardize</span></code> equal to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> (see below).</li>
+<li>Call the <code class="xref py py-func docutils literal notranslate"><span class="pre">to_string()</span></code> method on the <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionBase</span></code> class.
+This defaults to calling <a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.expression_to_string" title="pyomo.core.expr.current.expression_to_string"><code class="xref py py-func docutils literal notranslate"><span class="pre">expression_to_string</span></code></a> with
+the option <code class="xref py py-data docutils literal notranslate"><span class="pre">standardize</span></code> equal to <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code> (see below).</li>
+</ul>
+<p>In practice, we expect at the <code class="xref py py-func docutils literal notranslate"><span class="pre">__str__()</span></code> magic method will be
+used by most users, and the standardization of the output provides
+a consistent ordering of terms that should make it easier to interpret
+expressions.</p>
+</div>
+</div>
+<div class="section" id="cloning-expressions">
+<h2>Cloning Expressions<a class="headerlink" href="#cloning-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Expressions are automatically cloned only during certain expression
+transformations.  Since this can be an expensive operation, the
+<a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.clone_counter" title="pyomo.core.expr.current.clone_counter"><code class="xref py py-data docutils literal notranslate"><span class="pre">clone_counter</span></code></a> context
+manager object is provided to track the number of times the
+<a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.clone_expression" title="pyomo.core.expr.current.clone_expression"><code class="xref py py-func docutils literal notranslate"><span class="pre">clone_expression</span></code></a>
+function is executed.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">clone_counter</span><span class="p">()</span> <span class="k">as</span> <span class="n">counter</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">assert</span> <span class="n">total</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="evaluating-expressions">
+<h2>Evaluating Expressions<a class="headerlink" href="#evaluating-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Expressions can be evaluated when all variables and parameters in
+the expression have a value.  The <code class="xref py py-func docutils literal notranslate"><span class="pre">value</span></code>
+function can be used to walk the expression tree and compute the
+value of an expression.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">isclose</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Additionally, expressions define the <code class="xref py py-func docutils literal notranslate"><span class="pre">__call__()</span></code> method, so the
+following is another way to compute the value of an expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">val</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">isclose</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If a parameter or variable is undefined, then the <code class="xref py py-func docutils literal notranslate"><span class="pre">value</span></code> function and <code class="xref py py-func docutils literal notranslate"><span class="pre">__call__()</span></code> method will
+raise an exception.  This exception can be suppressed using the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">exception</span></code> option.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>This option is useful in contexts where adding a try block is inconvenient
+in your modeling script.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Both the <code class="xref py py-func docutils literal notranslate"><span class="pre">value</span></code> function and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">__call__()</span></code> method call the <a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.evaluate_expression" title="pyomo.core.expr.current.evaluate_expression"><code class="xref py py-func docutils literal notranslate"><span class="pre">evaluate_expression</span></code></a> function.  In
+practice, this function will be slightly faster, but the
+difference is only meaningful when expressions are evaluated
+many times.</p>
+</div>
+</div>
+<div class="section" id="identifying-components-and-variables">
+<h2>Identifying Components and Variables<a class="headerlink" href="#identifying-components-and-variables" title="Permalink to this headline">¶</a></h2>
+<p>Expression transformations sometimes need to find all nodes in an
+expression tree that are of a given type.  Pyomo contains two utility
+functions that support this functionality.  First, the
+<a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.identify_components" title="pyomo.core.expr.current.identify_components"><code class="xref py py-func docutils literal notranslate"><span class="pre">identify_components</span></code></a>
+function is a generator function that walks the expression tree and yields all
+nodes whose type is in a specified set of node types.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="nb">type</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">p</span><span class="p">)])</span>
+<span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">identify_components</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="o">==</span> <span class="p">[</span><span class="n">M</span><span class="o">.</span><span class="n">p</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../../library_reference/expressions/managing.html#pyomo.core.expr.current.identify_variables" title="pyomo.core.expr.current.identify_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">identify_variables</span></code></a>
+function is a generator function that yields all nodes that are
+variables.  Pyomo uses several different classes to represent variables,
+but this set of variable types does not need to be specified by the user.
+However, the <code class="xref py py-attr docutils literal notranslate"><span class="pre">include_fixed</span></code> flag can be specified to omit fixed
+variables.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">identify_variables</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">([</span><span class="nb">id</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">)])</span>
+<span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">identify_variables</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span>
+    <span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="walking-an-expression-tree-with-a-visitor-class">
+<h2>Walking an Expression Tree with a Visitor Class<a class="headerlink" href="#walking-an-expression-tree-with-a-visitor-class" title="Permalink to this headline">¶</a></h2>
+<p>Many of the utility functions defined above are implemented by
+walking an expression tree and performing an operation at nodes in
+the tree.  For example, evaluating an expression is performed using
+a post-order depth-first search process where the value of a node
+is computed using the values of its children.</p>
+<p>Walking an expression tree can be tricky, and the code requires intimate
+knowledge of the design of the expression system.  Pyomo includes
+several classes that define so-called visitor patterns for walking
+expression tree:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor" title="pyomo.core.expr.current.SimpleExpressionVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleExpressionVisitor</span></code></a></dt><dd>A <code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code> method is called for each node in the tree,
+and the visitor class collects information about the tree.</dd>
+<dt><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor" title="pyomo.core.expr.current.ExpressionValueVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionValueVisitor</span></code></a></dt><dd>When the <code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code> method is called on each node in the
+tree, the <em>values</em> of its children have been computed.  The
+<em>value</em> of the node is returned from <code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code>.</dd>
+<dt><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionReplacementVisitor" title="pyomo.core.expr.current.ExpressionReplacementVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionReplacementVisitor</span></code></a></dt><dd>When the <code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code> method is called on each node in the
+tree, it may clone or otherwise replace the node using objects
+for its children (which themselves may be clones or replacements
+from the original child objects).  The new node object is
+returned from <code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code>.</dd>
+</dl>
+<p>These classes define a variety of suitable tree search methods:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor" title="pyomo.core.expr.current.SimpleExpressionVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleExpressionVisitor</span></code></a><ul>
+<li><strong>xbfs</strong>: breadth-first search where leaf nodes are immediately visited</li>
+<li><strong>xbfs_yield_leaves</strong>: breadth-first search where leaf nodes are immediately visited, and the visit method yields a value</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor" title="pyomo.core.expr.current.ExpressionValueVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionValueVisitor</span></code></a><ul>
+<li><strong>dfs_postorder_stack</strong>: postorder depth-first search using a stack</li>
+</ul>
+</li>
+<li><a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionReplacementVisitor" title="pyomo.core.expr.current.ExpressionReplacementVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionReplacementVisitor</span></code></a><ul>
+<li><strong>dfs_postorder_stack</strong>: postorder depth-first search using a stack</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The PyUtilib visitor classes define several other search methods
+that could be used with Pyomo expressions.  But these are the
+only search methods currently used within Pyomo.</p>
+</div>
+<p>To implement a visitor object, a user creates a subclass of one of these
+classes.  Only one of a few methods will need to be defined to
+implement the visitor:</p>
+<dl class="docutils">
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">visitor()</span></code></dt><dd>Defines the operation that is performed when a node is visited.  In
+the <a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionValueVisitor" title="pyomo.core.expr.current.ExpressionValueVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionValueVisitor</span></code></a> and <a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.ExpressionReplacementVisitor" title="pyomo.core.expr.current.ExpressionReplacementVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionReplacementVisitor</span></code></a> visitor classes, this
+method returns a value that is used by its parent node.</dd>
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">visiting_potential_leaf()</span></code></dt><dd>Checks if the search should terminate with this node.  If no,
+then this method returns the tuple <code class="docutils literal notranslate"><span class="pre">(False,</span> <span class="pre">None)</span></code>.  If yes,
+then this method returns <code class="docutils literal notranslate"><span class="pre">(False,</span> <span class="pre">value)</span></code>, where <em>value</em> is
+computed by this method.  This method is not used in the
+<a class="reference internal" href="../../library_reference/expressions/visitors.html#pyomo.core.expr.current.SimpleExpressionVisitor" title="pyomo.core.expr.current.SimpleExpressionVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleExpressionVisitor</span></code></a> visitor
+class.</dd>
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize()</span></code></dt><dd>This method defines the final value that is returned from the
+visitor.  This is not normally redefined.</dd>
+</dl>
+<p>Detailed documentation of the APIs for these methods is provided
+with the class documentation for these visitors.</p>
+<div class="section" id="simpleexpressionvisitor-example">
+<h3>SimpleExpressionVisitor Example<a class="headerlink" href="#simpleexpressionvisitor-example" title="Permalink to this headline">¶</a></h3>
+<p>In this example, we describe an visitor class that counts the number
+of nodes in an expression (including leaf nodes).  Consider the following
+class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+
+<span class="k">class</span> <span class="nc">SizeofVisitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">SimpleExpressionVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span>
+
+
+</pre></div>
+</div>
+<p>The class constructor creates a counter, and the <code class="xref py py-func docutils literal notranslate"><span class="pre">visit()</span></code> method
+increments this counter for every node that is visited.  The <code class="xref py py-func docutils literal notranslate"><span class="pre">finalize()</span></code>
+method returns the value of this counter after the tree has been walked.  The
+following function illustrates this use of this visitor class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sizeof_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="c1">#</span>
+    <span class="c1"># Create the visitor object</span>
+    <span class="c1">#</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">SizeofVisitor</span><span class="p">()</span>
+    <span class="c1">#</span>
+    <span class="c1"># Compute the value using the :func:`xbfs` search method.</span>
+    <span class="c1">#</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">xbfs</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="expressionvaluevisitor-example">
+<h3>ExpressionValueVisitor Example<a class="headerlink" href="#expressionvaluevisitor-example" title="Permalink to this headline">¶</a></h3>
+<p>In this example, we describe an visitor class that clones the
+expression tree (including leaf nodes).  Consider the following
+class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+
+<span class="k">class</span> <span class="nc">CloneVisitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memo</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;__block_scope__&#39;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="kc">False</span><span class="p">}}</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># Clone the interior node</span>
+        <span class="c1">#</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">construct_clone</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">memo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># Clone leaf nodes in the expression tree</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span>
+            <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pyomo5_expression_types</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">memo</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+
+</pre></div>
+</div>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">visit()</span></code> method creates a new expression node with children
+specified by <code class="xref py py-attr docutils literal notranslate"><span class="pre">values</span></code>.  The <code class="xref py py-func docutils literal notranslate"><span class="pre">visiting_potential_leaf()</span></code>
+method performs a <code class="xref py py-func docutils literal notranslate"><span class="pre">deepcopy()</span></code> on leaf nodes, which are native
+Python types or non-expression objects.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clone_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="c1">#</span>
+    <span class="c1"># Create the visitor object</span>
+    <span class="c1">#</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">CloneVisitor</span><span class="p">()</span>
+    <span class="c1">#</span>
+    <span class="c1"># Clone the expression using the :func:`dfs_postorder_stack`</span>
+    <span class="c1"># search method.</span>
+    <span class="c1">#</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="expressionreplacementvisitor-example">
+<h3>ExpressionReplacementVisitor Example<a class="headerlink" href="#expressionreplacementvisitor-example" title="Permalink to this headline">¶</a></h3>
+<p>In this example, we describe an visitor class that replaces
+variables with scaled variables, using a mutable parameter that
+can be modified later.  the following
+class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+
+
+<span class="k">class</span> <span class="nc">ScalingVisitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">ExpressionReplacementVisitor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ScalingVisitor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># Clone leaf nodes in the expression tree</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_variable_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="p">)]</span> <span class="o">*</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">LinearExpression</span><span class="p">):</span>
+            <span class="n">node_</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">node_</span><span class="o">.</span><span class="n">constant</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">constant</span>
+            <span class="n">node_</span><span class="o">.</span><span class="n">linear_vars</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">)</span>
+            <span class="n">node_</span><span class="o">.</span><span class="n">linear_coefs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">linear_vars</span><span class="p">):</span>
+                <span class="n">node_</span><span class="o">.</span><span class="n">linear_coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">linear_coefs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">)])</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node_</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+
+</pre></div>
+</div>
+<p>No <code class="xref py py-func docutils literal notranslate"><span class="pre">visit()</span></code> method needs to be defined.  The
+<code class="xref py py-func docutils literal notranslate"><span class="pre">visiting_potential_leaf()</span></code> function identifies variable nodes
+and returns a product expression that contains a mutable parameter.
+The <code class="xref py py-class docutils literal notranslate"><span class="pre">_LinearExpression</span></code> class has a different representation
+that embeds variables.  Hence, this class must be handled
+in a separate condition that explicitly transforms this sub-expression.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scale_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="c1">#</span>
+    <span class="c1"># Create the visitor object</span>
+    <span class="c1">#</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">ScalingVisitor</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Scale the expression using the :func:`dfs_postorder_stack`</span>
+    <span class="c1"># search method.</span>
+    <span class="c1">#</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">scale_expression()</span></code> function is called with an expression and
+a dictionary, <code class="xref py py-attr docutils literal notranslate"><span class="pre">scale</span></code>, that maps variable ID to model parameter.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">M</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+    <span class="n">scale</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">quicksum</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">scale_expression</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+<span class="c1"># p[0]*x[0] + p[1]*x[1] + p[2]*x[2] + p[3]*x[3] + p[4]*x[4]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../../library_reference/index.html" class="btn btn-neutral float-right" title="Library Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="design.html" class="btn btn-neutral float-left" title="Design Details" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

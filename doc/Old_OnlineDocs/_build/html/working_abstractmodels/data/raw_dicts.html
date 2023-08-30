@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Using a Python Dictionary &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Data Command Files" href="datfiles.html" />
+    <link rel="prev" title="Using Standard Data Types" href="native.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Working with Abstract Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../instantiating_models.html">Instantiating Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Managing Data in AbstractModels</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="native.html">Using Standard Data Types</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Using a Python Dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datfiles.html">Data Command Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataportals.html">Data Portals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="storing_data.html">Storing Data from Pyomo Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyomo_command.html">The <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BuildAction.html"><code class="docutils literal notranslate"><span class="pre">BuildAction</span></code> and <code class="docutils literal notranslate"><span class="pre">BuildCheck</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Working with Abstract Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Managing Data in AbstractModels</a> &raquo;</li>
+        
+      <li>Using a Python Dictionary</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/working_abstractmodels/data/raw_dicts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-a-python-dictionary">
+<span id="page-data-from-dict"></span><h1>Using a Python Dictionary<a class="headerlink" href="#using-a-python-dictionary" title="Permalink to this headline">¶</a></h1>
+<p>Data can be passed to the model
+<a class="reference internal" href="../../library_reference/aml/index.html#pyomo.environ.AbstractModel.create_instance" title="pyomo.environ.AbstractModel.create_instance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_instance()</span></code></a> method
+through a series of nested native Python dictionaries.  The structure
+begins with a dictionary of <em>namespaces</em>, with the only required entry
+being the <code class="docutils literal notranslate"><span class="pre">None</span></code> namespace.  Each namespace contains a dictionary that
+maps component names to dictionaries of component values.  For scalar
+components, the required data dictionary maps the implicit index
+<code class="docutils literal notranslate"><span class="pre">None</span></code> to the desired value:</p>
+<blockquote>
+<div><div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]},</span>
+<span class="gp">... </span>    <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">30</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span> <span class="mi">110</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span> <span class="mi">120</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span> <span class="mi">230</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">2 Set Declarations</span>
+<span class="go">    I : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">        Key  : Dimen : Domain : Size : Members</span>
+<span class="go">        None :     1 :    Any :    3 : {1, 2, 3}</span>
+<span class="go">    r_index : Size=1, Index=None, Ordered=True</span>
+<span class="go">        Key  : Dimen : Domain : Size : Members</span>
+<span class="go">        None :     2 :    I*I :    9 : {(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)}</span>
+
+<span class="go">3 Param Declarations</span>
+<span class="go">    p : Size=1, Index=None, Domain=Any, Default=None, Mutable=False</span>
+<span class="go">        Key  : Value</span>
+<span class="go">        None :   100</span>
+<span class="go">    q : Size=3, Index=I, Domain=Any, Default=None, Mutable=False</span>
+<span class="go">        Key : Value</span>
+<span class="go">          1 :    10</span>
+<span class="go">          2 :    20</span>
+<span class="go">          3 :    30</span>
+<span class="go">    r : Size=9, Index=r_index, Domain=Any, Default=0, Mutable=False</span>
+<span class="go">        Key    : Value</span>
+<span class="go">        (1, 1) :   110</span>
+<span class="go">        (1, 2) :   120</span>
+<span class="go">        (2, 3) :   230</span>
+
+<span class="go">5 Declarations: I p q r_index r</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="datfiles.html" class="btn btn-neutral float-right" title="Data Command Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="native.html" class="btn btn-neutral float-left" title="Using Standard Data Types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

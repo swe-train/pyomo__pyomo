@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Sets &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parameters" href="Parameters.html" />
+    <link rel="prev" title="Pyomo Modeling Components" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Pyomo Modeling Components</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations">Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#predefined-virtual-sets">Predefined Virtual Sets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sparse-index-sets">Sparse Index Sets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sparse-index-sets-example">Sparse Index Sets Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters.html">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objectives.html">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Suffixes.html">Suffixes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Modeling Components</a> &raquo;</li>
+        
+      <li>Sets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pyomo_modeling_components/Sets.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sets">
+<h1>Sets<a class="headerlink" href="#sets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="declaration">
+<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<p>Sets can be declared using instances of the <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> and <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.RangeSet" title="pyomo.environ.RangeSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeSet</span></code></a>
+classes or by
+assigning set expressions.  The simplest set declaration creates a set
+and postpones creation of its members:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> class takes optional arguments such as:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">dimen</span></code> = Dimension of the members of the set</li>
+<li><code class="docutils literal notranslate"><span class="pre">doc</span></code> = String describing the set</li>
+<li><code class="docutils literal notranslate"><span class="pre">filter</span></code> = A Boolean function used during construction to indicate if a
+potential new member should be assigned to the set</li>
+<li><code class="docutils literal notranslate"><span class="pre">initialize</span></code> = An iterable containing the initial members of the Set, or
+function that returns an iterable of the initial members the set.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ordered</span></code> = A Boolean indicator that the set is ordered; the default is <code class="docutils literal notranslate"><span class="pre">True</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">validate</span></code> = A Boolean function that validates new member data</li>
+<li><code class="docutils literal notranslate"><span class="pre">within</span></code> = Set used for validation; it is a super-set of the set being declared.</li>
+</ul>
+<p>In general, Pyomo attempts to infer the “dimensionality” of Set
+components (that is, the number of apparent indices) when they are
+constructed.  However, there are situations where Pyomo either cannot
+detect a dimensionality (e.g., a <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> that was not initialized with any
+members), or you the user may want to assert the dimensionality of the
+set.  This can be accomplished through the <code class="docutils literal notranslate"><span class="pre">dimen</span></code> keyword.  For
+example, to create a set whose members will be tuples with two items, one
+could write:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create a set of all the numbers in set <code class="docutils literal notranslate"><span class="pre">model.A</span></code> doubled, one could
+use</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">DoubleA_init</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">DoubleA_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As an aside we note that as always in Python, there are lot of ways to
+accomplish the same thing. Also, note that this will generate an error
+if <code class="docutils literal notranslate"><span class="pre">model.A</span></code> contains elements for which multiplication times two is
+not defined.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">initialize</span></code> option can accept any Python iterable, including a
+<code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, or <code class="docutils literal notranslate"><span class="pre">tuple</span></code>.  This data may be returned from a
+function or specified directly as in</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">initialize</span></code> option can also specify either a generator or a
+function to specify the Set members.  In the case of a generator, all
+data yielded by the generator will become the initial set members:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">X_init</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">model</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">X_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For initialization functions, Pyomo supports two signatures.  In the
+first, the function returns an iterable (<code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) containing the data with which to initialize the Set:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Y_init</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">Y_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the second signature, the function is called for each element,
+passing the element number in as an extra argument.  This is repeated
+until the function returns the special value <code class="docutils literal notranslate"><span class="pre">Set.End</span></code>:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Z_init</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="o">.</span><span class="n">End</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">Z_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the element number starts with 1 and not 0:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">X : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">    Key  : Dimen : Domain : Size : Members</span>
+<span class="go">    None :     1 :    Any :   10 : {1, 3, 5, 7, 9, 11, 13, 15, 17, 19}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">Y : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">    Key  : Dimen : Domain : Size : Members</span>
+<span class="go">    None :     1 :    Any :   10 : {1, 3, 5, 7, 9, 11, 13, 15, 17, 19}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">Z</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="go">Z : Size=1, Index=None, Ordered=Insertion</span>
+<span class="go">    Key  : Dimen : Domain : Size : Members</span>
+<span class="go">    None :     1 :    Any :   10 : {3, 5, 7, 9, 11, 13, 15, 17, 19, 21}</span>
+</pre></div>
+</div>
+<p>Additional information about iterators for set initialization is in the
+<a class="reference internal" href="../bibliography.html#pyomobookiii" id="id1"><span>[PyomoBookIII]</span></a> book.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For Abstract models, data specified in an input file or through the
+<code class="docutils literal notranslate"><span class="pre">data</span></code> argument to <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.AbstractModel.create_instance" title="pyomo.environ.AbstractModel.create_instance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AbstractModel.create_instance()</span></code></a> will
+override the data
+specified by the initialize options.</p>
+</div>
+<p>If sets are given as arguments to <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.Set" title="pyomo.environ.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> without keywords, they are
+interpreted as indexes for an array of sets. For example, to create an
+array of sets that is indexed by the members of the set <code class="docutils literal notranslate"><span class="pre">model.A</span></code>, use:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments can be combined. For example, to create an array of sets,
+indexed by set <code class="docutils literal notranslate"><span class="pre">model.A</span></code> where each set contains three dimensional
+members, use:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">dimen</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">initialize</span></code> option can be used to create a set that contains a
+sequence of numbers, but the <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.RangeSet" title="pyomo.environ.RangeSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeSet</span></code></a> class provides a concise
+mechanism for simple sequences. This class takes as its arguments a
+start value, a final value, and a step size. If the <a class="reference internal" href="../library_reference/aml/index.html#pyomo.environ.RangeSet" title="pyomo.environ.RangeSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeSet</span></code></a> has
+only a single argument, then that value defines the final value in the
+sequence; the first value and step size default to one. If two values
+given, they are the first and last value in the sequence and the step
+size defaults to one. For example, the following declaration creates a
+set with the numbers 1.5, 5 and 8.5:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p>Sets may also be created by storing the result of <em>set operations</em> using
+other Pyomo sets.  Pyomo supports set operations including union, intersection,
+difference, and symmetric difference:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">|</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="c1"># union</span>
+<span class="n">model</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">&amp;</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="c1"># intersection</span>
+<span class="n">model</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="c1"># difference</span>
+<span class="n">model</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">^</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="c1"># exclusive-or</span>
+</pre></div>
+</div>
+<p>For example, the cross-product operator is the asterisk (*).  To define
+a new set <code class="docutils literal notranslate"><span class="pre">M</span></code> that is the cross product of sets <code class="docutils literal notranslate"><span class="pre">B</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code>, one
+could use</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span>
+</pre></div>
+</div>
+<p>This creates a <em>virtual</em> set that holds references to the original sets,
+so any updates to the original sets (<code class="docutils literal notranslate"><span class="pre">B</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code>) will be reflected
+in the new set (<code class="docutils literal notranslate"><span class="pre">M</span></code>).  In contrast, you can also create a <em>concrete</em>
+set, which directly stores the values of the cross product at the time
+of creation and will <em>not</em> reflect subsequent changes in the original
+sets with:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">M_concrete</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, you can indicate that the members of a set are restricted to be in the
+cross product of two other sets, one can use the <code class="docutils literal notranslate"><span class="pre">within</span></code> keyword:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="predefined-virtual-sets">
+<h2>Predefined Virtual Sets<a class="headerlink" href="#predefined-virtual-sets" title="Permalink to this headline">¶</a></h2>
+<p>For use in specifying domains for sets, parameters and variables, Pyomo
+provides the following pre-defined virtual sets:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">Any</span></code> = all possible values</li>
+<li><code class="docutils literal notranslate"><span class="pre">Reals</span></code> = floating point values</li>
+<li><code class="docutils literal notranslate"><span class="pre">PositiveReals</span></code> = strictly positive floating point values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NonPositiveReals</span></code> = non-positive floating point values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NegativeReals</span></code> = strictly negative floating point values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NonNegativeReals</span></code> = non-negative floating point values</li>
+<li><code class="docutils literal notranslate"><span class="pre">PercentFraction</span></code> = floating point values in the interval [0,1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">UnitInterval</span></code> = alias for PercentFraction</li>
+<li><code class="docutils literal notranslate"><span class="pre">Integers</span></code> = integer values</li>
+<li><code class="docutils literal notranslate"><span class="pre">PositiveIntegers</span></code> = positive integer values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NonPositiveIntegers</span></code> = non-positive integer values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NegativeIntegers</span></code> = negative integer values</li>
+<li><code class="docutils literal notranslate"><span class="pre">NonNegativeIntegers</span></code> = non-negative integer values</li>
+<li><code class="docutils literal notranslate"><span class="pre">Boolean</span></code> = Boolean values, which can be represented as False/True, 0/1,
+’False’/’True’ and ’F’/’T’</li>
+<li><code class="docutils literal notranslate"><span class="pre">Binary</span></code> = the integers {0, 1}</li>
+</ul>
+<p>For example, if the set <code class="docutils literal notranslate"><span class="pre">model.O</span></code> is declared to be within the virtual
+set <code class="docutils literal notranslate"><span class="pre">NegativeIntegers</span></code> then an attempt to add anything other than a
+negative integer will result in an error. Here is the declaration:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">O</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NegativeIntegers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sparse-index-sets">
+<span id="isinglecomm-py"></span><h2>Sparse Index Sets<a class="headerlink" href="#sparse-index-sets" title="Permalink to this headline">¶</a></h2>
+<p>Sets provide indexes for parameters, variables and other sets. Index set
+issues are important for modelers in part because of efficiency
+considerations, but primarily because the right choice of index sets can
+result in very natural formulations that are conducive to understanding
+and maintenance. Pyomo leverages Python to provide a rich collection of
+options for index set creation and use.</p>
+<p>The choice of how to represent indexes often depends on the application
+and the nature of the instance data that are expected. To illustrate
+some of the options and issues, we will consider problems involving
+networks. In many network applications, it is useful to declare a set of
+nodes, such as</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and then a set of arcs can be created with reference to the nodes.</p>
+<p>Consider the following simple version of minimum cost flow problem:</p>
+<div class="math notranslate nohighlight">
+     \begin{array}{lll}
+     \mbox{minimize} &amp; \sum_{a \in \mathcal{A}} c_{a}x_{a} \\
+     \mbox{subject to:} &amp; S_{n} + \sum_{(i,n) \in \mathcal{A}}x_{(i,n)} &amp;  \\
+                                     &amp; -D_{n} - \sum_{(n,j) \in \mathcal{A}}x_{(n,j)} &amp; n \in \mathcal{N} \\
+                                     &amp; x_{a} \geq 0, &amp;  a \in \mathcal{A}
+     \end{array}</div><p>where</p>
+<ul class="simple">
+<li>Set: Nodes <span class="math notranslate nohighlight">\(\equiv \mathcal{N}\)</span></li>
+<li>Set: Arcs <span class="math notranslate nohighlight">\(\equiv \mathcal{A} \subseteq \mathcal{N} \times \mathcal{N}\)</span></li>
+<li>Var: Flow on arc <span class="math notranslate nohighlight">\((i,j)\)</span> <span class="math notranslate nohighlight">\(\equiv x_{i,j},\; (i,j) \in \mathcal{A}\)</span></li>
+<li>Param: Flow Cost on arc <span class="math notranslate nohighlight">\((i,j)\)</span> <span class="math notranslate nohighlight">\(\equiv c_{i,j},\; (i,j) \in \mathcal{A}\)</span></li>
+<li>Param: Demand at node latexmath:<cite>i</cite> <span class="math notranslate nohighlight">\(\equiv D_{i},\; i \in \mathcal{N}\)</span></li>
+<li>Param: Supply at node latexmath:<cite>i</cite> <span class="math notranslate nohighlight">\(\equiv S_{i},\; i \in \mathcal{N}\)</span></li>
+</ul>
+<p>In the simplest case, the arcs can just be the cross product of the
+nodes, which is accomplished by the definition</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">Arcs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span>
+</pre></div>
+</div>
+<p>that creates a set with two dimensional members.  For applications where
+all nodes are always connected to all other nodes this may
+suffice. However, issues can arise when the network is not fully
+dense. For example, the burden of avoiding flow on arcs that do not
+exist falls on the data file where high-enough costs must be provided
+for those arcs.  Such a scheme is not very elegant or robust.</p>
+<p>For many network flow applications, it might be better to declare the
+arcs using</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">Arcs</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">Arcs</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the difference is that the first version will provide error
+checking as data is assigned to the set elements. This would enable
+specification of a sparse network in a natural way. But this results in
+a need to change the <code class="docutils literal notranslate"><span class="pre">FlowBalance</span></code> constraint because as it was
+written in the simple example, it sums over the entire set of nodes for
+each node. One way to remedy this is to sum only over the members of the
+set <code class="docutils literal notranslate"><span class="pre">model.arcs</span></code> as in</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">FlowBalance_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">Supply</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Nodes</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Arcs</span><span class="p">)</span> \
+        <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">Demand</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Nodes</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Arcs</span><span class="p">)</span> \
+        <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>This will be OK unless the number of nodes becomes very large for a
+sparse network, then the time to generate this constraint might become
+an issue (admittely, only for very large networks, but such networks do
+exist).</p>
+<p>Another method, which comes in handy in many network applications, is to
+have a set for each node that contain the nodes at the other end of arcs
+going to the node at hand and another set giving the nodes on out-going
+arcs. If these sets are called <code class="docutils literal notranslate"><span class="pre">model.NodesIn</span></code> and <code class="docutils literal notranslate"><span class="pre">model.NodesOut</span></code>
+respectively, then the flow balance rule can be re-written as</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">FlowBalance_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">Supply</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">NodesIn</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> \
+        <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">Demand</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">NodesOut</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> \
+        <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>The data for <code class="docutils literal notranslate"><span class="pre">NodesIn</span></code> and <code class="docutils literal notranslate"><span class="pre">NodesOut</span></code> could be added to the input
+file, and this may be the most efficient option.</p>
+<p>For all but the largest networks, rather than reading <code class="docutils literal notranslate"><span class="pre">Arcs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NodesIn</span></code> and <code class="docutils literal notranslate"><span class="pre">NodesOut</span></code> from a data file, it might be more elegant
+to read only <code class="docutils literal notranslate"><span class="pre">Arcs</span></code> from a data file and declare <code class="docutils literal notranslate"><span class="pre">model.NodesIn</span></code>
+with an <code class="docutils literal notranslate"><span class="pre">initialize</span></code> option specifying the creation as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">NodesIn_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Arcs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">i</span>
+<span class="n">model</span><span class="o">.</span><span class="n">NodesIn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">NodesIn_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>with a similar definition for <code class="docutils literal notranslate"><span class="pre">model.NodesOut</span></code>.  This code creates a
+list of sets for <code class="docutils literal notranslate"><span class="pre">NodesIn</span></code>, one set of nodes for each node. The full
+model is:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">Nodes</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Arcs</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">NodesOut_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Arcs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">j</span>
+<span class="n">model</span><span class="o">.</span><span class="n">NodesOut</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">NodesOut_init</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">NodesIn_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">Arcs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">i</span>
+<span class="n">model</span><span class="o">.</span><span class="n">NodesIn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">NodesIn_init</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">Flow</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Arcs</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">FlowCost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Arcs</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">Demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Supply</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">Obj_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">FlowCost</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Obj_rule</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">FlowBalance_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">Supply</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">NodesIn</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> \
+        <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">Demand</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> \
+        <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">Flow</span><span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">NodesOut</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> \
+        <span class="o">==</span> <span class="mi">0</span>
+<span class="n">model</span><span class="o">.</span><span class="n">FlowBalance</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">FlowBalance_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for this model, a toy data file (in AMPL “<code class="docutils literal notranslate"><span class="pre">.dat</span></code>” format) would be:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>set Nodes := CityA CityB CityC ;
+
+set Arcs :=
+CityA CityB
+CityA CityC
+CityC CityB
+;
+
+param : FlowCost :=
+CityA CityB 1.4
+CityA CityC 2.7
+CityC CityB 1.6
+ ;
+
+param Demand :=
+CityA 0
+CityB 1
+CityC 1
+;
+
+param Supply :=
+CityA 2
+CityB 0
+CityC 0
+;
+</pre></div>
+</div>
+<p>This can also be done somewhat more efficiently, and perhaps more clearly,
+using a <code class="xref py py-class docutils literal notranslate"><span class="pre">BuildAction</span></code> (for more information, see <a class="reference internal" href="../working_abstractmodels/BuildAction.html#buildaction"><span class="std std-ref">BuildAction and BuildCheck</span></a>):</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">NodesOut</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">NodesIn</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">Nodes</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">Populate_In_and_Out</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="c1"># loop over the arcs and record the end points</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Arcs</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">NodesIn</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">NodesOut</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">In_n_Out</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">BuildAction</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">Populate_In_and_Out</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="sparse-index-sets-example">
+<h3>Sparse Index Sets Example<a class="headerlink" href="#sparse-index-sets-example" title="Permalink to this headline">¶</a></h3>
+<p>One may want to have a constraint that holds</p>
+<div class="math notranslate nohighlight">
+\[\forall \; i \in I, k \in K, v \in V_k\]</div>
+<p>There are many ways to accomplish this, but one good way is to create a
+set of tuples composed of all <code class="docutils literal notranslate"><span class="pre">model.k,</span> <span class="pre">model.V[k]</span></code> pairs.  This
+can be done as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kv_init</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">K</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">KV</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">kv_init</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now create the constraint <span class="math notranslate nohighlight">\(x_{i,k,v} \leq a_{i,k}y_i
+\;\forall\; i \in I, k \in K, v \in V_k\)</span> with:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">K</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">KV</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">c1_rule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">KV</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">c1_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Parameters.html" class="btn btn-neutral float-right" title="Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Pyomo Modeling Components" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.fileutils &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pyomo.common.formatting" href="formatting.html" />
+    <link rel="prev" title="pyomo.common.deprecation" href="deprecation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Common Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="config.html">pyomo.common.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html">pyomo.common.dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecation.html">pyomo.common.deprecation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyomo.common.fileutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formatting.html">pyomo.common.formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempfiles.html">pyomo.common.tempfiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing.html">pyomo.common.timing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Common Utilities</a> &raquo;</li>
+        
+      <li>pyomo.common.fileutils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/common/fileutils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pyomo.common.fileutils">
+<span id="pyomo-common-fileutils"></span><h1>pyomo.common.fileutils<a class="headerlink" href="#module-pyomo.common.fileutils" title="Permalink to this headline">¶</a></h1>
+<p>This module provides general utilities for working with the file system</p>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.fileutils.this_file" title="pyomo.common.fileutils.this_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">this_file</span></code></a>([stack_offset])</td>
+<td>Returns the file name for the module that calls this function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.fileutils.this_file_dir" title="pyomo.common.fileutils.this_file_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">this_file_dir</span></code></a>([stack_offset])</td>
+<td>Returns the directory containing the module that calls this function.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.fileutils.find_path" title="pyomo.common.fileutils.find_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_path</span></code></a>(name,&nbsp;validate[,&nbsp;cwd,&nbsp;mode,&nbsp;ext,&nbsp;…])</td>
+<td>Locate a path, given a set of search parameters</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_file</span></code></a>(filename[,&nbsp;cwd,&nbsp;mode,&nbsp;ext,&nbsp;…])</td>
+<td>Locate a file, given a set of search parameters</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.fileutils.find_dir" title="pyomo.common.fileutils.find_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_dir</span></code></a>(dirname[,&nbsp;cwd,&nbsp;mode,&nbsp;pathlist,&nbsp;…])</td>
+<td>Locate a directory, given a set of search parameters</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.fileutils.find_library" title="pyomo.common.fileutils.find_library"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_library</span></code></a>(libname[,&nbsp;cwd,&nbsp;include_PATH,&nbsp;…])</td>
+<td>Find a dynamic library using find_file to search typical locations.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.fileutils.find_executable" title="pyomo.common.fileutils.find_executable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_executable</span></code></a>(exename[,&nbsp;cwd,&nbsp;…])</td>
+<td>Find an executable using find_file to search typical locations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.fileutils.import_file" title="pyomo.common.fileutils.import_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_file</span></code></a>(path[,&nbsp;clear_cache,&nbsp;…])</td>
+<td>Import a module given the full path/filename of the file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathManager</span></code></a>(finder,&nbsp;dataClass)</td>
+<td>The PathManager defines a registry class for path locations</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathData</span></code></a>(manager,&nbsp;name)</td>
+<td>An object for storing and managing a <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> path</td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="pyomo.common.fileutils.this_file">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">this_file</code><span class="sig-paren">(</span><em><span class="n">stack_offset</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#this_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.this_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the file name for the module that calls this function.</p>
+<p>This function is more reliable than __file__ on platforms like
+Windows and in situations where the program has called
+os.chdir().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.this_file_dir">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">this_file_dir</code><span class="sig-paren">(</span><em><span class="n">stack_offset</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#this_file_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.this_file_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the directory containing the module that calls this function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.find_path">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">find_path</code><span class="sig-paren">(</span><em><span class="n">name</span></em>, <em><span class="n">validate</span></em>, <em><span class="n">cwd</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">mode</span><span class="o">=</span><span class="default_value">4</span></em>, <em><span class="n">ext</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">pathlist</span><span class="o">=</span><span class="default_value">[]</span></em>, <em><span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#find_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.find_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locate a path, given a set of search parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name to locate.  The name may contain references to a user’s
+home directory (<code class="docutils literal notranslate"><span class="pre">~user</span></code>), environment variables
+(<code class="docutils literal notranslate"><span class="pre">${HOME}/bin</span></code>), and shell wildcards (<code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>); all of
+which will be expanded.</li>
+<li><strong>validate</strong> (<em>function</em>) – A function to call to validate the path (used by find_file and
+find_dir to discriminate files and directories)</li>
+<li><strong>cwd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Start by looking in the current working directory
+[default: True]</li>
+<li><strong>mode</strong> (<em>mask</em>) – If not None, only return entries that can be accessed for
+reading/writing/executing.  Valid values are the inclusive OR of
+{os.R_OK, os.W_OK, os.X_OK} [default: <code class="docutils literal notranslate"><span class="pre">os.R_OK</span></code>]</li>
+<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable of str</em>) – If not None, also look for name+ext [default: None]</li>
+<li><strong>pathlist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable of str</em>) – A list of strings containing paths to search, each string
+contains a single path.  If pathlist is a string, then it is
+first split using os.pathsep to generate the pathlist
+[default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>].</li>
+<li><strong>allow_pathlist_deep_references</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If allow_pathlist_deep_references is True and the name
+appears to be a relative path, allow deep reference matches
+relative to directories in the pathlist (e.g., if name is
+<code class="docutils literal notranslate"><span class="pre">foo/my.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code> is in the pathlist, then
+<a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_file()</span></code></a> could return <code class="docutils literal notranslate"><span class="pre">/usr/bin/foo/my.exe</span></code>).  If
+allow_pathlist_deep_references is False and the name appears
+to be a relative path, then only matches relative to the current
+directory are allowed (assuming cwd==True).  [default: True]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>find_path uses glob, so the path and/or name may contain
+wildcards.  The first matching entry is returned.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.find_file">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">find_file</code><span class="sig-paren">(</span><em><span class="n">filename</span></em>, <em><span class="n">cwd</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">mode</span><span class="o">=</span><span class="default_value">4</span></em>, <em><span class="n">ext</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">pathlist</span><span class="o">=</span><span class="default_value">[]</span></em>, <em><span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#find_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.find_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locate a file, given a set of search parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The file name to locate.  The file name may contain references
+to a user’s home directory (<code class="docutils literal notranslate"><span class="pre">~user</span></code>), environment variables
+(<code class="docutils literal notranslate"><span class="pre">${HOME}/bin</span></code>), and shell wildcards (<code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>); all of
+which will be expanded.</li>
+<li><strong>cwd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Start by looking in the current working directory
+[default: True]</li>
+<li><strong>mode</strong> (<em>mask</em>) – If not None, only return files that can be accessed for
+reading/writing/executing.  Valid values are the inclusive OR of
+{os.R_OK, os.W_OK, os.X_OK} [default: <code class="docutils literal notranslate"><span class="pre">os.R_OK</span></code>]</li>
+<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable of str</em>) – If not None, also look for filename+ext [default: None]</li>
+<li><strong>pathlist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable of str</em>) – A list of strings containing paths to search, each string
+contains a single path.  If pathlist is a string, then it is
+first split using os.pathsep to generate the pathlist
+[default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>].</li>
+<li><strong>allow_pathlist_deep_references</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If allow_pathlist_deep_references is True and the filename
+appears to be a relative path, allow deep reference matches
+relative to directories in the pathlist (e.g., if filename is
+<code class="docutils literal notranslate"><span class="pre">foo/my.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code> is in the pathlist, then
+<a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_file()</span></code></a> could return <code class="docutils literal notranslate"><span class="pre">/usr/bin/foo/my.exe</span></code>).  If
+allow_pathlist_deep_references is False and the filename appears
+to be a relative path, then only matches relative to the current
+directory are allowed (assuming cwd==True).  [default: True]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>find_file uses glob, so the path and/or file name may contain
+wildcards.  The first matching file is returned.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.find_dir">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">find_dir</code><span class="sig-paren">(</span><em><span class="n">dirname</span></em>, <em><span class="n">cwd</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">mode</span><span class="o">=</span><span class="default_value">4</span></em>, <em><span class="n">pathlist</span><span class="o">=</span><span class="default_value">[]</span></em>, <em><span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#find_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.find_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locate a directory, given a set of search parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dirname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory name to locate.  The name may contain references
+to a user’s home directory (<code class="docutils literal notranslate"><span class="pre">~user</span></code>), environment variables
+(<code class="docutils literal notranslate"><span class="pre">${HOME}/bin</span></code>), and shell wildcards (<code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>); all of
+which will be expanded.</li>
+<li><strong>cwd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Start by looking in the current working directory
+[default: True]</li>
+<li><strong>mode</strong> (<em>mask</em>) – If not None, only return directories that can be accessed for
+reading/writing/executing.  Valid values are the inclusive OR of
+{os.R_OK, os.W_OK, os.X_OK} [default: <code class="docutils literal notranslate"><span class="pre">os.R_OK</span></code>]</li>
+<li><strong>pathlist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable of str</em>) – A list of strings containing paths to search, each string
+contains a single path.  If pathlist is a string, then it is
+first split using os.pathsep to generate the pathlist
+[default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>].</li>
+<li><strong>allow_pathlist_deep_references</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If allow_pathlist_deep_references is True and the dirname
+appears to be a relative path, allow deep reference matches
+relative to directories in the pathlist (e.g., if dirname is
+<code class="docutils literal notranslate"><span class="pre">foo/bar</span></code> and <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code> is in the pathlist, then
+<a class="reference internal" href="#pyomo.common.fileutils.find_dir" title="pyomo.common.fileutils.find_dir"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_dir()</span></code></a> could return <code class="docutils literal notranslate"><span class="pre">/usr/bin/foo/bar</span></code>).  If
+allow_pathlist_deep_references is False and the dirname appears
+to be a relative path, then only matches relative to the current
+directory are allowed (assuming cwd==True).  [default: True]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>find_dir uses glob, so the path and/or directory name may contain
+wildcards.  The first matching directory is returned.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.find_library">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">find_library</code><span class="sig-paren">(</span><em><span class="n">libname</span></em>, <em><span class="n">cwd</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">include_PATH</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">pathlist</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#find_library"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.find_library" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find a dynamic library using find_file to search typical locations.</p>
+<p>Finds a specified library (file) by searching a specified set of
+paths.  This routine will look for the specified file name, as well
+as looking for the filename followed by architecture-specific
+extensions (e.g., <cite>.dll</cite>, <cite>.so</cite>, or <cite>.dynlib</cite>).  Note that as this
+uses :py:func:find_file(), the filename and search paths may contain
+wildcards.</p>
+<p>If the explicit path search fails to locate a library, then this
+returns the result from passing the basename (with ‘lib’ and extension
+removed) to ctypes.util.find_library()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>libname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The library name to search for</li>
+<li><strong>cwd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Start by looking in the current working directory
+[default: True]</li>
+<li><strong>include_PATH</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Include the executable search PATH at the end of the list of
+directories to search. [default: True]</li>
+<li><strong>pathlist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>list of str</em>) – List of paths to search for the file.  If None, then pathlist
+will default to the local Pyomo configuration library directory
+(and the local Pyomo binary directory if include_PATH is set)
+and the contents of LD_LIBRARY_PATH.  If a string, then the
+string is split using os.pathsep.  [default: None]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>find_library() uses <a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_file()</span></code></a> with
+<code class="docutils literal notranslate"><span class="pre">allow_pathlist_deep_references=True</span></code>, so libnames containing
+relative paths will be matched relative to all paths in
+pathlist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.find_executable">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">find_executable</code><span class="sig-paren">(</span><em><span class="n">exename</span></em>, <em><span class="n">cwd</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">include_PATH</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">pathlist</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#find_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.find_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find an executable using find_file to search typical locations.</p>
+<p>Finds a specified executable by searching a specified set of paths.
+This routine will look for the specified file name, as well as
+looking for the filename followed by architecture-specific
+extensions (e.g., <code class="docutils literal notranslate"><span class="pre">.exe</span></code>).  Note that as this uses
+<a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_file()</span></code></a>, the filename and search paths may contain
+wildcards.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>exename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The executable file name to search for</li>
+<li><strong>cwd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Start by looking in the current working directory
+[default: True]</li>
+<li><strong>include_PATH</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Include the executable search PATH at the end of the list of
+directories to search. [default: True]</li>
+<li><strong>pathlist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>list of str</em>) – List of paths to search for the file.  If None, then pathlist
+will default to the local Pyomo configuration binary directory.
+If a string, then the string is split using os.pathsep.
+[Default: None]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>find_executable() uses <a class="reference internal" href="#pyomo.common.fileutils.find_file" title="pyomo.common.fileutils.find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_file()</span></code></a> with
+<code class="docutils literal notranslate"><span class="pre">allow_pathlist_deep_references=False</span></code>, so search strings
+containing relative paths will only be matched relative to the
+current working directory.  This prevents confusion in the case
+where a user called <code class="docutils literal notranslate"><span class="pre">find_executable(&quot;./foo&quot;)</span></code> and forgot to copy
+<code class="docutils literal notranslate"><span class="pre">foo</span></code> into the local directory, but this function picked up
+another <code class="docutils literal notranslate"><span class="pre">foo</span></code> in the user’s PATH that they did not want to use.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.import_file">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">import_file</code><span class="sig-paren">(</span><em><span class="n">path</span></em>, <em><span class="n">clear_cache</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">infer_package</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">module_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#import_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.import_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a module given the full path/filename of the file.
+Replaces import_file from pyutilib (Pyomo 6.0.0).</p>
+<p>This function returns the module object that is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Full path to .py file.</li>
+<li><strong>clear_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Remove module if already loaded. The default is False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.common.fileutils.PathData">
+<em class="property">class </em><code class="descclassname">pyomo.common.fileutils.</code><code class="descname">PathData</code><span class="sig-paren">(</span><em><span class="n">manager</span></em>, <em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object for storing and managing a <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> path</p>
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathData.path">
+<code class="descname">path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData.path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full, normalized path to the registered path entry.</p>
+<p>If the object is not found (or was marked “disabled”),
+<code class="docutils literal notranslate"><span class="pre">path()</span></code> returns None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathData.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData.get_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 5.6.2: </span>get_path() is deprecated; use pyomo.common.Executable(name).path()</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathData.disable">
+<code class="descname">disable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData.disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData.disable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable this path entry</p>
+<p>This method “disables” this path entry by marking it as “not
+found”.  Disabled entries return False for <cite>available()</cite> and
+None for <cite>path()</cite>.  The disabled status will persist until the
+next call to <cite>rehash()</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathData.available">
+<code class="descname">available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData.available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the registered path is available.</p>
+<p>Entries are available if the object was found found in the
+search locations and has not been explicitly disabled.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathData.rehash">
+<code class="descname">rehash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathData.rehash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathData.rehash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requery the location of this path entry</p>
+<p>This method derives its name from the csh command of the same
+name, which rebuilds the hash table of executables reachable
+through the PATH.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.common.fileutils.ExecutableData">
+<em class="property">class </em><code class="descclassname">pyomo.common.fileutils.</code><code class="descname">ExecutableData</code><span class="sig-paren">(</span><em><span class="n">manager</span></em>, <em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#ExecutableData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.ExecutableData" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> class specifically for executables.</p>
+<dl class="py method">
+<dt id="pyomo.common.fileutils.ExecutableData.executable">
+<em class="property">property </em><code class="descname">executable</code><a class="headerlink" href="#pyomo.common.fileutils.ExecutableData.executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get (or set) the path to the executable</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.common.fileutils.PathManager">
+<em class="property">class </em><code class="descclassname">pyomo.common.fileutils.</code><code class="descname">PathManager</code><span class="sig-paren">(</span><em><span class="n">finder</span></em>, <em><span class="n">dataClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PathManager defines a registry class for path locations</p>
+<p>The <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> defines a class very similar to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CachedFactory</span></code> class; however it does not register type
+constructors.  Instead, it registers instances of
+<a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> (or <a class="reference internal" href="#pyomo.common.fileutils.ExecutableData" title="pyomo.common.fileutils.ExecutableData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutableData</span></code></a>).  These
+contain the resolved path to the directory object under which the
+<a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> object was registered.  We do not use
+the PyUtilib <code class="docutils literal notranslate"><span class="pre">register_executable</span></code> and <code class="docutils literal notranslate"><span class="pre">registered_executable</span></code>
+functions so that we can automatically include Pyomo-specific
+locations in the search path (namely the <code class="docutils literal notranslate"><span class="pre">PYOMO_CONFIG_DIR</span></code>).</p>
+<p>Users will generally interact with this class through global
+instances of this class (<code class="docutils literal notranslate"><span class="pre">pyomo.common.Executable</span></code> and
+<code class="docutils literal notranslate"><span class="pre">pyomo.common.Library</span></code>).</p>
+<p>Users are not required or expected to register file names with the
+<a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a>; they will be automatically registered
+upon first use.  Generally, users interact through the <code class="docutils literal notranslate"><span class="pre">path()</span></code>
+and <code class="docutils literal notranslate"><span class="pre">available()</span></code> methods:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.common</span> <span class="kn">import</span> <span class="n">Executable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">available</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">loc</span> <span class="o">=</span> <span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">loc</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>For convenience, <code class="xref py py-meth docutils literal notranslate"><span class="pre">available()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">path()</span></code> are
+available by casting the <a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> object requrned
+from <code class="docutils literal notranslate"><span class="pre">Executable</span></code> or <code class="docutils literal notranslate"><span class="pre">Library</span></code> to either a <code class="docutils literal notranslate"><span class="pre">bool</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> --help&quot;</span> <span class="o">%</span> <span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> caches the location / existence of
+the target directory entry.  If something in the environment changes
+(e.g., the PATH) or the file is created or removed after the first
+time a client queried the location or availability, the
+PathManager will return incorrect information.  You can cause
+the <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> to refresh its cache by calling
+<code class="docutils literal notranslate"><span class="pre">rehash()</span></code> on either the <a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> (for the
+single file) or the <a class="reference internal" href="#pyomo.common.fileutils.PathManager" title="pyomo.common.fileutils.PathManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathManager</span></code></a> to refresh the
+cache for all files:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># refresh the cache for a single file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rehash</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or all registered files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="o">.</span><span class="n">rehash</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Executable</span></code> singleton looks for executables in the system
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code> and in the list of directories specified by the <code class="docutils literal notranslate"><span class="pre">pathlist</span></code>
+attribute.  <code class="docutils literal notranslate"><span class="pre">Executable.pathlist</span></code> defaults to a list containing the
+<code class="docutils literal notranslate"><span class="pre">os.path.join(pyomo.common.envvar.PYOMO_CONFIG_DIR,</span> <span class="pre">'bin')</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Library</span></code> singleton looks for executables in the system
+<code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">PATH</span></code> and in the list of directories
+specified by the <code class="docutils literal notranslate"><span class="pre">pathlist</span></code> attribute.  <code class="docutils literal notranslate"><span class="pre">Library.pathlist</span></code>
+defaults to a list containing the
+<code class="docutils literal notranslate"><span class="pre">os.path.join(pyomo.common.envvar.PYOMO_CONFIG_DIR,</span> <span class="pre">'lib')</span></code>.</p>
+<p>Users may also override the normal file resolution by explicitly
+setting the location using <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_path()</span></code>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pyomo</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">envvar</span><span class="o">.</span><span class="n">PYOMO_CONFIG_DIR</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;demo_exec_file&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Explicitly setting the path is an absolute operation and will
+set the location whether or not that location points to an actual
+file.  Additionally, the explicit location will persist
+through calls to <code class="docutils literal notranslate"><span class="pre">rehash()</span></code>.  If you wish to remove the explicit
+executable location, call <code class="docutils literal notranslate"><span class="pre">set_path(None)</span></code>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Executable</span></code> singleton uses <a class="reference internal" href="#pyomo.common.fileutils.ExecutableData" title="pyomo.common.fileutils.ExecutableData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutableData</span></code></a>, an
+extended form of the <a class="reference internal" href="#pyomo.common.fileutils.PathData" title="pyomo.common.fileutils.PathData"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathData</span></code></a> class, which provides the
+<code class="docutils literal notranslate"><span class="pre">executable</span></code> property as an alais for <code class="xref py py-meth docutils literal notranslate"><span class="pre">path()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">set_path()</span></code>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span> <span class="o">=</span> <span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">executable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">loc</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pyomo</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">envvar</span><span class="o">.</span><span class="n">PYOMO_CONFIG_DIR</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Executable</span><span class="p">(</span><span class="s1">&#39;demo_exec_file&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="pyomo.common.fileutils.PathManager.rehash">
+<code class="descname">rehash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#PathManager.rehash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.PathManager.rehash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requery the location of all registered executables</p>
+<p>This method derives its name from the csh command of the same
+name, which rebuilds the hash table of executables reachable
+through the PATH.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.register_executable">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">register_executable</code><span class="sig-paren">(</span><em><span class="n">name</span></em>, <em><span class="n">validate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#register_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.register_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 5.6.2: </span>pyomo.common.register_executable(name) has been deprecated; explicit registration is no longer necessary</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.registered_executable">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">registered_executable</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#registered_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.registered_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 5.6.2: </span>pyomo.common.registered_executable(name) has been deprecated; use
+ pyomo.common.Executable(name).path() to get the path or
+ pyomo.common.Executable(name).available() to get a bool indicating
+ file availability.  Equivalent results can be obtained by casting
+ Executable(name) to string or bool.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyomo.common.fileutils.unregister_executable">
+<code class="descclassname">pyomo.common.fileutils.</code><code class="descname">unregister_executable</code><span class="sig-paren">(</span><em><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/common/fileutils.html#unregister_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.common.fileutils.unregister_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 5.6.2: </span>pyomo.common.unregister_executable(name) has been deprecated; use Executable(name).disable()</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="formatting.html" class="btn btn-neutral float-right" title="pyomo.common.formatting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="deprecation.html" class="btn btn-neutral float-left" title="pyomo.common.deprecation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

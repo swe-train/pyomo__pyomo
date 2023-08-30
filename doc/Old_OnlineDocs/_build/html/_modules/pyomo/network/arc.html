@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.network.arc &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.network.arc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.network.arc</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Arc&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.network.port</span> <span class="kn">import</span> <span class="n">Port</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.component</span> <span class="kn">import</span> <span class="n">ActiveComponentData</span><span class="p">,</span> <span class="n">ModelComponentFactory</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.indexed_component</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ActiveIndexedComponent</span><span class="p">,</span>
+    <span class="n">UnindexedComponent_set</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.global_set</span> <span class="kn">import</span> <span class="n">UnindexedComponent_index</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.misc</span> <span class="kn">import</span> <span class="n">apply_indexed_rule</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">RenamedClass</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.log</span> <span class="kn">import</span> <span class="n">is_debug_set</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">NOTSET</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">ConstructionTimer</span>
+<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">ref</span> <span class="k">as</span> <span class="n">weakref_ref</span>
+<span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.network&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_iterable_to_dict</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">directed</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="c1"># check that it&#39;s a two-member iterable</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ports</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">ports</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ports</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Value for arc &#39;</span><span class="si">%s</span><span class="s2">&#39; is not either a &quot;</span>
+                <span class="s2">&quot;dict or a two-member iterable.&quot;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">directed</span><span class="p">:</span>
+            <span class="n">source</span><span class="p">,</span> <span class="n">destination</span> <span class="o">=</span> <span class="n">ports</span>
+            <span class="n">ports</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">destination</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span> <span class="n">ports</span><span class="o">=</span><span class="n">ports</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="n">directed</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="s2">&quot;directed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">:</span>
+        <span class="n">vals</span><span class="p">[</span><span class="s2">&quot;directed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directed</span>
+    <span class="k">return</span> <span class="n">vals</span>
+
+
+<div class="viewcode-block" id="_ArcData"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network._ArcData">[docs]</a><span class="k">class</span> <span class="nc">_ArcData</span><span class="p">(</span><span class="n">ActiveComponentData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines the data for a single Arc</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">        source: `Port`</span>
+<span class="sd">            The source Port when directed, else None. Aliases to src.</span>
+<span class="sd">        destination: `Port`</span>
+<span class="sd">            The destination Port when directed, else None. Aliases to dest.</span>
+<span class="sd">        ports: `tuple`</span>
+<span class="sd">            A tuple containing both ports. If directed, this is in the</span>
+<span class="sd">            order (source, destination).</span>
+<span class="sd">        directed: `bool`</span>
+<span class="sd">            True if directed, False if not</span>
+<span class="sd">        expanded_block: `Block`</span>
+<span class="sd">            A reference to the block on which expanded constraints for this</span>
+<span class="sd">            arc were placed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_ports&#39;</span><span class="p">,</span> <span class="s1">&#39;_directed&#39;</span><span class="p">,</span> <span class="s1">&#39;_expanded_block&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1">#</span>
+        <span class="c1"># These lines represent in-lining of the</span>
+        <span class="c1"># following constructors:</span>
+        <span class="c1">#   - ActiveComponentData</span>
+        <span class="c1">#   - ComponentData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_component</span> <span class="o">=</span> <span class="n">weakref_ref</span><span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">NOTSET</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expanded_block</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwds</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+<div class="viewcode-block" id="_ArcData.__getattr__"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network._ArcData.__getattr__">[docs]</a>    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns `self.expanded_block.name` if it exists&quot;&quot;&quot;</span>
+        <span class="n">eb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expanded_block</span>
+        <span class="k">if</span> <span class="n">eb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">eb</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="c1"># if it didn&#39;t work, throw our own error below</span>
+                <span class="k">pass</span>
+        <span class="c1"># Since the base classes don&#39;t support getattr, we can just</span>
+        <span class="c1"># throw the &quot;normal&quot; AttributeError</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># directed can be true before construction</span>
+        <span class="c1"># so make sure ports is not None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directed</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="n">src</span> <span class="o">=</span> <span class="n">source</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">destination</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directed</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="n">dest</span> <span class="o">=</span> <span class="n">destination</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ports</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">directed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">expanded_block</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expanded_block</span>
+
+<div class="viewcode-block" id="_ArcData.set_value"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network._ArcData.set_value">[docs]</a>    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the port attributes on this arc&quot;&quot;&quot;</span>
+        <span class="c1"># the following allows m.a = Arc(directed=True); m.a = (m.p, m.q)</span>
+        <span class="c1"># and m.a will be directed</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span><span class="o">.</span><span class="n">_init_directed</span>
+        <span class="p">)</span>
+
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">_iterable_to_dict</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">source</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">destination</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">ports</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ports&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">directed</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;directed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;set_value passed unrecognized keywords in val:</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vals</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">directed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">directed</span> <span class="ow">and</span> <span class="n">ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># implicitly directed ports tuple, transfer to src and dest</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">source</span><span class="p">,</span> <span class="n">destination</span> <span class="o">=</span> <span class="n">ports</span>
+                        <span class="n">ports</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;Failed to unpack &#39;ports&#39; argument of arc &#39;</span><span class="si">%s</span><span class="s2">&#39;. &quot;</span>
+                            <span class="s2">&quot;Argument must be a 2-member tuple or list.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">directed</span><span class="p">:</span>
+                <span class="c1"># throw an error if they gave an inconsistent directed value</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Passed False value for &#39;directed&#39; for arc &#39;</span><span class="si">%s</span><span class="s2">&#39;, but &quot;</span>
+                    <span class="s2">&quot;specified source or destination.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_ports</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">ports</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># we are reassigning this arc&#39;s values, clean up port lists</span>
+            <span class="n">weakref_self</span> <span class="o">=</span> <span class="n">weakref_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">:</span>
+                <span class="n">port</span><span class="o">.</span><span class="n">_arcs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_dests</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="o">.</span><span class="n">_sources</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span> <span class="k">if</span> <span class="n">ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span> <span class="o">=</span> <span class="n">source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">weakref_self</span> <span class="o">=</span> <span class="n">weakref_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span><span class="p">:</span>
+            <span class="n">port</span><span class="o">.</span><span class="n">_arcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directed</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">_dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span>
+            <span class="n">destination</span><span class="o">.</span><span class="n">_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weakref_self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_ports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">ports</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Arc </span><span class="si">%s</span><span class="s2">: &quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">destination</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;cannot specify &#39;source&#39; or &#39;destination&#39; &quot;</span>
+                    <span class="s2">&quot;when using &#39;ports&#39; argument.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;argument &#39;ports&#39; must be list or tuple &quot;</span>
+                    <span class="s2">&quot;containing exactly 2 Ports.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ports</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Port</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;found object &#39;</span><span class="si">%s</span><span class="s2">&#39; in &#39;ports&#39; not &quot;</span>
+                            <span class="s2">&quot;of type Port.&quot;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;found indexed Port &#39;</span><span class="si">%s</span><span class="s2">&#39; in &#39;ports&#39;, must &quot;</span>
+                            <span class="s2">&quot;use single Ports for Arc.&quot;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;found object &#39;</span><span class="si">%s</span><span class="s2">&#39; in &#39;ports&#39; not &quot;</span>
+                        <span class="s2">&quot;of type Port.&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;must specify both &#39;source&#39; and &#39;destination&#39; &quot;</span>
+                    <span class="s2">&quot;for directed Arc.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">source</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="s2">&quot;destination&quot;</span><span class="p">)]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Port</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> object &#39;</span><span class="si">%s</span><span class="s2">&#39; not of type Port.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;found indexed Port &#39;</span><span class="si">%s</span><span class="s2">&#39; as </span><span class="si">%s</span><span class="s2">, must use &quot;</span>
+                            <span class="s2">&quot;single Ports for Arc.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="n">msg</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> object &#39;</span><span class="si">%s</span><span class="s2">&#39; not of type Port.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">side</span><span class="p">)</span>
+                    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Arc"><a class="viewcode-back" href="../../../modeling_extensions/network.html#pyomo.network.Arc">[docs]</a><span class="nd">@ModelComponentFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;Component used for connecting two Ports.&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Arc</span><span class="p">(</span><span class="n">ActiveIndexedComponent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Component used for connecting the members of two Port objects</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        source: `Port`</span>
+<span class="sd">            A single Port for a directed arc. Aliases to src.</span>
+<span class="sd">        destination: `Port`</span>
+<span class="sd">            A single`Port for a directed arc. Aliases to dest.</span>
+<span class="sd">        ports</span>
+<span class="sd">            A two-member list or tuple of single Ports for an undirected arc</span>
+<span class="sd">        directed: `bool`</span>
+<span class="sd">            Set True for directed. Use along with `rule` to be able to</span>
+<span class="sd">            return an implied (source, destination) tuple.</span>
+<span class="sd">        rule: `function`</span>
+<span class="sd">            A function that returns either a dictionary of the arc arguments</span>
+<span class="sd">            or a two-member iterable of ports</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_ComponentDataClass</span> <span class="o">=</span> <span class="n">_ArcData</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="o">!=</span> <span class="n">Arc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Arc</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">UnindexedComponent_set</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ScalarArc</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">ScalarArc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IndexedArc</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">IndexedArc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">destination</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;dest&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">ports</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ports&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_directed</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;directed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;rule&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwds</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;ctype&quot;</span><span class="p">,</span> <span class="n">Arc</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Arc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ports</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span> <span class="n">ports</span><span class="o">=</span><span class="n">ports</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Arc&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_debug_set</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Constructing Arc </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">ConstructionTimer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># No construction rule or values specified</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot specify rule along with source/destination/ports &quot;</span>
+                <span class="s2">&quot;keywords for arc &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+
+        <span class="n">self_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span>
+                <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;directed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_directed</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span><span class="p">(</span><span class="n">self_parent</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Rule failed when generating values for &quot;</span>
+                        <span class="s2">&quot;arc </span><span class="si">%s</span><span class="s2">:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">_iterable_to_dict</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_directed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setitem_when_not_present</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_vals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                    <span class="s2">&quot;Arc &#39;</span><span class="si">%s</span><span class="s2">&#39;: Cannot initialize multiple indices &quot;</span>
+                    <span class="s2">&quot;of an arc with single ports&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_set</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">apply_indexed_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rule</span><span class="p">,</span> <span class="n">self_parent</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Rule failed when generating values for &quot;</span>
+                        <span class="s2">&quot;arc </span><span class="si">%s</span><span class="s2"> with index </span><span class="si">%s</span><span class="s2">:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">_iterable_to_dict</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_directed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_setitem_when_not_present</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_pprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return data that will be printed for this component.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s2">&quot;Index&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_set</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;Active&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+            <span class="p">(</span><span class="s2">&quot;Ports&quot;</span><span class="p">,</span> <span class="s2">&quot;Directed&quot;</span><span class="p">,</span> <span class="s2">&quot;Active&quot;</span><span class="p">),</span>
+            <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="o">.</span><span class="n">ports</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">ports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">directed</span><span class="p">,</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">ScalarArc</span><span class="p">(</span><span class="n">_ArcData</span><span class="p">,</span> <span class="n">Arc</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">_ArcData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">Arc</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">UnindexedComponent_index</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the port attributes on this arc.</span>
+
+<span class="sd">        If these values are being reassigned, note that the defaults</span>
+<span class="sd">        are still None, so you may need to repass some attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Setting the value of arc &#39;</span><span class="si">%s</span><span class="s2">&#39; before &quot;</span>
+                <span class="s2">&quot;the Arc has been constructed (there &quot;</span>
+                <span class="s2">&quot;is currently no object to set).&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">ScalarArc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># don&#39;t allow model walker to find poorly constructed arcs</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+            <span class="k">raise</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleArc</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">RenamedClass</span><span class="p">):</span>
+    <span class="n">__renamed__new_class__</span> <span class="o">=</span> <span class="n">ScalarArc</span>
+    <span class="n">__renamed__version__</span> <span class="o">=</span> <span class="s1">&#39;6.0&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">IndexedArc</span><span class="p">(</span><span class="n">Arc</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expanded_block</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IndexedArc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">expanded_block</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># indexed block that contains all the blocks for this arc</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expanded_block</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

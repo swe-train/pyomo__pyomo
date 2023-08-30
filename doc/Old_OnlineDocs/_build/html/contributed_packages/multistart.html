@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Multistart Solver &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Nonlinear Preprocessing Transformations" href="preprocessing.html" />
+    <link rel="prev" title="Frequently asked questions" href="mpc/faq.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Third-Party Contributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="community.html">Community Detection for Pyomo models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doe/doe.html">Pyomo.DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gdpopt.html">GDPopt logic-based solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iis.html">Infeasible Irreducible System (IIS) Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="incidence/index.html">Incidence Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mindtpy.html">MindtPy Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpc/index.html">MPC</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multistart Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-multistart-solver">Using Multistart Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multistart-wrapper-implementation-and-optional-arguments">Multistart wrapper implementation and optional arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html">Nonlinear Preprocessing Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parmest/index.html">Parameter Estimation with <code class="docutils literal notranslate"><span class="pre">parmest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynumero/index.html">PyNumero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyros.html">PyROS Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_toolbox.html">Sensitivity Toolbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trustregion.html">Trust Region Framework Method Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcpp.html">MC++ Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="satsolver.html">z3 SMT Sat Solver Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Third-Party Contributions</a> &raquo;</li>
+        
+      <li>Multistart Solver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/contributed_packages/multistart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="multistart-solver">
+<h1>Multistart Solver<a class="headerlink" href="#multistart-solver" title="Permalink to this headline">¶</a></h1>
+<p>The multistart solver is used in cases where the objective function is known
+to be non-convex but the global optimum is still desired. It works by running a non-linear
+solver of your choice multiple times at different starting points, and
+returns the best of the solutions.</p>
+<div class="section" id="using-multistart-solver">
+<h2>Using Multistart Solver<a class="headerlink" href="#using-multistart-solver" title="Permalink to this headline">¶</a></h2>
+<p>To use the multistart solver, define your Pyomo model as usual:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">Required import</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="go">Create a simple model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="go">Invoke the multistart solver</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;multistart&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="section" id="multistart-wrapper-implementation-and-optional-arguments">
+<h2>Multistart wrapper implementation and optional arguments<a class="headerlink" href="#multistart-wrapper-implementation-and-optional-arguments" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.contrib.multistart.multi.MultiStart">
+<em class="property">class </em><code class="descclassname">pyomo.contrib.multistart.multi.</code><code class="descname">MultiStart</code><a class="reference internal" href="../_modules/pyomo/contrib/multistart/multi.html#MultiStart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.multistart.multi.MultiStart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solver wrapper that initializes at multiple starting points.</p>
+<p># TODO: also return appropriate duals</p>
+<p>For theoretical underpinning, see
+<a class="reference external" href="https://www.semanticscholar.org/paper/How-many-random-restarts-are-enough-Dick-Wong/55b248b398a03dc1ac9a65437f88b835554329e0">https://www.semanticscholar.org/paper/How-many-random-restarts-are-enough-Dick-Wong/55b248b398a03dc1ac9a65437f88b835554329e0</a></p>
+<p>Keyword arguments below are specified for the <code class="docutils literal notranslate"><span class="pre">solve</span></code> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>strategy</strong> (<a class="reference internal" href="../library_reference/common/config.html#pyomo.common.config.In" title="pyomo.common.config.In"><em>In</em></a><em>(</em><em>dict_keys</em><em>(</em><em>[</em><em>'rand'</em><em>, </em><em>'midpoint_guess_and_bound'</em><em>, </em><em>'rand_guess_and_bound'</em><em>, </em><em>'rand_distributed'</em><em>, </em><em>'midpoint'</em><em>]</em><em>)</em><em>)</em><em>, </em><em>default='rand'</em>) – <p>Specify the restart strategy.</p>
+<ul>
+<li>”rand”: random choice between variable bounds</li>
+<li>”midpoint_guess_and_bound”: midpoint between current value and
+farthest bound</li>
+<li>”rand_guess_and_bound”: random choice between current value and
+farthest bound</li>
+<li>”rand_distributed”: random choice among evenly distributed values</li>
+<li>”midpoint”: exact midpoint between the bounds. If using this option,
+multiple iterations are useless.</li>
+</ul>
+</li>
+<li><strong>solver</strong> (<em>default='ipopt'</em>) – solver to use, defaults to ipopt</li>
+<li><strong>solver_args</strong> (<em>default={}</em>) – Dictionary of keyword arguments to pass to the solver.</li>
+<li><strong>iterations</strong> (<em>default=10</em>) – Specify the number of iterations, defaults to 10. If -1 is specified,
+the high confidence stopping rule will be used</li>
+<li><strong>stopping_mass</strong> (<em>default=0.5</em>) – Maximum allowable estimated missing mass of optima for the high
+confidence stopping rule, only used with the random strategy. The
+lower the parameter, the stricter the rule. Value bounded in (0, 1].</li>
+<li><strong>stopping_delta</strong> (<em>default=0.5</em>) – 1 minus the confidence level required for the stopping rule for the
+high confidence stopping rule, only used with the random strategy. The
+lower the parameter, the stricter the rule. Value bounded in (0, 1].</li>
+<li><strong>suppress_unbounded_warning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default=False</em>) – True to suppress warning for skipping unbounded variables.</li>
+<li><strong>HCS_max_iterations</strong> (<em>default=1000</em>) – Maximum number of iterations before interrupting the high confidence
+stopping rule.</li>
+<li><strong>HCS_tolerance</strong> (<em>default=0</em>) – Tolerance on HCS objective value equality. Defaults to Python float
+equality precision.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.contrib.multistart.multi.MultiStart.available">
+<code class="descname">available</code><span class="sig-paren">(</span><em><span class="n">exception_flag</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/contrib/multistart/multi.html#MultiStart.available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.contrib.multistart.multi.MultiStart.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if solver is available.</p>
+<p>TODO: For now, it is always available. However, sub-solvers may not
+always be available, and so this should reflect that possibility.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="preprocessing.html" class="btn btn-neutral float-right" title="Nonlinear Preprocessing Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mpc/faq.html" class="btn btn-neutral float-left" title="Frequently asked questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

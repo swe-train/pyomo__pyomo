@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Persistent Solvers &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Units Handling in Pyomo" href="units_container.html" />
+    <link rel="prev" title="Advanced Topics" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Advanced Topics</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Persistent Solvers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-persistent-solvers">Using Persistent Solvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-indexed-variables-and-constraints">Working with Indexed Variables and Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#persistent-solver-performance">Persistent Solver Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="units_container.html">Units Handling in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearexpression.html">LinearExpression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flattener/index.html">“Flattening” a Pyomo model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Advanced Topics</a> &raquo;</li>
+        
+      <li>Persistent Solvers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/advanced_topics/persistent_solvers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="persistent-solvers">
+<h1>Persistent Solvers<a class="headerlink" href="#persistent-solvers" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of the persistent solver interfaces is to efficiently
+notify the solver of incremental changes to a Pyomo model. The
+persistent solver interfaces create and store model instances from the
+Python API for the corresponding solver. For example, the
+<a class="reference internal" href="../library_reference/solvers/gurobi_persistent.html#pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent" title="pyomo.solvers.plugins.solvers.gurobi_persistent.GurobiPersistent"><code class="xref py py-class docutils literal notranslate"><span class="pre">GurobiPersistent</span></code></a>
+class maintaints a pointer to a gurobipy Model object. Thus, we can
+make small changes to the model and notify the solver rather than
+recreating the entire model using the solver Python API (or rewriting
+an entire model file - e.g., an lp file) every time the model is
+solved.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Users are responsible for notifying persistent solver
+interfaces when changes to a model are made!</p>
+</div>
+<div class="section" id="using-persistent-solvers">
+<h2>Using Persistent Solvers<a class="headerlink" href="#using-persistent-solvers" title="Permalink to this headline">¶</a></h2>
+<p>The first step in using a persistent solver is to create a Pyomo model
+as usual.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can create an instance of a persistent solver through the SolverFactory.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>This returns an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">GurobiPersistent</span></code>. Now we need
+to tell the solver about our model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>This will create a gurobipy Model object and include the appropriate
+variables and constraints. We can now solve the model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p>We can also add or remove variables, constraints, blocks, and
+objectives. For example,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c2</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>This tells the solver to add one new constraint but otherwise leave
+the model unchanged. We can now resolve the model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p>To remove a component, simply call the corresponding remove method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">remove_constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c2</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">m</span><span class="o">.</span><span class="n">c2</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p>If a pyomo component is replaced with another component with the same
+name, the first component must be removed from the solver. Otherwise,
+the solver will have multiple components. For example, the following
+code will run without error, but the solver will have an extra
+constraint. The solver will have both y &gt;= -2*x + 5 and y &lt;= x, which
+is not what was intended!</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># WRONG:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>The correct way to do this is:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Correct:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">remove_constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>  
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Components removed from a pyomo model must be removed
+from the solver instance by the user.</p>
+</div>
+<p>Additionally, unexpected behavior may result if a component is
+modified before being removed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Block</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ERROR: The constraint referenced by m.b.c2 does not</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># exist in the solver model.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">remove_block</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>In most cases, the only way to modify a component is to remove it from
+the solver instance, modify it with Pyomo, and then add it back to the
+solver instance. The only exception is with variables. Variables may
+be modified and then updated with with solver:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">update_var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-indexed-variables-and-constraints">
+<h2>Working with Indexed Variables and Constraints<a class="headerlink" href="#working-with-indexed-variables-and-constraints" title="Permalink to this headline">¶</a></h2>
+<p>The examples above all used simple variables and constraints; in order to use
+indexed variables and/or constraints, the code must be slightly adapted:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">indexed_var</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>  
+<span class="gp">... </span>    <span class="n">opt</span><span class="o">.</span><span class="n">add_var</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">indexed_con</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>  
+<span class="gp">... </span>    <span class="n">opt</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This must be done when removing variables/constraints, too. Not doing this would
+result in AttributeError exceptions, for example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">add_var</span><span class="p">(</span><span class="n">indexed_var</span><span class="p">)</span>          
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ERROR: AttributeError: &#39;IndexedVar&#39; object has no attribute &#39;is_binary&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">indexed_con</span><span class="p">)</span>   
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ERROR: AttributeError: &#39;IndexedConstraint&#39; object has no attribute &#39;body&#39;</span>
+</pre></div>
+</div>
+<p>The method “is_indexed” can be used to automate the process, for example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">add_variable</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">variable</span><span class="p">):</span>     
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+<span class="gp">... </span>            <span class="n">opt</span><span class="o">.</span><span class="n">add_var</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">opt</span><span class="o">.</span><span class="n">add_var</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="persistent-solver-performance">
+<h2>Persistent Solver Performance<a class="headerlink" href="#persistent-solver-performance" title="Permalink to this headline">¶</a></h2>
+<p>In order to get the best performance out of the persistent solvers, use the
+“save_results” flag:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;gurobi_persistent&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">set_instance</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">save_results</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>Note that if the “save_results” flag is set to False, then the following
+is not supported.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">save_results</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">m</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>However, the following will work:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">save_results</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">opt</span><span class="o">.</span><span class="n">load_vars</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p>Additionally, a subset of variable values may be loaded back into the model:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">save_results</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">opt</span><span class="o">.</span><span class="n">load_vars</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="units_container.html" class="btn btn-neutral float-right" title="Units Handling in Pyomo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Advanced Topics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

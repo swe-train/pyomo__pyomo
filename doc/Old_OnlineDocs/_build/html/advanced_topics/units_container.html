@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Units Handling in Pyomo &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LinearExpression" href="linearexpression.html" />
+    <link rel="prev" title="Persistent Solvers" href="persistent_solvers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Advanced Topics</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="persistent_solvers.html">Persistent Solvers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Units Handling in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearexpression.html">LinearExpression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flattener/index.html">“Flattening” a Pyomo model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Advanced Topics</a> &raquo;</li>
+        
+      <li>Units Handling in Pyomo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/advanced_topics/units_container.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pyomo.core.base.units_container">
+<span id="units-handling-in-pyomo"></span><h1>Units Handling in Pyomo<a class="headerlink" href="#module-pyomo.core.base.units_container" title="Permalink to this headline">¶</a></h1>
+<p>Pyomo Units Container Module</p>
+<p>This module provides support for including units within Pyomo expressions. This module
+can be used to define units on a model, and to check the consistency of units
+within the underlying constraints and expressions in the model. The module also
+supports conversion of units within expressions using the <cite>convert</cite> method to support
+construction of constraints that contain embedded unit conversions.</p>
+<p>To use this package within your Pyomo model, you first need an instance of a
+PyomoUnitsContainer. You can use the module level instance already defined as
+‘units’. This object ‘contains’ the units - that is, you can access units on
+this module using common notation.</p>
+<blockquote>
+<div><div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="mf">3.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kg</span><span class="p">)</span>
+<span class="go">3.0*kg</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Units can be assigned to Var, Param, and ExternalFunction components, and can
+be used directly in expressions (e.g., defining constraints). You can also
+verify that the units are consistent on a model, or on individual components
+like the objective function, constraint, or expression using
+<cite>assert_units_consistent</cite> (from pyomo.util.check_units).
+There are other methods there that may be helpful for verifying correct units on a model.</p>
+<blockquote>
+<div><div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">ConcreteModel</span><span class="p">,</span> <span class="n">Var</span><span class="p">,</span> <span class="n">Objective</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.util.check_units</span> <span class="kn">import</span> <span class="n">assert_units_consistent</span><span class="p">,</span> <span class="n">assert_units_equivalent</span><span class="p">,</span> <span class="n">check_units_equivalent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">acc</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">acc</span> <span class="o">-</span> <span class="mf">9.81</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assert_units_consistent</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span> <span class="c1"># raise exc if units invalid on obj</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assert_units_consistent</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="c1"># raise exc if units invalid anywhere on the model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assert_units_equivalent</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># raise exc if units not equivalent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">))</span> <span class="c1"># print the units on the objective</span>
+<span class="go">m**2/s**4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">check_units_equivalent</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">acc</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The implementation is currently based on the <a class="reference external" href="http://pint.readthedocs.io">pint</a> package and supports all the units that
+are supported by pint.  The list of units that are supported by pint
+can be found at the following url:
+<a class="reference external" href="https://github.com/hgrecco/pint/blob/master/pint/default_en.txt">https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</a>.</p>
+<p>If you need a unit that is not in the standard set of defined units,
+you can create your own units by adding to the unit definitions within
+pint. See <a class="reference internal" href="#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_file" title="pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PyomoUnitsContainer.load_definitions_from_file()</span></code></a> or
+<a class="reference internal" href="#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_strings" title="pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_strings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PyomoUnitsContainer.load_definitions_from_strings()</span></code></a> for more
+information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In this implementation of units, “offset” units for
+temperature are not supported within expressions (i.e. the
+non-absolute temperature units including degrees C and
+degrees F).  This is because there are many non-obvious
+combinations that are not allowable. This concern becomes
+clear if you first convert the non-absolute temperature
+units to absolute and then perform the operation. For
+example, if you write 30 degC + 30 degC == 60 degC, but
+convert each entry to Kelvin, the expression is not true
+(i.e., 303.15 K + 303.15 K is not equal to 333.15
+K). Therefore, there are several operations that are not
+allowable with non-absolute units, including addition,
+multiplication, and division.</p>
+<p>This module does support conversion of offset units to
+absolute units numerically, using convert_value_K_to_C,
+convert_value_C_to_K, convert_value_R_to_F,
+convert_value_F_to_R.  These are useful for converting input
+data to absolute units, and for converting data to
+convenient units for reporting.</p>
+<p class="last">Please see the pint documentation <a class="reference external" href="https://pint.readthedocs.io/en/0.9/nonmult.html">here</a> for more
+discussion. While pint implements “delta” units (e.g.,
+delta_degC) to support correct unit conversions, it can be
+difficult to identify and guarantee valid operations in a
+general algebraic modeling environment. While future work
+may support units with relative scale, the current
+implementation requires use of absolute temperature units
+(i.e. K and R) within expressions and a direct conversion of
+numeric values using specific functions for converting input
+data and reporting.</p>
+</div>
+<dl class="py class">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer">
+<em class="property">class </em><code class="descclassname">pyomo.core.base.units_container.</code><code class="descname">PyomoUnitsContainer</code><span class="sig-paren">(</span><em><span class="n">pint_registry</span><span class="o">=</span><span class="default_value">NOTSET</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class that is used to create and contain units in Pyomo.</p>
+<p>This is the class that is used to create, contain, and interact
+with units in Pyomo.  The module
+(<a class="reference internal" href="#module-pyomo.core.base.units_container" title="pyomo.core.base.units_container"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyomo.core.base.units_container</span></code></a>) also contains a module
+level units container <code class="xref py py-data docutils literal notranslate"><span class="pre">units</span></code> that is an instance of a
+PyomoUnitsContainer. This module instance should typically be used
+instead of creating your own instance of a
+<a class="reference internal" href="#pyomo.core.base.units_container.PyomoUnitsContainer" title="pyomo.core.base.units_container.PyomoUnitsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyomoUnitsContainer</span></code></a>.  For an overview of the usage of
+this class, see the module documentation
+(<a class="reference internal" href="#module-pyomo.core.base.units_container" title="pyomo.core.base.units_container"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyomo.core.base.units_container</span></code></a>)</p>
+<p>This class is based on the “pint” module. Documentation for
+available units can be found at the following url:
+<a class="reference external" href="https://github.com/hgrecco/pint/blob/master/pint/default_en.txt">https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pre-defined units can be accessed through attributes on the
+PyomoUnitsContainer class; however, these attributes are created
+dynamically through the __getattr__ method, and are not present
+on the class until they are requested.</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert">
+<code class="descname">convert</code><span class="sig-paren">(</span><em><span class="n">src</span></em>, <em><span class="n">to_units</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns an expression that contains the
+explicit conversion from one unit to another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>src</strong> (<em>Pyomo expression</em>) – The source value that will be converted. This could be a
+Pyomo Var, Pyomo Param, or a more complex expression.</li>
+<li><strong>to_units</strong> (<em>Pyomo units expression</em>) – The desired target units for the new expression</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ret</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Pyomo expression</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_C_to_K">
+<code class="descname">convert_temp_C_to_K</code><span class="sig-paren">(</span><em><span class="n">value_in_C</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert_temp_C_to_K"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_C_to_K" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value in degrees Celsius to Kelvin Note that this
+method converts a numerical value only. If you need
+temperature conversions in expressions, please work in
+absolute temperatures only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_F_to_R">
+<code class="descname">convert_temp_F_to_R</code><span class="sig-paren">(</span><em><span class="n">value_in_F</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert_temp_F_to_R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_F_to_R" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value in degrees Fahrenheit to Rankine.  Note that
+this method converts a numerical value only. If you need
+temperature conversions in expressions, please work in
+absolute temperatures only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_K_to_C">
+<code class="descname">convert_temp_K_to_C</code><span class="sig-paren">(</span><em><span class="n">value_in_K</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert_temp_K_to_C"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_K_to_C" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value in Kelvin to degrees Celsius.  Note that this method
+converts a numerical value only. If you need temperature
+conversions in expressions, please work in absolute
+temperatures only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_R_to_F">
+<code class="descname">convert_temp_R_to_F</code><span class="sig-paren">(</span><em><span class="n">value_in_R</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert_temp_R_to_F"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert_temp_R_to_F" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value in Rankine to degrees Fahrenheit.  Note that
+this method converts a numerical value only. If you need
+temperature conversions in expressions, please work in
+absolute temperatures only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.convert_value">
+<code class="descname">convert_value</code><span class="sig-paren">(</span><em><span class="n">num_value</span></em>, <em><span class="n">from_units</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">to_units</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.convert_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.convert_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method performs explicit conversion of a numerical value
+from one unit to another, and returns the new value.</p>
+<p>The argument “num_value” must be a native numeric type (e.g. float).
+Note that this method returns a numerical value only, and not an
+expression with units.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>num_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> or </em><em>other native numeric type</em>) – The value that will be converted</li>
+<li><strong>from_units</strong> (<em>Pyomo units expression</em>) – The units to convert from</li>
+<li><strong>to_units</strong> (<em>Pyomo units expression</em>) – The units to convert to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>float</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">The converted value</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.get_units">
+<code class="descname">get_units</code><span class="sig-paren">(</span><em><span class="n">expr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.get_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.get_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Pyomo units corresponding to this expression (also
+performs validation and will raise an exception if units are not
+consistent).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>expr</strong> (<em>Pyomo expression</em>) – The expression containing the desired units</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the units corresponding to the expression</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Pyomo unit (<a class="reference internal" href="../library_reference/kernel/expression.html#pyomo.core.kernel.expression.expression" title="pyomo.core.kernel.expression.expression">expression</a>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyomo.core.base.units_container.UnitsError" title="pyomo.core.base.units_container.UnitsError"><strong>pyomo.core.base.units_container.UnitsError</strong></a> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_file">
+<code class="descname">load_definitions_from_file</code><span class="sig-paren">(</span><em><span class="n">definition_file</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.load_definitions_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load new units definitions from a file</p>
+<p>This method loads additional units definitions from a user
+specified definition file. An example of a definitions file
+can be found at:
+<a class="reference external" href="https://github.com/hgrecco/pint/blob/master/pint/default_en.txt">https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</a></p>
+<p>If we have a file called <code class="docutils literal notranslate"><span class="pre">my_additional_units.txt</span></code> with the
+following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">USD</span> <span class="o">=</span> <span class="p">[</span><span class="n">currency</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Then we can add this to the container with:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">load_definitions_from_file</span><span class="p">(</span><span class="s1">&#39;my_additional_units.txt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">USD</span><span class="p">)</span>
+<span class="go">USD</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_strings">
+<code class="descname">load_definitions_from_strings</code><span class="sig-paren">(</span><em><span class="n">definition_string_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#PyomoUnitsContainer.load_definitions_from_strings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.PyomoUnitsContainer.load_definitions_from_strings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load new units definitions from a string</p>
+<p>This method loads additional units definitions from a list of
+strings (one for each line). An example of the definitions
+strings can be found at:
+<a class="reference external" href="https://github.com/hgrecco/pint/blob/master/pint/default_en.txt">https://github.com/hgrecco/pint/blob/master/pint/default_en.txt</a></p>
+<p>For example, to add the currency dimension and US dollars as a
+unit, use</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">load_definitions_from_strings</span><span class="p">([</span><span class="s1">&#39;USD = [currency]&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">USD</span><span class="p">)</span>
+<span class="go">USD</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.base.units_container.UnitsError">
+<em class="property">class </em><code class="descclassname">pyomo.core.base.units_container.</code><code class="descname">UnitsError</code><span class="sig-paren">(</span><em><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#UnitsError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.UnitsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>An exception class for all general errors/warnings associated with units</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.base.units_container.InconsistentUnitsError">
+<em class="property">class </em><code class="descclassname">pyomo.core.base.units_container.</code><code class="descname">InconsistentUnitsError</code><span class="sig-paren">(</span><em><span class="n">exp1</span></em>, <em><span class="n">exp2</span></em>, <em><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyomo/core/base/units_container.html#InconsistentUnitsError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.base.units_container.InconsistentUnitsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>An exception indicating that inconsistent units are present on an expression.</p>
+<p>E.g., x == y, where x is in units of kg and y is in units of meter</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="linearexpression.html" class="btn btn-neutral float-right" title="LinearExpression" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="persistent_solvers.html" class="btn btn-neutral float-left" title="Persistent Solvers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

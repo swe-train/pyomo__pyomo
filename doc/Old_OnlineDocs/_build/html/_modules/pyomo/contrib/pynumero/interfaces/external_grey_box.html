@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.pynumero.interfaces.external_grey_box &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.pynumero.interfaces.external_grey_box</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.pynumero.interfaces.external_grey_box</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">RenamedClass</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.log</span> <span class="kn">import</span> <span class="n">is_debug_set</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.timing</span> <span class="kn">import</span> <span class="n">ConstructionTimer</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">Var</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Constraint</span><span class="p">,</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.block</span> <span class="kn">import</span> <span class="n">_BlockData</span><span class="p">,</span> <span class="n">Block</span><span class="p">,</span> <span class="n">declare_custom_block</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.global_set</span> <span class="kn">import</span> <span class="n">UnindexedComponent_index</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.initializer</span> <span class="kn">import</span> <span class="n">Initializer</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.set</span> <span class="kn">import</span> <span class="n">UnindexedComponent_set</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.reference</span> <span class="kn">import</span> <span class="n">Reference</span>
+
+<span class="kn">from</span> <span class="nn">..sparse.block_matrix</span> <span class="kn">import</span> <span class="n">BlockMatrix</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.contrib.pynumero&#39;</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is used for interfacing an external model as</span>
+<span class="sd">a block in a Pyomo model.</span>
+
+<span class="sd">An ExternalGreyBoxModel is model is a model that does not</span>
+<span class="sd">provide constraints explicitly as algebraic expressions, but</span>
+<span class="sd">instead provides a set of methods that can compute the residuals</span>
+<span class="sd">of the constraints (or outputs) and their derivatives.</span>
+
+<span class="sd">This allows one to interface external codes (e.g., compiled</span>
+<span class="sd">external models) with a Pyomo model.</span>
+
+<span class="sd">Note: To solve a Pyomo model that contains these external models</span>
+<span class="sd">      we have a specialized interface built on PyNumero that provides</span>
+<span class="sd">      an interface to the CyIpopt solver.</span>
+
+<span class="sd">To use this interface:</span>
+<span class="sd">   * Create a class that is derived from ExternalGreyBoxModel and</span>
+<span class="sd">     implement the necessary methods. This derived class must provide</span>
+<span class="sd">     a list of names for: the inputs to your model, the equality constraints</span>
+<span class="sd">     (or residuals) that need to be converged, and any outputs that</span>
+<span class="sd">     are computed from your model. It will also need to provide methods to</span>
+<span class="sd">     compute the residuals, outputs, and the jacobian of these with respect to</span>
+<span class="sd">     the inputs. Implement the methods to evaluate hessians if applicable.</span>
+<span class="sd">     See the documentation on ExternalGreyBoxModel for more details.</span>
+
+<span class="sd">   * Create a Pyomo model and make use of the ExternalGreyBoxBlock</span>
+<span class="sd">     to produce a Pyomo modeling component that represents your</span>
+<span class="sd">     external model. This block is a Pyomo component, and when you</span>
+<span class="sd">     call set_external_model() and provide an instance of your derived</span>
+<span class="sd">     ExternalGreyBoxModel, it will automatically create pyomo variables to</span>
+<span class="sd">     represent the inputs and the outputs from the external model. You</span>
+<span class="sd">     can implement a callback to modify the Pyomo block after it is</span>
+<span class="sd">     constructed. This also provides a mechanism to initialize variables,</span>
+<span class="sd">     etc.</span>
+
+<span class="sd">   * Create a PyomoGreyBoxNLP and provide it with the Pyomo model</span>
+<span class="sd">     that contains the ExternalGreyBoxBlocks. This class presents</span>
+<span class="sd">     an NLP interface (i.e., the PyNumero NLP abstract class), and</span>
+<span class="sd">     can be used with any solver that makes use of this interface</span>
+<span class="sd">     (e.g., the CyIpopt solver interface provided in PyNumero)</span>
+
+<span class="sd">See pyomo/contrib/pynumero/examples/external_grey_box for examples</span>
+<span class="sd">of the use of this interface.</span>
+
+<span class="sd">Note:</span>
+
+<span class="sd">   * Currently, you cannot &quot;fix&quot; a pyomo variable that corresponds to an</span>
+<span class="sd">     input or output and you must use a constraint instead (this is</span>
+<span class="sd">     because Pyomo removes fixed variables before sending them to the</span>
+<span class="sd">     solver)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ExternalGreyBoxModel"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel">[docs]</a><span class="k">class</span> <span class="nc">ExternalGreyBoxModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the base class for building external input output models</span>
+<span class="sd">    for use with Pyomo and CyIpopt. See the module documentation above,</span>
+<span class="sd">    and documentation of individual methods.</span>
+
+<span class="sd">    There are examples in:</span>
+<span class="sd">    pyomo/contrib/pynumero/examples/external_grey_box/react-example/</span>
+
+<span class="sd">    Most methods are documented in the class itself. However, there are</span>
+<span class="sd">    methods that are not implemented in the base class that may need</span>
+<span class="sd">    to be implemented to provide support for certain features.</span>
+
+<span class="sd">    Hessian support:</span>
+
+<span class="sd">    If you would like to support Hessian computations for your</span>
+<span class="sd">    external model, you will need to implement the following methods to</span>
+<span class="sd">    support setting the multipliers that are used when computing the</span>
+<span class="sd">    Hessian of the Lagrangian.</span>
+<span class="sd">    - set_equality_constraint_multipliers: see documentation in method</span>
+<span class="sd">    - set_output_constraint_multipliers: see documentation in method</span>
+<span class="sd">    You will also need to implement the following methods to evaluate</span>
+<span class="sd">    the required Hessian information:</span>
+
+<span class="sd">    def evaluate_hessian_equality_constraints(self):</span>
+<span class="sd">        Compute the product of the equality constraint multipliers</span>
+<span class="sd">        with the hessian of the equality constraints.</span>
+<span class="sd">        E.g., y_eq^k is the vector of equality constraint multipliers</span>
+<span class="sd">        from set_equality_constraint_multipliers, w_eq(u)=0 are the</span>
+<span class="sd">        equality constraints, and u^k are the vector of inputs from</span>
+<span class="sd">        set_inputs. This method must return</span>
+<span class="sd">        H_eq^k = sum_i (y_eq^k)_i * grad^2_{uu} w_eq(u^k)</span>
+
+<span class="sd">    def evaluate_hessian_outputs(self):</span>
+<span class="sd">        Compute the product of the output constraint multipliers with the</span>
+<span class="sd">        hessian of the outputs. E.g., y_o^k is the vector of output</span>
+<span class="sd">        constraint multipliers from set_output_constraint_multipliers,</span>
+<span class="sd">        u^k are the vector of inputs from set_inputs, and w_o(u) is the</span>
+<span class="sd">        function that computes the vector of outputs at the values for</span>
+<span class="sd">        the input variables. This method must return</span>
+<span class="sd">        H_o^k = sum_i (y_o^k)_i * grad^2_{uu} w_o(u^k)</span>
+
+<span class="sd">    Examples that show Hessian support are also found in:</span>
+<span class="sd">    pyomo/contrib/pynumero/examples/external_grey_box/react-example/</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.n_inputs"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">n_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the number of inputs. You do not</span>
+<span class="sd">        need to overload this method in derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_names</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.n_equality_constraints"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_equality_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">n_equality_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the number of equality constraints.</span>
+<span class="sd">        You do not need to overload this method in derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">equality_constraint_names</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.n_outputs"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.n_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">n_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the number of outputs. You do not</span>
+<span class="sd">        need to overload this method in derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_names</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.input_names"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.input_names">[docs]</a>    <span class="k">def</span> <span class="nf">input_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide the list of string names to corresponding to the inputs</span>
+<span class="sd">        of this external model. These should be returned in the same order</span>
+<span class="sd">        that they are to be used in set_input_values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Derived ExternalGreyBoxModel classes need to implement the method: input_names&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.equality_constraint_names"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.equality_constraint_names">[docs]</a>    <span class="k">def</span> <span class="nf">equality_constraint_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide the list of string names corresponding to any residuals</span>
+<span class="sd">        for this external model. These should be in the order corresponding</span>
+<span class="sd">        to values returned from evaluate_residuals. Return an empty list</span>
+<span class="sd">        if there are no equality constraints.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.output_names"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.output_names">[docs]</a>    <span class="k">def</span> <span class="nf">output_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide the list of string names corresponding to the outputs</span>
+<span class="sd">        of this external model. These should be in the order corresponding</span>
+<span class="sd">        to values returned from evaluate_outputs. Return an empty list if there</span>
+<span class="sd">        are no computed outputs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.finalize_block_construction"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.finalize_block_construction">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_block_construction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pyomo_block</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Implement this callback to provide any additional</span>
+<span class="sd">        specifications to the Pyomo block that is created</span>
+<span class="sd">        to represent this external grey box model.</span>
+
+<span class="sd">        Note that pyomo_block.inputs and pyomo_block.outputs</span>
+<span class="sd">        have been created, and this callback provides an</span>
+<span class="sd">        opportunity to set initial values, bounds, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.set_input_values"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_input_values">[docs]</a>    <span class="k">def</span> <span class="nf">set_input_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the solver to set the current values</span>
+<span class="sd">        for the input variables. The derived class must cache these if</span>
+<span class="sd">        necessary for any subsequent calls to evaluate_outputs or</span>
+<span class="sd">        evaluate_derivatives.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Derived ExternalGreyBoxModel classes need&#39;</span>
+            <span class="s1">&#39; to implement the method: set_input_values&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.set_equality_constraint_multipliers"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_equality_constraint_multipliers">[docs]</a>    <span class="k">def</span> <span class="nf">set_equality_constraint_multipliers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eq_con_multiplier_values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the solver to set the current values</span>
+<span class="sd">        for the multipliers of the equality constraints. The derived</span>
+<span class="sd">        class must cache these if necessary for any subsequent calls</span>
+<span class="sd">        to evaluate_hessian_equality_constraints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># we should check these for efficiency</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_equality_constraints</span><span class="p">()</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">eq_con_multiplier_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;evaluate_hessian_equality_constraints&#39;</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_equality_constraints</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Derived ExternalGreyBoxModel classes need to implement&#39;</span>
+            <span class="s1">&#39; set_equality_constraint_multipliers when they&#39;</span>
+            <span class="s1">&#39; support Hessian computations.&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.set_output_constraint_multipliers"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.set_output_constraint_multipliers">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_constraint_multipliers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_con_multiplier_values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the solver to set the current values</span>
+<span class="sd">        for the multipliers of the output constraints. The derived</span>
+<span class="sd">        class must cache these if necessary for any subsequent calls</span>
+<span class="sd">        to evaluate_hessian_outputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># we should check these for efficiency</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">()</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_con_multiplier_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;evaluate_hessian_output_constraints&#39;</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Derived ExternalGreyBoxModel classes need to implement&#39;</span>
+            <span class="s1">&#39; set_output_constraint_multipliers when they&#39;</span>
+            <span class="s1">&#39; support Hessian computations.&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.get_equality_constraint_scaling_factors"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_equality_constraint_scaling_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_equality_constraint_scaling_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the solver interface to get desired</span>
+<span class="sd">        values for scaling the equality constraints. None means no</span>
+<span class="sd">        scaling is desired. Note that, depending on the solver,</span>
+<span class="sd">        one may need to set solver options so these factors are used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.get_output_constraint_scaling_factors"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.get_output_constraint_scaling_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_output_constraint_scaling_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the solver interface to get desired</span>
+<span class="sd">        values for scaling the constraints with output variables. Returning</span>
+<span class="sd">        None means that no scaling of the output constraints is desired.</span>
+<span class="sd">        Note that, depending on the solver, one may need to set solver options</span>
+<span class="sd">        so these factors are used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.evaluate_equality_constraints"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_equality_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_equality_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the residuals from the model (using the values</span>
+<span class="sd">        set in input_values) and return as a numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;evaluate_equality_constraints called &#39;</span>
+            <span class="s1">&#39;but not implemented in the derived class.&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.evaluate_outputs"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the outputs from the model (using the values</span>
+<span class="sd">        set in input_values) and return as a numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;evaluate_outputs called but not implemented in the derived class.&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.evaluate_jacobian_equality_constraints"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_equality_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_jacobian_equality_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the derivatives of the residuals with respect</span>
+<span class="sd">        to the inputs (using the values set in input_values).</span>
+<span class="sd">        This should be a scipy matrix with the rows in</span>
+<span class="sd">        the order of the residual names and the cols in</span>
+<span class="sd">        the order of the input variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;evaluate_jacobian_equality_constraints called &#39;</span>
+            <span class="s1">&#39;but not implemented in the derived class.&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalGreyBoxModel.evaluate_jacobian_outputs"><a class="viewcode-back" href="../../../../../contributed_packages/pynumero/pynumero.interfaces.external_grey_box_model.html#pyomo.contrib.pynumero.interfaces.external_grey_box.ExternalGreyBoxModel.evaluate_jacobian_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_jacobian_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the derivatives of the outputs with respect</span>
+<span class="sd">        to the inputs (using the values set in input_values).</span>
+<span class="sd">        This should be a scipy matrix with the rows in</span>
+<span class="sd">        the order of the output variables and the cols in</span>
+<span class="sd">        the order of the input variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;evaluate_equality_outputs called &#39;</span>
+            <span class="s1">&#39;but not implemented in the derived class.&#39;</span>
+        <span class="p">)</span></div></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># Implement the following methods to provide support for</span>
+    <span class="c1"># Hessian computations: see documentation in class docstring</span>
+    <span class="c1">#</span>
+    <span class="c1"># def evaluate_hessian_equality_constraints(self):</span>
+    <span class="c1"># def evaluate_hessian_outputs(self):</span>
+    <span class="c1">#</span>
+
+
+<span class="k">class</span> <span class="nc">ExternalGreyBoxBlockData</span><span class="p">(</span><span class="n">_BlockData</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_external_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">external_grey_box_model</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        external_grey_box_model: ExternalGreyBoxModel</span>
+<span class="sd">            The external model that will be interfaced to in this block</span>
+<span class="sd">        inputs: List of VarData objects</span>
+<span class="sd">            If provided, these VarData will be used as inputs into the</span>
+<span class="sd">            external model.</span>
+<span class="sd">        outputs: List of VarData objects</span>
+<span class="sd">            If provided, these VarData will be used as outputs from the</span>
+<span class="sd">            external model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ex_model</span> <span class="o">=</span> <span class="n">ex_model</span> <span class="o">=</span> <span class="n">external_grey_box_model</span>
+        <span class="k">if</span> <span class="n">ex_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_names</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Shouldn&#39;t need input names if we provide input vars, but</span>
+        <span class="c1"># no reason to remove this.</span>
+        <span class="c1"># _could_ make inputs a reference-to-mapping</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span> <span class="o">=</span> <span class="n">ex_model</span><span class="o">.</span><span class="n">input_names</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;No input_names specified for external_grey_box_model.&#39;</span>
+                <span class="s1">&#39; Must specify at least one input.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_names_set</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_names</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_names_set</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ex_model</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">()</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dimension mismatch in provided input vars for external &quot;</span>
+                    <span class="s2">&quot;model.</span><span class="se">\n</span><span class="s2">Expected </span><span class="si">%s</span><span class="s2"> input vars, got </span><span class="si">%s</span><span class="s2">.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">ex_model</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">Reference</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equality_constraint_names</span> <span class="o">=</span> <span class="n">ex_model</span><span class="o">.</span><span class="n">equality_constraint_names</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_names</span> <span class="o">=</span> <span class="n">ex_model</span><span class="o">.</span><span class="n">output_names</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_names_set</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_names</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_names_set</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ex_model</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">()</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dimension mismatch in provided output vars for external &quot;</span>
+                    <span class="s2">&quot;model.</span><span class="se">\n</span><span class="s2">Expected </span><span class="si">%s</span><span class="s2"> output vars, got </span><span class="si">%s</span><span class="s2">.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">ex_model</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">Reference</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="c1"># call the callback so the model can set initialization, bounds, etc.</span>
+        <span class="n">external_grey_box_model</span><span class="o">.</span><span class="n">finalize_block_construction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_external_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ex_model</span>
+
+
+<span class="k">class</span> <span class="nc">ExternalGreyBoxBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">):</span>
+    <span class="n">_ComponentDataClass</span> <span class="o">=</span> <span class="n">ExternalGreyBoxBlockData</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="o">!=</span> <span class="n">ExternalGreyBoxBlock</span><span class="p">:</span>
+            <span class="n">target_cls</span> <span class="o">=</span> <span class="bp">cls</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">UnindexedComponent_set</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">target_cls</span> <span class="o">=</span> <span class="n">ScalarExternalGreyBoxBlock</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">target_cls</span> <span class="o">=</span> <span class="n">IndexedExternalGreyBoxBlock</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ExternalGreyBoxBlock</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">target_cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">kwds</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;ctype&#39;</span><span class="p">,</span> <span class="n">ExternalGreyBoxBlock</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_model</span> <span class="o">=</span> <span class="n">Initializer</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;external_model&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">Block</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the ExternalGreyBoxBlockDatas</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructed</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Do not set the constructed flag - Block.construct() will do that</span>
+
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">ConstructionTimer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_debug_set</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Constructing external grey box model </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExternalGreyBoxBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">construct</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">set_external_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_init_model</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">ScalarExternalGreyBoxBlock</span><span class="p">(</span><span class="n">ExternalGreyBoxBlockData</span><span class="p">,</span> <span class="n">ExternalGreyBoxBlock</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">ExternalGreyBoxBlockData</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">ExternalGreyBoxBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="c1"># The above inherit from Block and _BlockData, so it&#39;s not until here</span>
+        <span class="c1"># that we know it&#39;s scalar. So we set the index accordingly.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">UnindexedComponent_index</span>
+
+    <span class="c1"># Pick up the display() from Block and not BlockData</span>
+    <span class="n">display</span> <span class="o">=</span> <span class="n">ExternalGreyBoxBlock</span><span class="o">.</span><span class="n">display</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleExternalGreyBoxBlock</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">RenamedClass</span><span class="p">):</span>
+    <span class="n">__renamed__new_class__</span> <span class="o">=</span> <span class="n">ScalarExternalGreyBoxBlock</span>
+    <span class="n">__renamed__version__</span> <span class="o">=</span> <span class="s1">&#39;6.0&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">IndexedExternalGreyBoxBlock</span><span class="p">(</span><span class="n">ExternalGreyBoxBlock</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

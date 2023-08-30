@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.dae.flatten &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.dae.flatten</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.dae.flatten</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="sd">&quot;&quot;&quot;A module for &quot;flattening&quot; the components in a block-hierarchical model</span>
+<span class="sd">with respect to common indexing sets</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">Reference</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">ComponentSet</span><span class="p">,</span> <span class="n">ComponentMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.block</span> <span class="kn">import</span> <span class="n">SubclassOf</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.set</span> <span class="kn">import</span> <span class="n">SetProduct</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.indexed_component</span> <span class="kn">import</span> <span class="n">UnindexedComponent_set</span><span class="p">,</span> <span class="n">normalize_index</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.component</span> <span class="kn">import</span> <span class="n">ActiveComponent</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base.indexed_component_slice</span> <span class="kn">import</span> <span class="n">IndexedComponent_slice</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+
+<span class="k">def</span> <span class="nf">get_slice_for_set</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the slice of the proper dimension for a set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">dimen</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">dimen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># We will arrive here and fail for sets of dimension</span>
+                <span class="c1"># UnknownSetDimen.</span>
+                <span class="k">return</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),)</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">dimen</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="bp">Ellipsis</span><span class="p">,)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Case for e.g. UnindexedComponent_set</span>
+        <span class="c1"># Should this be None or tuple()? RBP 202110</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">_NotAnIndex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `None` is a valid index, so we use a dummy class to</span>
+<span class="sd">    denote a slot that needs to get filled with indices</span>
+<span class="sd">    from our product.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_fill_indices</span><span class="p">(</span><span class="n">filled_index</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `filled_index` is a list with some entries `_NotAnIndex`.</span>
+<span class="sd">    We fill those entries with values from `index`, a tuple.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filled_index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="n">_NotAnIndex</span><span class="p">:</span>
+            <span class="n">filled_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="c1"># `index` is always a tuple, so this is valid</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># Make sure `filled_index` had the same number of vacancies</span>
+    <span class="c1"># as the original SetProduct has factors. Not _strictly_ necessary.</span>
+    <span class="k">assert</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">filled_index</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">filled_index</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filled_index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">filled_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">filled_index</span>
+
+
+<span class="k">def</span> <span class="nf">_fill_indices_from_product</span><span class="p">(</span><span class="n">partial_index_list</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `partial_index_list` is a list of indices, each corresponding to a</span>
+<span class="sd">    set. If an entry in `partial_index_list` is `_NotAnIndex`, that</span>
+<span class="sd">    slot will get filled in by an entry from `product`.</span>
+
+<span class="sd">    `product` is a `SetProduct` with as many &quot;factors&quot; as there are</span>
+<span class="sd">    missing indices in `partial_index_list`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># We will manipulate `normalize_index.flatten`.</span>
+    <span class="c1"># Store its original value so we can reset it when we&#39;re done.</span>
+    <span class="n">_normalize_index_flatten</span> <span class="o">=</span> <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
+            <span class="c1"># Since `normalize_index.flatten` is False, `index` is a</span>
+            <span class="c1"># scalar or (tuple of (scalars or tuples)). Conveniently,</span>
+            <span class="c1"># each entry in the tuple belongs to a single factor set.</span>
+            <span class="c1"># I do not have to worry about having a product-of-products</span>
+            <span class="c1"># here because I created the product from &quot;unfactorable sets&quot;</span>
+
+            <span class="c1"># We need to generate a new index for every entry of `product`,</span>
+            <span class="c1"># and want to reuse `partial_index_list` as a starting point,</span>
+            <span class="c1"># so we copy it here.</span>
+            <span class="n">filled_index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">partial_index_list</span><span class="p">)</span>
+
+            <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">_normalize_index_flatten</span>
+
+            <span class="c1"># filled_index can now be used in the user&#39;s intended way</span>
+            <span class="c1"># This determines how we will access the component&#39;s data</span>
+            <span class="c1"># with our new index, which is currently _completely_ unflattened</span>
+            <span class="c1"># (i.e. a tuple-of-tuples, no further nesting).</span>
+            <span class="c1">#</span>
+            <span class="c1"># This will not work well if the user&#39;s component is indexed by</span>
+            <span class="c1"># a nested product of sets AND normalize_index.flatten is False.</span>
+            <span class="c1"># In this case we may try to access a component&#39;s data with</span>
+            <span class="c1"># &gt;&gt;&gt; comp[(1,&#39;a&#39;,1)]</span>
+            <span class="c1"># (each coordinate belongs to its own set) when it expects</span>
+            <span class="c1"># &gt;&gt;&gt; comp[((1,&#39;a&#39;),1)]</span>
+            <span class="c1"># because `comp` was created with two set arguments, the first</span>
+            <span class="c1"># of which was already a product.</span>
+
+            <span class="k">yield</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">_fill_indices</span><span class="p">(</span><span class="n">filled_index</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
+
+            <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># Want to get the unflattened factors when we advance the</span>
+            <span class="c1"># iterator of `product`</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># Reset `normalize_index.flatten`</span>
+        <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">_normalize_index_flatten</span>
+
+
+<div class="viewcode-block" id="slice_component_along_sets"><a class="viewcode-back" href="../../../advanced_topics/flattener/reference.html#pyomo.dae.flatten.slice_component_along_sets">[docs]</a><span class="k">def</span> <span class="nf">slice_component_along_sets</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">sets</span><span class="p">,</span> <span class="n">context_slice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function generates all possible slices of the provided component</span>
+<span class="sd">    along the provided sets. That is, it will iterate over the component&#39;s</span>
+<span class="sd">    other indexing sets and, for each index, yield a slice along the</span>
+<span class="sd">    sets specified in the call signature.</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    component: Component</span>
+<span class="sd">        The component whose slices will be yielded</span>
+<span class="sd">    sets: ComponentSet</span>
+<span class="sd">        ComponentSet of Pyomo sets that will be sliced along</span>
+<span class="sd">    context_slice: IndexedComponent_slice</span>
+<span class="sd">        If provided, instead of creating a new slice, we will extend this</span>
+<span class="sd">        one with appropriate getattr and getitem calls.</span>
+<span class="sd">    normalize: Bool</span>
+<span class="sd">        If False, the returned index (from the product of &quot;other sets&quot;)</span>
+<span class="sd">        is not normalized, regardless of the value of normalize_index.flatten.</span>
+<span class="sd">        This is necessary to use this index with _fill_indices.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        The first entry is the index in the product of &quot;other sets&quot;</span>
+<span class="sd">        corresponding to the slice, and the second entry is the slice</span>
+<span class="sd">        at that index.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_set</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span>
+    <span class="n">subsets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">subsets</span><span class="p">())</span>
+    <span class="n">temp_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_slice_for_set</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">set_set</span> <span class="k">else</span> <span class="n">_NotAnIndex</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subsets</span><span class="p">]</span>
+    <span class="n">other_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subsets</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_set</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">context_slice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">base_component</span> <span class="o">=</span> <span class="n">component</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base_component</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">context_slice</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">local_name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+        <span class="c1"># We need to iterate over sets that aren&#39;t sliced</span>
+        <span class="c1"># `c.is_indexed()` covers the case when UnindexedComponent_set</span>
+        <span class="c1"># is in `other_sets`.</span>
+        <span class="k">if</span> <span class="n">other_sets</span><span class="p">:</span>
+            <span class="n">cross_prod</span> <span class="o">=</span> <span class="n">other_sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="o">*</span><span class="n">other_sets</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If we are only indexed by sets we need to slice, we</span>
+            <span class="c1"># should just use tuple(temp_idx) as our index. We spoof</span>
+            <span class="c1"># a cross_prod here so we don&#39;t have to repeat the try/except</span>
+            <span class="c1"># logic below in a separate branch. An empty tuple is the right</span>
+            <span class="c1"># singleton to work in the embedded call to _fill_indices.</span>
+            <span class="n">cross_prod</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">()]</span>
+
+        <span class="k">for</span> <span class="n">prod_index</span><span class="p">,</span> <span class="n">new_index</span> <span class="ow">in</span> <span class="n">_fill_indices_from_product</span><span class="p">(</span><span class="n">temp_idx</span><span class="p">,</span> <span class="n">cross_prod</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span><span class="p">:</span>
+                    <span class="c1"># This index is always normalized if normalize_index.flatten</span>
+                    <span class="c1"># is True. I have not encountered a situation where</span>
+                    <span class="c1"># &quot;denormalization&quot; makes sense here.</span>
+                    <span class="c1"># As normalization is also done in the IndexedComponent,</span>
+                    <span class="c1"># normalizing here primarily just affects what the resulting</span>
+                    <span class="c1"># slice &quot;looks like.&quot; E.g. slice(None) vs (slice(None),).</span>
+                    <span class="c1"># This has implications for generating CUIDs from these</span>
+                    <span class="c1"># slices, where we would like consistency in the string</span>
+                    <span class="c1"># representation.</span>
+                    <span class="c1"># TODO: Should CUID normalize (slice(None),)?</span>
+                    <span class="n">new_index</span> <span class="o">=</span> <span class="n">normalize_index</span><span class="p">(</span><span class="n">new_index</span><span class="p">)</span>
+                <span class="n">c_slice</span> <span class="o">=</span> <span class="n">base_component</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">c_slice</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexedComponent_slice</span><span class="p">:</span>
+                    <span class="c1"># This is just to make sure we do not have an</span>
+                    <span class="c1"># empty slice.</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># Note that c_slice is not necessarily a slice.</span>
+                    <span class="c1"># We enter this loop even if no sets need slicing.</span>
+                    <span class="n">temp_slice</span> <span class="o">=</span> <span class="n">c_slice</span><span class="o">.</span><span class="n">duplicate</span><span class="p">()</span>
+                    <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">temp_slice</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">normalize</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">normalize_index</span><span class="o">.</span><span class="n">flatten</span><span class="p">)</span> <span class="ow">or</span> <span class="n">normalize</span><span class="p">:</span>
+                    <span class="c1"># Most users probably want this index to be normalized,</span>
+                    <span class="c1"># so they can more conveniently use it as a key in a</span>
+                    <span class="c1"># mapping. (E.g. they will get &quot;a&quot; as opposed to (&quot;a&quot;,).)</span>
+                    <span class="c1"># However, to use it in the calling routine</span>
+                    <span class="c1"># generate_sliced_components, we need this index to not</span>
+                    <span class="c1"># have been normalized, so that indices are tuples,</span>
+                    <span class="c1"># partitioned according to their &quot;factor sets.&quot;</span>
+                    <span class="c1"># This is why we allow the argument normalize=False to</span>
+                    <span class="c1"># override normalize_index.flatten.</span>
+                    <span class="n">prod_index</span> <span class="o">=</span> <span class="n">normalize_index</span><span class="p">(</span><span class="n">prod_index</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">prod_index</span><span class="p">,</span> <span class="n">c_slice</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="c1"># We have an empty slice for some reason, e.g.</span>
+                <span class="c1"># a coordinate of `new_index` from the cross</span>
+                <span class="c1"># product was skipped in the original component.</span>
+                <span class="k">pass</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="c1"># We are creating scalar components from a product of</span>
+                <span class="c1"># sets. Components may be undefined for certain indices.</span>
+                <span class="c1"># We want to simply skip that index and move on.</span>
+                <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Component is a data object</span>
+        <span class="n">c_slice</span> <span class="o">=</span> <span class="n">base_component</span>
+        <span class="k">yield</span> <span class="p">(),</span> <span class="n">c_slice</span></div>
+
+
+<span class="k">def</span> <span class="nf">generate_sliced_components</span><span class="p">(</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">index_stack</span><span class="p">,</span> <span class="n">slice_</span><span class="p">,</span> <span class="n">sets</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">index_map</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Recursively generate slices of the specified ctype along the</span>
+<span class="sd">    specified sets</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    b: _BlockData</span>
+<span class="sd">        Block whose components will be sliced</span>
+
+<span class="sd">    index_stack: list</span>
+<span class="sd">        Sets above ``b`` in the block hierarchy, including on its parent</span>
+<span class="sd">        component, that have been sliced. This is necessary to return the</span>
+<span class="sd">        sets that have been sliced.</span>
+
+<span class="sd">    slice_: IndexedComponent_slice or _BlockData</span>
+<span class="sd">        Slice generated so far.  This function will yield extensions to</span>
+<span class="sd">        this slice at the current level of the block hierarchy.</span>
+
+<span class="sd">    sets: ComponentSet of Pyomo sets</span>
+<span class="sd">        Sets that will be sliced</span>
+
+<span class="sd">    ctype: Subclass of Component</span>
+<span class="sd">        Type of components to generate</span>
+
+<span class="sd">    index_map: ComponentMap</span>
+<span class="sd">        Map from (some of) the specified sets to a &quot;representative index&quot;</span>
+<span class="sd">        to use when descending into subblocks. While this map does not need</span>
+<span class="sd">        to contain every set in the sliced sets, it must not contain any</span>
+<span class="sd">        sets that will not be sliced.</span>
+
+<span class="sd">    active: Bool or None</span>
+<span class="sd">        If not None, this is a boolean flag used to filter component objects</span>
+<span class="sd">        by their active status.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+
+<span class="sd">    Tuple of Sets and an IndexedComponent_slice or ComponentData</span>
+<span class="sd">        The sets indexing the returned component or slice. If the component</span>
+<span class="sd">        is indexed, an IndexedComponent_slice is returned. Otherwise, a</span>
+<span class="sd">        ComponentData is returned.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">slice_</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexedComponent_slice</span><span class="p">:</span>
+        <span class="n">context_slice</span> <span class="o">=</span> <span class="n">slice_</span><span class="o">.</span><span class="n">duplicate</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">context_slice</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># If active argument is specified and does not match the block&#39;s</span>
+    <span class="c1"># active flag, we return immediately. This matches the behavior of</span>
+    <span class="c1"># component_objects. We only need this check as we may modify the</span>
+    <span class="c1"># active argument sent to component_objects if ctype is not an</span>
+    <span class="c1"># ActiveComponent type.</span>
+    <span class="k">if</span> <span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">active</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Define this class so we don&#39;t have to call issubclass again later.</span>
+    <span class="n">check_active</span> <span class="o">=</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">ActiveComponent</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">active</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># If active=False and ctype is not an ActiveComponent (e.g. it is Var)</span>
+    <span class="c1"># we will not generate any components. To prevent this, only pass the</span>
+    <span class="c1"># active argument if we are looking for active components.</span>
+    <span class="n">c_active</span> <span class="o">=</span> <span class="n">active</span> <span class="k">if</span> <span class="n">check_active</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># Looks for components indexed by specified sets immediately in our block.</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">c_active</span><span class="p">):</span>
+        <span class="n">subsets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">subsets</span><span class="p">())</span>
+        <span class="n">new_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subsets</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">]</span>
+        <span class="c1"># Extend our &quot;index stack&quot;</span>
+        <span class="n">sliced_sets</span> <span class="o">=</span> <span class="n">index_stack</span> <span class="o">+</span> <span class="n">new_sets</span>
+
+        <span class="c1"># Extend our slice with this component</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">new_slice</span> <span class="ow">in</span> <span class="n">slice_component_along_sets</span><span class="p">(</span>
+            <span class="n">c</span><span class="p">,</span> <span class="n">sets</span><span class="p">,</span> <span class="n">context_slice</span><span class="o">=</span><span class="n">context_slice</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">):</span>
+            <span class="c1"># If we have to check activity, check data objects defined by</span>
+            <span class="c1"># slice. If any match, we yield the slice. This is done for</span>
+            <span class="c1"># compatibility with the behavior when slicing blocks, where</span>
+            <span class="c1"># we can only descend into a block that matches our active flag.</span>
+            <span class="c1">#</span>
+            <span class="c1"># Note that new_slice can be a data object. This happens if the</span>
+            <span class="c1"># component doesn&#39;t contain any sets we are slicing, i.e. new_sets</span>
+            <span class="c1"># is empty.</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="c1"># Yield if (a) we&#39;re not checking activity</span>
+                <span class="ow">not</span> <span class="n">check_active</span>
+                <span class="c1"># or (b) we have not sliced and data object activity matches</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">sliced_sets</span> <span class="ow">and</span> <span class="n">new_slice</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="n">c_active</span><span class="p">)</span>
+                <span class="c1"># or (c) we did slice and *any* data object activity matches</span>
+                <span class="ow">or</span> <span class="p">(</span>
+                    <span class="n">sliced_sets</span>
+                    <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="n">c_active</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">new_slice</span><span class="o">.</span><span class="n">duplicate</span><span class="p">())</span>
+                <span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">yield</span> <span class="n">sliced_sets</span><span class="p">,</span> <span class="n">new_slice</span>
+
+    <span class="c1"># We now descend into subblocks</span>
+    <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">):</span>
+        <span class="n">subsets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span><span class="o">.</span><span class="n">subsets</span><span class="p">())</span>
+        <span class="n">new_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subsets</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">]</span>
+
+        <span class="c1"># Extend stack with new matched indices.</span>
+        <span class="n">index_stack</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_sets</span><span class="p">)</span>
+
+        <span class="c1"># Need to construct an index to descend into for each slice-of-block</span>
+        <span class="c1"># we are about generate.</span>
+        <span class="c1"># Note that any remaining _NotAnIndex placeholders after this loop</span>
+        <span class="c1"># will be replaced with the corresponding indices of the non-sliced</span>
+        <span class="c1"># sets.</span>
+        <span class="n">given_descend_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">_NotAnIndex</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">subsets</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subsets</span><span class="p">):</span>
+            <span class="c1"># NOTE: index_map better only contain sets that we are slicing.</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">index_map</span><span class="p">:</span>
+                <span class="c1"># Use a user-given index if available.</span>
+                <span class="n">given_descend_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">index_map</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="s2">&quot;Encountered a specified index for a set </span><span class="si">%s</span><span class="s2"> that we&quot;</span>
+                        <span class="s2">&quot; are not slicing. This is not supported&quot;</span> <span class="o">%</span> <span class="n">s</span>
+                    <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">:</span>
+                <span class="c1"># Otherwise use a slice. We will advanced the slice iter</span>
+                <span class="c1"># to try to get a concrete component from this slice.</span>
+                <span class="n">given_descend_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_slice_for_set</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="c1"># Generate slices from this sub-block</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">new_slice</span> <span class="ow">in</span> <span class="n">slice_component_along_sets</span><span class="p">(</span>
+            <span class="n">sub</span><span class="p">,</span> <span class="n">sets</span><span class="p">,</span> <span class="n">context_slice</span><span class="o">=</span><span class="n">context_slice</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">):</span>
+            <span class="c1"># TODO: Can this branch happen outside of the loop?</span>
+            <span class="c1"># If it&#39;s not indexed, we don&#39;t need to slice...</span>
+            <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                <span class="c1"># fill any remaining placeholders with the &quot;index&quot; of our slice</span>
+                <span class="n">descend_idx</span> <span class="o">=</span> <span class="n">_fill_indices</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">given_descend_idx</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>
+                <span class="c1"># create a slice-or-data object</span>
+                <span class="n">descend_data</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">descend_idx</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">descend_data</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexedComponent_slice</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">slice_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">descend_data</span><span class="p">)</span>
+                        <span class="c1"># Try to find a data object defined by the slice</span>
+                        <span class="c1"># that matches the active argument. In doing so,</span>
+                        <span class="c1"># we treat a slice as inactive if all of its data</span>
+                        <span class="c1"># objects are inactive. We need to find a data obj</span>
+                        <span class="c1"># with the correct active flag, otherwise we run into</span>
+                        <span class="c1"># problems when we descend (component_objects will</span>
+                        <span class="c1"># not yield anything).</span>
+                        <span class="n">_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slice_iter</span><span class="p">)</span>
+                        <span class="k">while</span> <span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_data</span><span class="o">.</span><span class="n">active</span> <span class="o">!=</span> <span class="n">active</span><span class="p">:</span>
+                            <span class="n">_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slice_iter</span><span class="p">)</span>
+                        <span class="n">descend_data</span> <span class="o">=</span> <span class="n">_data</span>
+                    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                        <span class="c1"># For this particular idx, we have no BlockData</span>
+                        <span class="c1"># to descend into.</span>
+                        <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">active</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">descend_data</span><span class="o">.</span><span class="n">active</span> <span class="o">!=</span> <span class="n">active</span><span class="p">:</span>
+                    <span class="c1"># descend_data is a BlockData object. This particular</span>
+                    <span class="c1"># BlockData was specified by the index map. In this case,</span>
+                    <span class="c1"># we want to respect &quot;activity&quot;.</span>
+                    <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Have encountered a ScalarBlock. Do not need to check the</span>
+                <span class="c1"># active flag as this came straight from component_objects.</span>
+                <span class="n">descend_data</span> <span class="o">=</span> <span class="n">sub</span>
+
+            <span class="c1"># Recursively generate sliced components from this data object</span>
+            <span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">generate_sliced_components</span><span class="p">(</span>
+                <span class="n">descend_data</span><span class="p">,</span>
+                <span class="n">index_stack</span><span class="p">,</span>
+                <span class="n">new_slice</span><span class="p">,</span>
+                <span class="n">sets</span><span class="p">,</span>
+                <span class="n">ctype</span><span class="p">,</span>
+                <span class="n">index_map</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">st</span><span class="p">),</span> <span class="n">v</span>
+
+        <span class="c1"># pop the index sets of the block whose sub-components</span>
+        <span class="c1"># we just finished iterating over.</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">new_sets</span><span class="p">:</span>
+            <span class="n">index_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="flatten_components_along_sets"><a class="viewcode-back" href="../../../advanced_topics/flattener/reference.html#pyomo.dae.flatten.flatten_components_along_sets">[docs]</a><span class="k">def</span> <span class="nf">flatten_components_along_sets</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">sets</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function iterates over components (recursively) contained</span>
+<span class="sd">    in a block and partitions their data objects into components</span>
+<span class="sd">    indexed only by the specified sets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    m: _BlockData</span>
+<span class="sd">        Block whose components (and their sub-components) will be</span>
+<span class="sd">        partitioned</span>
+
+<span class="sd">    sets: Tuple of Pyomo Sets</span>
+<span class="sd">        Sets to be sliced. Returned components will be indexed by</span>
+<span class="sd">        some combination of these sets, if at all.</span>
+
+<span class="sd">    ctype: Subclass of Component</span>
+<span class="sd">        Type of component to identify and partition</span>
+
+<span class="sd">    indices: Iterable or ComponentMap</span>
+<span class="sd">        Indices of sets to use when descending into subblocks. If an</span>
+<span class="sd">        iterable is provided, the order corresponds to the order in</span>
+<span class="sd">        ``sets``. If a ``ComponentMap`` is provided, the keys must be</span>
+<span class="sd">        in ``sets``.</span>
+
+<span class="sd">    active: Bool or None</span>
+<span class="sd">        If not None, this is a boolean flag used to filter component objects</span>
+<span class="sd">        by their active status. A reference-to-slice is returned if any data</span>
+<span class="sd">        object defined by the slice matches this flag.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    List of tuples of Sets, list of lists of Components</span>
+<span class="sd">        The first entry is a list of tuples of Pyomo Sets. The second is a</span>
+<span class="sd">        list of lists of Components, indexed by the corresponding sets in</span>
+<span class="sd">        the first list. If the components are unindexed, ComponentData are</span>
+<span class="sd">        returned and the tuple of sets contains only UnindexedComponent_set.</span>
+<span class="sd">        If the components are indexed, they are references-to-slices.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_of_sets</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">index_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="ow">is</span> <span class="n">ComponentMap</span><span class="p">:</span>
+        <span class="n">index_map</span> <span class="o">=</span> <span class="n">indices</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">index_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sets</span><span class="p">,</span> <span class="n">indices</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">index_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is a bad index for set </span><span class="si">%s</span><span class="s2">. </span><span class="se">\n</span><span class="s2">Please provide an index &quot;</span>
+                <span class="s2">&quot;that is in the set.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_of_sets</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Index specified for set </span><span class="si">%s</span><span class="s2"> that is not one of the sets&quot;</span>
+                <span class="s2">&quot; that will be sliced. Indices should only be provided&quot;</span>
+                <span class="s2">&quot; for sets that will be sliced.&quot;</span> <span class="o">%</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+    <span class="n">index_stack</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Using these two `OrderedDict`s is a workaround because I can&#39;t</span>
+    <span class="c1"># reliably use tuples of components as keys in a `ComponentMap`.</span>
+    <span class="n">sets_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">comps_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">index_sets</span><span class="p">,</span> <span class="n">slice_</span> <span class="ow">in</span> <span class="n">generate_sliced_components</span><span class="p">(</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">index_stack</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">set_of_sets</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">index_map</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span>
+    <span class="p">):</span>
+        <span class="c1"># Note that index_sets should always be a tuple, never a scalar.</span>
+
+        <span class="c1"># TODO: Potentially re-order sets at this point.</span>
+        <span class="c1"># In this way (time, space) would have the same key as (space, time).</span>
+        <span class="c1"># They we&#39;d have to somehow &quot;swap indexing sets&quot; when we create</span>
+        <span class="c1"># the reference below.</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">index_sets</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sets_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sets_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">UnindexedComponent_set</span><span class="p">,)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sets_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">index_sets</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">comps_dict</span><span class="p">:</span>
+            <span class="n">comps_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">comps_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slice_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the user wants to change these flags, they can access the</span>
+            <span class="c1"># slice via the `referent` attribute of each reference component.</span>
+            <span class="n">slice_</span><span class="o">.</span><span class="n">attribute_errors_generate_exceptions</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">slice_</span><span class="o">.</span><span class="n">key_errors_generate_exceptions</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">comps_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Reference</span><span class="p">(</span><span class="n">slice_</span><span class="p">))</span>
+
+    <span class="c1"># list-of-tuples of Sets:</span>
+    <span class="n">sets_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sets</span> <span class="k">for</span> <span class="n">sets</span> <span class="ow">in</span> <span class="n">sets_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="c1"># list-of-lists of components:</span>
+    <span class="n">comps_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">comps</span> <span class="k">for</span> <span class="n">comps</span> <span class="ow">in</span> <span class="n">comps_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="c1"># E.g. we return: (</span>
+    <span class="c1">#          [(time, space), (time,)],</span>
+    <span class="c1">#          [[some_component, ...], [other, ...]],</span>
+    <span class="c1">#      )                            ^ These components are indexed by time</span>
+    <span class="c1">#            ^ These components are indexed by time and space</span>
+    <span class="k">return</span> <span class="n">sets_list</span><span class="p">,</span> <span class="n">comps_list</span></div>
+
+
+<div class="viewcode-block" id="flatten_dae_components"><a class="viewcode-back" href="../../../advanced_topics/flattener/reference.html#pyomo.dae.flatten.flatten_dae_components">[docs]</a><span class="k">def</span> <span class="nf">flatten_dae_components</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Partitions components into ComponentData and Components indexed only</span>
+<span class="sd">    by the provided set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model: _BlockData</span>
+<span class="sd">        Block whose components are partitioned</span>
+
+<span class="sd">    time: Set</span>
+<span class="sd">        Indexing by this set (and only this set) will be preserved in the</span>
+<span class="sd">        returned components.</span>
+
+<span class="sd">    ctype: Subclass of Component</span>
+<span class="sd">        Type of component to identify, partition, and return</span>
+
+<span class="sd">    indices: Tuple or ComponentMap</span>
+<span class="sd">        Contains the index of the specified set to be used when descending</span>
+<span class="sd">        into blocks</span>
+
+<span class="sd">    active: Bool or None</span>
+<span class="sd">        If provided, used as a filter to only return components with the</span>
+<span class="sd">        specified active flag. A reference-to-slice is returned if any</span>
+<span class="sd">        data object defined by the slice matches this flag.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List of ComponentData, list of Component</span>
+<span class="sd">        The first list contains ComponentData for all components not</span>
+<span class="sd">        indexed by the provided set. The second contains references-to</span>
+<span class="sd">        -slices for all components indexed by the provided set.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">ComponentSet</span><span class="p">((</span><span class="n">time</span><span class="p">,))</span>
+    <span class="n">sets_list</span><span class="p">,</span> <span class="n">comps_list</span> <span class="o">=</span> <span class="n">flatten_components_along_sets</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">active</span>
+    <span class="p">)</span>
+    <span class="c1"># Initialize these variables as, if no components of either category are</span>
+    <span class="c1"># found, we expect to get an empty list.</span>
+    <span class="n">scalar_comps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dae_comps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sets</span><span class="p">,</span> <span class="n">comps</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sets_list</span><span class="p">,</span> <span class="n">comps_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">time</span><span class="p">:</span>
+            <span class="n">dae_comps</span> <span class="o">=</span> <span class="n">comps</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">UnindexedComponent_set</span><span class="p">):</span>
+            <span class="n">scalar_comps</span> <span class="o">=</span> <span class="n">comps</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid model for `flatten_dae_components`.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;This can happen if your model has components that are</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;indexed by time (explicitly or implicitly) multiple times.&quot;</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">scalar_comps</span><span class="p">,</span> <span class="n">dae_comps</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

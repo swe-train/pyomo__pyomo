@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Context Managers &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Core Classes" href="classes.html" />
+    <link rel="prev" title="Utilities to Manage and Analyze Expressions" href="managing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Expression Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="building.html">Utilities to Build Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Utilities to Manage and Analyze Expressions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Context Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classes.html">Core Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="visitors.html">Visitor Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Expression Reference</a> &raquo;</li>
+        
+      <li>Context Managers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/expressions/context_managers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="context-managers">
+<h1>Context Managers<a class="headerlink" href="#context-managers" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyomo.core.expr.current.nonlinear_expression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">nonlinear_expression</code><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#nonlinear_expression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.nonlinear_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager for mutable nonlinear sums.</p>
+<p>This context manager is used to compute a general nonlinear sum
+while treating the summation as a mutable object.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The preferred context manager is <code class="xref py py-class docutils literal notranslate"><span class="pre">mutable_expression</span></code>, as
+the return type will be the most specific of
+<a class="reference internal" href="classes.html#pyomo.core.expr.current.SumExpression" title="pyomo.core.expr.current.SumExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumExpression</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code>, or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">NPV_SumExpression</span></code>.  This context manager will <em>always</em>
+return a <a class="reference internal" href="classes.html#pyomo.core.expr.current.SumExpression" title="pyomo.core.expr.current.SumExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumExpression</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.linear_expression">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">linear_expression</code><a class="reference internal" href="../../_modules/pyomo/core/expr/numeric_expr.html#linear_expression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.linear_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager for mutable linear sums.</p>
+<p>This context manager is used to compute a linear sum while
+treating the summation as a mutable object.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The preferred context manager is <code class="xref py py-class docutils literal notranslate"><span class="pre">mutable_expression</span></code>.
+<a class="reference internal" href="#pyomo.core.expr.current.linear_expression" title="pyomo.core.expr.current.linear_expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">linear_expression</span></code></a> is an alias to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">mutable_expression</span></code> provided for backwards compatibility.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.clone_counter">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">clone_counter</code><a class="reference internal" href="../../_modules/pyomo/core/expr/expr_common.html#clone_counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.clone_counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<p>Context manager for counting cloning events.</p>
+<blockquote>
+<div>This context manager counts the number of times that the
+<a class="reference internal" href="managing.html#pyomo.core.expr.current.clone_expression" title="pyomo.core.expr.current.clone_expression"><code class="xref py py-func docutils literal notranslate"><span class="pre">clone_expression</span></code></a>
+function is executed.</div></blockquote>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.4.3: </span>The clone counter has been removed and will always return 0.</p>
+</div>
+<p>Beginning with Pyomo5 expressions, expression cloning (detangling) no
+longer occurs automatically within expression generation.  As a result,
+the ‘clone counter’ has lost its utility and is no longer supported.
+This context manager will always report 0.</p>
+<dl class="py method">
+<dt id="pyomo.core.expr.current.clone_counter.count">
+<em class="property">property </em><code class="descname">count</code><a class="headerlink" href="#pyomo.core.expr.current.clone_counter.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>A property that returns the clone count value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="classes.html" class="btn btn-neutral float-right" title="Core Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="managing.html" class="btn btn-neutral float-left" title="Utilities to Manage and Analyze Expressions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

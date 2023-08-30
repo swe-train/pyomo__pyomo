@@ -1,0 +1,769 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.kernel.block &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.kernel.block</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.kernel.block</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.symbol_map</span> <span class="kn">import</span> <span class="n">SymbolMap</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.base</span> <span class="kn">import</span> <span class="n">_no_ctype</span><span class="p">,</span> <span class="n">_convert_ctype</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.heterogeneous_container</span> <span class="kn">import</span> <span class="n">IHeterogeneousContainer</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.container_utils</span> <span class="kn">import</span> <span class="n">define_simple_containers</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.core&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IBlock</span><span class="p">(</span><span class="n">IHeterogeneousContainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generalized container that can store objects of</span>
+<span class="sd">    any category type as attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">_child_storage_delimiter_string</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+    <span class="n">_child_storage_entry_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Define the IHeterogeneousContainer abstract methods</span>
+    <span class="c1">#</span>
+
+    <span class="c1"># def child_ctypes(self, *args, **kwds):</span>
+    <span class="c1"># ... not defined here</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Define the ICategorizedObjectContainer abstract methods</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="nf">child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the child object associated with a given</span>
+<span class="sd">        storage key for this container.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if the argument is not a storage key</span>
+<span class="sd">                for any children of this container</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+
+    <span class="c1"># def children(self, *args, **kwds):</span>
+    <span class="c1"># ... not defined here</span>
+
+
+<div class="viewcode-block" id="block"><a class="viewcode-back" href="../../../../library_reference/kernel/block.html#pyomo.core.kernel.block.block">[docs]</a><span class="k">class</span> <span class="nc">block</span><span class="p">(</span><span class="n">IBlock</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generalized container for defining hierarchical</span>
+<span class="sd">    models by adding modeling components as attributes.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import pyomo.kernel as pmo</span>
+<span class="sd">        &gt;&gt;&gt; model = pmo.block()</span>
+<span class="sd">        &gt;&gt;&gt; model.x = pmo.variable()</span>
+<span class="sd">        &gt;&gt;&gt; model.c = pmo.constraint(model.x &gt;= 1)</span>
+<span class="sd">        &gt;&gt;&gt; model.o = pmo.objective(model.x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_ctype</span> <span class="o">=</span> <span class="n">IBlock</span>
+    <span class="c1"># determines when large block storage is activated</span>
+    <span class="n">_lbs_count</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">_block_reserved_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_refresh_block_reserved_words</span><span class="p">():</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_block_reserved_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">block</span><span class="p">()))</span>
+        <span class="c1"># this is protected because it is</span>
+        <span class="c1"># defined as a property with a setter</span>
+        <span class="c1"># that explicitly disallows this</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_block_reserved_words</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># bypass __setatrr__ for this class</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_storage_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_active&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_block__byctype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_block__order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_activate_large_storage_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">self_byctype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_block__byctype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">ctype</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ctype</span>
+                <span class="k">if</span> <span class="n">ctype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">self_byctype</span><span class="p">:</span>
+                    <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Define the IHeterogeneousContainer abstract methods</span>
+    <span class="c1">#</span>
+
+<div class="viewcode-block" id="block.child_ctypes"><a class="viewcode-back" href="../../../../library_reference/kernel/block.html#pyomo.core.kernel.block.block.child_ctypes">[docs]</a>    <span class="k">def</span> <span class="nf">child_ctypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the set of child object category types</span>
+<span class="sd">        stored in this container.&quot;&quot;&quot;</span>
+        <span class="n">self_byctype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__byctype</span>
+        <span class="k">if</span> <span class="n">self_byctype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># empty</span>
+            <span class="k">return</span> <span class="p">()</span>
+        <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="c1"># small block storage</span>
+            <span class="c1"># (self_byctype is a union of hash bytes)</span>
+            <span class="n">ctypes_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">ctypes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">child_ctype</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">ctype</span>
+                <span class="k">if</span> <span class="n">child_ctype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ctypes_set</span><span class="p">:</span>
+                    <span class="n">ctypes_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child_ctype</span><span class="p">)</span>
+                    <span class="n">ctypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_ctype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ctypes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="c1"># large-block storage</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">self_byctype</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># storing a single ctype</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">self_byctype</span><span class="p">,)</span></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># Define the ICategorizedObjectContainer abstract methods</span>
+    <span class="c1">#</span>
+
+<div class="viewcode-block" id="block.children"><a class="viewcode-back" href="../../../../library_reference/kernel/block.html#pyomo.core.kernel.block.block.children">[docs]</a>    <span class="k">def</span> <span class="nf">children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">_no_ctype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Iterate over the children of this block.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ctype: Indicates the category of children to</span>
+<span class="sd">                include. The default value indicates that</span>
+<span class="sd">                all categories should be included.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            iterator of child objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">self_byctype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__byctype</span>
+        <span class="k">if</span> <span class="n">self_byctype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># empty</span>
+            <span class="k">return</span>
+
+        <span class="c1"># convert AML types into Kernel types (hack for the</span>
+        <span class="c1"># solver interfaces)</span>
+        <span class="n">ctype</span> <span class="o">=</span> <span class="n">_convert_ctype</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">ctype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="n">_no_ctype</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="c1"># large-block storage</span>
+            <span class="k">if</span> <span class="n">ctype</span> <span class="ow">in</span> <span class="n">self_byctype</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="c1"># small-block storage</span>
+            <span class="c1"># (self_byctype is a union of hash bytes)</span>
+            <span class="n">h_</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">self_byctype</span> <span class="o">&amp;</span> <span class="n">h_</span><span class="p">)</span> <span class="o">==</span> <span class="n">h_</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">ctype</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">child</span>
+        <span class="k">elif</span> <span class="n">self_byctype</span> <span class="ow">is</span> <span class="n">ctype</span><span class="p">:</span>
+            <span class="c1"># storing a single ctype</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># Interface</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_block_reserved_words</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Attempting to modify a reserved block attribute: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,)</span>
+            <span class="p">)</span>
+        <span class="n">needs_del</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">same_obj</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">self_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">self_order</span><span class="p">:</span>
+            <span class="c1"># to avoid an edge case, we need to delay</span>
+            <span class="c1"># deleting the current object until we</span>
+            <span class="c1"># check the parent of the new object</span>
+            <span class="n">needs_del</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">self_order</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">obj</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Implicitly replacing attribute </span><span class="si">%s</span><span class="s2"> (type=</span><span class="si">%s</span><span class="s2">) &quot;</span>
+                    <span class="s2">&quot;on block with new object (type=</span><span class="si">%s</span><span class="s2">). This &quot;</span>
+                    <span class="s2">&quot;is usually indicative of a modeling error. &quot;</span>
+                    <span class="s2">&quot;To avoid this warning, delete the original &quot;</span>
+                    <span class="s2">&quot;object from the block before assigning a new &quot;</span>
+                    <span class="s2">&quot;object.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">name</span><span class="p">,</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                        <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">same_obj</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">assert</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="bp">self</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ctype</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ctype</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">needs_del</span><span class="p">:</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">same_obj</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">needs_del</span><span class="p">:</span>
+                    <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">_update_parent_and_storage_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">self_order</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+                <span class="n">self_byctype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__byctype</span>
+                <span class="k">if</span> <span class="n">self_byctype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># storing a single ctype</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_block__byctype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctype</span>
+                <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+                    <span class="c1"># large-block storage</span>
+                    <span class="k">if</span> <span class="n">ctype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">self_byctype</span><span class="p">:</span>
+                        <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+                <span class="k">elif</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+                    <span class="c1"># small-block storage</span>
+                    <span class="c1"># (_byctype is a union of hash bytes)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">self_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lbs_count</span><span class="p">:</span>
+                        <span class="c1"># activate the large storage format</span>
+                        <span class="c1"># if we have exceeded the threshold</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_activate_large_storage_mode</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_block__byctype&#39;</span><span class="p">]</span> <span class="o">|=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># currently storing a single ctype</span>
+                    <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">self_byctype</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">self_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lbs_count</span><span class="p">:</span>
+                            <span class="c1"># activate the large storage format</span>
+                            <span class="c1"># if we have exceeded the threshold</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_activate_large_storage_mode</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_block__byctype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span>
+                                <span class="n">self_byctype</span>
+                            <span class="p">)</span> <span class="o">|</span> <span class="nb">hash</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid assignment to </span><span class="si">%s</span><span class="s2"> type with name &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                    <span class="s2">&quot;at entry </span><span class="si">%s</span><span class="s2">. A parent container has already &quot;</span>
+                    <span class="s2">&quot;been assigned to the object being inserted: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">self_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__order</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">self_order</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">self_order</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">self_order</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_clear_parent_and_storage_key</span><span class="p">()</span>
+            <span class="n">self_byctype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__byctype</span>
+            <span class="k">if</span> <span class="n">self_byctype</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="c1"># large-block storage</span>
+                <span class="n">ctype</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ctype</span>
+                <span class="k">del</span> <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">][</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">self_byctype</span><span class="p">[</span><span class="n">ctype</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__delattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="block.write"><a class="viewcode-back" href="../../../../library_reference/kernel/block.html#pyomo.core.kernel.block.block.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">_solver_capability</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">_called_by_solver</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwds</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write the model to a file, with a given format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): The name of the file to write.</span>
+<span class="sd">            format: The file format to use. If this is not</span>
+<span class="sd">                specified, the file format will be inferred</span>
+<span class="sd">                from the filename suffix.</span>
+<span class="sd">            **kwds: Additional keyword options passed to the</span>
+<span class="sd">                model writer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a :class:`SymbolMap`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyomo.opt</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Guess the format if none is specified</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">format</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">guess_format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">problem_writer</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">WriterFactory</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">problem_writer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot write model in format &#39;</span><span class="si">%s</span><span class="s2">&#39;: no model &quot;</span>
+                <span class="s2">&quot;writer registered for that format&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_solver_capability</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_solver_capability</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">(</span><span class="n">filename_</span><span class="p">,</span> <span class="n">smap</span><span class="p">)</span> <span class="o">=</span> <span class="n">problem_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">_solver_capability</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">filename_</span> <span class="o">==</span> <span class="n">filename</span>
+
+        <span class="k">if</span> <span class="n">_called_by_solver</span><span class="p">:</span>
+            <span class="c1"># BIG HACK</span>
+            <span class="n">smap_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">smap</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">)[</span><span class="n">smap_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">smap</span>
+            <span class="k">return</span> <span class="n">smap_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">smap</span></div>
+
+<div class="viewcode-block" id="block.load_solution"><a class="viewcode-back" href="../../../../library_reference/kernel/block.html#pyomo.core.kernel.block.block.load_solution">[docs]</a>    <span class="k">def</span> <span class="nf">load_solution</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">solution</span><span class="p">,</span>
+        <span class="n">allow_consistent_values_for_fixed_vars</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">comparison_tolerance_for_fixed_vars</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a solution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            solution: A :class:`pyomo.opt.Solution` object with a</span>
+<span class="sd">                symbol map. Optionally, the solution can be tagged</span>
+<span class="sd">                with a default variable value (e.g., 0) that will be</span>
+<span class="sd">                applied to those variables in the symbol map that do</span>
+<span class="sd">                not have a value in the solution.</span>
+<span class="sd">            allow_consistent_values_for_fixed_vars:</span>
+<span class="sd">                Indicates whether a solution can specify</span>
+<span class="sd">                consistent values for variables that are</span>
+<span class="sd">                fixed.</span>
+<span class="sd">            comparison_tolerance_for_fixed_vars: The</span>
+<span class="sd">                tolerance used to define whether or not a</span>
+<span class="sd">                value in the solution is consistent with the</span>
+<span class="sd">                value of a fixed variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyomo.core.kernel.suffix</span> <span class="kn">import</span> <span class="n">import_suffix_generator</span>
+
+        <span class="n">symbol_map</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">symbol_map</span>
+        <span class="n">default_variable_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="s2">&quot;default_variable_value&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Generate the list of active import suffixes on</span>
+        <span class="c1"># this top level model</span>
+        <span class="n">valid_import_suffixes</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">storage_key</span><span class="p">:</span> <span class="n">obj</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">import_suffix_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="c1"># To ensure that import suffix data gets properly</span>
+        <span class="c1"># overwritten (e.g., the case where nonzero dual</span>
+        <span class="c1"># values exist on the suffix and but only sparse</span>
+        <span class="c1"># dual values exist in the results object) we clear</span>
+        <span class="c1"># all active import suffixes.</span>
+        <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">valid_import_suffixes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">suffix</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="c1"># Load problem (model) level suffixes. These would</span>
+        <span class="c1"># only come from ampl interfaced solution suffixes</span>
+        <span class="c1"># at this point in time.</span>
+        <span class="k">for</span> <span class="n">_attr_key</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">attr_key</span> <span class="o">=</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">valid_import_suffixes</span><span class="p">:</span>
+                <span class="n">valid_import_suffixes</span><span class="p">[</span><span class="n">attr_key</span><span class="p">][</span><span class="bp">self</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_value</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Set the &quot;stale&quot; flag of each variable in the model prior to</span>
+        <span class="c1"># loading the solution, so you known which variables have &quot;real&quot;</span>
+        <span class="c1"># values and which ones don&#39;t.</span>
+        <span class="c1">#</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># Load variable data</span>
+        <span class="c1">#</span>
+        <span class="kn">from</span> <span class="nn">pyomo.core.kernel.variable</span> <span class="kn">import</span> <span class="n">IVariable</span>
+
+        <span class="n">var_skip_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;canonical_label&#39;</span><span class="p">]</span>
+        <span class="n">seen_var_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">symbol_map</span><span class="o">.</span><span class="n">getObject</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">var</span> <span class="ow">is</span> <span class="n">SymbolMap</span><span class="o">.</span><span class="n">UnknownSymbol</span><span class="p">):</span>
+                <span class="c1"># NOTE: the following is a hack, to handle</span>
+                <span class="c1">#    the ONE_VAR_CONSTANT variable that is</span>
+                <span class="c1">#    necessary for the objective</span>
+                <span class="c1">#    constant-offset terms.  probably should</span>
+                <span class="c1">#    create a dummy variable in the model</span>
+                <span class="c1">#    map at the same time the objective</span>
+                <span class="c1">#    expression is being constructed.</span>
+                <span class="k">if</span> <span class="s2">&quot;ONE_VAR_CONST&quot;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                        <span class="s2">&quot;Variable associated with symbol &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                        <span class="s2">&quot;is not found on this block&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="n">seen_var_ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">allow_consistent_values_for_fixed_vars</span><span class="p">)</span> <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Variable &#39;</span><span class="si">%s</span><span class="s2">&#39; is currently fixed. &quot;</span>
+                    <span class="s2">&quot;A new value is not expected &quot;</span>
+                    <span class="s2">&quot;in solution&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">_attr_key</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">attr_key</span> <span class="o">=</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">attr_key</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">allow_consistent_values_for_fixed_vars</span>
+                        <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">fixed</span>
+                        <span class="ow">and</span> <span class="p">(</span>
+                            <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">attr_value</span> <span class="o">-</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                            <span class="o">&gt;</span> <span class="n">comparison_tolerance_for_fixed_vars</span>
+                        <span class="p">)</span>
+                    <span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;Variable </span><span class="si">%s</span><span class="s2"> is currently fixed. &quot;</span>
+                            <span class="s2">&quot;A value of &#39;</span><span class="si">%s</span><span class="s2">&#39; in solution is &quot;</span>
+                            <span class="s2">&quot;not within tolerance=</span><span class="si">%s</span><span class="s2"> of the current &quot;</span>
+                            <span class="s2">&quot;value of &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                            <span class="o">%</span> <span class="p">(</span>
+                                <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                <span class="n">attr_value</span><span class="p">,</span>
+                                <span class="n">comparison_tolerance_for_fixed_vars</span><span class="p">,</span>
+                                <span class="n">var</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="n">var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">attr_value</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">valid_import_suffixes</span><span class="p">:</span>
+                    <span class="n">valid_import_suffixes</span><span class="p">[</span><span class="n">attr_key</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_value</span>
+
+        <span class="c1"># start to build up the set of unseen variable ids</span>
+        <span class="n">unseen_var_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">symbol_map</span><span class="o">.</span><span class="n">byObject</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="c1"># at this point it contains ids for non-variable types</span>
+        <span class="n">unseen_var_ids</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">seen_var_ids</span><span class="p">)</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Load objective solution (should simply be suffixes if</span>
+        <span class="c1"># they exist)</span>
+        <span class="c1">#</span>
+        <span class="n">objective_skip_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;canonical_label&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">symbol_map</span><span class="o">.</span><span class="n">getObject</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">obj</span> <span class="ow">is</span> <span class="n">SymbolMap</span><span class="o">.</span><span class="n">UnknownSymbol</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Objective associated with symbol &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                    <span class="s2">&quot;is not found on this block&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="c1"># Because of __default_objective__, an objective might</span>
+            <span class="c1"># appear twice in the objective dictionary.</span>
+            <span class="n">unseen_var_ids</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">_attr_key</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">attr_key</span> <span class="o">=</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">valid_import_suffixes</span><span class="p">:</span>
+                    <span class="n">valid_import_suffixes</span><span class="p">[</span><span class="n">attr_key</span><span class="p">][</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_value</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Load constraint solution</span>
+        <span class="c1">#</span>
+        <span class="n">con_skip_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;canonical_label&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">constraint</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="n">symbol_map</span><span class="o">.</span><span class="n">getObject</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">con</span> <span class="ow">is</span> <span class="n">SymbolMap</span><span class="o">.</span><span class="n">UnknownSymbol</span><span class="p">:</span>
+                <span class="c1">#</span>
+                <span class="c1"># This is a hack - see above.</span>
+                <span class="c1">#</span>
+                <span class="k">if</span> <span class="s2">&quot;ONE_VAR_CONST&quot;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                        <span class="s2">&quot;Constraint associated with symbol &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                        <span class="s2">&quot;is not found on this block&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="n">unseen_var_ids</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">con</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">_attr_key</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">attr_key</span> <span class="o">=</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">_attr_key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">valid_import_suffixes</span><span class="p">:</span>
+                    <span class="n">valid_import_suffixes</span><span class="p">[</span><span class="n">attr_key</span><span class="p">][</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_value</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Load sparse variable solution</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">default_variable_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">var_id</span> <span class="ow">in</span> <span class="n">unseen_var_ids</span><span class="p">:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="n">symbol_map</span><span class="o">.</span><span class="n">getObject</span><span class="p">(</span><span class="n">symbol_map</span><span class="o">.</span><span class="n">byObject</span><span class="p">[</span><span class="n">var_id</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">IVariable</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">allow_consistent_values_for_fixed_vars</span><span class="p">)</span> <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Variable &#39;</span><span class="si">%s</span><span class="s2">&#39; is currently fixed. &quot;</span>
+                        <span class="s2">&quot;A new value is not expected &quot;</span>
+                        <span class="s2">&quot;in solution&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">allow_consistent_values_for_fixed_vars</span>
+                    <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">fixed</span>
+                    <span class="ow">and</span> <span class="p">(</span>
+                        <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">default_variable_value</span> <span class="o">-</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                        <span class="o">&gt;</span> <span class="n">comparison_tolerance_for_fixed_vars</span>
+                    <span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Variable </span><span class="si">%s</span><span class="s2"> is currently fixed. &quot;</span>
+                        <span class="s2">&quot;A value of &#39;</span><span class="si">%s</span><span class="s2">&#39; in solution is &quot;</span>
+                        <span class="s2">&quot;not within tolerance=</span><span class="si">%s</span><span class="s2"> of the current &quot;</span>
+                        <span class="s2">&quot;value of &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span>
+                            <span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">default_variable_value</span><span class="p">,</span>
+                            <span class="n">comparison_tolerance_for_fixed_vars</span><span class="p">,</span>
+                            <span class="n">var</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="n">var</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">default_variable_value</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Set the state flag to &quot;delayed advance&quot;: it will auto-advance</span>
+        <span class="c1"># if a non-stale variable is updated (causing all non-stale</span>
+        <span class="c1"># variables to be marked as stale).</span>
+        <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">mark_all_as_stale</span><span class="p">(</span><span class="n">delayed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># inserts class definitions for simple _tuple, _list, and</span>
+<span class="c1"># _dict containers into this module</span>
+<span class="n">define_simple_containers</span><span class="p">(</span><span class="nb">globals</span><span class="p">(),</span> <span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">)</span>
+
+<span class="c1"># populate the initial set of reserved block attributes so</span>
+<span class="c1"># that users can not overwrite them when building a model</span>
+<span class="n">block</span><span class="o">.</span><span class="n">_refresh_block_reserved_words</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

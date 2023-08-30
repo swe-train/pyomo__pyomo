@@ -1,0 +1,573 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Design Overview &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Design Details" href="design.html" />
+    <link rel="prev" title="Building Expressions Faster" href="performance.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config.html">The Pyomo Configuration System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecation.html">Deprecation and Removal of Functionality</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Pyomo Expressions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="performance.html">Building Expressions Faster</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Design Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#historical-comparison">Historical Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expression-entanglement-and-mutability">Expression Entanglement and Mutability</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="design.html">Design Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Managing Expressions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Developer Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Expressions</a> &raquo;</li>
+        
+      <li>Design Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/developer_reference/expressions/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-overview">
+<h1>Design Overview<a class="headerlink" href="#design-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="historical-comparison">
+<h2>Historical Comparison<a class="headerlink" href="#historical-comparison" title="Permalink to this headline">¶</a></h2>
+<p>This document describes the “Pyomo5” expressions, which were
+introduced in Pyomo 5.6.  The main differences between “Pyomo5”
+expressions and the previous expression system, called “Coopr3”,
+are:</p>
+<ul>
+<li><p class="first">Pyomo5 supports both CPython and PyPy implementations of Python,
+while Coopr3 only supports CPython.</p>
+<p>The key difference in these implementations is that Coopr3 relies
+on CPython reference counting, which is not part of the Python
+language standard.  Hence, this implementation is not guaranteed
+to run on other implementations of Python.</p>
+<p>Pyomo5 does not rely on reference counting, and it has been tested
+with PyPy.  In the future, this should allow Pyomo to support
+other Python implementations (e.g. Jython).</p>
+<p><p /></p>
+</li>
+<li><p class="first">Pyomo5 expression objects are immutable, while Coopr3 expression
+objects are mutable.</p>
+<p>This difference relates to how expression objects are managed
+in Pyomo.  Once created, Pyomo5 expression objects cannot be
+changed.  Further, the user is guaranteed that no “side effects”
+occur when expressions change at a later point in time.  By
+contrast, Coopr3 allows expressions to change in-place, and thus
+“side effects” make occur when expressions are changed at a later
+point in time.  (See discussion of entanglement below.)</p>
+<p><p /></p>
+</li>
+<li><p class="first">Pyomo5 provides more consistent runtime performance than Coopr3.</p>
+<p>While this documentation does not provide a detailed comparison
+of runtime performance between Coopr3 and Pyomo5, the following
+performance considerations also motivated the creation of Pyomo5:</p>
+<ul>
+<li><p class="first">There were surprising performance inconsistencies in Coopr3.  For
+example, the following two loops had dramatically different
+runtime:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># This loop is fast.</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="c1"># This loop is slow.</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Coopr3 eliminates side effects by automatically cloning sub-expressions.
+Unfortunately, this can easily lead to unexpected cloning in models, which
+can dramatically slow down Pyomo model generation.  For example:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">M</span><span class="o">.</span><span class="n">p</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># The value M.q is cloned every time it is used.</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">q</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Coopr3 leverages recursion in many operations, including expression
+cloning.  Even simple non-linear expressions can result in deep
+expression trees where these recursive operations fail because
+Python runs out of stack space.</p>
+<p><p /></p>
+</li>
+<li><p class="first">The immutable representation used in Pyomo5 requires more memory allocations
+than Coopr3 in simple loops.  Hence, a pure-Python execution of Pyomo5
+can be 10% slower than Coopr3 for model construction.  But when Cython is used
+to optimize the execution of Pyomo5 expression generation, the
+runtimes for Pyomo5 and Coopr3 are about the same.  (In principle,
+Cython would improve the runtime of Coopr3 as well, but the limitations
+noted above motivated a new expression system in any case.)</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="expression-entanglement-and-mutability">
+<h2>Expression Entanglement and Mutability<a class="headerlink" href="#expression-entanglement-and-mutability" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo fundamentally relies on the use of magic methods in Python
+to generate expression trees, which means that Pyomo has very limited
+control for how expressions are managed in Python.  For example:</p>
+<ul>
+<li><p class="first">Python variables can point to the same expression tree</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is illustrated as follows:</p>
+<blockquote>
+<div><div class="graphviz"><img src="../../_images/graphviz-5a248818c100896b21b44b083eb572ec476bff4b.png" alt="digraph foo {
+    {
+    e [shape=box]
+    f [shape=box]
+    }
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    subgraph cluster { &quot;*&quot;; 2; v; }
+    e -&gt; &quot;*&quot; [splines=curved, style=dashed];
+    f -&gt; &quot;*&quot; [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+</div></blockquote>
+</li>
+<li><p class="first">A variable can point to a sub-tree that another variable points to</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is illustrated as follows:</p>
+<blockquote>
+<div><div class="graphviz"><img src="../../_images/graphviz-174a7f783aef06a4e8a9dab0f9e52c13c5a89857.png" alt="digraph foo {
+    {
+    e [shape=box]
+    f [shape=box]
+    }
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;*&quot;;
+    &quot;+&quot; -&gt; 3;
+    subgraph cluster { &quot;+&quot;; 3; &quot;*&quot;; 2; v; }
+    e -&gt; &quot;*&quot; [splines=curved, style=dashed, constraint=false];
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+</div></blockquote>
+</li>
+<li><p class="first">Two expression trees can point to the same sub-tree</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is illustrated as follows:</p>
+<blockquote>
+<div><div class="graphviz"><img src="../../_images/graphviz-faa245d66ae9407c2ad6c000b48c5cd725b3413f.png" alt="digraph foo {
+    {
+    e [shape=box]
+    f [shape=box]
+    g [shape=box]
+    }
+    x [label=&quot;+&quot;];
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;*&quot;;
+    &quot;+&quot; -&gt; 3;
+    x -&gt; 4;
+    x -&gt; &quot;*&quot;;
+    subgraph cluster { x; 4; &quot;+&quot;; 3; &quot;*&quot;; 2; v; }
+    e -&gt; &quot;*&quot; [splines=curved, style=dashed, constraint=false];
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+    g -&gt; x [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+</div></blockquote>
+</li>
+</ul>
+<p>In each of these examples, it is almost impossible for a Pyomo user
+or developer to detect whether expressions are being shared.  In
+CPython, the reference counting logic can support this to a limited
+degree.  But no equivalent mechanisms are available in PyPy and
+other Python implementations.</p>
+<div class="section" id="entangled-sub-expressions">
+<h3>Entangled Sub-Expressions<a class="headerlink" href="#entangled-sub-expressions" title="Permalink to this headline">¶</a></h3>
+<p>We say that expressions are <em>entangled</em> if they share one or more
+sub-expressions.  The first example above does not represent
+entanglement, but rather the fact that multiple Python variables
+can point to the same expression tree.  In the second and third
+examples, the expressions are entangled because the subtree represented
+by <code class="docutils literal notranslate"><span class="pre">e</span></code> is shared.  However, if a leave node like <code class="docutils literal notranslate"><span class="pre">M.v</span></code> is shared
+between expressions, we do not consider those expressions entangled.</p>
+<p>Expression entanglement is problematic because shared expressions complicate
+the expected behavior when sub-expressions are changed.  Consider the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">3</span>
+
+<span class="n">e</span> <span class="o">+=</span> <span class="n">M</span><span class="o">.</span><span class="n">w</span>
+</pre></div>
+</div>
+<p>What is the value of <code class="docutils literal notranslate"><span class="pre">e</span></code> after <code class="docutils literal notranslate"><span class="pre">M.w</span></code> is added to it?  What is the
+value of <code class="docutils literal notranslate"><span class="pre">f</span></code>?  The answers to these questions are not immediately
+obvious, and the fact that Coopr3 uses mutable expression objects
+makes them even less clear.  However, Pyomo5 and Coopr3 enforce
+the following semantics:</p>
+<blockquote class="pull-quote">
+<div>A change to an expression <em>e</em> that is a sub-expression of <em>f</em>
+does not change the expression tree for <em>f</em>.</div></blockquote>
+<p>This property ensures a change to an expression does not create side effects that change the
+values of other, previously defined expressions.</p>
+<p>For instance, the previous example results in the following (in Pyomo5):</p>
+<div class="graphviz"><img src="../../_images/graphviz-7deaca8157c2f33cc8227ef62ae94f336ebc0561.png" alt="digraph foo {
+    {
+    e [shape=box]
+    f [shape=box]
+    }
+    x [label=&quot;+&quot;];
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;*&quot;;
+    &quot;+&quot; -&gt; 3;
+    x -&gt; &quot;*&quot;;
+    x -&gt; w;
+    subgraph cluster { &quot;+&quot;; 3; &quot;*&quot;; 2; v; x; w;}
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+    e -&gt; x [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+<p>With Pyomo5 expressions, each sub-expression is immutable.  Thus,
+the summation operation generates a new expression <code class="docutils literal notranslate"><span class="pre">e</span></code> without
+changing existing expression objects referenced in the expression
+tree for <code class="docutils literal notranslate"><span class="pre">f</span></code>.  By contrast, Coopr3 imposes the same property by
+cloning the expression <code class="docutils literal notranslate"><span class="pre">e</span></code> before added <code class="docutils literal notranslate"><span class="pre">M.w</span></code>, resulting in the following:</p>
+<div class="graphviz"><img src="../../_images/graphviz-211710552723e946f31e15c116f633408aa79c1b.png" alt="digraph foo {
+    {
+    e [shape=box]
+    f [shape=box]
+    }
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;*&quot;;
+    &quot;+&quot; -&gt; 3;
+    etimes [label=&quot;*&quot;];
+    etwo [label=2];
+    etimes -&gt; etwo;
+    etimes -&gt; v;
+    x [label=&quot;+&quot;];
+    x -&gt; w;
+    x -&gt; etimes;
+    subgraph cluster { &quot;+&quot;; 3; &quot;*&quot;; 2; v; x; w; etimes; etwo;}
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+    e -&gt; x [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+<p>This example also illustrates that leaves may be shared between expressions.</p>
+</div>
+<div class="section" id="mutable-expression-components">
+<h3>Mutable Expression Components<a class="headerlink" href="#mutable-expression-components" title="Permalink to this headline">¶</a></h3>
+<p>There is one important exception to the entanglement property
+described above.  The <code class="docutils literal notranslate"><span class="pre">Expression</span></code> component is treated as a
+mutable expression when shared between expressions.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="mi">3</span>
+
+<span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">+=</span> <span class="n">M</span><span class="o">.</span><span class="n">w</span>
+</pre></div>
+</div>
+<p>Here, the expression <code class="docutils literal notranslate"><span class="pre">M.e</span></code> is a so-called <em>named expression</em> that
+the user has declared.  Named expressions are explicitly intended
+for re-use within models, and they provide a convenient mechanism
+for changing sub-expressions in complex applications.  In this example, the
+expression tree is as follows before <code class="docutils literal notranslate"><span class="pre">M.w</span></code> is added:</p>
+<div class="graphviz"><img src="../../_images/graphviz-993044f8cf2be477c4a71158e0e98910d789f338.png" alt="digraph foo {
+    {
+    f [shape=box]
+    }
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;M.e&quot;;
+    &quot;+&quot; -&gt; 3;
+    &quot;M.e&quot; -&gt; &quot;*&quot;;
+    subgraph cluster { &quot;+&quot;; 3; &quot;*&quot;; 2; v; &quot;M.e&quot;;}
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+<p>And the expression tree is as follows after <code class="docutils literal notranslate"><span class="pre">M.w</span></code> is added.</p>
+<div class="graphviz"><img src="../../_images/graphviz-f0b481bc4998bc3959d77e0307317135d2d274de.png" alt="digraph foo {
+    {
+    f [shape=box]
+    }
+    x [label=&quot;+&quot;];
+    &quot;*&quot; -&gt; 2;
+    &quot;*&quot; -&gt; v;
+    &quot;+&quot; -&gt; &quot;M.e&quot;;
+    &quot;+&quot; -&gt; 3;
+    x -&gt; &quot;*&quot;;
+    x -&gt; w;
+    &quot;M.e&quot; -&gt; x;
+    subgraph cluster { &quot;+&quot;; 3; &quot;*&quot;; 2; v; &quot;M.e&quot;; x; w;}
+    f -&gt; &quot;+&quot; [splines=curved, style=dashed];
+}" class="graphviz" /></div>
+<p>When considering named expressions, Pyomo5 and Coopr3 enforce
+the following semantics:</p>
+<blockquote class="pull-quote">
+<div>A change to a named expression <em>e</em> that is a sub-expression of
+<em>f</em> changes the expression tree for <em>f</em>, because <em>f</em> continues
+to point to <em>e</em> after it is changed.</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="design.html" class="btn btn-neutral float-right" title="Design Details" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="performance.html" class="btn btn-neutral float-left" title="Building Expressions Faster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,900 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Data Portals &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Storing Data from Pyomo Models" href="storing_data.html" />
+    <link rel="prev" title="Data Command Files" href="datfiles.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Working with Abstract Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../instantiating_models.html">Instantiating Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Managing Data in AbstractModels</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="native.html">Using Standard Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="raw_dicts.html">Using a Python Dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datfiles.html">Data Command Files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Data Portals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loading-structured-data">Loading Structured Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-tabular-data">Loading Tabular Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#data-namespaces">Data Namespaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="storing_data.html">Storing Data from Pyomo Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pyomo_command.html">The <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BuildAction.html"><code class="docutils literal notranslate"><span class="pre">BuildAction</span></code> and <code class="docutils literal notranslate"><span class="pre">BuildCheck</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Working with Abstract Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Managing Data in AbstractModels</a> &raquo;</li>
+        
+      <li>Data Portals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/working_abstractmodels/data/dataportals.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-portals">
+<span id="page-dataportals"></span><h1>Data Portals<a class="headerlink" href="#data-portals" title="Permalink to this headline">¶</a></h1>
+<p>Pyomo’s <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class standardizes the process of constructing model instances by
+managing the process of loading data from different data sources in a
+uniform manner.  A <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object can load data from the
+following data sources:</p>
+<ul class="simple">
+<li><strong>TAB File</strong>: A text file format that uses whitespace to separate
+columns of values in each row of a table.</li>
+<li><strong>CSV File</strong>: A text file format that uses comma or other delimiters
+to separate columns of values in each row of a table.</li>
+<li><strong>JSON File</strong>: A popular lightweight data-interchange format that is
+easily parsed.</li>
+<li><strong>YAML File</strong>:  A human friendly data serialization standard.</li>
+<li><strong>XML File</strong>: An extensible markup language for documents and data
+structures.  XML files can represent tabular data.</li>
+<li><strong>Excel File</strong>: A spreadsheet data format that is primarily used by
+the Microsoft Excel application.</li>
+<li><strong>Database</strong>: A relational database.</li>
+<li><strong>DAT File</strong>: A Pyomo data command file.</li>
+</ul>
+<p>Note that most of these data formats can express tabular data.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class requires the installation of Python packages to support some
+of these data formats:</p>
+<ul class="last">
+<li><p class="first"><strong>YAML File</strong>: <code class="docutils literal notranslate"><span class="pre">pyyaml</span></code></p>
+</li>
+<li><p class="first"><strong>Excel File</strong>: <code class="docutils literal notranslate"><span class="pre">win32com</span></code>, <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> or <code class="docutils literal notranslate"><span class="pre">xlrd</span></code></p>
+<blockquote>
+<div><p>These packages support different data Excel data formats:
+the <code class="docutils literal notranslate"><span class="pre">win32com</span></code> package supports <code class="docutils literal notranslate"><span class="pre">.xls</span></code>, <code class="docutils literal notranslate"><span class="pre">.xlsm</span></code>
+and <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code>, the <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> package supports
+<code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> and the <code class="docutils literal notranslate"><span class="pre">xlrd</span></code> package supports <code class="docutils literal notranslate"><span class="pre">.xls</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Database</strong>: <code class="docutils literal notranslate"><span class="pre">pyodbc</span></code>, <code class="docutils literal notranslate"><span class="pre">pypyodbc</span></code>, <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> or <code class="docutils literal notranslate"><span class="pre">pymysql</span></code></p>
+<blockquote>
+<div><p>These packages support different database interface APIs:
+the <code class="docutils literal notranslate"><span class="pre">pyodbc</span></code> and <code class="docutils literal notranslate"><span class="pre">pypyodbc</span></code> packages support the ODBC
+database API, the <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> package uses the SQLite C
+library to directly interface with databases using the
+DB-API 2.0 specification, and <code class="docutils literal notranslate"><span class="pre">pymysql</span></code> is a pure-Python
+MySQL client.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> objects
+can be used to initialize both concrete and abstract Pyomo models.
+Consider the file <code class="docutils literal notranslate"><span class="pre">A.tab</span></code>, which defines a simple set with a tabular
+format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A
+A1
+A2
+A3
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">load</span></code> method is used to load data into a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object.  Components in a
+concrete model can be explicitly initialized with data loaded by a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;A.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>All data needed to initialize an abstract model <em>must</em> be provided by a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object,
+and the use of the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object to initialize components
+is automated for the user:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;A.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note the difference in the execution of the <code class="docutils literal notranslate"><span class="pre">load</span></code> method in these two
+examples: for concrete models data is loaded by name and the format must
+be specified, and for abstract models the data is loaded by component,
+from which the data format can often be inferred.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">load</span></code> method opens the data file, processes it, and loads the
+data in a format that can be used to construct a model instance.  The
+<code class="docutils literal notranslate"><span class="pre">load</span></code> method can be called multiple times to load data for different
+sets or parameters, or to override data processed earlier.  The <code class="docutils literal notranslate"><span class="pre">load</span></code>
+method takes a variety of arguments that define how data is loaded:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">filename</span></code>: This option specifies the source data file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">format</span></code>: This option specifies the how to interpret data within a
+table.  Valid formats are: <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">set_array</span></code>, <code class="docutils literal notranslate"><span class="pre">param</span></code>,
+<code class="docutils literal notranslate"><span class="pre">table</span></code>, <code class="docutils literal notranslate"><span class="pre">array</span></code>, and <code class="docutils literal notranslate"><span class="pre">transposed_array</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">set</span></code>: This option is either a string or model compent that defines
+a set that will be initialized with this data.</li>
+<li><code class="docutils literal notranslate"><span class="pre">param</span></code>: This option is either a string or model compent that
+defines a parameter that will be initialized with this data.  A list
+or tuple of strings or model components can be used to define multiple
+parameters that are initialized.</li>
+<li><code class="docutils literal notranslate"><span class="pre">index</span></code>: This option is either a string or model compent that
+defines an index set that will be initialized with this data.</li>
+<li><code class="docutils literal notranslate"><span class="pre">using</span></code>: This option specifies the Python package used to load this
+data source.  This option is used when loading data from databases.</li>
+<li><code class="docutils literal notranslate"><span class="pre">select</span></code>: This option defines the columns that are selected from the
+data source.  The column order may be changed from the data source,
+which allows the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object to define</li>
+<li><code class="docutils literal notranslate"><span class="pre">namespace</span></code>: This option defines the data namespace that will
+contain this data.</li>
+</ul>
+<p>The use of these options is illustrated below.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class also provides a simple API for accessing set and parameter data
+that are loaded from different data sources.  The <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator is
+used to access set and parameter values.  Consider the following
+example, which loads data and prints the value of the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;A.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">])</span>  <span class="c1"># [&#39;A1&#39;, &#39;A2&#39;, &#39;A3&#39;]</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Z.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;param&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">])</span>  <span class="c1"># 1.1</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Y.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class also has several methods for iterating over the data that has been
+loaded:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">keys()</span></code>: Returns an iterator of the data keys.</li>
+<li><code class="docutils literal notranslate"><span class="pre">values()</span></code>: Returns an iterator of the data values.</li>
+<li><code class="docutils literal notranslate"><span class="pre">items()</span></code>: Returns an iterator of (name, value) tuples from the
+data.</li>
+</ul>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">data()</span></code> method provides a generic mechanism for
+accessing the underlying data representation used by <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> objects.</p>
+<div class="section" id="loading-structured-data">
+<h2>Loading Structured Data<a class="headerlink" href="#loading-structured-data" title="Permalink to this headline">¶</a></h2>
+<p>JSON and YAML files are structured data formats that are well-suited for
+data serialization.  These data formats do not represent data in tabular
+format, but instead they directly represent set and parameter values
+with lists and dictionaries:</p>
+<ul class="simple">
+<li><strong>Simple Set</strong>: a list of string or numeric value</li>
+<li><strong>Indexed Set</strong>: a dictionary that maps an index to a list of string
+or numeric value</li>
+<li><strong>Simple Parameter</strong>: a string or numeric value</li>
+<li><strong>Indexed Parameter</strong>: a dictionary that maps an index to a numeric
+value</li>
+</ul>
+<p>For example, consider the following JSON file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{   &quot;A&quot;: [&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;],
+    &quot;B&quot;: [[1, &quot;B1&quot;], [2, &quot;B2&quot;], [3, &quot;B3&quot;]],
+    &quot;C&quot;: {&quot;A1&quot;: [1, 2, 3], &quot;A3&quot;: [10, 20, 30]},
+    &quot;p&quot;: 0.1,
+    &quot;q&quot;: {&quot;A1&quot;: 3.3, &quot;A2&quot;: 3.4, &quot;A3&quot;: 3.5},
+    &quot;r&quot;: [   {&quot;index&quot;: [1, &quot;B1&quot;], &quot;value&quot;: 3.3},
+             {&quot;index&quot;: [2, &quot;B2&quot;], &quot;value&quot;: 3.4},
+             {&quot;index&quot;: [3, &quot;B3&quot;], &quot;value&quot;: 3.5}]}
+</pre></div>
+</div>
+<p>The data in this file can be used to load the following model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;T.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that no <code class="docutils literal notranslate"><span class="pre">set</span></code> or <code class="docutils literal notranslate"><span class="pre">param</span></code> option needs to be specified when
+loading a <code class="docutils literal notranslate"><span class="pre">JSON</span></code> or <code class="docutils literal notranslate"><span class="pre">YAML</span></code> file.  All of the set and parameter
+data in the file are loaded by the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal&gt;</span></code>
+object, and only the data
+needed for model construction is used.</p>
+<p>The following YAML file has a similar structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A: [A1, A2, A3]
+B:
+- [1, B1]
+- [2, B2]
+- [3, B3]
+C:
+  &#39;A1&#39;: [1, 2, 3]
+  &#39;A3&#39;: [10, 20, 30]
+p: 0.1
+q: {A1: 3.3, A2: 3.4, A3: 3.5}
+r:
+- index: [1, B1]
+  value: 3.3
+- index: [2, B2]
+  value: 3.4
+- index: [3, B3]
+  value: 3.5
+</pre></div>
+</div>
+<p>The data in this file can be used to load a Pyomo model with the
+same syntax as a JSON file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;T.yaml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-tabular-data">
+<h2>Loading Tabular Data<a class="headerlink" href="#loading-tabular-data" title="Permalink to this headline">¶</a></h2>
+<p>Many data sources supported by Pyomo are tabular data formats.  Tabular
+data is numerical or textual data that is organized into one or more
+simple tables, where data is arranged in a matrix.  Each table consists
+of a matrix of numeric string values, simple strings, and quoted
+strings.  All rows have the same length, all columns have the same
+length, and the first row typically represents labels for the column
+data.</p>
+<p>The following section describes the tabular data sources supported by
+Pyomo, and the subsequent sections illustrate ways that data can be
+loaded from tabular data using TAB files.  Subsequent sections describe
+options for loading data from Excel spreadsheets and relational
+databases.</p>
+<div class="section" id="tabular-data">
+<h3>Tabular Data<a class="headerlink" href="#tabular-data" title="Permalink to this headline">¶</a></h3>
+<p>TAB files represent tabular data in an ascii file using whitespace as a
+delimiter.  A TAB file consists of rows of values, where each row has
+the same length.  For example, the file <code class="docutils literal notranslate"><span class="pre">PP.tab</span></code> has the format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B  PP
+A1 B1 4.3
+A2 B2 4.4
+A3 B3 4.5
+</pre></div>
+</div>
+<p>CSV files represent tabular data in a format that is very similar to TAB
+files.  Pyomo assumes that a CSV file consists of rows of values, where
+each row has the same length.  For example, the file <code class="docutils literal notranslate"><span class="pre">PP.csv</span></code> has the
+format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A,B,PP
+A1,B1,4.3
+A2,B2,4.4
+A3,B3,4.5
+</pre></div>
+</div>
+<p>Excel spreadsheets can express complex data relationships.  A <em>range</em> is
+a contiguous, rectangular block of cells in an Excel spreadsheet.  Thus,
+a range in a spreadsheet has the same tabular structure as is a TAB file
+or a CSV file.  For example, consider the file <code class="docutils literal notranslate"><span class="pre">excel.xls</span></code> that has
+the range <code class="docutils literal notranslate"><span class="pre">PPtable</span></code>:</p>
+<a class="reference internal image-reference" href="../../_images/PP.png"><img alt="../../_images/PP.png" src="../../_images/PP.png" style="width: 2.5in;" /></a>
+<p>A relational database is an application that organizes data into one or
+more tables (or <em>relations</em>) with a unique key in each row.  Tables both
+reflect the data in a database as well as the result of queries within a
+database.</p>
+<p>XML files represent tabular using <code class="docutils literal notranslate"><span class="pre">table</span></code> and <code class="docutils literal notranslate"><span class="pre">row</span></code> elements.  Each
+sub-element of a <code class="docutils literal notranslate"><span class="pre">row</span></code> element represents a different column, where
+each row has the same length.  For example, the file <code class="docutils literal notranslate"><span class="pre">PP.xml</span></code> has the
+format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;table&gt;
+  &lt;row&gt;
+    &lt;A value=&quot;A1&quot;/&gt;&lt;B value=&quot;B1&quot;/&gt;&lt;PP value=&quot;4.3&quot;/&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;A value=&quot;A2&quot;/&gt;&lt;B value=&quot;B2&quot;/&gt;&lt;PP value=&quot;4.4&quot;/&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;A value=&quot;A3&quot;/&gt;&lt;B value=&quot;B3&quot;/&gt;&lt;PP value=&quot;4.5&quot;/&gt;
+  &lt;/row&gt;
+&lt;/table&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-set-data">
+<h3>Loading Set Data<a class="headerlink" href="#loading-set-data" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set</span></code> option is used specify a <code class="docutils literal notranslate"><span class="pre">Set</span></code> component that is loaded
+with data.</p>
+<div class="section" id="loading-a-simple-set">
+<h4>Loading a Simple Set<a class="headerlink" href="#loading-a-simple-set" title="Permalink to this headline">¶</a></h4>
+<p>Consider the file <code class="docutils literal notranslate"><span class="pre">A.tab</span></code>, which defines a simple set:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A
+A1
+A2
+A3
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a simple
+set <code class="docutils literal notranslate"><span class="pre">A</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;A.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-a-set-of-tuples">
+<h4>Loading a Set of Tuples<a class="headerlink" href="#loading-a-set-of-tuples" title="Permalink to this headline">¶</a></h4>
+<p>Consider the file <code class="docutils literal notranslate"><span class="pre">C.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B
+A1 1
+A1 2
+A1 3
+A2 1
+A2 2
+A2 3
+A3 1
+A3 2
+A3 3
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a
+two-dimensional set <code class="docutils literal notranslate"><span class="pre">C</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;C.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the column titles do not directly impact the process of
+loading data.  Column titles can be used to select a subset of columns
+from a table that is loaded (see below).</p>
+</div>
+<div class="section" id="loading-a-set-array">
+<h4>Loading a Set Array<a class="headerlink" href="#loading-a-set-array" title="Permalink to this headline">¶</a></h4>
+<p>Consider the file <code class="docutils literal notranslate"><span class="pre">D.tab</span></code>, which defines an array representation of a
+two-dimensional set:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>B  A1  A2  A3
+1  +   -   -
+2  -   +   -
+3  -   -   +
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a
+two-dimensional set <code class="docutils literal notranslate"><span class="pre">D</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;D.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;set_array&#39;</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">format</span></code> option indicates that the set data is declared in a array
+format.</p>
+</div>
+</div>
+<div class="section" id="loading-parameter-data">
+<h3>Loading Parameter Data<a class="headerlink" href="#loading-parameter-data" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">param</span></code> option is used specify a <code class="docutils literal notranslate"><span class="pre">Param</span></code> component that is
+loaded with data.</p>
+<div class="section" id="loading-a-simple-parameter">
+<h4>Loading a Simple Parameter<a class="headerlink" href="#loading-a-simple-parameter" title="Permalink to this headline">¶</a></h4>
+<p>The simplest parameter is simply a singleton value.  Consider the file
+<code class="docutils literal notranslate"><span class="pre">Z.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1.1
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a simple
+parameter <code class="docutils literal notranslate"><span class="pre">z</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Param</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Z.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-an-indexed-parameter">
+<h4>Loading an Indexed Parameter<a class="headerlink" href="#loading-an-indexed-parameter" title="Permalink to this headline">¶</a></h4>
+<p>An indexed parameter can be defined by a single column in a table.  For
+example, consider the file <code class="docutils literal notranslate"><span class="pre">Y.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  Y
+A1 3.3
+A2 3.4
+A3 3.5
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for an indexed
+parameter <code class="docutils literal notranslate"><span class="pre">y</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Y.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When column names are not used to specify the index and parameter data,
+then the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+object assumes that the rightmost column defines parameter values.  In
+this file, the <code class="docutils literal notranslate"><span class="pre">A</span></code> column contains the index values, and the <code class="docutils literal notranslate"><span class="pre">Y</span></code>
+column contains the parameter values.</p>
+</div>
+<div class="section" id="loading-set-and-parameter-values">
+<h4>Loading Set and Parameter Values<a class="headerlink" href="#loading-set-and-parameter-values" title="Permalink to this headline">¶</a></h4>
+<p>Note that the data for set <code class="docutils literal notranslate"><span class="pre">A</span></code> is predefined in the previous example.
+The index set can be loaded with the parameter data using the <code class="docutils literal notranslate"><span class="pre">index</span></code>
+option.  In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for set <code class="docutils literal notranslate"><span class="pre">A</span></code>
+and the indexed parameter <code class="docutils literal notranslate"><span class="pre">y</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Y.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An index set with multiple dimensions can also be loaded with an indexed
+parameter.  Consider the file <code class="docutils literal notranslate"><span class="pre">PP.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B  PP
+A1 B1 4.3
+A2 B2 4.4
+A3 B3 4.5
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a tuple
+set and an indexed parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;PP.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-a-parameter-with-missing-values">
+<h4>Loading a Parameter with Missing Values<a class="headerlink" href="#loading-a-parameter-with-missing-values" title="Permalink to this headline">¶</a></h4>
+<p>Missing parameter data can be expressed in two ways.  First, parameter
+data can be defined with indices that are a subset of valid indices in
+the model.  The following example loads the indexed parameter <code class="docutils literal notranslate"><span class="pre">y</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">,</span> <span class="s1">&#39;A4&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Y.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The model defines an index set with four values, but only three
+parameter values are declared in the data file <code class="docutils literal notranslate"><span class="pre">Y.tab</span></code>.</p>
+<p>Parameter data can also be declared with missing values using the period
+(<code class="docutils literal notranslate"><span class="pre">.</span></code>) symbol.  For example, consider the file <code class="docutils literal notranslate"><span class="pre">S.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  B  PP
+A1 B1 4.3
+A2 B2 4.4
+A3 B3 4.5
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for the index
+set <code class="docutils literal notranslate"><span class="pre">A</span></code> and indexed parameter <code class="docutils literal notranslate"><span class="pre">y</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;S.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The period (<code class="docutils literal notranslate"><span class="pre">.</span></code>) symbol indicates a missing parameter value, but the
+index set <code class="docutils literal notranslate"><span class="pre">A</span></code> contains the index value for the missing parameter.</p>
+</div>
+<div class="section" id="loading-multiple-parameters">
+<h4>Loading Multiple Parameters<a class="headerlink" href="#loading-multiple-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Multiple parameters can be initialized at once by specifying a list (or
+tuple) of component parameters.  Consider the file <code class="docutils literal notranslate"><span class="pre">XW.tab</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A  X   W
+A1 3.3 4.3
+A2 3.4 4.4
+A3 3.5 4.5
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for parameters
+<code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">w</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;XW.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">w</span><span class="p">))</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="selecting-parameter-columns">
+<h4>Selecting Parameter Columns<a class="headerlink" href="#selecting-parameter-columns" title="Permalink to this headline">¶</a></h4>
+<p>We have previously noted that the column names do not need to be
+specified to load set and parameter data.  However, the <code class="docutils literal notranslate"><span class="pre">select</span></code>
+option can be to identify the columns in the table that are used to load
+parameter data.  This option specifies a list (or tuple) of column names
+that are used, in that order, to form the table that defines the
+component data.</p>
+<p>For example, consider the following load declaration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;XW.tab&#39;</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">),</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The columns <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">W</span></code> are selected from the file <code class="docutils literal notranslate"><span class="pre">XW.tab</span></code>, and a
+single parameter is defined.</p>
+</div>
+<div class="section" id="loading-a-parameter-array">
+<h4>Loading a Parameter Array<a class="headerlink" href="#loading-a-parameter-array" title="Permalink to this headline">¶</a></h4>
+<p>Consider the file <code class="docutils literal notranslate"><span class="pre">U.tab</span></code>, which defines an array representation of a
+multiply-indexed parameter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>I  A1  A2  A3
+I1 1.3 2.3 3.3
+I2 1.4 2.4 3.4
+I3 1.5 2.5 3.5
+I4 1.6 2.6 3.6
+</pre></div>
+</div>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads data for a
+two-dimensional parameter <code class="docutils literal notranslate"><span class="pre">u</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I1&#39;</span><span class="p">,</span> <span class="s1">&#39;I2&#39;</span><span class="p">,</span> <span class="s1">&#39;I3&#39;</span><span class="p">,</span> <span class="s1">&#39;I4&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;U.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">format</span></code> option indicates that the parameter data is declared in a
+array format.  The <code class="docutils literal notranslate"><span class="pre">format</span></code> option can also indicate that the
+parameter data should be transposed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I1&#39;</span><span class="p">,</span> <span class="s1">&#39;I2&#39;</span><span class="p">,</span> <span class="s1">&#39;I3&#39;</span><span class="p">,</span> <span class="s1">&#39;I4&#39;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;U.tab&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;transposed_array&#39;</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the transposed parameter data changes the index set for the
+parameter.</p>
+</div>
+</div>
+<div class="section" id="loading-from-spreadsheets-and-databases">
+<h3>Loading from Spreadsheets and Databases<a class="headerlink" href="#loading-from-spreadsheets-and-databases" title="Permalink to this headline">¶</a></h3>
+<p>Tabular data can be loaded from spreadsheets and databases using
+auxiliary Python packages that provide an interface to these data
+formats.  Data can be loaded from Excel spreadsheets using the
+<code class="docutils literal notranslate"><span class="pre">win32com</span></code>, <code class="docutils literal notranslate"><span class="pre">xlrd</span></code> and <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> packages.  For example, consider
+the following range of cells, which is named <code class="docutils literal notranslate"><span class="pre">PPtable</span></code>:</p>
+<a class="reference internal image-reference" href="../../_images/PP.png"><img alt="../../_images/PP.png" src="../../_images/PP.png" style="width: 2.5in;" /></a>
+<p>In the following example, a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object loads the named range
+<code class="docutils literal notranslate"><span class="pre">PPtable</span></code> from the file <code class="docutils literal notranslate"><span class="pre">excel.xls</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;excel.xls&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="s1">&#39;PPtable&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">range</span></code> option is required to specify the table of cell
+data that is loaded from the spreadsheet.</p>
+<p>There are a variety of ways that data can be loaded from a relational
+database.  In the simplest case, a table can be specified within a
+database:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;PP.sqlite&#39;</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="s1">&#39;PPtable&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span>
+<span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the interface <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> is used to load data from an
+SQLite database in the file <code class="docutils literal notranslate"><span class="pre">PP.sqlite</span></code>.  More generally, an SQL query
+can be specified to dynamically generate a table.  For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">Set</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;PP.sqlite&#39;</span><span class="p">,</span>
+    <span class="n">using</span><span class="o">=</span><span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;SELECT A,PP FROM PPtable&quot;</span><span class="p">,</span>
+    <span class="n">param</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data-namespaces">
+<h2>Data Namespaces<a class="headerlink" href="#data-namespaces" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+class supports the concept of a <em>namespace</em> to organize data into named
+groups that can be enabled or disabled during model construction.
+Various <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code>
+methods have an optional <code class="docutils literal notranslate"><span class="pre">namespace</span></code> argument that defaults to
+<code class="docutils literal notranslate"><span class="pre">None</span></code>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">data(name=None,</span> <span class="pre">namespace=None)</span></code>: Returns the data associated with
+data in the specified namespace</li>
+<li><code class="docutils literal notranslate"><span class="pre">[]</span></code>: For a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code> object <code class="docutils literal notranslate"><span class="pre">data</span></code>, the function
+<code class="docutils literal notranslate"><span class="pre">data['A']</span></code> returns data corresponding to <code class="docutils literal notranslate"><span class="pre">A</span></code> in the default
+namespace, and <code class="docutils literal notranslate"><span class="pre">data['ns1','A']</span></code> returns data corresponding to <code class="docutils literal notranslate"><span class="pre">A</span></code>
+in namespace <code class="docutils literal notranslate"><span class="pre">ns1</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">namespaces()</span></code>: Returns an iteratore for the data namespaces.</li>
+<li><code class="docutils literal notranslate"><span class="pre">keys(namespace=None)</span></code>: Returns an iterator of the data keys in the
+specified namespace.</li>
+<li><code class="docutils literal notranslate"><span class="pre">values(namespace=None)</span></code>: Returns and iterator of the data values in
+the specified namespace.</li>
+<li><code class="docutils literal notranslate"><span class="pre">items(namespace=None)</span></code>: Returns an iterator of (name, value) tuples
+in the specified namespace.</li>
+</ul>
+<p>By default, data within a namespace are ignored during model
+construction.  However, concrete models can be initialized with data
+from a specific namespace.  Further, abstract models can be initialized
+with a list of namespaces that define the data used to initialized model
+components.  For example, the following script generates two model
+instances from an abstract model using data loaded into different
+namespaces:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">dimen</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataPortal</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;C.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;ns1&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;D.tab&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;ns2&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;set_array&#39;</span><span class="p">)</span>
+<span class="n">instance1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ns1&#39;</span><span class="p">])</span>
+<span class="n">instance2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ns2&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="storing_data.html" class="btn btn-neutral float-right" title="Storing Data from Pyomo Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="datfiles.html" class="btn btn-neutral float-left" title="Data Command Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

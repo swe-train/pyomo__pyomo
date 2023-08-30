@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.expr.relational_expr &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.expr.relational_expr</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.expr.relational_expr</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">PyomoException</span><span class="p">,</span> <span class="n">DeveloperError</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">ExpressionBase</span>
+<span class="kn">from</span> <span class="nn">.boolean_value</span> <span class="kn">import</span> <span class="n">BooleanValue</span>
+<span class="kn">from</span> <span class="nn">.expr_common</span> <span class="kn">import</span> <span class="n">_lt</span><span class="p">,</span> <span class="n">_le</span><span class="p">,</span> <span class="n">_eq</span><span class="p">,</span> <span class="n">ExpressionType</span>
+<span class="kn">from</span> <span class="nn">.numvalue</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">native_numeric_types</span><span class="p">,</span>
+    <span class="n">is_potentially_variable</span><span class="p">,</span>
+    <span class="n">is_constant</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">check_if_numeric_type</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.visitor</span> <span class="kn">import</span> <span class="n">polynomial_degree</span>
+
+<span class="c1"># -------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># Expression classes</span>
+<span class="c1">#</span>
+<span class="c1"># -------------------------------------------------------</span>
+
+
+<span class="k">class</span> <span class="nc">RelationalExpression</span><span class="p">(</span><span class="n">ExpressionBase</span><span class="p">,</span> <span class="n">BooleanValue</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_args_&#39;</span><span class="p">,)</span>
+
+    <span class="n">EXPRESSION_SYSTEM</span> <span class="o">=</span> <span class="n">ExpressionType</span><span class="o">.</span><span class="n">RELATIONAL</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span> <span class="o">=</span> <span class="n">args</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constant</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="p">())</span>
+        <span class="k">raise</span> <span class="n">PyomoException</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cannot convert non-constant Pyomo expression (%s) to bool.</span>
+<span class="sd">This error is usually caused by using a Var, unit, or mutable Param in a</span>
+<span class="sd">Boolean context such as an &quot;if&quot; statement, or when checking container</span>
+<span class="sd">membership or equality. For example,</span>
+<span class="sd">    &gt;&gt;&gt; m.x = Var()</span>
+<span class="sd">    &gt;&gt;&gt; if m.x &gt;= 1:</span>
+<span class="sd">    ...     pass</span>
+<span class="sd">and</span>
+<span class="sd">    &gt;&gt;&gt; m.y = Var()</span>
+<span class="sd">    &gt;&gt;&gt; if m.y in [m.x, m.y]:</span>
+<span class="sd">    ...     pass</span>
+<span class="sd">would both cause this exception.&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the child nodes</span>
+
+<span class="sd">        Returns: Either a list or tuple (depending on the node storage</span>
+<span class="sd">            model) containing only the child nodes of this node</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="p">()]</span>
+
+    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">&quot;is_relational() is deprecated in favor of &quot;</span>
+        <span class="s2">&quot;is_expression_type(ExpressionType.RELATIONAL)&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.4.3&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">is_relational</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">(</span><span class="n">ExpressionType</span><span class="o">.</span><span class="n">RELATIONAL</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_potentially_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">is_potentially_variable</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the polynomial degree of the expression.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A non-negative integer that is the polynomial</span>
+<span class="sd">            degree if the expression is polynomial, or :const:`None` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_compute_polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="c1"># NB: We can&#39;t use max() here because None (non-polynomial)</span>
+        <span class="c1"># overrides a numeric value (and max() just ignores it)</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="n">ans</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Equal to operator</span>
+
+<span class="sd">        This method is called when Python processes statements of the form::</span>
+
+<span class="sd">            self == other</span>
+<span class="sd">            other == self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_generate_relational_expression</span><span class="p">(</span><span class="n">_eq</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Less than operator</span>
+
+<span class="sd">        This method is called when Python processes statements of the form::</span>
+
+<span class="sd">            self &lt; other</span>
+<span class="sd">            other &gt; self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_generate_relational_expression</span><span class="p">(</span><span class="n">_lt</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Greater than operator</span>
+
+<span class="sd">        This method is called when Python processes statements of the form::</span>
+
+<span class="sd">            self &gt; other</span>
+<span class="sd">            other &lt; self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_generate_relational_expression</span><span class="p">(</span><span class="n">_lt</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Less than or equal operator</span>
+
+<span class="sd">        This method is called when Python processes statements of the form::</span>
+
+<span class="sd">            self &lt;= other</span>
+<span class="sd">            other &gt;= self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_generate_relational_expression</span><span class="p">(</span><span class="n">_le</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Greater than or equal operator</span>
+
+<span class="sd">        This method is called when Python processes statements of the form::</span>
+
+<span class="sd">            self &gt;= other</span>
+<span class="sd">            other &lt;= self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_generate_relational_expression</span><span class="p">(</span><span class="n">_le</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">RangedExpression</span><span class="p">(</span><span class="n">RelationalExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ranged expressions, which define relations with a lower and upper bound::</span>
+
+<span class="sd">        x &lt; y &lt; z</span>
+<span class="sd">        x &lt;= y &lt;= z</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        args (tuple): child nodes</span>
+<span class="sd">        strict (tuple): flags that indicate whether the inequalities are strict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_strict&#39;</span><span class="p">,)</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">9</span>
+
+    <span class="c1"># Shared tuples for the most common RangedExpression objects encountered</span>
+    <span class="c1"># in math programming.  Creating a single (shared) tuple saves memory</span>
+    <span class="n">STRICT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="kc">False</span><span class="p">:</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="kc">True</span><span class="p">:</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RangedExpression</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span> <span class="o">=</span> <span class="n">RangedExpression</span><span class="o">.</span><span class="n">STRICT</span><span class="p">[</span><span class="n">strict</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">3</span>
+
+    <span class="k">def</span> <span class="nf">create_node_with_local_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">_l</span><span class="p">,</span> <span class="n">_b</span><span class="p">,</span> <span class="n">_r</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;=</span> <span class="n">_b</span> <span class="ow">and</span> <span class="n">_b</span> <span class="o">&lt;=</span> <span class="n">_r</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;=</span> <span class="n">_b</span> <span class="ow">and</span> <span class="n">_b</span> <span class="o">&lt;</span> <span class="n">_r</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;</span> <span class="n">_b</span> <span class="ow">and</span> <span class="n">_b</span> <span class="o">&lt;=</span> <span class="n">_r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;</span> <span class="n">_b</span> <span class="ow">and</span> <span class="n">_b</span> <span class="o">&lt;</span> <span class="n">_r</span>
+
+    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">&quot;&lt;=&quot;</span><span class="p">[:</span> <span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;&lt;=&quot;</span><span class="p">[:</span> <span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+            <span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span>
+
+
+<div class="viewcode-block" id="InequalityExpression"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression">[docs]</a><span class="k">class</span> <span class="nc">InequalityExpression</span><span class="p">(</span><span class="n">RelationalExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inequality expressions, which define less-than or</span>
+<span class="sd">    less-than-or-equal relations::</span>
+
+<span class="sd">        x &lt; y</span>
+<span class="sd">        x &lt;= y</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        args (tuple): child nodes</span>
+<span class="sd">        strict (bool): a flag that indicates whether the inequality is strict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_strict&#39;</span><span class="p">,)</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">9</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span> <span class="o">=</span> <span class="n">strict</span>
+
+<div class="viewcode-block" id="InequalityExpression.nargs"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression.nargs">[docs]</a>    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="InequalityExpression.create_node_with_local_data"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression.create_node_with_local_data">[docs]</a>    <span class="k">def</span> <span class="nf">create_node_with_local_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InequalityExpression._apply_operation"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression._apply_operation">[docs]</a>    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">_l</span><span class="p">,</span> <span class="n">_r</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;</span> <span class="n">_r</span>
+        <span class="k">return</span> <span class="n">_l</span> <span class="o">&lt;=</span> <span class="n">_r</span></div>
+
+<div class="viewcode-block" id="InequalityExpression._to_string"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression._to_string">[docs]</a>    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&lt;=&quot;</span><span class="p">[:</span> <span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">strict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strict</span></div>
+
+
+<span class="k">def</span> <span class="nf">inequality</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A utility function that can be used to declare inequality and</span>
+<span class="sd">    ranged inequality expressions.  The expression::</span>
+
+<span class="sd">        inequality(2, model.x)</span>
+
+<span class="sd">    is equivalent to the expression::</span>
+
+<span class="sd">        2 &lt;= model.x</span>
+
+<span class="sd">    The expression::</span>
+
+<span class="sd">        inequality(2, model.x, 3)</span>
+
+<span class="sd">    is equivalent to the expression::</span>
+
+<span class="sd">        2 &lt;= model.x &lt;= 3</span>
+
+<span class="sd">    .. note:: This ranged inequality syntax is deprecated in Pyomo.</span>
+<span class="sd">        This function provides a mechanism for expressing</span>
+<span class="sd">        ranged inequalities without chained inequalities.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        lower: an expression defines a lower bound</span>
+<span class="sd">        body: an expression defines the body of a ranged constraint</span>
+<span class="sd">        upper: an expression defines an upper bound</span>
+<span class="sd">        strict (bool): A boolean value that indicates whether the inequality</span>
+<span class="sd">            is strict.  Default is :const:`False`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A relational expression.  The expression is an inequality</span>
+<span class="sd">        if any of the values :attr:`lower`, :attr:`body` or</span>
+<span class="sd">        :attr:`upper` is :const:`None`.  Otherwise, the expression</span>
+<span class="sd">        is a ranged inequality.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">upper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid inequality expression.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">InequalityExpression</span><span class="p">((</span><span class="n">body</span><span class="p">,</span> <span class="n">upper</span><span class="p">),</span> <span class="n">strict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lower</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">upper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid inequality expression.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">InequalityExpression</span><span class="p">((</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">),</span> <span class="n">strict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">upper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">InequalityExpression</span><span class="p">((</span><span class="n">lower</span><span class="p">,</span> <span class="n">body</span><span class="p">),</span> <span class="n">strict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">RangedExpression</span><span class="p">((</span><span class="n">lower</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">upper</span><span class="p">),</span> <span class="n">strict</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="EqualityExpression"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.EqualityExpression">[docs]</a><span class="k">class</span> <span class="nc">EqualityExpression</span><span class="p">(</span><span class="n">RelationalExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Equality expression::</span>
+
+<span class="sd">        x == y</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">PRECEDENCE</span> <span class="o">=</span> <span class="mi">9</span>
+
+<div class="viewcode-block" id="EqualityExpression.nargs"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.EqualityExpression.nargs">[docs]</a>    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span></div>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
+        <span class="k">if</span> <span class="n">lhs</span> <span class="ow">is</span> <span class="n">rhs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__bool__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="EqualityExpression._apply_operation"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.EqualityExpression._apply_operation">[docs]</a>    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">_l</span><span class="p">,</span> <span class="n">_r</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">_l</span> <span class="o">==</span> <span class="n">_r</span></div>
+
+<div class="viewcode-block" id="EqualityExpression._to_string"><a class="viewcode-back" href="../../../../library_reference/expressions/classes.html#pyomo.core.expr.current.EqualityExpression._to_string">[docs]</a>    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  ==  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">NotEqualExpression</span><span class="p">(</span><span class="n">RelationalExpression</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Not-equal expression::</span>
+
+<span class="sd">        x != y</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">nargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
+        <span class="k">if</span> <span class="n">lhs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">rhs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__bool__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_apply_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">_l</span><span class="p">,</span> <span class="n">_r</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">_l</span> <span class="o">!=</span> <span class="n">_r</span>
+
+    <span class="k">def</span> <span class="nf">_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">smap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">  !=  </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">_relational_op</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">_eq</span><span class="p">:</span> <span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">eq</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="n">_le</span><span class="p">:</span> <span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">le</span><span class="p">,</span> <span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="n">_lt</span><span class="p">:</span> <span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">lt</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_process_nonnumeric_arg</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;as_numeric&#39;</span><span class="p">):</span>
+        <span class="c1"># We assume non-numeric types that have an as_numeric method</span>
+        <span class="c1"># are instances of AutoLinkedBooleanVar.  Calling as_numeric</span>
+        <span class="c1"># will return a valid Binary Var (and issue the appropriate</span>
+        <span class="c1"># deprecation warning)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">as_numeric</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">check_if_numeric_type</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># User assistance: provide a helpful exception when using an</span>
+        <span class="c1"># indexed object in an expression</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_component_type</span><span class="p">()</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Argument for expression is an indexed numeric &quot;</span>
+                <span class="s2">&quot;value</span><span class="se">\n</span><span class="s2">specified without an index:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">Is this &quot;</span>
+                <span class="s2">&quot;value defined over an index that you did not specify?&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+            <span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Attempting to use a non-numeric type (</span><span class="si">%s</span><span class="s2">) in a &quot;</span>
+            <span class="s2">&quot;numeric expression context.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,)</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_process_relational_arg</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_numeric</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_numeric_type</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">_numeric</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">_numeric</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_constant</span><span class="p">():</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">constant</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">InequalityExpression</span><span class="p">:</span>
+            <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span> <span class="o">+=</span> <span class="n">n</span>
+            <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">constant</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">_process_nonnumeric_arg</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+                <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">constant</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">arg</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_relational_expression</span><span class="p">(</span><span class="n">etype</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="c1"># Note that the use of &quot;global&quot; state flags is fast, but not</span>
+    <span class="c1"># thread-safe.  This should not be an issue because the GIL</span>
+    <span class="c1"># effectively prevents parallel model construction.  If we ever need</span>
+    <span class="c1"># to revisit this design, we can pass in a &quot;state&quot; to</span>
+    <span class="c1"># _process_relational_arg() - at the cost of creating/destroying the</span>
+    <span class="c1"># state and an extra function argument.</span>
+    <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">constant</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">lhs</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+        <span class="n">lhs</span> <span class="o">=</span> <span class="n">_process_relational_arg</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rhs</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+        <span class="n">rhs</span> <span class="o">=</span> <span class="n">_process_relational_arg</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">constant</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_relational_op</span><span class="p">[</span><span class="n">etype</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="n">value</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span> <span class="n">value</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">etype</span> <span class="o">==</span> <span class="n">_eq</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot create an EqualityExpression where one of the &quot;</span>
+                <span class="s2">&quot;sub-expressions is a relational expression:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;    </span><span class="si">%s</span><span class="se">\n</span><span class="s2">    {==}</span><span class="se">\n</span><span class="s2">    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">EqualityExpression</span><span class="p">((</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">RangedExpression</span><span class="p">(</span>
+                <span class="n">lhs</span><span class="o">.</span><span class="n">_args_</span> <span class="o">+</span> <span class="p">(</span><span class="n">rhs</span><span class="p">,),</span> <span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">_strict</span><span class="p">,</span> <span class="n">_relational_op</span><span class="p">[</span><span class="n">etype</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_process_relational_arg</span><span class="o">.</span><span class="n">relational</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">RangedExpression</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">lhs</span><span class="p">,)</span> <span class="o">+</span> <span class="n">rhs</span><span class="o">.</span><span class="n">_args_</span><span class="p">,</span> <span class="p">(</span><span class="n">_relational_op</span><span class="p">[</span><span class="n">etype</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">rhs</span><span class="o">.</span><span class="n">_strict</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># _process_relational_arg.relational == 3</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot create an InequalityExpression where both &quot;</span>
+                <span class="s2">&quot;sub-expressions are relational expressions:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;    </span><span class="si">%s</span><span class="se">\n</span><span class="s2">    {</span><span class="si">%s</span><span class="s2">}</span><span class="se">\n</span><span class="s2">    </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">_relational_op</span><span class="p">[</span><span class="n">etype</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">rhs</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">InequalityExpression</span><span class="p">((</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">),</span> <span class="n">_relational_op</span><span class="p">[</span><span class="n">etype</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

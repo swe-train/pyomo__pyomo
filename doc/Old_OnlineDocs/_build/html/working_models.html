@@ -1,0 +1,1115 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Working with Pyomo Models &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Working with Abstract Models" href="working_abstractmodels/index.html" />
+    <link rel="prev" title="Solving Pyomo Models" href="solving_pyomo_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with Pyomo Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#repeated-solves">Repeated Solves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-model-or-data-and-re-solving">Changing the Model or Data and Re-solving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fixing-variables-and-re-solving">Fixing Variables and Re-solving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extending-the-objective-function">Extending the Objective Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activating-and-deactivating-objectives">Activating and Deactivating Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activating-and-deactivating-constraints">Activating and Deactivating Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-variable-values">Accessing Variable Values</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#primal-variable-values">Primal Variable Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#one-variable-from-a-python-script">One Variable from a Python Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#all-variables-from-a-python-script">All Variables from a Python Script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-parameter-values">Accessing Parameter Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-duals">Accessing Duals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-duals-in-a-python-script">Access Duals in a Python Script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-slacks">Accessing Slacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-solver-status">Accessing Solver Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#display-of-solver-output">Display of Solver Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sending-options-to-the-solver">Sending Options to the Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specifying-the-path-to-a-solver">Specifying the Path to a Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#warm-starts">Warm Starts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solving-multiple-instances-in-parallel">Solving Multiple Instances in Parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-temporary-directory">Changing the temporary directory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Working with Pyomo Models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/working_models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="working-with-pyomo-models">
+<h1>Working with Pyomo Models<a class="headerlink" href="#working-with-pyomo-models" title="Permalink to this headline">¶</a></h1>
+<p>This section gives an overview of commonly used scripting commands when
+working with Pyomo models. These commands must be applied to a concrete
+model instance or in other words an instantiated model.</p>
+<div class="section" id="repeated-solves">
+<h2>Repeated Solves<a class="headerlink" href="#repeated-solves" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">nVars</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">nVars</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">cuts</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> 
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Iterate, adding a cut to exclude the previously found solution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="n">expr</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>   <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+<span class="gp">... </span>           <span class="n">expr</span> <span class="o">+=</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+<span class="gp">... </span>       <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>           <span class="n">expr</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="gp">... </span>   <span class="n">model</span><span class="o">.</span><span class="n">cuts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="n">expr</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="p">)</span>
+<span class="gp">... </span>   <span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">===== iteration&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">model</span><span class="o">.</span><span class="n">display</span><span class="p">()</span> 
+</pre></div>
+</div>
+<p>To illustrate Python scripts for Pyomo we consider an example that is in
+the file <code class="docutils literal notranslate"><span class="pre">iterative1.py</span></code> and is executed using the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">iterative1</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a Python script that contains elements of Pyomo, so it is
+executed using the <code class="docutils literal notranslate"><span class="pre">python</span></code> command.  The <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> command can be
+used, but then there will be some strange messages at the end when
+Pyomo finishes the script and attempts to send the results to a
+solver, which is what the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> command does.</p>
+</div>
+<p>This script creates a model, solves it, and then adds a constraint to
+preclude the solution just found. This process is repeated, so the
+script finds and prints multiple solutions.  The particular model it
+creates is just the sum of four binary variables. One does not need a
+computer to solve the problem or even to iterate over solutions. This
+example is provided just to illustrate some elementary aspects of
+scripting.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># iterative1.py</span>
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># A simple model with binary variables and</span>
+<span class="c1"># an empty constraint list.</span>
+<span class="c1">#</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">o_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">o_rule</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+
+<span class="c1"># Create a model instance and optimize</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+
+<span class="c1"># Iterate to eliminate the previously found solution</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">expr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">expr</span> <span class="o">+=</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expr</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">expr</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">===== iteration&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let us now analyze this script. The first line is a comment that happens
+to give the name of the file. This is followed by two lines that import
+symbols for Pyomo. The pyomo namespace is imported as
+<code class="docutils literal notranslate"><span class="pre">pyo</span></code>. Therefore, <code class="docutils literal notranslate"><span class="pre">pyo.</span></code> must precede each use of a Pyomo name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># iterative1.py</span>
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+</pre></div>
+</div>
+<p>An object to perform optimization is created by calling
+<code class="docutils literal notranslate"><span class="pre">SolverFactory</span></code> with an argument giving the name of the solver. The
+argument would be <code class="docutils literal notranslate"><span class="pre">'gurobi'</span></code> if, e.g., Gurobi was desired instead of
+glpk:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next lines after a comment create a model. For our discussion here,
+we will refer to this as the base model because it will be extended by
+adding constraints later. (The words “base model” are not reserved
+words, they are just being introduced for the discussion of this
+example).  There are no constraints in the base model, but that is just
+to keep it simple.  Constraints could be present in the base model.
+Even though it is an abstract model, the base model is fully specified
+by these commands because it requires no external data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">o_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">o_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next line is not part of the base model specification. It creates an
+empty constraint list that the script will use to add constraints.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The next non-comment line creates the instantiated model and refers to
+the instance object with a Python variable <code class="docutils literal notranslate"><span class="pre">instance</span></code>.  Models run
+using the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> script do not typically contain this line because
+model instantiation is done by the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> script. In this example,
+the <code class="docutils literal notranslate"><span class="pre">create</span></code> function is called without arguments because none are
+needed; however, the name of a file with data commands is given as an
+argument in many scripts.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The next line invokes the solver and refers to the object contain
+results with the Python variable <code class="docutils literal notranslate"><span class="pre">results</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The solve function loads the results into the instance, so the next line
+writes out the updated values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The next non-comment line is a Python iteration command that will
+successively assign the integers from 0 to 4 to the Python variable
+<code class="docutils literal notranslate"><span class="pre">i</span></code>, although that variable is not used in script. This loop is what
+causes the script to generate five more solutions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>An expression is built up in the Python variable named <code class="docutils literal notranslate"><span class="pre">expr</span></code>.  The
+Python variable <code class="docutils literal notranslate"><span class="pre">j</span></code> will be iteratively assigned all of the indexes of
+the variable <code class="docutils literal notranslate"><span class="pre">x</span></code>. For each index, the value of the variable (which was
+loaded by the <code class="docutils literal notranslate"><span class="pre">load</span></code> method just described) is tested to see if it is
+zero and the expression in <code class="docutils literal notranslate"><span class="pre">expr</span></code> is augmented accordingly.  Although
+<code class="docutils literal notranslate"><span class="pre">expr</span></code> is initialized to 0 (an integer), its type will change to be a
+Pyomo expression when it is assigned expressions involving Pyomo
+variable objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">expr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">expr</span> <span class="o">+=</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expr</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>During the first iteration (when <code class="docutils literal notranslate"><span class="pre">i</span></code> is 0), we know that all values of
+<code class="docutils literal notranslate"><span class="pre">x</span></code> will be 0, so we can anticipate what the expression will look
+like. We know that <code class="docutils literal notranslate"><span class="pre">x</span></code> is indexed by the integers from 1 to 4 so we
+know that <code class="docutils literal notranslate"><span class="pre">j</span></code> will take on the values from 1 to 4 and we also know
+that all value of <code class="docutils literal notranslate"><span class="pre">x</span></code> will be zero for all indexes so we know that the
+value of <code class="docutils literal notranslate"><span class="pre">expr</span></code> will be something like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">j</span></code> will be evaluated because it is a Python variable;
+however, because it is a Pyomo variable, the value of <code class="docutils literal notranslate"><span class="pre">instance.x[j]</span></code>
+not be used, instead the variable object will appear in the
+expression. That is exactly what we want in this case. When we wanted to
+use the current value in the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement, we used the <code class="docutils literal notranslate"><span class="pre">value</span></code>
+function to get it.</p>
+<p>The next line adds to the constaint list called <code class="docutils literal notranslate"><span class="pre">c</span></code> the requirement
+that the expression be greater than or equal to one:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">instance</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">expr</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The proof that this precludes the last solution is left as an exerise
+for the reader.</p>
+<p>The final lines in the outer for loop find a solution and display it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">===== iteration&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The assignment of the solve output to a results object is somewhat
+anachronistic. Many scripts just use</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>since the results are moved to the instance by default, leaving
+the results object with little of interest. If, for some reason,
+you want the results to stay in the results object and <em>not</em> be
+moved to the instance, you would use</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>This approach can be useful if there is a concern that the solver
+did not terminate with an optimal solution. For example,</p>
+<div class="doctest last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span> 
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="changing-the-model-or-data-and-re-solving">
+<h2>Changing the Model or Data and Re-solving<a class="headerlink" href="#changing-the-model-or-data-and-re-solving" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">iterative1.py</span></code> example above illustrates how a model can be changed and
+then re-solved. In that example, the model is changed by adding a
+constraint, but the model could also be changed by altering the values
+of parameters. Note, however, that in these examples, we make the
+changes to the concrete model instances.  This is particularly important
+for <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code> users, as this implies working with the
+<code class="docutils literal notranslate"><span class="pre">instance</span></code> object rather than the <code class="docutils literal notranslate"><span class="pre">model</span></code> object, which allows us to
+avoid creating a new <code class="docutils literal notranslate"><span class="pre">model</span></code> object for each solve. Here is the basic
+idea for users of an <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code>:</p>
+<ol class="arabic simple">
+<li>Create an <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code> (suppose it is called <code class="docutils literal notranslate"><span class="pre">model</span></code>)</li>
+<li>Call <code class="docutils literal notranslate"><span class="pre">model.create_instance()</span></code> to create an instance (suppose it is called <code class="docutils literal notranslate"><span class="pre">instance</span></code>)</li>
+<li>Solve <code class="docutils literal notranslate"><span class="pre">instance</span></code></li>
+<li>Change something in <code class="docutils literal notranslate"><span class="pre">instance</span></code></li>
+<li>Solve <code class="docutils literal notranslate"><span class="pre">instance</span></code> again</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Users of <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> typically name their models <code class="docutils literal notranslate"><span class="pre">model</span></code>, which
+can cause confusion to novice readers of documentation. Examples based on
+an <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code> will refer to <code class="docutils literal notranslate"><span class="pre">instance</span></code> where users of a
+<code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> would typically use the name <code class="docutils literal notranslate"><span class="pre">model</span></code>.</p>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">instance</span></code> has a parameter whose name is <code class="docutils literal notranslate"><span class="pre">Theta</span></code> that was
+declared to be <code class="docutils literal notranslate"><span class="pre">mutable</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">mutable=True</span></code>) with an
+index that contains <code class="docutils literal notranslate"><span class="pre">idx</span></code>, then the value in <code class="docutils literal notranslate"><span class="pre">NewVal</span></code> can be assigned to
+it using</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">Theta</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">NewVal</span>
+</pre></div>
+</div>
+<p>For a singleton parameter named <code class="docutils literal notranslate"><span class="pre">sigma</span></code> (i.e., if it is not
+indexed), the assignment can be made using</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">NewVal</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the <code class="docutils literal notranslate"><span class="pre">Param</span></code> is not declared to be mutable, an error will occur if an assignment to it is attempted.</p>
+</div>
+<p>For more information about access to Pyomo parameters, see the section
+in this document on <code class="docutils literal notranslate"><span class="pre">Param</span></code> access <a class="reference internal" href="#paramaccess"><span class="std std-ref">Accessing Parameter Values</span></a>. Note that for
+concrete models, the model is the instance.</p>
+</div>
+<div class="section" id="fixing-variables-and-re-solving">
+<h2>Fixing Variables and Re-solving<a class="headerlink" href="#fixing-variables-and-re-solving" title="Permalink to this headline">¶</a></h2>
+<p>Instead of changing model data, scripts are often used to fix variable
+values. The following example illustrates this.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># iterative2.py</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;cplex&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># A simple model with binary variables and</span>
+<span class="c1"># an empty constraint list.</span>
+<span class="c1">#</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">AbstractModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">o_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">o_rule</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+
+<span class="c1"># Create a model instance and optimize</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+
+<span class="c1"># &quot;flip&quot; the value of x[2] (it is binary)</span>
+<span class="c1"># then solve again</span>
+
+<span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this example, the variables are binary. The model is solved and then
+the value of <code class="docutils literal notranslate"><span class="pre">model.x[2]</span></code> is flipped to the opposite value before
+solving the model again. The main lines of interest are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This could also have been accomplished by setting the upper and lower
+bounds:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that when using the bounds, we do not set <code class="docutils literal notranslate"><span class="pre">fixed</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>
+because that would fix the variable at whatever value it presently has
+and then the bounds would be ignored by the solver.</p>
+<p>For more information about access to Pyomo variables, see the section in
+this document on <code class="docutils literal notranslate"><span class="pre">Var</span></code> access <a class="reference internal" href="#varaccess"><span class="std std-ref">Accessing Variable Values</span></a>.</p>
+<p>Note that</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is equivalent to</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>and</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>is equivalent to</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extending-the-objective-function">
+<h2>Extending the Objective Function<a class="headerlink" href="#extending-the-objective-function" title="Permalink to this headline">¶</a></h2>
+<p>One can add terms to an objective function of a <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> (or
+and instantiated <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code>) using the <code class="docutils literal notranslate"><span class="pre">expr</span></code> attribute
+of the objective function object. Here is a simple example:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">PositiveReals</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">sillybound</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> 
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span> 
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;------------- extend obj --------------&quot;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span> <span class="o">+=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">y</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="activating-and-deactivating-objectives">
+<h2>Activating and Deactivating Objectives<a class="headerlink" href="#activating-and-deactivating-objectives" title="Permalink to this headline">¶</a></h2>
+<p>Multiple objectives can be declared, but only one can be active at a
+time (at present, Pyomo does not support any solvers that can be given
+more than one objective). If both <code class="docutils literal notranslate"><span class="pre">model.obj1</span></code> and <code class="docutils literal notranslate"><span class="pre">model.obj2</span></code> have
+been declared using <code class="docutils literal notranslate"><span class="pre">Objective</span></code>, then one can ensure that
+<code class="docutils literal notranslate"><span class="pre">model.obj2</span></code> is passed to the solver as shown in this simple example:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj1</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">obj2</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For abstract models this would be done prior to instantiation or else
+the <code class="docutils literal notranslate"><span class="pre">activate</span></code> and <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> calls would be on the instance
+rather than the model.</p>
+</div>
+<div class="section" id="activating-and-deactivating-constraints">
+<h2>Activating and Deactivating Constraints<a class="headerlink" href="#activating-and-deactivating-constraints" title="Permalink to this headline">¶</a></h2>
+<p>Constraints can be temporarily disabled using the <code class="docutils literal notranslate"><span class="pre">deactivate()</span></code> method.
+When the model is sent to a solver inactive constraints are not included.
+Disabled constraints can be re-enabled using the <code class="docutils literal notranslate"><span class="pre">activate()</span></code> method.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">v</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Indexed constraints can be deactivated/activated as a whole or by
+individual index:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_con</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="n">_con</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>   <span class="c1"># Deactivate all indices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">con</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>  <span class="c1"># Activate single index</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-variable-values">
+<span id="varaccess"></span><h2>Accessing Variable Values<a class="headerlink" href="#accessing-variable-values" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="primal-variable-values">
+<h3>Primal Variable Values<a class="headerlink" href="#primal-variable-values" title="Permalink to this headline">¶</a></h3>
+<p>Often, the point of optimization is to get optimal values of
+variables. Some users may want to process the values in a script. We
+will describe how to access a particular variable from a Python script
+as well as how to access all variables from a Python script and from a
+callback. This should enable the reader to understand how to get the
+access that they desire. The Iterative example given above also
+illustrates access to variable values.</p>
+</div>
+<div class="section" id="one-variable-from-a-python-script">
+<h3>One Variable from a Python Script<a class="headerlink" href="#one-variable-from-a-python-script" title="Permalink to this headline">¶</a></h3>
+<p>Assuming the model has been instantiated and solved and the results have
+been loded back into the instance object, then we can make use of the
+fact that the variable is a member of the instance object and its value
+can be accessed using its <code class="docutils literal notranslate"><span class="pre">value</span></code> member. For example, suppose the
+model contains a variable named <code class="docutils literal notranslate"><span class="pre">quant</span></code> that is a singleton (has no
+indexes) and suppose further that the name of the instance object is
+<code class="docutils literal notranslate"><span class="pre">instance</span></code>. Then the value of this variable can be accessed using
+<code class="docutils literal notranslate"><span class="pre">pyo.value(instance.quant)</span></code>. Variables with indexes can be referenced
+by supplying the index.</p>
+<p>Consider the following very simple example, which is similar to the
+iterative example. This is a concrete model. In this example, the value
+of <code class="docutils literal notranslate"><span class="pre">x[2]</span></code> is accessed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># noiteration1.py</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;glpk&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># A simple model with binary variables and</span>
+<span class="c1"># an empty constraint list.</span>
+<span class="c1">#</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">o_rule</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">summation</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">model</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">o_rule</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The second index has a zero&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x[2]=&quot;</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If this script is run without modification, Pyomo is likely to issue
+a warning because there are no constraints. The warning is because
+some solvers may fail if given a problem instance that does not have
+any constraints.</p>
+</div>
+</div>
+<div class="section" id="all-variables-from-a-python-script">
+<h3>All Variables from a Python Script<a class="headerlink" href="#all-variables-from-a-python-script" title="Permalink to this headline">¶</a></h3>
+<p>As with one variable, we assume that the model has been instantiated
+and solved. Assuming the instance object has the name <code class="docutils literal notranslate"><span class="pre">instance</span></code>,
+the following code snippet displays all variables and their values:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variable&quot;</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>  
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;   &quot;</span><span class="p">,</span><span class="n">index</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>  
+</pre></div>
+</div>
+<p>Alternatively,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>  
+</pre></div>
+</div>
+<p>This code could be improved by checking to see if the variable is not
+indexed (i.e., the only index value is <code class="docutils literal notranslate"><span class="pre">None</span></code>), then the code could
+print the value without the word <code class="docutils literal notranslate"><span class="pre">None</span></code> next to it.</p>
+<p>Assuming again that the model has been instantiated and solved and the
+results have been loded back into the instance object. Here is a code
+snippet for fixing all integers at their current value:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span><span class="o">.</span><span class="n">is_continuous</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;fixing &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>  
+<span class="gp">... </span>        <span class="n">var</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># fix the current value</span>
+</pre></div>
+</div>
+<p>Another way to access all of the variables (particularly if there are
+blocks) is as follows (this particular snippet assumes that instead of
+<cite>import pyomo.environ as pyo</cite> <cite>from pyo.environ import *</cite> was used):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Var</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FOUND VAR:&quot;</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">v_data</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Var</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found: &quot;</span> <span class="o">+</span> <span class="n">v_data</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, value = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">v_data</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="accessing-parameter-values">
+<span id="paramaccess"></span><h2>Accessing Parameter Values<a class="headerlink" href="#accessing-parameter-values" title="Permalink to this headline">¶</a></h2>
+<p>Accessing parameter values is completely analogous to accessing variable
+values. For example, here is a code snippet to print the name and value
+of every Parameter in a model:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">parmobject</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">nametoprint</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">parmobject</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Parameter &quot;</span><span class="p">,</span> <span class="n">nametoprint</span><span class="p">)</span>  
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">parmobject</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">vtoprint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">parmobject</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="gp">... </span>        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;   &quot;</span><span class="p">,</span><span class="n">index</span><span class="p">,</span> <span class="n">vtoprint</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-duals">
+<h2>Accessing Duals<a class="headerlink" href="#accessing-duals" title="Permalink to this headline">¶</a></h2>
+<p>Access to dual values in scripts is similar to accessing primal variable
+values, except that dual values are not captured by default so
+additional directives are needed before optimization to signal that
+duals are desired.</p>
+<p>To get duals without a script, use the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> option
+<code class="docutils literal notranslate"><span class="pre">--solver-suffixes='dual'</span></code> which will cause dual values to be included
+in output.  Note: In addition to duals (<code class="docutils literal notranslate"><span class="pre">dual</span></code>) , reduced costs
+(<code class="docutils literal notranslate"><span class="pre">rc</span></code>) and slack values (<code class="docutils literal notranslate"><span class="pre">slack</span></code>) can be requested. All suffixes can
+be requested using the <code class="docutils literal notranslate"><span class="pre">pyomo</span></code> option <code class="docutils literal notranslate"><span class="pre">--solver-suffixes='.*'</span></code></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Some of the duals may have the value <code class="docutils literal notranslate"><span class="pre">None</span></code>, rather than <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</div>
+<div class="section" id="access-duals-in-a-python-script">
+<h3>Access Duals in a Python Script<a class="headerlink" href="#access-duals-in-a-python-script" title="Permalink to this headline">¶</a></h3>
+<p>To signal that duals are desired, declare a Suffix component with the
+name “dual” on the model or instance with an IMPORT or IMPORT_EXPORT
+direction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a &#39;dual&#39; suffix component on the instance</span>
+<span class="c1"># so the solver plugin will know which suffixes to collect</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the section on Suffixes <a class="reference internal" href="pyomo_modeling_components/Suffixes.html#suffixes"><span class="std std-ref">Suffixes</span></a> for more information on
+Pyomo’s Suffix component. After the results are obtained and loaded into
+an instance, duals can be accessed in the following fashion.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># display all duals</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duals&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Constraint&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      &quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>The following snippet will only work, of course, if there is a
+constraint with the name <code class="docutils literal notranslate"><span class="pre">AxbConstraint</span></code> that has and index, which is
+the string <code class="docutils literal notranslate"><span class="pre">Film</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># access one dual</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dual for Film=&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">instance</span><span class="o">.</span><span class="n">AxbConstraint</span><span class="p">[</span><span class="s1">&#39;Film&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Here is a complete example that relies on the file <code class="docutils literal notranslate"><span class="pre">abstract2.py</span></code> to
+provide the model and the file <code class="docutils literal notranslate"><span class="pre">abstract2.dat</span></code> to provide the
+data. Note that the model in <code class="docutils literal notranslate"><span class="pre">abstract2.py</span></code> does contain a constraint
+named <code class="docutils literal notranslate"><span class="pre">AxbConstraint</span></code> and <code class="docutils literal notranslate"><span class="pre">abstract2.dat</span></code> does specify an index for
+it named <code class="docutils literal notranslate"><span class="pre">Film</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># driveabs2.py</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;cplex&#39;</span><span class="p">)</span>
+
+<span class="c1"># get the model from another file</span>
+<span class="kn">from</span> <span class="nn">abstract2</span> <span class="kn">import</span> <span class="n">model</span>
+
+<span class="c1"># Create a model instance and optimize</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_instance</span><span class="p">(</span><span class="s1">&#39;abstract2.dat&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a &#39;dual&#39; suffix component on the instance</span>
+<span class="c1"># so the solver plugin will know which suffixes to collect</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="c1"># also puts the results back into the instance for easy access</span>
+
+<span class="c1"># display all duals</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duals&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Constraint&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      &quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+
+<span class="c1"># access one dual</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dual for Film=&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">instance</span><span class="o">.</span><span class="n">AxbConstraint</span><span class="p">[</span><span class="s1">&#39;Film&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Concrete models are slightly different because the model is the
+instance. Here is a complete example that relies on the file
+<code class="docutils literal notranslate"><span class="pre">concrete1.py</span></code> to provide the model and instantiate it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># driveconc1.py</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span>
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;cplex&#39;</span><span class="p">)</span>
+
+<span class="c1"># get the model from another file</span>
+<span class="kn">from</span> <span class="nn">concrete1</span> <span class="kn">import</span> <span class="n">model</span>
+
+<span class="c1"># Create a &#39;dual&#39; suffix component on the instance</span>
+<span class="c1"># so the solver plugin will know which suffixes to collect</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="c1"># also load results to model</span>
+
+<span class="c1"># display all duals</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duals&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Constraint&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      &quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="accessing-slacks">
+<h2>Accessing Slacks<a class="headerlink" href="#accessing-slacks" title="Permalink to this headline">¶</a></h2>
+<p>The functions <code class="docutils literal notranslate"><span class="pre">lslack()</span></code> and <code class="docutils literal notranslate"><span class="pre">uslack()</span></code> return the upper and lower
+slacks, respectively, for a constraint.</p>
+</div>
+<div class="section" id="accessing-solver-status">
+<h2>Accessing Solver Status<a class="headerlink" href="#accessing-solver-status" title="Permalink to this headline">¶</a></h2>
+<p>After a solve, the results object has a member <code class="docutils literal notranslate"><span class="pre">Solution.Status</span></code> that
+contains the solver status. The following snippet shows an example of
+access via a <code class="docutils literal notranslate"><span class="pre">print</span></code> statement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<span class="c1">#print (&quot;The solver returned a status of:&quot;+str(results.solver.status))</span>
+</pre></div>
+</div>
+<p>The use of the Python <code class="docutils literal notranslate"><span class="pre">str</span></code> function to cast the value to a be string
+makes it easy to test it. In particular, the value ‘optimal’ indicates
+that the solver succeeded. It is also possible to access Pyomo data that
+can be compared with the solver status as in the following code snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverStatus</span><span class="p">,</span> <span class="n">TerminationCondition</span>
+
+<span class="c1">#...</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">ok</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">):</span>
+     <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;this is feasible and optimal&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">infeasible</span><span class="p">:</span>
+     <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;do something about it? or exit?&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+     <span class="c1"># something else is wrong</span>
+     <span class="nb">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Alternatively,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">TerminationCondition</span>
+
+<span class="o">...</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span> <span class="o">==</span> <span class="n">TerminationCondition</span><span class="o">.</span><span class="n">optimal</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Solution is not optimal&quot;</span><span class="p">)</span>
+    <span class="c1"># now do something about it? or exit? ...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-of-solver-output">
+<span id="teetrue"></span><h2>Display of Solver Output<a class="headerlink" href="#display-of-solver-output" title="Permalink to this headline">¶</a></h2>
+<p>To see the output of the solver, use the option <code class="docutils literal notranslate"><span class="pre">tee=True</span></code> as in</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can be useful for troubleshooting solver difficulties.</p>
+</div>
+<div class="section" id="sending-options-to-the-solver">
+<span id="solveropts"></span><h2>Sending Options to the Solver<a class="headerlink" href="#sending-options-to-the-solver" title="Permalink to this headline">¶</a></h2>
+<p>Most solvers accept options and Pyomo can pass options through to a
+solver. In scripts or callbacks, the options can be attached to the
+solver object by adding to its options dictionary as illustrated by this
+snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">[</span><span class="s1">&#39;cbc&#39;</span><span class="p">]</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;threads&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>If multiple options are needed, then multiple dictionary entries should
+be added.</p>
+<p>Sometimes it is desirable to pass options as part of the call to the
+solve function as in this snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;threads&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">},</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The quoted string is passed directly to the solver. If multiple options
+need to be passed to the solver in this way, they should be separated by
+a space within the quoted string. Notice that <code class="docutils literal notranslate"><span class="pre">tee</span></code> is a Pyomo option
+and is solver-independent, while the string argument to <code class="docutils literal notranslate"><span class="pre">options</span></code> is
+passed to the solver without very little processing by Pyomo. If the
+solver does not have a “threads” option, it will probably complain, but
+Pyomo will not.</p>
+<p>There are no default values for options on a <code class="docutils literal notranslate"><span class="pre">SolverFactory</span></code>
+object. If you directly modify its options dictionary, as was done
+above, those options will persist across every call to
+<code class="docutils literal notranslate"><span class="pre">optimizer.solve(…)</span></code> unless you delete them from the options
+dictionary. You can also pass a dictionary of options into the
+<code class="docutils literal notranslate"><span class="pre">opt.solve(…)</span></code> method using the <code class="docutils literal notranslate"><span class="pre">options</span></code> keyword. Those options
+will only persist within that solve and temporarily override any
+matching options in the options dictionary on the solver object.</p>
+</div>
+<div class="section" id="specifying-the-path-to-a-solver">
+<h2>Specifying the Path to a Solver<a class="headerlink" href="#specifying-the-path-to-a-solver" title="Permalink to this headline">¶</a></h2>
+<p>Often, the executables for solvers are in the path; however, for
+situations where they are not, the SolverFactory function accepts the
+keyword <code class="docutils literal notranslate"><span class="pre">executable</span></code>, which you can use to set an absolute or relative
+path to a solver executable. E.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s2">&quot;ipopt&quot;</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;../ipopt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="warm-starts">
+<h2>Warm Starts<a class="headerlink" href="#warm-starts" title="Permalink to this headline">¶</a></h2>
+<p>Some solvers support a warm start based on current values of
+variables. To use this feature, set the values of variables in the
+instance and pass <code class="docutils literal notranslate"><span class="pre">warmstart=True</span></code> to the <code class="docutils literal notranslate"><span class="pre">solve()</span></code> method. E.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">instance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s2">&quot;cplex&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Cplex and Gurobi LP file (and Python) interfaces will generate an
+MST file with the variable data and hand this off to the solver in
+addition to the LP file.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Solvers using the NL file interface (e.g., “gurobi_ampl”, “cplexamp”)
+do not accept warmstart as a keyword to the solve() method as the NL
+file format, by default, includes variable initialization data (drawn
+from the current value of all variables).</p>
+</div>
+</div>
+<div class="section" id="solving-multiple-instances-in-parallel">
+<h2>Solving Multiple Instances in Parallel<a class="headerlink" href="#solving-multiple-instances-in-parallel" title="Permalink to this headline">¶</a></h2>
+<p>Building and solving Pyomo models in parallel is a common requirement
+for many applications. We recommend using MPI for Python (mpi4py) for
+this purpose. For more information on mpi4py, see the mpi4py
+documentation (<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">https://mpi4py.readthedocs.io/en/stable/</a>). The example
+below demonstrates how to use mpi4py to solve two pyomo models in
+parallel. The example can be run with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">mpi4py</span> <span class="n">parallel</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># parallel.py</span>
+<span class="c1"># run with mpirun -np 2 python -m mpi4py parallel.py</span>
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+
+<span class="n">rank</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span>
+    <span class="n">size</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="p">),</span> <span class="s1">&#39;This example only works with 2 processes; please us mpirun -np 2 python -m mpi4py parallel.py&#39;</span>
+
+<span class="c1"># Create a solver</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;cplex_direct&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># A simple model with binary variables</span>
+<span class="c1">#</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rank: &#39;</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="s1">&#39;    objective: &#39;</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="changing-the-temporary-directory">
+<h2>Changing the temporary directory<a class="headerlink" href="#changing-the-temporary-directory" title="Permalink to this headline">¶</a></h2>
+<p>A “temporary” directory is used for many intermediate files. Normally,
+the name of the directory for temporary files is provided by the
+operating system, but the user can specify their own directory name.
+The pyomo command-line <code class="docutils literal notranslate"><span class="pre">--tempdir</span></code> option propagates through to the
+TempFileManager service. One can accomplish the same through the
+following few lines of code in a script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyomo.common.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span>
+<span class="n">TempfileManager</span><span class="o">.</span><span class="n">tempdir</span> <span class="o">=</span> <span class="n">YourDirectoryNameGoesHere</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="working_abstractmodels/index.html" class="btn btn-neutral float-right" title="Working with Abstract Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="solving_pyomo_models.html" class="btn btn-neutral float-left" title="Solving Pyomo Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

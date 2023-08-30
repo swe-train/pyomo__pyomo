@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Visitor Classes &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Solver Interfaces" href="../solvers/index.html" />
+    <link rel="prev" title="Core Classes" href="classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Expression Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="building.html">Utilities to Build Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Utilities to Manage and Analyze Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="context_managers.html">Context Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classes.html">Core Classes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Visitor Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kernel/index.html">The Kernel Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Expression Reference</a> &raquo;</li>
+        
+      <li>Visitor Classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/expressions/visitors.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="visitor-classes">
+<h1>Visitor Classes<a class="headerlink" href="#visitor-classes" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyomo.core.expr.current.SimpleExpressionVisitor">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">SimpleExpressionVisitor</code><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#SimpleExpressionVisitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SimpleExpressionVisitor" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is a customization of the PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleVisitor</span></code> class that is tailored
+to efficiently walk Pyomo expression trees.  However, this class
+is not a subclass of the PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleVisitor</span></code> class because all key methods
+are reimplemented.</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SimpleExpressionVisitor.finalize">
+<code class="descname">finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#SimpleExpressionVisitor.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SimpleExpressionVisitor.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the “final value” of the search.</p>
+<p>The default implementation returns <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, because
+the traditional visitor pattern does not return a value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The final value after the search.  Default is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SimpleExpressionVisitor.visit">
+<code class="descname">visit</code><span class="sig-paren">(</span><em><span class="n">node</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#SimpleExpressionVisitor.visit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SimpleExpressionVisitor.visit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visit a node in an expression tree and perform some operation on
+it.</p>
+<p>This method should be over-written by a user
+that is creating a sub-class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – a node in an expression tree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SimpleExpressionVisitor.xbfs">
+<code class="descname">xbfs</code><span class="sig-paren">(</span><em><span class="n">node</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#SimpleExpressionVisitor.xbfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SimpleExpressionVisitor.xbfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Breadth-first search of an expression tree,
+except that leaf nodes are immediately visited.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method has the same functionality as the
+PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleVisitor.xbfs</span></code>
+method.  The difference is that this method
+is tailored to efficiently walk Pyomo expression trees.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – The root node of the expression tree that is searched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value is determined by the <a class="reference internal" href="#pyomo.core.expr.current.SimpleExpressionVisitor.finalize" title="pyomo.core.expr.current.SimpleExpressionVisitor.finalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize()</span></code></a> function,
+which may be defined by the user.  Defaults to <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.SimpleExpressionVisitor.xbfs_yield_leaves">
+<code class="descname">xbfs_yield_leaves</code><span class="sig-paren">(</span><em><span class="n">node</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#SimpleExpressionVisitor.xbfs_yield_leaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.SimpleExpressionVisitor.xbfs_yield_leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Breadth-first search of an expression tree, except that
+leaf nodes are immediately visited.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method has the same functionality as the
+PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleVisitor.xbfs_yield_leaves</span></code>
+method.  The difference is that this method
+is tailored to efficiently walk Pyomo expression trees.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – The root node of the expression tree
+that is searched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value is determined by the <a class="reference internal" href="#pyomo.core.expr.current.SimpleExpressionVisitor.finalize" title="pyomo.core.expr.current.SimpleExpressionVisitor.finalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize()</span></code></a> function,
+which may be defined by the user.  Defaults to <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.ExpressionValueVisitor">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">ExpressionValueVisitor</code><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionValueVisitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionValueVisitor" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is a customization of the PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueVisitor</span></code> class that is tailored
+to efficiently walk Pyomo expression trees.  However, this class
+is not a subclass of the PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueVisitor</span></code> class because all key methods
+are reimplemented.</p>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExpressionValueVisitor.dfs_postorder_stack">
+<code class="descname">dfs_postorder_stack</code><span class="sig-paren">(</span><em><span class="n">node</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionValueVisitor.dfs_postorder_stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionValueVisitor.dfs_postorder_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a depth-first search in postorder using a stack
+implementation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method has the same functionality as the
+PyUtilib <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueVisitor.dfs_postorder_stack</span></code>
+method.  The difference is that this method
+is tailored to efficiently walk Pyomo expression trees.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – The root node of the expression tree
+that is searched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value is determined by the <a class="reference internal" href="#pyomo.core.expr.current.ExpressionValueVisitor.finalize" title="pyomo.core.expr.current.ExpressionValueVisitor.finalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize()</span></code></a> function,
+which may be defined by the user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExpressionValueVisitor.finalize">
+<code class="descname">finalize</code><span class="sig-paren">(</span><em><span class="n">ans</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionValueVisitor.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionValueVisitor.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method defines the return value for the search methods
+in this class.</p>
+<p>The default implementation returns the value of the
+initial node (aka the root node), because
+this visitor pattern computes and returns value for each
+node to enable the computation of this value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ans</strong> – The final value computed by the search method.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The final value after the search. Defaults to simply
+returning <code class="xref py py-attr docutils literal notranslate"><span class="pre">ans</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExpressionValueVisitor.visit">
+<code class="descname">visit</code><span class="sig-paren">(</span><em><span class="n">node</span></em>, <em><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionValueVisitor.visit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionValueVisitor.visit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visit a node in a tree and compute its value using
+the values of its children.</p>
+<p>This method should be over-written by a user
+that is creating a sub-class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> – a node in a tree</li>
+<li><strong>values</strong> – a list of values of this node’s children</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The <em>value</em> for this node, which is computed using <code class="xref py py-attr docutils literal notranslate"><span class="pre">values</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.expr.current.ExpressionValueVisitor.visiting_potential_leaf">
+<code class="descname">visiting_potential_leaf</code><span class="sig-paren">(</span><em><span class="n">node</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionValueVisitor.visiting_potential_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionValueVisitor.visiting_potential_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visit a node and return its value if it is a leaf.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method needs to be over-written for a specific
+visitor application.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – a node in a tree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">(flag,</span> <span class="pre">value)</span></code>.   If <code class="docutils literal notranslate"><span class="pre">flag</span></code> is False,
+then the node is not a leaf and <code class="docutils literal notranslate"><span class="pre">value</span></code> is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">value</span></code> is the computed value for this node.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.expr.current.ExpressionReplacementVisitor">
+<em class="property">class </em><code class="descclassname">pyomo.core.expr.current.</code><code class="descname">ExpressionReplacementVisitor</code><span class="sig-paren">(</span><em><span class="n">substitute</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">remove_named_expressions</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionReplacementVisitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionReplacementVisitor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pyomo.core.expr.current.ExpressionReplacementVisitor.dfs_postorder_stack">
+<code class="descname">dfs_postorder_stack</code><span class="sig-paren">(</span><em><span class="n">expr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/expr/visitor.html#ExpressionReplacementVisitor.dfs_postorder_stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.expr.current.ExpressionReplacementVisitor.dfs_postorder_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 6.2: </span>ExpressionReplacementVisitor: this walker has been ported to derive from StreamBasedExpressionVisitor.  dfs_postorder_stack() has been replaced with walk_expression()</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../solvers/index.html" class="btn btn-neutral float-right" title="Solver Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="classes.html" class="btn btn-neutral float-left" title="Core Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

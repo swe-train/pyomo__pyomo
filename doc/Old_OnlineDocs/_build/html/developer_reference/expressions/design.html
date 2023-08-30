@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Design Details &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Managing Expressions" href="managing.html" />
+    <link rel="prev" title="Design Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config.html">The Pyomo Configuration System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecation.html">Deprecation and Removal of Functionality</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Pyomo Expressions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="performance.html">Building Expressions Faster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Design Overview</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Design Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#expression-classes">Expression Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-expression-classes">Special Expression Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expression-semantics">Expression Semantics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#context-managers">Context Managers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="managing.html">Managing Expressions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Developer Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Pyomo Expressions</a> &raquo;</li>
+        
+      <li>Design Details</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/developer_reference/expressions/design.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-details">
+<h1>Design Details<a class="headerlink" href="#design-details" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Pyomo expression trees are not composed of Python
+objects from a single class hierarchy.  Consequently, Pyomo
+relies on duck typing to ensure that valid expression trees are
+created.</p>
+</div>
+<p>Most Pyomo expression trees have the following form</p>
+<ol class="arabic simple">
+<li>Interior nodes are objects that inherit from the <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionBase</span></code> class.  These objects typically have one or more child nodes.  Linear expression nodes do not have child nodes, but they are treated as interior nodes in the expression tree because they references other leaf nodes.</li>
+<li>Leaf nodes are numeric values, parameter components and variable components, which represent the <em>inputs</em> to the expression.</li>
+</ol>
+<div class="section" id="expression-classes">
+<h2>Expression Classes<a class="headerlink" href="#expression-classes" title="Permalink to this headline">¶</a></h2>
+<p>Expression classes typically represent unary and binary operations.  The following table
+describes the standard operators in Python and their associated Pyomo expression class:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Python Syntax</th>
+<th class="head">Pyomo Class</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>sum</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.SumExpression" title="pyomo.core.expr.current.SumExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumExpression</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>product</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">*</span> <span class="pre">y</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.ProductExpression" title="pyomo.core.expr.current.ProductExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProductExpression</span></code></a></td>
+</tr>
+<tr class="row-even"><td>negation</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">x</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.NegationExpression" title="pyomo.core.expr.current.NegationExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">NegationExpression</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>division</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">/</span> <span class="pre">y</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.DivisionExpression" title="pyomo.core.expr.current.DivisionExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">DivisionExpression</span></code></a></td>
+</tr>
+<tr class="row-even"><td>power</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">**</span> <span class="pre">y</span></code></td>
+<td><code class="xref py py-class docutils literal notranslate"><span class="pre">PowExpression</span></code></td>
+</tr>
+<tr class="row-odd"><td>inequality</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;=</span> <span class="pre">y</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.InequalityExpression" title="pyomo.core.expr.current.InequalityExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">InequalityExpression</span></code></a></td>
+</tr>
+<tr class="row-even"><td>equality</td>
+<td><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.EqualityExpression" title="pyomo.core.expr.current.EqualityExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">EqualityExpression</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, there are a variety of other Pyomo expression classes that capture more general
+logical relationships, which are summarized in the following table:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Example</th>
+<th class="head">Pyomo Class</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>external function</td>
+<td><code class="docutils literal notranslate"><span class="pre">myfunc(x,y,z)</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.ExternalFunctionExpression" title="pyomo.core.expr.current.ExternalFunctionExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalFunctionExpression</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>logical if-then-else</td>
+<td><code class="docutils literal notranslate"><span class="pre">Expr_if(IF=x,</span> <span class="pre">THEN=y,</span> <span class="pre">ELSE=z)</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.Expr_ifExpression" title="pyomo.core.expr.current.Expr_ifExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expr_ifExpression</span></code></a></td>
+</tr>
+<tr class="row-even"><td>intrinsic function</td>
+<td><code class="docutils literal notranslate"><span class="pre">sin(x)</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.UnaryFunctionExpression" title="pyomo.core.expr.current.UnaryFunctionExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnaryFunctionExpression</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>absolute function</td>
+<td><code class="docutils literal notranslate"><span class="pre">abs(x)</span></code></td>
+<td><a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.AbsExpression" title="pyomo.core.expr.current.AbsExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbsExpression</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Expression objects are immutable.  Specifically, the list of
+arguments to an expression object (a.k.a. the list of child nodes
+in the tree) cannot be changed after an expression class is
+constructed.  To enforce this property, expression objects have a
+standard API for accessing expression arguments:</p>
+<ul class="simple">
+<li><code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code> - a class property that returns a generator that yields the expression arguments</li>
+<li><code class="xref py py-attr docutils literal notranslate"><span class="pre">arg(i)</span></code> - a function that returns the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th argument</li>
+<li><code class="xref py py-attr docutils literal notranslate"><span class="pre">nargs()</span></code> - a function that returns the number of expression arguments</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Developers should never use the <code class="xref py py-attr docutils literal notranslate"><span class="pre">_args_</span></code> property directly!
+The semantics for the use of this data has changed since earlier
+versions of Pyomo.  For example, in some expression classes the
+the value <code class="xref py py-func docutils literal notranslate"><span class="pre">nargs()</span></code> may not equal <code class="xref py py-const docutils literal notranslate"><span class="pre">len(_args_)</span></code>!</p>
+</div>
+<p>Expression trees can be categorized in four different ways:</p>
+<ul class="simple">
+<li>constant expressions - expressions that do not contain numeric constants and immutable parameters.</li>
+<li>mutable expressions - expressions that contain mutable parameters but no variables.</li>
+<li>potentially variable expressions - expressions that contain variables, which may be fixed.</li>
+<li>fixed expressions - expressions that contain variables, all of which are fixed.</li>
+</ul>
+<p>These three categories are illustrated with the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>The following table describes four different simple expressions
+that consist of a single model component, and it shows how they
+are categorized:</p>
+<table border="1" class="docutils colwidths-auto align-default">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Category</th>
+<th class="head">m.p</th>
+<th class="head">m.q</th>
+<th class="head">m.x</th>
+<th class="head">m.y</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>constant</td>
+<td>True</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>not potentially variable</td>
+<td>True</td>
+<td>True</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="row-even"><td>potentially_variable</td>
+<td>False</td>
+<td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr class="row-odd"><td>fixed</td>
+<td>True</td>
+<td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+<p>Expressions classes contain methods to test whether an expression
+tree is in each of these categories.  Additionally, Pyomo includes
+custom expression classes for expression trees that are <em>not potentially
+variable</em>.  These custom classes will not normally be used by
+developers, but they provide an optimization of the checks for
+potentially variability.</p>
+</div>
+<div class="section" id="special-expression-classes">
+<h2>Special Expression Classes<a class="headerlink" href="#special-expression-classes" title="Permalink to this headline">¶</a></h2>
+<p>The following classes are <em>exceptions</em> to the design principles describe above.</p>
+<div class="section" id="named-expressions">
+<h3>Named Expressions<a class="headerlink" href="#named-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Named expressions allow for changes to an expression after it has
+been constructed.  For example, consider the expression <code class="docutils literal notranslate"><span class="pre">f</span></code> defined
+with the <code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code> component:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">Var</span><span class="p">()</span>
+
+<span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">+</span> <span class="mi">3</span>  <span class="c1"># f == 2*v + 3</span>
+<span class="n">M</span><span class="o">.</span><span class="n">e</span> <span class="o">+=</span> <span class="n">M</span><span class="o">.</span><span class="n">w</span>  <span class="c1"># f == 2*v + 3 + w</span>
+</pre></div>
+</div>
+<p>Although <code class="docutils literal notranslate"><span class="pre">f</span></code> is an immutable expression, whose definition is
+fixed, a sub-expressions is the named expression <code class="docutils literal notranslate"><span class="pre">M.e</span></code>.  Named
+expressions have a mutable value.  In other words, the expression
+that they point to can change.  Thus, a change to the value of
+<code class="docutils literal notranslate"><span class="pre">M.e</span></code> changes the expression tree for any expression that includes
+the named expression.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The named expression classes are not implemented as sub-classes
+of <a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.NumericExpression" title="pyomo.core.expr.current.NumericExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericExpression</span></code></a>.
+This reflects design constraints related to the fact that these
+are modeling components that belong to class hierarchies other
+than the expression class hierarchy, and Pyomo’s design prohibits
+the use of multiple inheritance for these classes.</p>
+</div>
+</div>
+<div class="section" id="linear-expressions">
+<h3>Linear Expressions<a class="headerlink" href="#linear-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo includes a special expression class for linear expressions.
+The class <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> provides a compact
+description of linear polynomials.  Specifically, it includes a
+constant value <code class="xref py py-attr docutils literal notranslate"><span class="pre">constant</span></code> and two lists for coefficients and
+variables: <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear_coefs</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">linear_vars</span></code>.</p>
+<p>This expression object does not have arguments, and thus it is
+treated as a leaf node by Pyomo visitor classes.  Further, the
+expression API functions described above do not work with this
+class.  Thus, developers need to treat this class differently when
+walking an expression tree (e.g. when developing a problem
+transformation).</p>
+</div>
+<div class="section" id="sum-expressions">
+<h3>Sum Expressions<a class="headerlink" href="#sum-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Pyomo does not have a binary sum expression class.  Instead,
+it has an <code class="docutils literal notranslate"><span class="pre">n</span></code>-ary summation class, <a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.SumExpression" title="pyomo.core.expr.current.SumExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumExpression</span></code></a>.  This expression class
+treats sums as <code class="docutils literal notranslate"><span class="pre">n</span></code>-ary sums for efficiency reasons;  many large
+optimization models contain large sums. But note that this class
+maintains the immutability property described above.  This class
+shares an underlying list of arguments with other <a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.current.SumExpression" title="pyomo.core.expr.current.SumExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumExpression</span></code></a> objects. A particular
+object owns the first <code class="docutils literal notranslate"><span class="pre">n</span></code> arguments in the shared list, but
+different objects may have different values of <code class="docutils literal notranslate"><span class="pre">n</span></code>.</p>
+<p>This class acts like a normal immutable expression class, and the
+API described above works normally.  But direct access to the shared
+list could have unexpected results.</p>
+</div>
+<div class="section" id="mutable-expressions">
+<h3>Mutable Expressions<a class="headerlink" href="#mutable-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Finally, Pyomo includes several <strong>mutable</strong> expression classes
+that are private.  These are not intended to be used by users, but
+they might be useful for developers in contexts where the developer
+can appropriately control how the classes are used.  Specifically,
+immutability eliminates side-effects where changes to a sub-expression
+unexpectedly create changes to the expression tree.  But within the context of
+model transformations, developers may be able to limit the use of
+expressions to avoid these side-effects.  The following mutable private classes
+are available in Pyomo:</p>
+<dl class="docutils">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">_MutableSumExpression</span></code></dt><dd>This class
+is used in the <a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.nonlinear_expression" title="pyomo.core.expr.current.nonlinear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">nonlinear_expression</span></code></a> context manager to
+efficiently combine sums of nonlinear terms.</dd>
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">_MutableLinearExpression</span></code></dt><dd>This class
+is used in the <a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.linear_expression" title="pyomo.core.expr.current.linear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">linear_expression</span></code></a> context manager to
+efficiently combine sums of linear terms.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="expression-semantics">
+<h2>Expression Semantics<a class="headerlink" href="#expression-semantics" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo clear semantics regarding what is considered a valid leaf and
+interior node.</p>
+<p>The following classes are valid interior nodes:</p>
+<ul class="simple">
+<li>Subclasses of <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionBase</span></code></li>
+<li>Classes that that are <em>duck typed</em> to match the API of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionBase</span></code> class.  For example, the named expression class <code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code>.</li>
+</ul>
+<p>The following classes are valid leaf nodes:</p>
+<ul class="simple">
+<li>Members of <a class="reference internal" href="../../library_reference/expressions/classes.html#pyomo.core.expr.numvalue.nonpyomo_leaf_types" title="pyomo.core.expr.numvalue.nonpyomo_leaf_types"><code class="xref py py-data docutils literal notranslate"><span class="pre">nonpyomo_leaf_types</span></code></a>, which includes standard numeric data types like <code class="xref py py-const docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">float</span></code> and <code class="xref py py-const docutils literal notranslate"><span class="pre">long</span></code>, as well as numeric data types defined by <cite>numpy</cite> and other commonly used packages.  This set also includes <code class="xref py py-class docutils literal notranslate"><span class="pre">NonNumericValue</span></code>, which is used to wrap non-numeric arguments to the <code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalFunctionExpression</span></code> class.</li>
+<li>Parameter component classes like <code class="xref py py-class docutils literal notranslate"><span class="pre">ScalarParam</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">_ParamData</span></code>, which arise in expression trees when the parameters are declared as mutable.  (Immutable parameters are identified when generating expressions, and they are replaced with their associated numeric value.)</li>
+<li>Variable component classes like <code class="xref py py-class docutils literal notranslate"><span class="pre">ScalarVar</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">_GeneralVarData</span></code>, which often arise in expression trees.  &lt;pyomo.core.expr.current.pyomo5_variable_types&gt;`.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In some contexts the <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearExpression</span></code> class can be treated
+as an interior node, and sometimes it can be treated as a leaf.
+This expression object does not have any child arguments, so
+<code class="docutils literal notranslate"><span class="pre">nargs()</span></code> is zero.  But this expression references variables
+and parameters in a linear expression, so in that sense it does
+not represent a leaf node in the tree.</p>
+</div>
+</div>
+<div class="section" id="context-managers">
+<h2>Context Managers<a class="headerlink" href="#context-managers" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo defines several context managers that can be used to declare
+the form of expressions, and to define a mutable expression object that
+efficiently manages sums.</p>
+<p>The <a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.linear_expression" title="pyomo.core.expr.current.linear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">linear_expression</span></code></a>
+object is a context manager that can be used to declare a linear sum.  For
+example, consider the following two loops:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">linear_expression</span><span class="p">()</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">+=</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The first apparent difference in these loops is that the value of
+<code class="docutils literal notranslate"><span class="pre">s</span></code> is explicitly initialized while <code class="docutils literal notranslate"><span class="pre">e</span></code> is initialized when the
+context manager is entered.  However, a more fundamental difference
+is that the expression representation for <code class="docutils literal notranslate"><span class="pre">s</span></code> differs from <code class="docutils literal notranslate"><span class="pre">e</span></code>.
+Each term added to <code class="docutils literal notranslate"><span class="pre">s</span></code> results in a new, immutable expression.
+By contrast, the context manager creates a mutable expression
+representation for <code class="docutils literal notranslate"><span class="pre">e</span></code>.  This difference allows for both (a) a
+more efficient processing of each sum, and (b) a more compact
+representation for the expression.</p>
+<p>The difference between <a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.linear_expression" title="pyomo.core.expr.current.linear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">linear_expression</span></code></a> and
+<a class="reference internal" href="../../library_reference/expressions/context_managers.html#pyomo.core.expr.current.nonlinear_expression" title="pyomo.core.expr.current.nonlinear_expression"><code class="xref py py-data docutils literal notranslate"><span class="pre">nonlinear_expression</span></code></a>
+is the underlying representation that each supports.  Note that
+both of these are instances of context manager classes.  In
+singled-threaded applications, these objects can be safely used to
+construct different expressions with different context declarations.</p>
+<p>Finally, note that these context managers can be passed into the <code class="xref py py-attr docutils literal notranslate"><span class="pre">start</span></code>
+method for the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a> function.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">M</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">linear_expression</span><span class="p">()</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">quicksum</span><span class="p">((</span><span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">quicksum</span><span class="p">((</span><span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This sum contains terms for <code class="docutils literal notranslate"><span class="pre">M.x[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">M.y[i]</span></code>.  The syntax
+in this example is not intuitive because the sum is being stored
+in <code class="docutils literal notranslate"><span class="pre">e</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We do not generally expect users or developers to use these
+context managers.  They are used by the <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.quicksum" title="pyomo.core.util.quicksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">quicksum</span></code></a> and <a class="reference internal" href="../../library_reference/expressions/building.html#pyomo.core.util.sum_product" title="pyomo.core.util.sum_product"><code class="xref py py-func docutils literal notranslate"><span class="pre">sum_product</span></code></a> functions to accelerate expression
+generation, and there are few cases where the direct use of
+these context managers would provide additional utility to users
+and developers.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="managing.html" class="btn btn-neutral float-right" title="Managing Expressions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="overview.html" class="btn btn-neutral float-left" title="Design Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

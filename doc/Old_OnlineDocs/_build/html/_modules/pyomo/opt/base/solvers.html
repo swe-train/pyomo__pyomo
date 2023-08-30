@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.opt.base.solvers &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.opt.base.solvers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.opt.base.solvers</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;OptSolver&#39;</span><span class="p">,</span> <span class="s1">&#39;SolverFactory&#39;</span><span class="p">,</span> <span class="s1">&#39;UnknownSolver&#39;</span><span class="p">,</span> <span class="s1">&#39;check_available_solvers&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">shlex</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common</span> <span class="kn">import</span> <span class="n">Factory</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigDict</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.errors</span> <span class="kn">import</span> <span class="n">ApplicationError</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.collections</span> <span class="kn">import</span> <span class="n">Bunch</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.opt.base.convert</span> <span class="kn">import</span> <span class="n">convert_problem</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt.base.formats</span> <span class="kn">import</span> <span class="n">ResultsFormat</span><span class="p">,</span> <span class="n">ProblemFormat</span>
+<span class="kn">import</span> <span class="nn">pyomo.opt.base.results</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.opt&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># The version string is first searched for trunk/Trunk, and if</span>
+<span class="c1"># found a tuple of infinities is returned. Otherwise, the first</span>
+<span class="c1"># match of number[.number] where [.number] can repeat 1-3 times</span>
+<span class="c1"># is used, which is translated into a tuple of size matching</span>
+<span class="c1"># the keyword length (appending 0&#39;s when necessary). If no match</span>
+<span class="c1"># is found None is returned (although one could argue a tuple of</span>
+<span class="c1"># 0&#39;s might be appropriated).</span>
+<span class="k">def</span> <span class="nf">_extract_version</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Attempts to extract solver version information from a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">length</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;[t,T]runk&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Since most version checks are comparing if the current</span>
+        <span class="c1"># version is greater/less than some other version, it makes</span>
+        <span class="c1"># since that a solver advertising trunk should always be greater</span>
+        <span class="c1"># than a version check, hence returning a tuple of infinities</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+(\.[0-9]+){1,3}&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[:</span><span class="n">length</span><span class="p">])</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)</span>
+        <span class="k">return</span> <span class="n">version</span>
+    <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># (0,0,0,0)[:length]</span>
+
+
+<span class="k">class</span> <span class="nc">UnknownSolver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1"># super(UnknownSolver,self).__init__(**kwds)</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># The &#39;type&#39; is the class type of the solver instance</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma:nocover</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected option &#39;type&#39; for UnknownSolver constructor&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span> <span class="o">=</span> <span class="n">kwds</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Support &quot;with&quot; statements. Forgetting to call deactivate</span>
+    <span class="c1"># on Plugins is a common source of memory leaks</span>
+    <span class="c1">#</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determine if this optimizer is available.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">exception_flag</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span><span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) not available&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">license_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;True if the solver is present and has a valid license (if applicable)&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">warm_start_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True is the solver can accept a warm-start solution.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform optimization and return an SolverResults object.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_error</span><span class="p">(</span><span class="s1">&#39;solve&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the state of an optimizer&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_error</span><span class="p">(</span><span class="s1">&#39;reset&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">istr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the options in the optimizer from a string.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_error</span><span class="p">(</span><span class="s1">&#39;set_options&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver_error</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_solver_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;Attempting to use an unavailable solver.</span>
+
+<span class="sd">The SolverFactory was unable to create the solver &quot;%s&quot;</span>
+<span class="sd">and returned an UnknownSolver object.  This error is raised at the point</span>
+<span class="sd">where the UnknownSolver object was used as if it were valid (by calling</span>
+<span class="sd">method &quot;%s&quot;).</span>
+
+<span class="sd">The original solver was created with the following parameters:</span>
+<span class="sd">\t&quot;&quot;&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwds</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">_args: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">,)</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">options: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,)</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SolverFactoryClass</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="n">_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">_name</span><span class="p">:</span>
+            <span class="n">_name</span><span class="p">,</span> <span class="n">subsolver</span> <span class="o">=</span> <span class="n">_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subsolver</span>
+        <span class="k">elif</span> <span class="s1">&#39;solver&#39;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="n">subsolver</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">subsolver</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="p">:</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="p">[</span><span class="n">_name</span><span class="p">](</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;solver_io&#39;</span><span class="p">,</span> <span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;nl&#39;</span>
+                <span class="n">_implicit_solvers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nl&#39;</span><span class="p">:</span> <span class="s1">&#39;asl&#39;</span><span class="p">}</span>
+                <span class="k">if</span> <span class="s2">&quot;executable&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+                    <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;executable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_name</span>
+                <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">_implicit_solvers</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">_implicit_solvers</span><span class="p">[</span><span class="n">mode</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                            <span class="s2">&quot;  The solver plugin was not registered.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                            <span class="s2">&quot;  Please confirm that the &#39;pyomo.environ&#39; package has been imported.&quot;</span>
+                        <span class="p">)</span>
+                    <span class="n">opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="p">[</span><span class="n">_implicit_solvers</span><span class="p">[</span><span class="n">mode</span><span class="p">]](</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">opt</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="s1">&#39;solver=&#39;</span> <span class="o">+</span> <span class="n">_name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Failed to create solver with name &#39;</span><span class="si">%s</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">err</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">exc_info</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_name</span> <span class="o">!=</span> <span class="s2">&quot;py&quot;</span> <span class="ow">and</span> <span class="n">subsolver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># py just creates instance of its subsolver, no need for this option</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="s1">&#39;solver=&#39;</span> <span class="o">+</span> <span class="n">subsolver</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">UnknownSolver</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">_name</span>
+        <span class="k">return</span> <span class="n">opt</span>
+
+
+<span class="n">SolverFactory</span> <span class="o">=</span> <span class="n">SolverFactoryClass</span><span class="p">(</span><span class="s1">&#39;solver type&#39;</span><span class="p">)</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># TODO: It is impossible to load CBC with NL file-io using this function,</span>
+<span class="c1">#       i.e., SolverFactory(&quot;cbc&quot;, solver_io=&#39;nl&#39;),</span>
+<span class="c1">#       this is NOT asl:cbc (same with PICO)</span>
+<span class="c1"># WEH:  Why is there a distinction between SolverFactory(&#39;asl:cbc&#39;) and SolverFactory(&#39;cbc&#39;, solver_io=&#39;nl&#39;)???   This is bad.</span>
+<span class="c1">#</span>
+<span class="k">def</span> <span class="nf">check_available_solvers</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.GUROBI</span> <span class="kn">import</span> <span class="n">GUROBISHELL</span>
+    <span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.BARON</span> <span class="kn">import</span> <span class="n">BARONSHELL</span>
+    <span class="kn">from</span> <span class="nn">pyomo.solvers.plugins.solvers.mosek_direct</span> <span class="kn">import</span> <span class="n">MOSEKDirect</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+    <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">arg</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="p">(</span><span class="n">arg</span><span class="p">,)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">UnknownSolver</span><span class="p">):</span>
+            <span class="k">continue</span>  <span class="c1"># not available</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">continue</span>  <span class="c1"># not available</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="s1">&#39;executable&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">opt</span><span class="o">.</span><span class="n">executable</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># not available</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="o">.</span><span class="n">license_is_valid</span><span class="p">():</span>
+            <span class="k">continue</span>  <span class="c1"># not available</span>
+
+        <span class="c1"># At this point, the solver is available (and licensed)</span>
+        <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="k">def</span> <span class="nf">_raise_ephemeral_error</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+        <span class="s2">&quot;The property &#39;</span><span class="si">%s</span><span class="s2">&#39; can no longer be set directly on &quot;</span>
+        <span class="s2">&quot;the solver object. It should instead be passed as a &quot;</span>
+        <span class="s2">&quot;keyword into the solve method</span><span class="si">%s</span><span class="s2">. It will automatically &quot;</span>
+        <span class="s2">&quot;be reset to its default value after each invocation of &quot;</span>
+        <span class="s2">&quot;solve.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">keyword</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">OptSolver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generic optimization solver&quot;&quot;&quot;</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Support &quot;with&quot; statements. Forgetting to call deactivate</span>
+    <span class="c1"># on Plugins is a common source of memory leaks</span>
+    <span class="c1">#</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Adding to help track down invalid code after making</span>
+    <span class="c1"># the following attributes private</span>
+    <span class="c1">#</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tee</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;tee&#39;</span><span class="p">)</span>
+
+    <span class="nd">@tee</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">tee</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;tee&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">suffixes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;suffixes&#39;</span><span class="p">)</span>
+
+    <span class="nd">@suffixes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">suffixes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;suffixes&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">keepfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;keepfiles&#39;</span><span class="p">)</span>
+
+    <span class="nd">@keepfiles</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">keepfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;keepfiles&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">soln_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;soln_file&#39;</span><span class="p">)</span>
+
+    <span class="nd">@soln_file</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">soln_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;soln_file&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">log_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;log_file&#39;</span><span class="p">)</span>
+
+    <span class="nd">@log_file</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">log_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;log_file&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">symbolic_solver_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;symbolic_solver_labels&#39;</span><span class="p">)</span>
+
+    <span class="nd">@symbolic_solver_labels</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">symbolic_solver_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;symbolic_solver_labels&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">warm_start_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;warm_start_solve&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s2">&quot; (warmstart)&quot;</span><span class="p">)</span>
+
+    <span class="nd">@warm_start_solve</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">warm_start_solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;warm_start_solve&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s2">&quot; (warmstart)&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">warm_start_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;warm_start_file_name&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s2">&quot; (warmstart_file)&quot;</span><span class="p">)</span>
+
+    <span class="nd">@warm_start_file_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">warm_start_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">_raise_ephemeral_error</span><span class="p">(</span><span class="s1">&#39;warm_start_file_name&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="s2">&quot; (warmstart_file)&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor&quot;&quot;&quot;</span>
+        <span class="c1">#</span>
+        <span class="c1"># The &#39;type&#39; is the class type of the solver instance</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma:nocover</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected option &#39;type&#39; for OptSolver constructor&quot;</span><span class="p">)</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># The &#39;name&#39; is either the class type of the solver instance, or a</span>
+        <span class="c1"># assigned name.</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+
+        <span class="k">if</span> <span class="s2">&quot;doc&quot;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_doc</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma:nocover</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_doc</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> OptSolver&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_doc</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> OptSolver (type </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># Options are persistent, meaning users must modify the</span>
+        <span class="c1"># options dict directly rather than pass them into _presolve</span>
+        <span class="c1"># through the solve command. Everything else is reset inside</span>
+        <span class="c1"># presolve</span>
+        <span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">kwds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">kwds</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="c1"># the symbol map is an attribute of the solver plugin only</span>
+        <span class="c1"># because it is generated in presolve and used to tag results</span>
+        <span class="c1"># so they are interpretable - basically, it persists across</span>
+        <span class="c1"># multiple methods.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># These are ephimeral options that can be set by the user during</span>
+        <span class="c1"># the call to solve, but will be reset to defaults if not given</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_select_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_suffixes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_soln_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># overridden by a solver plugin when it returns sparse results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_variable_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># overridden by a solver plugin when it is always available</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_available</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># overridden by a solver plugin to indicate its input file format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_problem_formats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># overridden by a solver plugin to indicate its results file format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_result_formats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_reader</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_problem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Used to document meta solvers</span>
+        <span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metasolver</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1">#</span>
+        <span class="c1"># Data for solver callbacks</span>
+        <span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allow_callbacks</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># We define no capabilities for the generic solver; base</span>
+        <span class="c1"># classes must override this</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_options_string_to_dict</span><span class="p">(</span><span class="n">istr</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">istr</span> <span class="o">=</span> <span class="n">istr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">istr</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ans</span>
+        <span class="k">if</span> <span class="n">istr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">or</span> <span class="n">istr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">:</span>
+            <span class="n">istr</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">istr</span><span class="p">)</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">istr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Solver options must have the form option=value: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">istr</span>
+                <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">token</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">token</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">ans</span><span class="p">[</span><span class="n">token</span><span class="p">[:</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="nf">default_variable_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variable_value</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a 4-tuple describing the solver executable version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_version</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="k">def</span> <span class="nf">_get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">problem_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current problem format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span>
+
+    <span class="k">def</span> <span class="nf">set_problem_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the current problem format (if it&#39;s valid) and update</span>
+<span class="sd">        the results format to something valid for this problem format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_problem_formats</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span> <span class="o">=</span> <span class="nb">format</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a valid problem format for solver plugin </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_results_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">results_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current results format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span>
+
+    <span class="k">def</span> <span class="nf">set_results_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the current results format (if it&#39;s valid for the current</span>
+<span class="sd">        problem format).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_results_formats</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="nb">format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_results_formats</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">=</span> <span class="nb">format</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a valid results format for &quot;</span>
+                <span class="s2">&quot;problem format </span><span class="si">%s</span><span class="s2"> with solver plugin </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_capability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cap</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a boolean value representing whether a solver supports</span>
+<span class="sd">        a specific feature. Defaults to &#39;False&#39; if the solver is unaware</span>
+<span class="sd">        of an option. Expects a string.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">        # prints True if solver supports sos1 constraints, and False otherwise</span>
+<span class="sd">        print(solver.has_capability(&#39;sos1&#39;)</span>
+
+<span class="sd">        # prints True is solver supports &#39;feature&#39;, and False otherwise</span>
+<span class="sd">        print(solver.has_capability(&#39;feature&#39;)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cap: str</span>
+<span class="sd">            The feature</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        val: bool</span>
+<span class="sd">            Whether or not the solver has the specified capability.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Expected argument to be of type &#39;</span><span class="si">%s</span><span class="s2">&#39;, not &quot;</span>
+                <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="nb">str</span><span class="p">()),</span> <span class="nb">type</span><span class="p">(</span><span class="n">cap</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capabilities</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">cap</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the solver is available&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">license_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;True if the solver is present and has a valid license (if applicable)&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">warm_start_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True is the solver can accept a warm-start solution&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Solve the problem&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># If the inputs are models, then validate that they have been</span>
+        <span class="c1"># constructed! Collect suffix names to try and import from solution.</span>
+        <span class="c1">#</span>
+        <span class="kn">from</span> <span class="nn">pyomo.core.base.block</span> <span class="kn">import</span> <span class="n">_BlockData</span>
+        <span class="kn">import</span> <span class="nn">pyomo.core.base.suffix</span>
+        <span class="kn">from</span> <span class="nn">pyomo.core.kernel.block</span> <span class="kn">import</span> <span class="n">IBlock</span>
+        <span class="kn">import</span> <span class="nn">pyomo.core.kernel.suffix</span>
+
+        <span class="n">_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="n">_BlockData</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">_BlockData</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_constructed</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                            <span class="s2">&quot;Attempting to solve model=</span><span class="si">%s</span><span class="s2"> with unconstructed &quot;</span>
+                            <span class="s2">&quot;component(s)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+                        <span class="p">)</span>
+
+                <span class="n">_model</span> <span class="o">=</span> <span class="n">arg</span>
+                <span class="c1"># import suffixes must be on the top-level model</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">_BlockData</span><span class="p">):</span>
+                    <span class="n">model_suffixes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="n">name</span>
+                        <span class="k">for</span> <span class="p">(</span>
+                            <span class="n">name</span><span class="p">,</span>
+                            <span class="n">comp</span><span class="p">,</span>
+                        <span class="p">)</span> <span class="ow">in</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">active_import_suffix_generator</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">)</span>
+                    <span class="n">model_suffixes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="n">comp</span><span class="o">.</span><span class="n">storage_key</span>
+                        <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">import_suffix_generator</span><span class="p">(</span>
+                            <span class="n">arg</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_suffixes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">kwds_suffixes</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;suffixes&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">model_suffixes</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwds_suffixes</span><span class="p">:</span>
+                            <span class="n">kwds_suffixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Handle ephemeral solvers options here. These</span>
+        <span class="c1"># will override whatever is currently in the options</span>
+        <span class="c1"># dictionary, but we will reset these options to</span>
+        <span class="c1"># their original value at the end of this method.</span>
+        <span class="c1">#</span>
+
+        <span class="n">orig_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">orig_options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;options&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_options_string_to_dict</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;options_string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># we&#39;re good to go.</span>
+            <span class="n">initial_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_presolve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+            <span class="n">presolve_completion_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;      </span><span class="si">%6.2f</span><span class="s2"> seconds required for presolve&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">presolve_completion_time</span> <span class="o">-</span> <span class="n">initial_time</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_callbacks</span><span class="p">(</span><span class="n">_model</span><span class="p">)</span>
+
+            <span class="n">_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_solver</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_transformation_data&#39;</span><span class="p">):</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformation_data</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_status</span><span class="p">,</span> <span class="s1">&#39;rc&#39;</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) did not return a solver status code.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;This is indicative of an internal solver plugin error.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;Please report this to the Pyomo developers.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">_status</span><span class="o">.</span><span class="n">rc</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) returned non-zero return code (</span><span class="si">%s</span><span class="s2">)&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">_status</span><span class="o">.</span><span class="n">rc</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;See the solver log above for diagnostic information.&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_status</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Solver log:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">_status</span><span class="o">.</span><span class="n">log</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span><span class="s2">&quot;Solver (</span><span class="si">%s</span><span class="s2">) did not exit normally&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">solve_completion_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;      </span><span class="si">%6.2f</span><span class="s2"> seconds required for solver&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">solve_completion_time</span> <span class="o">-</span> <span class="n">presolve_completion_time</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postsolve</span><span class="p">()</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_smap_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_smap</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">_model</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_model</span><span class="p">,</span> <span class="n">IBlock</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">symbol_map</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                            <span class="n">_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span>
+                        <span class="p">)[</span><span class="n">result</span><span class="o">.</span><span class="n">_smap_id</span><span class="p">]</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span>
+                            <span class="mi">0</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">default_variable_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variable_value</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span><span class="p">:</span>
+                            <span class="n">_model</span><span class="o">.</span><span class="n">load_solution</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="c1"># see the hack in the write method</span>
+                    <span class="c1"># we don&#39;t want this to stick around on the model</span>
+                    <span class="c1"># after the solve</span>
+                    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span>
+                    <span class="nb">delattr</span><span class="p">(</span><span class="n">_model</span><span class="p">,</span> <span class="s2">&quot;._symbol_maps&quot;</span><span class="p">)</span>
+                    <span class="k">del</span> <span class="n">result</span><span class="o">.</span><span class="n">_smap_id</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No solution is available&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span><span class="p">:</span>
+                        <span class="n">_model</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span>
+                            <span class="n">result</span><span class="p">,</span>
+                            <span class="n">select</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_select_index</span><span class="p">,</span>
+                            <span class="n">default_variable_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_variable_value</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">_smap_id</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">solution</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">_smap</span> <span class="o">=</span> <span class="n">_model</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">symbol_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span><span class="p">]</span>
+                        <span class="n">_model</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">delete_symbol_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span><span class="p">)</span>
+            <span class="n">postsolve_completion_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;      </span><span class="si">%6.2f</span><span class="s2"> seconds required for postsolve&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">postsolve_completion_time</span> <span class="o">-</span> <span class="n">solve_completion_time</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1">#</span>
+            <span class="c1"># Reset the options dict</span>
+            <span class="c1">#</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">orig_options</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_presolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;logfile&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_soln_file</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;solnfile&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_select_index</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;select&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_solutions</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;load_solutions&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timelimit</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;timelimit&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;report_timing&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tee</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tee&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_available</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;available&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_suffixes</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;suffixes&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">:</span>
+            <span class="n">write_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_smap_id</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_problem</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_problem_formats</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span>
+            <span class="p">)</span>
+            <span class="n">total_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">write_start_time</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_timing</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      </span><span class="si">%6.2f</span><span class="s2"> seconds required to write file&quot;</span> <span class="o">%</span> <span class="n">total_time</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwds</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Solver=&quot;</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+                    <span class="o">+</span> <span class="s2">&quot; passed unrecognized keywords: </span><span class="se">\n\t</span><span class="s2">&quot;</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwds</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_problem_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_problem_files</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_results_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_problem_format</span><span class="p">)</span>
+
+        <span class="c1">#</span>
+        <span class="c1"># Disabling this check for now.  A solver doesn&#39;t have just</span>
+        <span class="c1"># _one_ results format.</span>
+        <span class="c1">#</span>
+        <span class="c1"># if self._results_format not in \</span>
+        <span class="c1">#   self._valid_result_formats[self._problem_format]:</span>
+        <span class="c1">#    raise ValueError(&quot;Results format &#39;&quot;+str(self._results_format)+&quot;&#39; &quot;</span>
+        <span class="c1">#                     &quot;cannot be used with problem format &#39;&quot;</span>
+        <span class="c1">#                     +str(self._problem_format)+&quot;&#39; in solver &quot;+self.name)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span> <span class="o">==</span> <span class="n">ResultsFormat</span><span class="o">.</span><span class="n">soln</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_reader</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_reader</span> <span class="o">=</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">ReaderFactory</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_results_format</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize call-back functions&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_apply_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The routine that performs the solve&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma:nocover</span>
+
+    <span class="k">def</span> <span class="nf">_postsolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The routine that does solve post-processing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">_convert_problem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">problem_format</span><span class="p">,</span> <span class="n">valid_problem_formats</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">convert_problem</span><span class="p">(</span>
+            <span class="n">args</span><span class="p">,</span> <span class="n">problem_format</span><span class="p">,</span> <span class="n">valid_problem_formats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_capability</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_default_results_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob_format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the default results format for different problem</span>
+<span class="sd">        formats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResultsFormat</span><span class="o">.</span><span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset the state of the solver</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_get_options_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">istr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">istr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">istr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options_string_to_dict</span><span class="p">(</span><span class="n">istr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">istr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">istr</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">istr</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">set_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">callback_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the callback function for a named callback.</span>
+
+<span class="sd">        A call-back function has the form:</span>
+
+<span class="sd">            def fn(solver, model):</span>
+<span class="sd">                pass</span>
+
+<span class="sd">        where &#39;solver&#39; is the native solver interface object and &#39;model&#39; is</span>
+<span class="sd">        a Pyomo model instance object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_callbacks</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApplicationError</span><span class="p">(</span><span class="s2">&quot;Callbacks disabled for solver </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">callback_fn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback_fn</span>
+
+    <span class="k">def</span> <span class="nf">config_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pyomo.scripting.solve_config</span> <span class="kn">import</span> <span class="n">default_config_block</span>
+
+        <span class="k">return</span> <span class="n">default_config_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

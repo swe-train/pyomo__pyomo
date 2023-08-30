@@ -1,0 +1,997 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.common.fileutils &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.common.fileutils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.common.fileutils</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  This module was originally developed as part of the PyUtilib project</span>
+<span class="c1">#  Copyright (c) 2008 Sandia Corporation.</span>
+<span class="c1">#  This software is distributed under the BSD License.</span>
+<span class="c1">#  Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,</span>
+<span class="c1">#  the U.S. Government retains certain rights in this software.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="sd">&quot;&quot;&quot;This module provides general utilities for working with the file system</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   this_file</span>
+<span class="sd">   this_file_dir</span>
+<span class="sd">   find_path</span>
+<span class="sd">   find_file</span>
+<span class="sd">   find_dir</span>
+<span class="sd">   find_library</span>
+<span class="sd">   find_executable</span>
+<span class="sd">   import_file</span>
+<span class="sd">   PathManager</span>
+<span class="sd">   PathData</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">ctypes.util</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">importlib.util</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">envvar</span>
+<span class="kn">from</span> <span class="nn">.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">relocated_module_attribute</span>
+
+<span class="n">relocated_module_attribute</span><span class="p">(</span><span class="s1">&#39;StreamIndenter&#39;</span><span class="p">,</span> <span class="s1">&#39;pyomo.common.formatting&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.2&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="this_file"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.this_file">[docs]</a><span class="k">def</span> <span class="nf">this_file</span><span class="p">(</span><span class="n">stack_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the file name for the module that calls this function.</span>
+
+<span class="sd">    This function is more reliable than __file__ on platforms like</span>
+<span class="sd">    Windows and in situations where the program has called</span>
+<span class="sd">    os.chdir().</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># __file__ fails if script is called in different ways on Windows</span>
+    <span class="c1"># __file__ fails if someone does os.chdir() before</span>
+    <span class="c1"># sys.argv[0] also fails because it does not always contains the path</span>
+    <span class="n">callerFrame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">stack_offset</span><span class="p">:</span>
+        <span class="n">callerFrame</span> <span class="o">=</span> <span class="n">callerFrame</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="n">stack_offset</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">frameName</span> <span class="o">=</span> <span class="n">callerFrame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span>
+    <span class="k">if</span> <span class="n">frameName</span> <span class="ow">and</span> <span class="n">frameName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="n">frameName</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">frameName</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="n">callerFrame</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="this_file_dir"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.this_file_dir">[docs]</a><span class="k">def</span> <span class="nf">this_file_dir</span><span class="p">(</span><span class="n">stack_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the directory containing the module that calls this function.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">this_file</span><span class="p">(</span><span class="n">stack_offset</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">stack_offset</span><span class="p">))</span></div>
+
+
+<span class="n">PYOMO_ROOT_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">this_file_dir</span><span class="p">()))</span>
+
+
+<div class="viewcode-block" id="find_path"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.find_path">[docs]</a><span class="k">def</span> <span class="nf">find_path</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">,</span>
+    <span class="n">validate</span><span class="p">,</span>
+    <span class="n">cwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">R_OK</span><span class="p">,</span>
+    <span class="n">ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pathlist</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Locate a path, given a set of search parameters</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name to locate.  The name may contain references to a user&#39;s</span>
+<span class="sd">        home directory (``~user``), environment variables</span>
+<span class="sd">        (``${HOME}/bin``), and shell wildcards (``?`` and ``*``); all of</span>
+<span class="sd">        which will be expanded.</span>
+
+<span class="sd">    validate : function</span>
+<span class="sd">        A function to call to validate the path (used by find_file and</span>
+<span class="sd">        find_dir to discriminate files and directories)</span>
+
+<span class="sd">    cwd : bool</span>
+<span class="sd">        Start by looking in the current working directory</span>
+<span class="sd">        [default: True]</span>
+
+<span class="sd">    mode : mask</span>
+<span class="sd">        If not None, only return entries that can be accessed for</span>
+<span class="sd">        reading/writing/executing.  Valid values are the inclusive OR of</span>
+<span class="sd">        {os.R_OK, os.W_OK, os.X_OK} [default: ``os.R_OK``]</span>
+
+<span class="sd">    ext : str or iterable of str</span>
+<span class="sd">        If not None, also look for name+ext [default: None]</span>
+
+<span class="sd">    pathlist : str or iterable of str</span>
+<span class="sd">        A list of strings containing paths to search, each string</span>
+<span class="sd">        contains a single path.  If pathlist is a string, then it is</span>
+<span class="sd">        first split using os.pathsep to generate the pathlist</span>
+<span class="sd">        [default: ``[]``].</span>
+
+<span class="sd">    allow_pathlist_deep_references : bool</span>
+<span class="sd">       If allow_pathlist_deep_references is True and the name</span>
+<span class="sd">       appears to be a relative path, allow deep reference matches</span>
+<span class="sd">       relative to directories in the pathlist (e.g., if name is</span>
+<span class="sd">       ``foo/my.exe`` and ``/usr/bin`` is in the pathlist, then</span>
+<span class="sd">       :py:func:`find_file` could return ``/usr/bin/foo/my.exe``).  If</span>
+<span class="sd">       allow_pathlist_deep_references is False and the name appears</span>
+<span class="sd">       to be a relative path, then only matches relative to the current</span>
+<span class="sd">       directory are allowed (assuming cwd==True).  [default: True]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        find_path uses glob, so the path and/or name may contain</span>
+<span class="sd">        wildcards.  The first matching entry is returned.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Support shell-style paths like ~user and $HOME/bin</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="n">locations</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">cwd</span><span class="p">:</span>
+        <span class="n">locations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">allow_pathlist_deep_references</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pathlist</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">locations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pathlist</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">locations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pathlist</span><span class="p">)</span>
+
+    <span class="n">extlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ext</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">extlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">_ext</span> <span class="ow">in</span> <span class="n">extlist</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="n">_ext</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">(</span><span class="n">test</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="find_file"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.find_file">[docs]</a><span class="k">def</span> <span class="nf">find_file</span><span class="p">(</span>
+    <span class="n">filename</span><span class="p">,</span>
+    <span class="n">cwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">R_OK</span><span class="p">,</span>
+    <span class="n">ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pathlist</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Locate a file, given a set of search parameters</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+
+<span class="sd">        The file name to locate.  The file name may contain references</span>
+<span class="sd">        to a user&#39;s home directory (``~user``), environment variables</span>
+<span class="sd">        (``${HOME}/bin``), and shell wildcards (``?`` and ``*``); all of</span>
+<span class="sd">        which will be expanded.</span>
+
+<span class="sd">    cwd : bool</span>
+<span class="sd">        Start by looking in the current working directory</span>
+<span class="sd">        [default: True]</span>
+
+<span class="sd">    mode : mask</span>
+<span class="sd">        If not None, only return files that can be accessed for</span>
+<span class="sd">        reading/writing/executing.  Valid values are the inclusive OR of</span>
+<span class="sd">        {os.R_OK, os.W_OK, os.X_OK} [default: ``os.R_OK``]</span>
+
+<span class="sd">    ext : str or iterable of str</span>
+<span class="sd">        If not None, also look for filename+ext [default: None]</span>
+
+<span class="sd">    pathlist : str or iterable of str</span>
+<span class="sd">        A list of strings containing paths to search, each string</span>
+<span class="sd">        contains a single path.  If pathlist is a string, then it is</span>
+<span class="sd">        first split using os.pathsep to generate the pathlist</span>
+<span class="sd">        [default: ``[]``].</span>
+
+<span class="sd">    allow_pathlist_deep_references : bool</span>
+<span class="sd">       If allow_pathlist_deep_references is True and the filename</span>
+<span class="sd">       appears to be a relative path, allow deep reference matches</span>
+<span class="sd">       relative to directories in the pathlist (e.g., if filename is</span>
+<span class="sd">       ``foo/my.exe`` and ``/usr/bin`` is in the pathlist, then</span>
+<span class="sd">       :py:func:`find_file` could return ``/usr/bin/foo/my.exe``).  If</span>
+<span class="sd">       allow_pathlist_deep_references is False and the filename appears</span>
+<span class="sd">       to be a relative path, then only matches relative to the current</span>
+<span class="sd">       directory are allowed (assuming cwd==True).  [default: True]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        find_file uses glob, so the path and/or file name may contain</span>
+<span class="sd">        wildcards.  The first matching file is returned.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">find_path</span><span class="p">(</span>
+        <span class="n">filename</span><span class="p">,</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">,</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+        <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span>
+        <span class="n">pathlist</span><span class="o">=</span><span class="n">pathlist</span><span class="p">,</span>
+        <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="n">allow_pathlist_deep_references</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_dir"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.find_dir">[docs]</a><span class="k">def</span> <span class="nf">find_dir</span><span class="p">(</span>
+    <span class="n">dirname</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">R_OK</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="p">[],</span> <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Locate a directory, given a set of search parameters</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dirname : str</span>
+<span class="sd">        The directory name to locate.  The name may contain references</span>
+<span class="sd">        to a user&#39;s home directory (``~user``), environment variables</span>
+<span class="sd">        (``${HOME}/bin``), and shell wildcards (``?`` and ``*``); all of</span>
+<span class="sd">        which will be expanded.</span>
+
+<span class="sd">    cwd : bool</span>
+<span class="sd">        Start by looking in the current working directory</span>
+<span class="sd">        [default: True]</span>
+
+<span class="sd">    mode : mask</span>
+<span class="sd">        If not None, only return directories that can be accessed for</span>
+<span class="sd">        reading/writing/executing.  Valid values are the inclusive OR of</span>
+<span class="sd">        {os.R_OK, os.W_OK, os.X_OK} [default: ``os.R_OK``]</span>
+
+<span class="sd">    pathlist : str or iterable of str</span>
+<span class="sd">        A list of strings containing paths to search, each string</span>
+<span class="sd">        contains a single path.  If pathlist is a string, then it is</span>
+<span class="sd">        first split using os.pathsep to generate the pathlist</span>
+<span class="sd">        [default: ``[]``].</span>
+
+<span class="sd">    allow_pathlist_deep_references : bool</span>
+<span class="sd">       If allow_pathlist_deep_references is True and the dirname</span>
+<span class="sd">       appears to be a relative path, allow deep reference matches</span>
+<span class="sd">       relative to directories in the pathlist (e.g., if dirname is</span>
+<span class="sd">       ``foo/bar`` and ``/usr/bin`` is in the pathlist, then</span>
+<span class="sd">       :py:func:`find_dir` could return ``/usr/bin/foo/bar``).  If</span>
+<span class="sd">       allow_pathlist_deep_references is False and the dirname appears</span>
+<span class="sd">       to be a relative path, then only matches relative to the current</span>
+<span class="sd">       directory are allowed (assuming cwd==True).  [default: True]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        find_dir uses glob, so the path and/or directory name may contain</span>
+<span class="sd">        wildcards.  The first matching directory is returned.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">find_path</span><span class="p">(</span>
+        <span class="n">dirname</span><span class="p">,</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">,</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+        <span class="n">pathlist</span><span class="o">=</span><span class="n">pathlist</span><span class="p">,</span>
+        <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="n">allow_pathlist_deep_references</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<span class="n">_exeExt</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;linux&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;windows&#39;</span><span class="p">:</span> <span class="s1">&#39;.exe&#39;</span><span class="p">,</span> <span class="s1">&#39;cygwin&#39;</span><span class="p">:</span> <span class="s1">&#39;.exe&#39;</span><span class="p">,</span> <span class="s1">&#39;darwin&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+<span class="n">_libExt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;linux&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;.so&#39;</span><span class="p">,</span> <span class="s1">&#39;.so.*&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;windows&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;.dll&#39;</span><span class="p">,</span> <span class="s1">&#39;.pyd&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;cygwin&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;.dll&#39;</span><span class="p">,</span> <span class="s1">&#39;.so&#39;</span><span class="p">,</span> <span class="s1">&#39;.so.*&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;darwin&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;.dylib&#39;</span><span class="p">,</span> <span class="s1">&#39;.so&#39;</span><span class="p">,</span> <span class="s1">&#39;.so.*&#39;</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_system</span><span class="p">():</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s1">&#39;.-_&#39;</span><span class="p">:</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">c</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">system</span>
+
+
+<span class="k">def</span> <span class="nf">_path</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">defpath</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="find_library"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.find_library">[docs]</a><span class="k">def</span> <span class="nf">find_library</span><span class="p">(</span><span class="n">libname</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_PATH</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find a dynamic library using find_file to search typical locations.</span>
+
+<span class="sd">    Finds a specified library (file) by searching a specified set of</span>
+<span class="sd">    paths.  This routine will look for the specified file name, as well</span>
+<span class="sd">    as looking for the filename followed by architecture-specific</span>
+<span class="sd">    extensions (e.g., `.dll`, `.so`, or `.dynlib`).  Note that as this</span>
+<span class="sd">    uses :py:func:find_file(), the filename and search paths may contain</span>
+<span class="sd">    wildcards.</span>
+
+<span class="sd">    If the explicit path search fails to locate a library, then this</span>
+<span class="sd">    returns the result from passing the basename (with &#39;lib&#39; and extension</span>
+<span class="sd">    removed) to ctypes.util.find_library()</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    libname : str</span>
+<span class="sd">        The library name to search for</span>
+
+<span class="sd">    cwd : bool</span>
+<span class="sd">        Start by looking in the current working directory</span>
+<span class="sd">        [default: True]</span>
+
+<span class="sd">    include_PATH : bool</span>
+<span class="sd">        Include the executable search PATH at the end of the list of</span>
+<span class="sd">        directories to search. [default: True]</span>
+
+<span class="sd">    pathlist : str or list of str</span>
+<span class="sd">        List of paths to search for the file.  If None, then pathlist</span>
+<span class="sd">        will default to the local Pyomo configuration library directory</span>
+<span class="sd">        (and the local Pyomo binary directory if include_PATH is set)</span>
+<span class="sd">        and the contents of LD_LIBRARY_PATH.  If a string, then the</span>
+<span class="sd">        string is split using os.pathsep.  [default: None]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        find_library() uses :py:func:`find_file` with</span>
+<span class="sd">        ``allow_pathlist_deep_references=True``, so libnames containing</span>
+<span class="sd">        relative paths will be matched relative to all paths in</span>
+<span class="sd">        pathlist.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pathlist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Note: PYOMO_CONFIG_DIR/lib comes before LD_LIBRARY_PATH, and</span>
+        <span class="c1"># PYOMO_CONFIG_DIR/bin comes immediately before PATH</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envvar</span><span class="o">.</span><span class="n">PYOMO_CONFIG_DIR</span><span class="p">,</span> <span class="s1">&#39;lib&#39;</span><span class="p">)]</span>
+        <span class="n">pathlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LD_LIBRARY_PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">include_PATH</span><span class="p">:</span>
+            <span class="n">pathlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envvar</span><span class="o">.</span><span class="n">PYOMO_CONFIG_DIR</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pathlist</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="n">pathlist</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pathlist</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_PATH</span><span class="p">:</span>
+        <span class="n">pathlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_path</span><span class="p">())</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">_libExt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_system</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Search 1: original filename (with extensions) in our paths</span>
+    <span class="n">lib</span> <span class="o">=</span> <span class="n">find_file</span><span class="p">(</span><span class="n">libname</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="n">pathlist</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">libname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;lib&#39;</span><span class="p">):</span>
+        <span class="c1"># Search 2: prepend &#39;lib&#39; (with extensions) in our paths</span>
+        <span class="n">lib</span> <span class="o">=</span> <span class="n">find_file</span><span class="p">(</span><span class="s1">&#39;lib&#39;</span> <span class="o">+</span> <span class="n">libname</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="n">pathlist</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lib</span>
+    <span class="c1"># Search 3: use ctypes.util.find_library (which expects &#39;lib&#39; and</span>
+    <span class="c1"># extension to be removed from the name)</span>
+    <span class="n">libname_base</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">libname</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">libname_base</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;lib&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_system</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;windows&#39;</span><span class="p">:</span>
+        <span class="n">libname_base</span> <span class="o">=</span> <span class="n">libname_base</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;.so&#39;</span><span class="p">,</span> <span class="s1">&#39;.dll&#39;</span><span class="p">,</span> <span class="s1">&#39;.dylib&#39;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="n">libname_base</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_executable"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.find_executable">[docs]</a><span class="k">def</span> <span class="nf">find_executable</span><span class="p">(</span><span class="n">exename</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_PATH</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find an executable using find_file to search typical locations.</span>
+
+<span class="sd">    Finds a specified executable by searching a specified set of paths.</span>
+<span class="sd">    This routine will look for the specified file name, as well as</span>
+<span class="sd">    looking for the filename followed by architecture-specific</span>
+<span class="sd">    extensions (e.g., ``.exe``).  Note that as this uses</span>
+<span class="sd">    :py:func:`find_file()`, the filename and search paths may contain</span>
+<span class="sd">    wildcards.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    exename : str</span>
+<span class="sd">        The executable file name to search for</span>
+
+<span class="sd">    cwd : bool</span>
+<span class="sd">        Start by looking in the current working directory</span>
+<span class="sd">        [default: True]</span>
+
+<span class="sd">    include_PATH : bool</span>
+<span class="sd">        Include the executable search PATH at the end of the list of</span>
+<span class="sd">        directories to search. [default: True]</span>
+
+<span class="sd">    pathlist : str or list of str</span>
+<span class="sd">        List of paths to search for the file.  If None, then pathlist</span>
+<span class="sd">        will default to the local Pyomo configuration binary directory.</span>
+<span class="sd">        If a string, then the string is split using os.pathsep.</span>
+<span class="sd">        [Default: None]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        find_executable() uses :py:func:`find_file` with</span>
+<span class="sd">        ``allow_pathlist_deep_references=False``, so search strings</span>
+<span class="sd">        containing relative paths will only be matched relative to the</span>
+<span class="sd">        current working directory.  This prevents confusion in the case</span>
+<span class="sd">        where a user called ``find_executable(&quot;./foo&quot;)`` and forgot to copy</span>
+<span class="sd">        ``foo`` into the local directory, but this function picked up</span>
+<span class="sd">        another ``foo`` in the user&#39;s PATH that they did not want to use.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pathlist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envvar</span><span class="o">.</span><span class="n">PYOMO_CONFIG_DIR</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pathlist</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="n">pathlist</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pathlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pathlist</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_PATH</span><span class="p">:</span>
+        <span class="n">pathlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_path</span><span class="p">())</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">_exeExt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_system</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">find_file</span><span class="p">(</span>
+        <span class="n">exename</span><span class="p">,</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">R_OK</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">,</span>
+        <span class="n">pathlist</span><span class="o">=</span><span class="n">pathlist</span><span class="p">,</span>
+        <span class="n">allow_pathlist_deep_references</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="import_file"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.import_file">[docs]</a><span class="k">def</span> <span class="nf">import_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">clear_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">infer_package</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import a module given the full path/filename of the file.</span>
+<span class="sd">    Replaces import_file from pyutilib (Pyomo 6.0.0).</span>
+
+<span class="sd">    This function returns the module object that is created.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path: str</span>
+<span class="sd">        Full path to .py file.</span>
+<span class="sd">    clear_cache: bool</span>
+<span class="sd">        Remove module if already loaded. The default is False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;File does not exist. Check path.&#39;</span><span class="p">)</span>
+    <span class="n">module_dir</span><span class="p">,</span> <span class="n">module_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">module_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">module_name</span><span class="p">,</span> <span class="n">module_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">module_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">infer_package</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">module_dir</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">module_dir</span><span class="p">,</span> <span class="s1">&#39;__init__.py&#39;</span><span class="p">)):</span>
+            <span class="n">module_dir</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">module_dir</span><span class="p">)</span>
+            <span class="n">module_name</span> <span class="o">=</span> <span class="n">mod</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">module_name</span>
+    <span class="k">if</span> <span class="n">clear_cache</span> <span class="ow">and</span> <span class="n">module_name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">]</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">module_dir</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span></div>
+
+
+<div class="viewcode-block" id="PathData"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData">[docs]</a><span class="k">class</span> <span class="nc">PathData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An object for storing and managing a :py:class:`PathManager` path&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mngr</span> <span class="o">=</span> <span class="n">manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registered_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path_override</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="PathData.path"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the full, normalized path to the registered path entry.</span>
+
+<span class="sd">        If the object is not found (or was marked &quot;disabled&quot;),</span>
+<span class="sd">        ``path()`` returns None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_override</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_override</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_name</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mngr</span><span class="o">.</span><span class="n">_find</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">pathlist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mngr</span><span class="o">.</span><span class="n">pathlist</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">tmp</span> <span class="k">if</span> <span class="n">tmp</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_override</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span></div>
+
+    <span class="k">def</span> <span class="nf">set_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path_override</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rehash</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.common&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;explicitly setting the path for &#39;</span><span class="si">%s</span><span class="s2">&#39; to an &quot;</span>
+                <span class="s2">&quot;invalid object or nonexistent location (&#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_registered_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="PathData.get_path"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData.get_path">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">&quot;get_path() is deprecated; use pyomo.common.Executable(name).path()&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.6.2&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PathData.disable"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData.disable">[docs]</a>    <span class="k">def</span> <span class="nf">disable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Disable this path entry</span>
+
+<span class="sd">        This method &quot;disables&quot; this path entry by marking it as &quot;not</span>
+<span class="sd">        found&quot;.  Disabled entries return False for `available()` and</span>
+<span class="sd">        None for `path()`.  The disabled status will persist until the</span>
+<span class="sd">        next call to `rehash()`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="PathData.available"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData.available">[docs]</a>    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns True if the registered path is available.</span>
+
+<span class="sd">        Entries are available if the object was found found in the</span>
+<span class="sd">        search locations and has not been explicitly disabled.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span></div>
+
+<div class="viewcode-block" id="PathData.rehash"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathData.rehash">[docs]</a>    <span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Requery the location of this path entry</span>
+
+<span class="sd">        This method derives its name from the csh command of the same</span>
+<span class="sd">        name, which rebuilds the hash table of executables reachable</span>
+<span class="sd">        through the PATH.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__nonzero__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Alias for ``available()``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+
+    <span class="c1"># &quot;if &lt;obj&gt;&quot; triggers __nonzero__ in Py2 and __bool__ in Py3</span>
+    <span class="fm">__bool__</span> <span class="o">=</span> <span class="n">__nonzero__</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ans</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+
+<div class="viewcode-block" id="ExecutableData"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.ExecutableData">[docs]</a><span class="k">class</span> <span class="nc">ExecutableData</span><span class="p">(</span><span class="n">PathData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A :py:class:`PathData` class specifically for executables.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">executable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get (or set) the path to the executable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+
+    <span class="nd">@executable</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">executable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PathManager"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathManager">[docs]</a><span class="k">class</span> <span class="nc">PathManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The PathManager defines a registry class for path locations</span>
+
+<span class="sd">    The :py:class:`PathManager` defines a class very similar to the</span>
+<span class="sd">    :py:class:`CachedFactory` class; however it does not register type</span>
+<span class="sd">    constructors.  Instead, it registers instances of</span>
+<span class="sd">    :py:class:`PathData` (or :py:class:`ExecutableData`).  These</span>
+<span class="sd">    contain the resolved path to the directory object under which the</span>
+<span class="sd">    :py:class:`PathData` object was registered.  We do not use</span>
+<span class="sd">    the PyUtilib ``register_executable`` and ``registered_executable``</span>
+<span class="sd">    functions so that we can automatically include Pyomo-specific</span>
+<span class="sd">    locations in the search path (namely the ``PYOMO_CONFIG_DIR``).</span>
+
+<span class="sd">    Users will generally interact with this class through global</span>
+<span class="sd">    instances of this class (``pyomo.common.Executable`` and</span>
+<span class="sd">    ``pyomo.common.Library``).</span>
+
+<span class="sd">    Users are not required or expected to register file names with the</span>
+<span class="sd">    :py:class:`PathManager`; they will be automatically registered</span>
+<span class="sd">    upon first use.  Generally, users interact through the ``path()``</span>
+<span class="sd">    and ``available()`` methods:</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">        :hide:</span>
+
+<span class="sd">        &gt;&gt;&gt; import pyomo.common</span>
+<span class="sd">        &gt;&gt;&gt; import os</span>
+<span class="sd">        &gt;&gt;&gt; from stat import S_IXUSR, S_IXGRP, S_IXOTH</span>
+<span class="sd">        &gt;&gt;&gt; _testfile = os.path.join(</span>
+<span class="sd">        ...    pyomo.common.envvar.PYOMO_CONFIG_DIR, &#39;bin&#39;, &#39;demo_exec_file&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; _del_testfile = not os.path.exists(_testfile)</span>
+<span class="sd">        &gt;&gt;&gt; if _del_testfile:</span>
+<span class="sd">        ...     open(_testfile,&#39;w&#39;).close()</span>
+<span class="sd">        ...     _mode = os.stat(_testfile).st_mode</span>
+<span class="sd">        ...     os.chmod(_testfile, _mode | S_IXUSR | S_IXGRP | S_IXOTH)</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; from pyomo.common import Executable</span>
+<span class="sd">        &gt;&gt;&gt; if Executable(&#39;demo_exec_file&#39;).available():</span>
+<span class="sd">        ...     loc = Executable(&#39;demo_exec_file&#39;).path()</span>
+<span class="sd">        ...     print(os.path.isfile(loc))</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; print(os.access(loc, os.X_OK))</span>
+<span class="sd">        True</span>
+
+<span class="sd">    For convenience, :py:meth:`available()` and :py:meth:`path()` are</span>
+<span class="sd">    available by casting the :py:class:`PathData` object requrned</span>
+<span class="sd">    from ``Executable`` or ``Library`` to either a ``bool`` or ``str``:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; if Executable(&#39;demo_exec_file&#39;):</span>
+<span class="sd">        ...     cmd = &quot;%s --help&quot; % Executable(&#39;demo_exec_file&#39;)</span>
+
+<span class="sd">    The :py:class:`PathManager` caches the location / existence of</span>
+<span class="sd">    the target directory entry.  If something in the environment changes</span>
+<span class="sd">    (e.g., the PATH) or the file is created or removed after the first</span>
+<span class="sd">    time a client queried the location or availability, the</span>
+<span class="sd">    PathManager will return incorrect information.  You can cause</span>
+<span class="sd">    the :py:class:`PathManager` to refresh its cache by calling</span>
+<span class="sd">    ``rehash()`` on either the :py:class:`PathData` (for the</span>
+<span class="sd">    single file) or the :py:class:`PathManager` to refresh the</span>
+<span class="sd">    cache for all files:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; # refresh the cache for a single file</span>
+<span class="sd">        &gt;&gt;&gt; Executable(&#39;demo_exec_file&#39;).rehash()</span>
+<span class="sd">        &gt;&gt;&gt; # or all registered files</span>
+<span class="sd">        &gt;&gt;&gt; Executable.rehash()</span>
+
+<span class="sd">    The ``Executable`` singleton looks for executables in the system</span>
+<span class="sd">    ``PATH`` and in the list of directories specified by the ``pathlist``</span>
+<span class="sd">    attribute.  ``Executable.pathlist`` defaults to a list containing the</span>
+<span class="sd">    ``os.path.join(pyomo.common.envvar.PYOMO_CONFIG_DIR, &#39;bin&#39;)``.</span>
+
+<span class="sd">    The ``Library`` singleton looks for executables in the system</span>
+<span class="sd">    ``LD_LIBRARY_PATH``, ``PATH`` and in the list of directories</span>
+<span class="sd">    specified by the ``pathlist`` attribute.  ``Library.pathlist``</span>
+<span class="sd">    defaults to a list containing the</span>
+<span class="sd">    ``os.path.join(pyomo.common.envvar.PYOMO_CONFIG_DIR, &#39;lib&#39;)``.</span>
+
+<span class="sd">    Users may also override the normal file resolution by explicitly</span>
+<span class="sd">    setting the location using :py:meth:`set_path`:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; Executable(&#39;demo_exec_file&#39;).set_path(os.path.join(</span>
+<span class="sd">        ...     pyomo.common.envvar.PYOMO_CONFIG_DIR, &#39;bin&#39;, &#39;demo_exec_file&#39;))</span>
+
+<span class="sd">    Explicitly setting the path is an absolute operation and will</span>
+<span class="sd">    set the location whether or not that location points to an actual</span>
+<span class="sd">    file.  Additionally, the explicit location will persist</span>
+<span class="sd">    through calls to ``rehash()``.  If you wish to remove the explicit</span>
+<span class="sd">    executable location, call ``set_path(None)``:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; Executable(&#39;demo_exec_file&#39;).set_path(None)</span>
+
+<span class="sd">    The ``Executable`` singleton uses :py:class:`ExecutableData`, an</span>
+<span class="sd">    extended form of the :py:class:`PathData` class, which provides the</span>
+<span class="sd">    ``executable`` property as an alais for :py:meth:`path()` and</span>
+<span class="sd">    :py:meth:`set_path()`:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">        &gt;&gt;&gt; loc = Executable(&#39;demo_exec_file&#39;).executable</span>
+<span class="sd">        &gt;&gt;&gt; print(os.path.isfile(loc))</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; Executable(&#39;demo_exec_file&#39;).executable = os.path.join(</span>
+<span class="sd">        ...     pyomo.common.envvar.PYOMO_CONFIG_DIR, &#39;bin&#39;, &#39;demo_exec_file&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Executable(&#39;demo_exec_file&#39;).executable = None</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">        :hide:</span>
+
+<span class="sd">        &gt;&gt;&gt; if _del_testfile:</span>
+<span class="sd">        ...     os.remove(_testfile)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">finder</span><span class="p">,</span> <span class="n">dataClass</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pathTo</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find</span> <span class="o">=</span> <span class="n">finder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dataClass</span> <span class="o">=</span> <span class="n">dataClass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathlist</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pathTo</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pathTo</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataClass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pathTo</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PathManager.rehash"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.PathManager.rehash">[docs]</a>    <span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Requery the location of all registered executables</span>
+
+<span class="sd">        This method derives its name from the csh command of the same</span>
+<span class="sd">        name, which rebuilds the hash table of executables reachable</span>
+<span class="sd">        through the PATH.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pathTo</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">_path</span><span class="o">.</span><span class="n">rehash</span><span class="p">()</span></div></div>
+
+
+<span class="c1">#</span>
+<span class="c1"># Define singleton objects for Pyomo / Users to interact with</span>
+<span class="c1">#</span>
+<span class="n">Executable</span> <span class="o">=</span> <span class="n">PathManager</span><span class="p">(</span><span class="n">find_executable</span><span class="p">,</span> <span class="n">ExecutableData</span><span class="p">)</span>
+<span class="n">Library</span> <span class="o">=</span> <span class="n">PathManager</span><span class="p">(</span><span class="n">find_library</span><span class="p">,</span> <span class="n">PathData</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="register_executable"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.register_executable">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">&quot;pyomo.common.register_executable(name) has been deprecated; &quot;</span>
+    <span class="s2">&quot;explicit registration is no longer necessary&quot;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.6.2&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">register_executable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Setting to None will cause Executable to re-search the pathlist</span>
+    <span class="k">return</span> <span class="n">Executable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">rehash</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="registered_executable"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.registered_executable">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="sd">&quot;&quot;&quot;pyomo.common.registered_executable(name) has been deprecated; use</span>
+<span class="sd">    pyomo.common.Executable(name).path() to get the path or</span>
+<span class="sd">    pyomo.common.Executable(name).available() to get a bool indicating</span>
+<span class="sd">    file availability.  Equivalent results can be obtained by casting</span>
+<span class="sd">    Executable(name) to string or bool.&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.6.2&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">registered_executable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">Executable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ans</span><span class="o">.</span><span class="n">path</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ans</span></div>
+
+
+<div class="viewcode-block" id="unregister_executable"><a class="viewcode-back" href="../../../library_reference/common/fileutils.html#pyomo.common.fileutils.unregister_executable">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">&quot;pyomo.common.unregister_executable(name) has been deprecated; &quot;</span>
+    <span class="s2">&quot;use Executable(name).disable()&quot;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.6.2&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">unregister_executable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">Executable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

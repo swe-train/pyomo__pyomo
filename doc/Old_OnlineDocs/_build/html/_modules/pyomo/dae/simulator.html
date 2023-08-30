@@ -1,0 +1,1315 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.dae.simulator &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.dae.simulator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.dae.simulator</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  _________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2014 Sandia Corporation.</span>
+<span class="c1">#  Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,</span>
+<span class="c1">#  the U.S. Government retains certain rights in this software.</span>
+<span class="c1">#  This software is distributed under the BSD License.</span>
+<span class="c1">#  _________________________________________________________________________</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.base</span> <span class="kn">import</span> <span class="n">Constraint</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">Suffix</span><span class="p">,</span> <span class="n">Block</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.dae</span> <span class="kn">import</span> <span class="n">ContinuousSet</span><span class="p">,</span> <span class="n">DerivativeVar</span>
+<span class="kn">from</span> <span class="nn">pyomo.dae.diffvar</span> <span class="kn">import</span> <span class="n">DAE_Error</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.core.expr</span> <span class="kn">import</span> <span class="n">current</span> <span class="k">as</span> <span class="n">EXPR</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">native_numeric_types</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.template_expr</span> <span class="kn">import</span> <span class="n">IndexTemplate</span><span class="p">,</span> <span class="n">_GetItemIndexer</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Simulator&#39;</span><span class="p">,)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.core&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="p">,</span>
+    <span class="n">numpy_available</span><span class="p">,</span>
+    <span class="n">scipy</span><span class="p">,</span>
+    <span class="n">scipy_available</span><span class="p">,</span>
+    <span class="n">attempt_import</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">casadi_intrinsic</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_finalize_casadi</span><span class="p">(</span><span class="n">casadi</span><span class="p">,</span> <span class="n">available</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+        <span class="n">casadi_intrinsic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;log&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">log</span><span class="p">,</span>
+                <span class="s1">&#39;log10&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">log10</span><span class="p">,</span>
+                <span class="s1">&#39;sin&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span>
+                <span class="s1">&#39;cos&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">cos</span><span class="p">,</span>
+                <span class="s1">&#39;tan&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">tan</span><span class="p">,</span>
+                <span class="s1">&#39;cosh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">cosh</span><span class="p">,</span>
+                <span class="s1">&#39;sinh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">sinh</span><span class="p">,</span>
+                <span class="s1">&#39;tanh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span>
+                <span class="s1">&#39;asin&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">asin</span><span class="p">,</span>
+                <span class="s1">&#39;acos&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">acos</span><span class="p">,</span>
+                <span class="s1">&#39;atan&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">atan</span><span class="p">,</span>
+                <span class="s1">&#39;exp&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">exp</span><span class="p">,</span>
+                <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">sqrt</span><span class="p">,</span>
+                <span class="s1">&#39;asinh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">asinh</span><span class="p">,</span>
+                <span class="s1">&#39;acosh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">acosh</span><span class="p">,</span>
+                <span class="s1">&#39;atanh&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">atanh</span><span class="p">,</span>
+                <span class="s1">&#39;ceil&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">ceil</span><span class="p">,</span>
+                <span class="s1">&#39;floor&#39;</span><span class="p">:</span> <span class="n">casadi</span><span class="o">.</span><span class="n">floor</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+
+<span class="n">casadi</span><span class="p">,</span> <span class="n">casadi_available</span> <span class="o">=</span> <span class="n">attempt_import</span><span class="p">(</span><span class="s1">&#39;casadi&#39;</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">_finalize_casadi</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_getitemexpression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accepts an equality expression and an index value. Checks the</span>
+<span class="sd">    GetItemExpression at expr.arg(i) to see if it is a</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;`. If so, return the</span>
+<span class="sd">    GetItemExpression for the :py:class:`DerivativeVar&lt;DerivativeVar&gt;` and</span>
+<span class="sd">    the RHS. If not, return None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_check_productexpression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accepts an equality expression and an index value. Checks the</span>
+<span class="sd">    ProductExpression at expr.arg(i) to see if it contains a</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;`. If so, return the</span>
+<span class="sd">    GetItemExpression for the</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;` and the RHS. If not,</span>
+<span class="sd">    return None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">expr_</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="p">[(</span><span class="n">expr_</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">pterms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dv</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+        <span class="n">curr</span><span class="p">,</span> <span class="n">e_</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">curr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span><span class="p">:</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">e_</span><span class="p">))</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">e_</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">curr</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">DivisionExpression</span><span class="p">:</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">e_</span><span class="p">))</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="n">e_</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">curr</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">curr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span>
+        <span class="p">):</span>
+            <span class="n">dv</span> <span class="o">=</span> <span class="p">(</span><span class="n">curr</span><span class="p">,</span> <span class="n">e_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pterms</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">curr</span><span class="p">,</span> <span class="n">e_</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">dv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">numerator</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">term</span><span class="p">,</span> <span class="n">e_</span> <span class="ow">in</span> <span class="n">pterms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e_</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">denom</span> <span class="o">*=</span> <span class="n">term</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">numerator</span> <span class="o">*=</span> <span class="n">term</span>
+    <span class="n">curr</span><span class="p">,</span> <span class="n">e_</span> <span class="o">=</span> <span class="n">dv</span>
+    <span class="k">if</span> <span class="n">e_</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">curr</span><span class="p">,</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denom</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">curr</span><span class="p">,</span> <span class="n">denom</span> <span class="o">/</span> <span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">numerator</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">_check_negationexpression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accepts an equality expression and an index value. Checks the</span>
+<span class="sd">    NegationExpression at expr.arg(i) to see if it contains a</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;`. If so, return the</span>
+<span class="sd">    GetItemExpression for the</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;` and the RHS. If not,</span>
+<span class="sd">    return None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="o">-</span><span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span><span class="p">:</span>
+        <span class="n">lhs</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">rhs</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_numeric_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">lhs</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">rhs</span><span class="p">,</span> <span class="o">-</span><span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="n">lhs</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_check_viewsumexpression</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accepts an equality expression and an index value. Checks the</span>
+<span class="sd">    Sum expression at expr.arg(i) to see if it contains a</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;`. If so, return the</span>
+<span class="sd">    GetItemExpression for the</span>
+<span class="sd">    :py:class:`DerivativeVar&lt;pyomo.dae.DerivativeVar&gt;` and the RHS. If not,</span>
+<span class="sd">    return None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the side of the equality expression with the derivative variable</span>
+    <span class="n">sumexp</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dv</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dvcoef</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sumexp</span><span class="o">.</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span>
+        <span class="p">):</span>
+            <span class="n">dv</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span><span class="p">:</span>
+            <span class="c1"># This will contain the constant coefficient if there is one</span>
+            <span class="n">lhs</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># This is a potentially variable expression</span>
+            <span class="n">rhs</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">native_numeric_types</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">lhs</span><span class="o">.</span><span class="n">is_potentially_variable</span><span class="p">()</span>
+            <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">DerivativeVar</span>
+            <span class="p">):</span>
+                <span class="n">dv</span> <span class="o">=</span> <span class="n">rhs</span>
+                <span class="n">dvcoef</span> <span class="o">=</span> <span class="n">lhs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Form the &quot;other&quot; side of the equality expression</span>
+        <span class="n">RHS</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">RHS</span> <span class="o">-=</span> <span class="n">item</span>
+        <span class="n">RHS</span> <span class="o">=</span> <span class="n">RHS</span> <span class="o">/</span> <span class="n">dvcoef</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dv</span><span class="p">,</span> <span class="n">RHS</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">Pyomo2Scipy_Visitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">ExpressionReplacementVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression walker that replaces _GetItemExpression</span>
+<span class="sd">    instances with mutable parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">):</span>
+        <span class="c1"># Note because we are creating a &quot;nonPyomo&quot; expression tree, we</span>
+        <span class="c1"># want to remove all Expression nodes (as opposed to replacing</span>
+        <span class="c1"># them in place)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span> <span class="o">=</span> <span class="n">templatemap</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">):</span>
+            <span class="n">_id</span> <span class="o">=</span> <span class="n">_GetItemIndexer</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">_id</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_id</span><span class="o">.</span><span class="n">args</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">convert_pyomo2scipy</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Substitute _GetItem nodes in an expression tree.</span>
+
+<span class="sd">    This substitution function is used to replace Pyomo _GetItem</span>
+<span class="sd">    nodes with mutable Params.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        templatemap: dictionary mapping _GetItemIndexer objects to</span>
+<span class="sd">            mutable params</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a new expression tree with all substitutions done</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">scipy_available</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+            <span class="s2">&quot;SciPy is not installed. Cannot substitute SciPy intrinsic functions.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">Pyomo2Scipy_Visitor</span><span class="p">(</span><span class="n">templatemap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Substitute_Pyomo2Casadi_Visitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">ExpressionReplacementVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression walker that replaces</span>
+
+<span class="sd">       * _UnaryFunctionExpression instances with unary functions that</span>
+<span class="sd">         point to casadi intrinsic functions.</span>
+
+<span class="sd">       * _GetItemExpressions with _GetItemIndexer objects that references</span>
+<span class="sd">         CasADi variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">):</span>
+        <span class="c1"># Note because we are creating a &quot;nonPyomo&quot; expression tree, we</span>
+        <span class="c1"># want to remove all Expression nodes (as opposed to replacing</span>
+        <span class="c1"># them in place)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">descend_into_named_expressions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span> <span class="o">=</span> <span class="n">templatemap</span>
+
+    <span class="k">def</span> <span class="nf">exitNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace a node if it&#39;s a unary function.&quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exitNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">UnaryFunctionExpression</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">UnaryFunctionExpression</span><span class="p">(</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">ans</span><span class="o">.</span><span class="n">getname</span><span class="p">(),</span> <span class="n">casadi_intrinsic</span><span class="p">[</span><span class="n">ans</span><span class="o">.</span><span class="n">getname</span><span class="p">()]</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="nf">beforeChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace a node if it&#39;s a _GetItemExpression.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">):</span>
+            <span class="n">_id</span> <span class="o">=</span> <span class="n">_GetItemIndexer</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_id</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_id</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">SX</span><span class="o">.</span><span class="n">sym</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">child</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">beforeChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Convert_Pyomo2Casadi_Visitor</span><span class="p">(</span><span class="n">EXPR</span><span class="o">.</span><span class="n">ExpressionValueVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expression walker that evaluates an expression</span>
+<span class="sd">    generated by the Substitute_Pyomo2Casadi_Visitor walker.</span>
+
+<span class="sd">    In Coopr3 this walker was not necessary because the expression could</span>
+<span class="sd">    be simply evaluated.  But in Pyomo5, the evaluation logic was</span>
+<span class="sd">    changed to be non-recursive, which involves checks on the types of</span>
+<span class="sd">    leaves in the expression tree. Hence, the evaluation logic fails if</span>
+<span class="sd">    leaves in the tree are not standard Pyomo5 variable types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Visit nodes that have been expanded&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">_apply_operation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visiting_potential_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visiting a potential leaf.</span>
+
+<span class="sd">        Return True if the node is not expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">native_numeric_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">casadi</span><span class="o">.</span><span class="n">SX</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">node</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_variable_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">is_expression_type</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">substitute_pyomo2casadi</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Substitute IndexTemplates in an expression tree.</span>
+
+<span class="sd">    This substitution function is used to replace Pyomo intrinsic</span>
+<span class="sd">    functions with CasADi functions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: a Pyomo expression</span>
+<span class="sd">        templatemap: dictionary mapping _GetItemIndexer objects to</span>
+<span class="sd">            mutable params</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a new expression tree with all substitutions done</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">casadi_available</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+            <span class="s2">&quot;CASADI is not installed.  Cannot substitute CasADi &quot;</span>
+            <span class="s2">&quot;variables and intrinsic functions.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">Substitute_Pyomo2Casadi_Visitor</span><span class="p">(</span><span class="n">templatemap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">convert_pyomo2casadi</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a Pyomo expression tree to Casadi.</span>
+
+<span class="sd">    This function replaces a Pyomo expression with a CasADi expression.</span>
+<span class="sd">    This assumes that the `substitute_pyomo2casadi` function has</span>
+<span class="sd">    been called, so the Pyomo expression contains CasADi variables</span>
+<span class="sd">    and intrinsic functions.  The resulting expression can be used</span>
+<span class="sd">    with the CasADi integrator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: a Pyomo expression with CasADi variables and intrinsic</span>
+<span class="sd">            functions</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a CasADi expression tree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">casadi_available</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+            <span class="s2">&quot;CASADI is not installed.  Cannot convert a Pyomo &quot;</span>
+            <span class="s2">&quot;expression to a Casadi expression.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">visitor</span> <span class="o">=</span> <span class="n">Convert_Pyomo2Casadi_Visitor</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">visitor</span><span class="o">.</span><span class="n">dfs_postorder_stack</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../../modeling_extensions/dae.html#pyomo.dae.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulator objects allow a user to simulate a dynamic model formulated</span>
+<span class="sd">    using pyomo.dae.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m : Pyomo Model</span>
+<span class="sd">        The Pyomo model to be simulated should be passed as the first argument</span>
+
+<span class="sd">    package : `string`</span>
+<span class="sd">        The Python simulator package to use. Currently &#39;scipy&#39; and &#39;casadi&#39; are</span>
+<span class="sd">        the only supported packages</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">=</span> <span class="n">package</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="s1">&#39;casadi&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized simulator package </span><span class="si">%s</span><span class="s2">. Please select from &quot;</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="s1">&#39;casadi&#39;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">scipy_available</span><span class="p">:</span>
+                <span class="c1"># Converting this to a warning so that Simulator initialization</span>
+                <span class="c1"># can be tested even when scipy is unavailable</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;The scipy module is not available. &quot;</span>
+                    <span class="s2">&quot;You may build the Simulator object but you will not &quot;</span>
+                    <span class="s2">&quot;be able to run the simulation.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">casadi_available</span><span class="p">:</span>
+                <span class="c1"># Initializing the simulator for use with casadi requires</span>
+                <span class="c1"># access to casadi objects. Therefore, we must throw an error</span>
+                <span class="c1"># here instead of a warning.</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The casadi module is not available. Cannot simulate model.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Check for active Blocks and throw error if any are found</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">False</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                <span class="s2">&quot;The Simulator cannot handle hierarchical models at the moment.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">component_map</span><span class="p">(</span><span class="n">ContinuousSet</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                <span class="s2">&quot;Currently the simulator may only be applied to &quot;</span>
+                <span class="s2">&quot;Pyomo models with a single ContinuousSet&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get the ContinuousSet in the model</span>
+        <span class="n">contset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Create a index template for the continuous set</span>
+        <span class="n">cstemplate</span> <span class="o">=</span> <span class="n">IndexTemplate</span><span class="p">(</span><span class="n">contset</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that there is at least one derivative in the model</span>
+        <span class="n">derivs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">component_map</span><span class="p">(</span><span class="n">DerivativeVar</span><span class="p">)</span>
+        <span class="n">derivs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">derivs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;_pyomo_dae_reclassified_derivativevars&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">_pyomo_dae_reclassified_derivativevars</span><span class="p">:</span>
+                <span class="n">derivs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">derivs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span><span class="s2">&quot;Cannot simulate a model with no derivatives&quot;</span><span class="p">)</span>
+
+        <span class="n">templatemap</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Map for template substituter</span>
+        <span class="n">rhsdict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Map of derivative to its RHS templated expr</span>
+        <span class="n">derivlist</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Ordered list of derivatives</span>
+        <span class="n">alglist</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of templated algebraic equations</span>
+
+        <span class="c1"># Loop over constraints to find differential equations with separable</span>
+        <span class="c1"># RHS. Must find a RHS for every derivative var otherwise ERROR. Build</span>
+        <span class="c1"># dictionary of DerivativeVar:RHS equation.</span>
+        <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="c1"># Skip the discretization equations if model is discretized</span>
+            <span class="k">if</span> <span class="s1">&#39;_disc_eq&#39;</span> <span class="ow">in</span> <span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Check dimension of the Constraint. Check if the</span>
+            <span class="c1"># Constraint is indexed by the continuous set and</span>
+            <span class="c1"># determine its order in the indexing sets</span>
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">conindex</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">index_set</span><span class="p">()</span>
+            <span class="c1"># if not hasattr(conindex, &#39;set_tuple&#39;):</span>
+            <span class="c1">#     # Check if the continuous set is the indexing set</span>
+            <span class="c1">#     if conindex is not contset:</span>
+            <span class="c1">#         continue</span>
+            <span class="c1">#     else:</span>
+            <span class="c1">#         csidx = 0</span>
+            <span class="c1">#         noncsidx = (None,)</span>
+            <span class="c1"># else:</span>
+            <span class="n">dimsum</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">csidx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">noncsidx</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">conindex</span><span class="o">.</span><span class="n">subsets</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="n">contset</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">csidx</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                            <span class="s2">&quot;Cannot simulate the constraint </span><span class="si">%s</span><span class="s2"> because &quot;</span>
+                            <span class="s2">&quot;it is indexed by duplicate ContinuousSets&quot;</span> <span class="o">%</span> <span class="n">con</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+                    <span class="n">csidx</span> <span class="o">=</span> <span class="n">dimsum</span>
+                <span class="k">elif</span> <span class="n">noncsidx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">noncsidx</span> <span class="o">=</span> <span class="n">s</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">noncsidx</span> <span class="o">=</span> <span class="n">noncsidx</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">dimsum</span> <span class="o">+=</span> <span class="n">s</span><span class="o">.</span><span class="n">dimen</span>
+            <span class="k">if</span> <span class="n">csidx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">noncsidx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">noncsidx</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+
+            <span class="c1"># Get the rule used to construct the constraint</span>
+            <span class="n">conrule</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">rule</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">noncsidx</span><span class="p">:</span>
+                <span class="c1"># Insert the index template and call the rule to</span>
+                <span class="c1"># create a templated expression</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">tempexp</span> <span class="o">=</span> <span class="n">conrule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">cstemplate</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,)</span>
+                    <span class="n">tempidx</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">csidx</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">cstemplate</span><span class="p">,)</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="n">csidx</span><span class="p">:]</span>
+                    <span class="n">tempexp</span> <span class="o">=</span> <span class="n">conrule</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tempidx</span><span class="p">)</span>
+
+                <span class="c1"># Check to make sure it&#39;s an EqualityExpression</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">EqualityExpression</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Check to make sure it&#39;s a differential equation with</span>
+                <span class="c1"># separable RHS</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="c1"># Case 1: m.dxdt[t] = RHS</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">):</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="n">_check_getitemexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># Case 2: RHS = m.dxdt[t]</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">GetItemExpression</span><span class="p">):</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_getitemexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Case 3: m.p*m.dxdt[t] = RHS</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span>
+                        <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">DivisionExpression</span>
+                    <span class="p">):</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_productexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># Case 4: RHS =  m.p*m.dxdt[t]</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">ProductExpression</span>
+                        <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">DivisionExpression</span>
+                    <span class="p">):</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_productexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Case 5: m.dxdt[t] + sum(ELSE) = RHS</span>
+                <span class="c1"># or CONSTANT + m.dxdt[t] = RHS</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">SumExpression</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_viewsumexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># Case 6: RHS = m.dxdt[t] + sum(ELSE)</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">SumExpression</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_viewsumexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Case 7: RHS = m.p*m.dxdt[t] + CONSTANT</span>
+                <span class="c1"># This case will be caught by Case 6 if p is immutable. If</span>
+                <span class="c1"># p is mutable then this case will not be detected as a</span>
+                <span class="c1"># separable differential equation</span>
+
+                <span class="c1"># Case 8: - dxdt[t] = RHS</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">NegationExpression</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_negationexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="c1"># Case 9: RHS = - dxdt[t]</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="ow">is</span> <span class="n">EXPR</span><span class="o">.</span><span class="n">NegationExpression</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="n">_check_negationexpression</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># At this point if args is not None then args[0] contains</span>
+                <span class="c1"># the _GetItemExpression for the DerivativeVar and args[1]</span>
+                <span class="c1"># contains the RHS expression. If args is None then the</span>
+                <span class="c1"># constraint is considered an algebraic equation</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># Constraint is an algebraic equation or unsupported</span>
+                    <span class="c1"># differential equation</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                            <span class="s2">&quot;Model contains an algebraic equation or &quot;</span>
+                            <span class="s2">&quot;unrecognized differential equation. Constraint &quot;</span>
+                            <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; cannot be simulated using Scipy. If you are &quot;</span>
+                            <span class="s2">&quot;trying to simulate a DAE model you must use &quot;</span>
+                            <span class="s2">&quot;CasADi as the integration package.&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="n">tempexp</span> <span class="o">=</span> <span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">tempexp</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">algexp</span> <span class="o">=</span> <span class="n">substitute_pyomo2casadi</span><span class="p">(</span><span class="n">tempexp</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">)</span>
+                    <span class="n">alglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">algexp</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Add the differential equation to rhsdict and derivlist</span>
+                <span class="n">dv</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">RHS</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">dvkey</span> <span class="o">=</span> <span class="n">_GetItemIndexer</span><span class="p">(</span><span class="n">dv</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dvkey</span> <span class="ow">in</span> <span class="n">rhsdict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                        <span class="s2">&quot;Found multiple RHS expressions for the &quot;</span>
+                        <span class="s2">&quot;DerivativeVar </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">dvkey</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="n">derivlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dvkey</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;casadi&#39;</span><span class="p">:</span>
+                    <span class="n">rhsdict</span><span class="p">[</span><span class="n">dvkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">substitute_pyomo2casadi</span><span class="p">(</span><span class="n">RHS</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rhsdict</span><span class="p">[</span><span class="n">dvkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_pyomo2scipy</span><span class="p">(</span><span class="n">RHS</span><span class="p">,</span> <span class="n">templatemap</span><span class="p">)</span>
+        <span class="c1"># Check to see if we found a RHS for every DerivativeVar in</span>
+        <span class="c1"># the model</span>
+        <span class="c1"># FIXME: Not sure how to rework this for multi-index case</span>
+        <span class="c1"># allderivs = derivs.keys()</span>
+        <span class="c1"># if set(allderivs) != set(derivlist):</span>
+        <span class="c1">#     missing = list(set(allderivs)-set(derivlist))</span>
+        <span class="c1">#     print(&quot;WARNING: Could not find a RHS expression for the &quot;</span>
+        <span class="c1">#     &quot;following DerivativeVar components &quot;+str(missing))</span>
+
+        <span class="c1"># Create ordered list of differential variables corresponding</span>
+        <span class="c1"># to the list of derivatives.</span>
+        <span class="n">diffvars</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">deriv</span> <span class="ow">in</span> <span class="n">derivlist</span><span class="p">:</span>
+            <span class="n">sv</span> <span class="o">=</span> <span class="n">deriv</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_state_var</span><span class="p">()</span>
+            <span class="n">diffvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_GetItemIndexer</span><span class="p">(</span><span class="n">sv</span><span class="p">[</span><span class="n">deriv</span><span class="o">.</span><span class="n">_args</span><span class="p">]))</span>
+
+        <span class="c1"># Create ordered list of algebraic variables and time-varying</span>
+        <span class="c1"># parameters</span>
+        <span class="n">algvars</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">templatemap</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">derivs</span><span class="p">:</span>
+                <span class="c1"># Make sure there are no DerivativeVars in the</span>
+                <span class="c1"># template map</span>
+                <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot simulate a differential equation with &quot;</span>
+                    <span class="s2">&quot;multiple DerivativeVars&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">diffvars</span><span class="p">:</span>
+                <span class="c1"># Finds time varying parameters and algebraic vars</span>
+                <span class="n">algvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+            <span class="c1"># Function sent to scipy integrator</span>
+            <span class="k">def</span> <span class="nf">_rhsfun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                <span class="n">residual</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">cstemplate</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">diffvars</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">templatemap</span><span class="p">:</span>
+                        <span class="n">templatemap</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">derivlist</span><span class="p">:</span>
+                    <span class="n">residual</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rhsdict</span><span class="p">[</span><span class="n">d</span><span class="p">]())</span>
+
+                <span class="k">return</span> <span class="n">residual</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rhsfun</span> <span class="o">=</span> <span class="n">_rhsfun</span>
+
+        <span class="c1"># Add any diffvars not added by expression walker to self._templatemap</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;casadi&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="n">diffvars</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">templatemap</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">_id</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_id</span><span class="o">.</span><span class="n">args</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">templatemap</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">SX</span><span class="o">.</span><span class="n">sym</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span> <span class="o">=</span> <span class="n">contset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cstemplate</span> <span class="o">=</span> <span class="n">cstemplate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span> <span class="o">=</span> <span class="n">diffvars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_derivlist</span> <span class="o">=</span> <span class="n">derivlist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span> <span class="o">=</span> <span class="n">templatemap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rhsdict</span> <span class="o">=</span> <span class="n">rhsdict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alglist</span> <span class="o">=</span> <span class="n">alglist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span> <span class="o">=</span> <span class="n">algvars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tsim</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simsolution</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># The algebraic vars in the most recent simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># The time-varying inputs in the most recent simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Simulator.get_variable_order"><a class="viewcode-back" href="../../../modeling_extensions/dae.html#pyomo.dae.Simulator.get_variable_order">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vartype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function returns the ordered list of differential variable</span>
+<span class="sd">        names. The order corresponds to the order being sent to the</span>
+<span class="sd">        integrator function. Knowing the order allows users to provide</span>
+<span class="sd">        initial conditions for the differential equations using a</span>
+<span class="sd">        list or map the profiles returned by the simulate function to</span>
+<span class="sd">        the Pyomo variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vartype : `string` or None</span>
+<span class="sd">            Optional argument for specifying the type of variables to return</span>
+<span class="sd">            the order for. The default behavior is to return the order of</span>
+<span class="sd">            the differential variables. &#39;time-varying&#39; will return the order</span>
+<span class="sd">            of all the time-dependent algebraic variables identified in the</span>
+<span class="sd">            model. &#39;algebraic&#39; will return the order of algebraic variables</span>
+<span class="sd">            used in the most recent call to the simulate function. &#39;input&#39;</span>
+<span class="sd">            will return the order of the time-dependent algebraic variables</span>
+<span class="sd">            that were treated as inputs in the most recent call to the</span>
+<span class="sd">            simulate function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        `list`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">vartype</span> <span class="o">==</span> <span class="s1">&#39;time-varying&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span>
+        <span class="k">elif</span> <span class="n">vartype</span> <span class="o">==</span> <span class="s1">&#39;algebraic&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span>
+        <span class="k">elif</span> <span class="n">vartype</span> <span class="o">==</span> <span class="s1">&#39;input&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span></div>
+
+<div class="viewcode-block" id="Simulator.simulate"><a class="viewcode-back" href="../../../modeling_extensions/dae.html#pyomo.dae.Simulator.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">numpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">integrator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">varying_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initcon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">integrator_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulate the model. Integrator-specific options may be specified as</span>
+<span class="sd">        keyword arguments and will be passed on to the integrator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numpoints : int</span>
+<span class="sd">            The number of points for the profiles returned by the simulator.</span>
+<span class="sd">            Default is 100</span>
+
+<span class="sd">        tstep : int or float</span>
+<span class="sd">            The time step to use in the profiles returned by the simulator.</span>
+<span class="sd">            This is not the time step used internally by the integrators.</span>
+<span class="sd">            This is an optional parameter that may be specified in place of</span>
+<span class="sd">            &#39;numpoints&#39;.</span>
+
+<span class="sd">        integrator : string</span>
+<span class="sd">            The string name of the integrator to use for simulation. The</span>
+<span class="sd">            default is &#39;lsoda&#39; when using Scipy and &#39;idas&#39; when using CasADi</span>
+
+<span class="sd">        varying_inputs : ``pyomo.environ.Suffix``</span>
+<span class="sd">            A :py:class:`Suffix&lt;pyomo.environ.Suffix&gt;` object containing the</span>
+<span class="sd">            piecewise constant profiles to be used for certain time-varying</span>
+<span class="sd">            algebraic variables.</span>
+
+<span class="sd">        initcon : list of floats</span>
+<span class="sd">            The initial conditions for the the differential variables. This</span>
+<span class="sd">            is an optional argument. If not specified then the simulator</span>
+<span class="sd">            will use the current value of the differential variables at the</span>
+<span class="sd">            lower bound of the ContinuousSet for the initial condition.</span>
+
+<span class="sd">        integrator_options : dict</span>
+<span class="sd">            Dictionary containing options that should be passed to the</span>
+<span class="sd">            integrator. See the documentation for a specific integrator for a</span>
+<span class="sd">            list of valid options.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy array, numpy array</span>
+<span class="sd">            The first return value is a 1D array of time points corresponding</span>
+<span class="sd">            to the second return value which is a 2D array of the profiles for</span>
+<span class="sd">            the simulated differential and algebraic variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The numpy module is not available. Cannot simulate the model.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">integrator_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">integrator_options</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+            <span class="c1"># Specify the scipy integrator to use for simulation</span>
+            <span class="n">valid_integrators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;vode&#39;</span><span class="p">,</span> <span class="s1">&#39;zvode&#39;</span><span class="p">,</span> <span class="s1">&#39;lsoda&#39;</span><span class="p">,</span> <span class="s1">&#39;dopri5&#39;</span><span class="p">,</span> <span class="s1">&#39;dop853&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">integrator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">integrator</span> <span class="o">=</span> <span class="s1">&#39;lsoda&#39;</span>
+            <span class="k">elif</span> <span class="n">integrator</span> <span class="o">==</span> <span class="s1">&#39;odeint&#39;</span><span class="p">:</span>
+                <span class="n">integrator</span> <span class="o">=</span> <span class="s1">&#39;lsoda&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Specify the casadi integrator to use for simulation.</span>
+            <span class="c1"># Only a subset of these integrators may be used for</span>
+            <span class="c1"># DAE simulation. We defer this check to CasADi.</span>
+            <span class="n">valid_integrators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cvodes&#39;</span><span class="p">,</span> <span class="s1">&#39;idas&#39;</span><span class="p">,</span> <span class="s1">&#39;collocation&#39;</span><span class="p">,</span> <span class="s1">&#39;rk&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">integrator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">integrator</span> <span class="o">=</span> <span class="s1">&#39;idas&#39;</span>
+
+        <span class="k">if</span> <span class="n">integrator</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_integrators</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized </span><span class="si">%s</span><span class="s2"> integrator </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s2">. Please select&quot;</span>
+                <span class="s2">&quot; an integrator from </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">valid_integrators</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Set the time step or the number of points for the lists</span>
+        <span class="c1"># returned by the integrator</span>
+        <span class="k">if</span> <span class="n">tstep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">tstep</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">last</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">first</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The step size </span><span class="si">%6.2f</span><span class="s2"> is larger than the span of the &quot;</span>
+                <span class="s2">&quot;ContinuousSet </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tstep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tstep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">numpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot specify both the step size and the number of &quot;</span>
+                <span class="s2">&quot;points for the simulator&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">tstep</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">numpoints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Use 100 points by default</span>
+            <span class="n">numpoints</span> <span class="o">=</span> <span class="mi">100</span>
+
+        <span class="k">if</span> <span class="n">tstep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tsim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">last</span><span class="p">(),</span> <span class="n">num</span><span class="o">=</span><span class="n">numpoints</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Consider adding an option for log spaced time points. Can be</span>
+            <span class="c1"># important for simulating stiff systems.</span>
+            <span class="c1"># tsim = np.logspace(-4,6, num=100)</span>
+            <span class="c1"># np.log10(self._contset.first()),np.log10(</span>
+            <span class="c1"># self._contset.last()),num=1000, endpoint=True)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tsim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">last</span><span class="p">(),</span> <span class="n">tstep</span><span class="p">)</span>
+
+        <span class="n">switchpts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">varying_inputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">varying_inputs</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Suffix</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Varying input values must be specified using a &quot;</span>
+                    <span class="s2">&quot;Suffix. Please refer to the simulator documentation.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">alg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">alg</span><span class="o">.</span><span class="n">_base</span> <span class="ow">in</span> <span class="n">varying_inputs</span><span class="p">:</span>
+                    <span class="c1"># Find all the switching points</span>
+                    <span class="n">switchpts</span> <span class="o">+=</span> <span class="n">varying_inputs</span><span class="p">[</span><span class="n">alg</span><span class="o">.</span><span class="n">_base</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                    <span class="c1"># Add to dictionary of siminputvars</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span><span class="p">[</span><span class="n">alg</span><span class="o">.</span><span class="n">_base</span><span class="p">]</span> <span class="o">=</span> <span class="n">alg</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alg</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                    <span class="s2">&quot;When simulating with Scipy you must &quot;</span>
+                    <span class="s2">&quot;provide values for all parameters &quot;</span>
+                    <span class="s2">&quot;and algebraic variables that are indexed &quot;</span>
+                    <span class="s2">&quot;by the ContinuoutSet using the &quot;</span>
+                    <span class="s2">&quot;&#39;varying_inputs&#39; keyword argument. &quot;</span>
+                    <span class="s2">&quot;Please refer to the simulator documentation &quot;</span>
+                    <span class="s2">&quot;for more information.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Get the set of unique points</span>
+            <span class="n">switchpts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">switchpts</span><span class="p">))</span>
+            <span class="n">switchpts</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+            <span class="c1"># Make sure all the switchpts are within the bounds of</span>
+            <span class="c1"># the ContinuousSet</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">switchpts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="n">switchpts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Found a switching point for one or more of &quot;</span>
+                    <span class="s2">&quot;the time-varying inputs that is not within &quot;</span>
+                    <span class="s2">&quot;the bounds of the ContinuousSet.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Update tsim to include input switching points</span>
+            <span class="c1"># This numpy function returns the unique, sorted points</span>
+            <span class="n">tsim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">union1d</span><span class="p">(</span><span class="n">tsim</span><span class="p">,</span> <span class="n">switchpts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span>
+
+        <span class="c1"># Check if initial conditions were provided, otherwise obtain</span>
+        <span class="c1"># them from the current variable values</span>
+        <span class="k">if</span> <span class="n">initcon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Too many initial conditions were specified. The &quot;</span>
+                    <span class="s2">&quot;simulator was expecting a list with </span><span class="si">%i</span><span class="s2"> values.&quot;</span>
+                    <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Too few initial conditions were specified. The &quot;</span>
+                    <span class="s2">&quot;simulator was expecting a list with </span><span class="si">%i</span><span class="s2"> values.&quot;</span>
+                    <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">initcon</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="n">initpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                <span class="n">vidx</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">initpoint</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
+                <span class="c1"># This line will raise an error if no value was set</span>
+                <span class="n">initcon</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_base</span><span class="p">[</span><span class="n">vidx</span><span class="p">]))</span>
+
+        <span class="c1"># Call the integrator</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intpackage</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">scipy_available</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The scipy module is not available. Cannot simulate the model.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulate_with_scipy</span><span class="p">(</span>
+                <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">switchpts</span><span class="p">,</span> <span class="n">varying_inputs</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">switchpts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulate_with_casadi_with_inputs</span><span class="p">(</span>
+                    <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">varying_inputs</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulate_with_casadi_no_inputs</span><span class="p">(</span>
+                    <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tsim</span> <span class="o">=</span> <span class="n">tsim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simsolution</span> <span class="o">=</span> <span class="n">profile</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_simulate_with_scipy</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">switchpts</span><span class="p">,</span> <span class="n">varying_inputs</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+    <span class="p">):</span>
+        <span class="n">scipyint</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">ode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rhsfun</span><span class="p">)</span><span class="o">.</span><span class="n">set_integrator</span><span class="p">(</span>
+            <span class="n">integrator</span><span class="p">,</span> <span class="o">**</span><span class="n">integrator_options</span>
+        <span class="p">)</span>
+        <span class="n">scipyint</span><span class="o">.</span><span class="n">set_initial_value</span><span class="p">(</span><span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initcon</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">scipyint</span><span class="o">.</span><span class="n">successful</span><span class="p">()</span> <span class="ow">and</span> <span class="n">scipyint</span><span class="o">.</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">tsim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="c1"># check if tsim[i-1] is a switching time and update value</span>
+            <span class="k">if</span> <span class="n">tsim</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">switchpts</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">tsim</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">varying_inputs</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">varying_inputs</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">tsim</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]])</span>
+
+            <span class="n">profilestep</span> <span class="o">=</span> <span class="n">scipyint</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">tsim</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">profile</span><span class="p">,</span> <span class="n">profilestep</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">scipyint</span><span class="o">.</span><span class="n">successful</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span>
+                <span class="s2">&quot;The Scipy integrator </span><span class="si">%s</span><span class="s2"> did not terminate &quot;</span>
+                <span class="s2">&quot;successfully.&quot;</span> <span class="o">%</span> <span class="n">integrator</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_simulate_with_casadi_no_inputs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+    <span class="p">):</span>
+        <span class="c1"># Old way (10 times faster, but can&#39;t incorporate time</span>
+        <span class="c1"># varying parameters/controls)</span>
+        <span class="n">xalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">]</span>
+        <span class="n">xall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">xalltemp</span><span class="p">)</span>
+
+        <span class="n">odealltemp</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_pyomo2casadi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rhsdict</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_derivlist</span><span class="p">]</span>
+        <span class="n">odeall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">odealltemp</span><span class="p">)</span>
+        <span class="n">dae</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">xall</span><span class="p">,</span> <span class="s1">&#39;ode&#39;</span><span class="p">:</span> <span class="n">odeall</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">zalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span><span class="p">]</span>
+            <span class="n">zall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">zalltemp</span><span class="p">)</span>
+
+            <span class="n">algalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_pyomo2casadi</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alglist</span><span class="p">]</span>
+            <span class="n">algall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">algalltemp</span><span class="p">)</span>
+            <span class="n">dae</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zall</span>
+            <span class="n">dae</span><span class="p">[</span><span class="s1">&#39;alg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">algall</span>
+
+        <span class="n">integrator_options</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tsim</span>
+        <span class="n">integrator_options</span><span class="p">[</span><span class="s1">&#39;output_t0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">integrator</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">integrator_options</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">initcon</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">&#39;xf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">algprofile</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">&#39;zf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">profile</span><span class="p">,</span> <span class="n">algprofile</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_simulate_with_casadi_with_inputs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">initcon</span><span class="p">,</span> <span class="n">tsim</span><span class="p">,</span> <span class="n">varying_inputs</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">integrator_options</span>
+    <span class="p">):</span>
+        <span class="n">xalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span><span class="p">]</span>
+        <span class="n">xall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">xalltemp</span><span class="p">)</span>
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">SX</span><span class="o">.</span><span class="n">sym</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+
+        <span class="n">odealltemp</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">time</span> <span class="o">*</span> <span class="n">convert_pyomo2casadi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rhsdict</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_derivlist</span>
+        <span class="p">]</span>
+        <span class="n">odeall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">odealltemp</span><span class="p">)</span>
+
+        <span class="c1"># Time-varying inputs</span>
+        <span class="n">ptemp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="n">pall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="o">*</span><span class="n">ptemp</span><span class="p">)</span>
+
+        <span class="n">dae</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">xall</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">pall</span><span class="p">,</span> <span class="s1">&#39;ode&#39;</span><span class="p">:</span> <span class="n">odeall</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">zalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_templatemap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span><span class="p">]</span>
+            <span class="n">zall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">zalltemp</span><span class="p">)</span>
+            <span class="c1"># Need to do anything special with time scaling??</span>
+            <span class="n">algalltemp</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_pyomo2casadi</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alglist</span><span class="p">]</span>
+            <span class="n">algall</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">algalltemp</span><span class="p">)</span>
+            <span class="n">dae</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zall</span>
+            <span class="n">dae</span><span class="p">[</span><span class="s1">&#39;alg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">algall</span>
+
+        <span class="n">integrator_options</span><span class="p">[</span><span class="s1">&#39;tf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">integrator</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">integrator_options</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tsim</span><span class="p">)</span>
+
+        <span class="c1"># This approach removes the time scaling from tsim so must</span>
+        <span class="c1"># create an array with the time step between consecutive</span>
+        <span class="c1"># time points</span>
+        <span class="n">tsimtemp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">tsim</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">tsim</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">tsimtemp</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tsimtemp</span><span class="p">))</span>
+
+        <span class="n">palltemp</span> <span class="o">=</span> <span class="p">[</span><span class="n">casadi</span><span class="o">.</span><span class="n">DM</span><span class="p">(</span><span class="n">tsimtemp</span><span class="p">)]</span>
+
+        <span class="c1"># Need a similar np array for each time-varying input</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_siminputvars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">varying_inputs</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+            <span class="n">tswitch</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">tswitch</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">tidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">tsim</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tswitch</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tsim</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">ptemp</span> <span class="o">=</span> <span class="p">[</span><span class="n">profile</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span>
+                <span class="n">casadi</span><span class="o">.</span><span class="n">repmat</span><span class="p">(</span><span class="n">profile</span><span class="p">[</span><span class="n">tswitch</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tidx</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tswitch</span><span class="p">))</span>
+            <span class="p">]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">horzcat</span><span class="p">(</span><span class="o">*</span><span class="n">ptemp</span><span class="p">)</span>
+            <span class="n">palltemp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="n">I</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mapaccum</span><span class="p">(</span><span class="s1">&#39;simulator&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">initcon</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">casadi</span><span class="o">.</span><span class="n">vertcat</span><span class="p">(</span><span class="o">*</span><span class="n">palltemp</span><span class="p">))</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">&#39;xf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_algvars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">algprofile</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="s1">&#39;zf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">profile</span><span class="p">,</span> <span class="n">algprofile</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">tsim</span><span class="p">,</span> <span class="n">profile</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Simulator.initialize_model"><a class="viewcode-back" href="../../../modeling_extensions/dae.html#pyomo.dae.Simulator.initialize_model">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will initialize the model using the profile obtained</span>
+<span class="sd">        from simulating the dynamic model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tsim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DAE_Error</span><span class="p">(</span><span class="s2">&quot;Tried to initialize the model without simulating it first&quot;</span><span class="p">)</span>
+
+        <span class="n">tvals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contset</span><span class="p">)</span>
+
+        <span class="c1"># Build list of state and algebraic variables</span>
+        <span class="c1"># that can be initialized</span>
+        <span class="n">initvars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diffvars</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simalgvars</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">initvars</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">is</span> <span class="n">IndexTemplate</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="n">valinit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tsim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simsolution</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tvals</span><span class="p">):</span>
+                <span class="n">vidx</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx2</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="n">idx2</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">_base</span><span class="p">[</span><span class="n">vidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">valinit</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Constraints &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Parameters" href="parameter.html" />
+    <link rel="prev" title="Variables" href="variable.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Library Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html">Common Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aml/index.html">AML Library Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html">Expression Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solvers/index.html">Solver Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/index.html">Model Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../appsi/appsi.html">APPSI (Auto-Persistent Pyomo Solver Interfaces)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">The Kernel Library</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="syntax_comparison.html">Syntax Comparison Table (pyomo.kernel vs pyomo.environ)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#notable-improvements">Notable Improvements</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#reference">Reference</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#modeling-components">Modeling Components:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#base-api">Base API:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#containers">Containers:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Library Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">The Kernel Library</a> &raquo;</li>
+        
+      <li>Constraints</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/library_reference/kernel/constraint.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="constraints">
+<h1>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils colwidths-auto align-default">
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.constraint.constraint" title="pyomo.core.kernel.constraint.constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.constraint</span></code></a>([…])</td>
+<td>A general algebraic constraint</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.constraint.linear_constraint" title="pyomo.core.kernel.constraint.linear_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.linear_constraint</span></code></a>([…])</td>
+<td>A linear constraint</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.constraint.constraint_tuple" title="pyomo.core.kernel.constraint.constraint_tuple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.constraint_tuple</span></code></a>(…)</td>
+<td>A tuple-style container for objects with category type IConstraint</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.constraint.constraint_list" title="pyomo.core.kernel.constraint.constraint_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.constraint_list</span></code></a>(…)</td>
+<td>A list-style container for objects with category type IConstraint</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyomo.core.kernel.constraint.constraint_dict" title="pyomo.core.kernel.constraint.constraint_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.constraint_dict</span></code></a>(…)</td>
+<td>A dict-style container for objects with category type IConstraint</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint" title="pyomo.core.kernel.matrix_constraint.matrix_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyomo.core.kernel.matrix_constraint.matrix_constraint</span></code></a>(A)</td>
+<td>A container for constraints of the form lb &lt;= Ax &lt;= ub.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="member-documentation">
+<h2>Member Documentation<a class="headerlink" href="#member-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyomo.core.kernel.constraint.constraint">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.constraint.</code><code class="descname">constraint</code><span class="sig-paren">(</span><em><span class="n">expr</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">body</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">lb</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">ub</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">rhs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/kernel/constraint.html#constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint._MutableBoundsConstraintMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.IConstraint</span></code></p>
+<p>A general algebraic constraint</p>
+<p>Algebraic constraints store relational expressions
+composed of linear or nonlinear functions involving
+decision variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>expr</strong> – Sets the relational expression for the
+constraint. Can be updated later by assigning to
+the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.expr" title="pyomo.core.kernel.constraint.constraint.expr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code></a> property on the
+constraint. When this keyword is used, values
+for the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.body" title="pyomo.core.kernel.constraint.constraint.body"><code class="xref py py-attr docutils literal notranslate"><span class="pre">body</span></code></a>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">lb</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">ub</span></code>,
+and <code class="xref py py-attr docutils literal notranslate"><span class="pre">rhs</span></code> attributes are automatically
+determined based on the relational expression
+type. Default value is <code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>body</strong> – Sets the body of the constraint. Can be
+updated later by assigning to the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.body" title="pyomo.core.kernel.constraint.constraint.body"><code class="xref py py-attr docutils literal notranslate"><span class="pre">body</span></code></a>
+property on the constraint. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>. This keyword should not be used
+in combination with the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.expr" title="pyomo.core.kernel.constraint.constraint.expr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code></a> keyword.</li>
+<li><strong>lb</strong> – Sets the lower bound of the constraint. Can be
+updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">lb</span></code>
+property on the constraint. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, which is equivalent to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">-inf</span></code>. This keyword should not be used
+in combination with the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.expr" title="pyomo.core.kernel.constraint.constraint.expr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code></a> keyword.</li>
+<li><strong>ub</strong> – Sets the upper bound of the constraint. Can be
+updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">ub</span></code>
+property on the constraint. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, which is equivalent to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">+inf</span></code>. This keyword should not be used
+in combination with the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.expr" title="pyomo.core.kernel.constraint.constraint.expr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code></a> keyword.</li>
+<li><strong>rhs</strong> – Sets the right-hand side of the constraint. Can
+be updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">rhs</span></code>
+property on the constraint. The default value of
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code> implies that this keyword is
+ignored. Otherwise, use of this keyword implies
+that the <code class="xref py py-attr docutils literal notranslate"><span class="pre">equality</span></code> property is set to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>. This keyword should not be used
+in combination with the <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint.expr" title="pyomo.core.kernel.constraint.constraint.expr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expr</span></code></a> keyword.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.kernel</span> <span class="k">as</span> <span class="nn">pmo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># A decision variable used to define constraints</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># An upper bound constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (equivalent form)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># A range constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">lb</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># An nonlinear equality constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (equivalent form)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.kernel.constraint.constraint.body">
+<em class="property">property </em><code class="descname">body</code><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>The body of the constraint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.constraint.constraint.expr">
+<em class="property">property </em><code class="descname">expr</code><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint.expr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the expression on this constraint.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.constraint.linear_constraint">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.constraint.</code><code class="descname">linear_constraint</code><span class="sig-paren">(</span><em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">coefficients</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">terms</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">lb</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">ub</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">rhs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/kernel/constraint.html#linear_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.constraint.linear_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint._MutableBoundsConstraintMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.IConstraint</span></code></p>
+<p>A linear constraint</p>
+<p>A linear constraint stores a linear relational
+expression defined by a list of variables and
+coefficients. This class can be used to reduce build
+time and memory for an optimization model. It also
+increases the speed at which the model can be output to
+a solver.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Sets the list of variables in the
+linear expression defining the body of the
+constraint. Can be updated later by assigning to
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">variables</span></code> property on the
+constraint.</li>
+<li><strong>coefficients</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Sets the list of coefficients
+for the variables in the linear expression
+defining the body of the constraint. Can be
+updated later by assigning to the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">coefficients</span></code> property on the constraint.</li>
+<li><strong>terms</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – An alternative way of initializing the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">variables</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">coefficients</span></code> lists
+using an iterable of (variable, coefficient)
+tuples. Can be updated later by assigning to the
+<a class="reference internal" href="#pyomo.core.kernel.constraint.linear_constraint.terms" title="pyomo.core.kernel.constraint.linear_constraint.terms"><code class="xref py py-attr docutils literal notranslate"><span class="pre">terms</span></code></a> property on the constraint. This
+keyword should not be used in combination with
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">variables</span></code> or <code class="xref py py-attr docutils literal notranslate"><span class="pre">coefficients</span></code>
+keywords.</li>
+<li><strong>lb</strong> – Sets the lower bound of the constraint. Can be
+updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">lb</span></code>
+property on the constraint. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, which is equivalent to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">-inf</span></code>.</li>
+<li><strong>ub</strong> – Sets the upper bound of the constraint. Can be
+updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">ub</span></code>
+property on the constraint. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code>, which is equivalent to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">+inf</span></code>.</li>
+<li><strong>rhs</strong> – Sets the right-hand side of the constraint. Can
+be updated later by assigning to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">rhs</span></code>
+property on the constraint. The default value of
+<code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code> implies that this keyword is
+ignored. Otherwise, use of this keyword implies
+that the <code class="xref py py-attr docutils literal notranslate"><span class="pre">equality</span></code> property is set to
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyomo.kernel</span> <span class="k">as</span> <span class="nn">pmo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Decision variables used to define constraints</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">variable</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># An upper bound constraint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">linear_constraint</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],</span> <span class="n">coefficients</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (equivalent form)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">linear_constraint</span><span class="p">(</span><span class="n">terms</span><span class="o">=</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)],</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (equivalent form using a general constraint)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">pmo</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="pyomo.core.kernel.constraint.linear_constraint.body">
+<em class="property">property </em><code class="descname">body</code><a class="headerlink" href="#pyomo.core.kernel.constraint.linear_constraint.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>The body of the constraint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.constraint.linear_constraint.canonical_form">
+<code class="descname">canonical_form</code><span class="sig-paren">(</span><em><span class="n">compute_values</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/kernel/constraint.html#linear_constraint.canonical_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.constraint.linear_constraint.canonical_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a canonical representation of the body of
+this constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.constraint.linear_constraint.terms">
+<em class="property">property </em><code class="descname">terms</code><a class="headerlink" href="#pyomo.core.kernel.constraint.linear_constraint.terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>An iterator over the terms in the body of this
+constraint as (variable, coefficient) tuples</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.constraint.constraint_tuple">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.constraint.</code><code class="descname">constraint_tuple</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tuple_container.html#pyomo.core.kernel.tuple_container.TupleContainer" title="pyomo.core.kernel.tuple_container.TupleContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.tuple_container.TupleContainer</span></code></a></p>
+<p>A tuple-style container for objects with category type IConstraint</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.constraint.constraint_list">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.constraint.</code><code class="descname">constraint_list</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="list_container.html#pyomo.core.kernel.list_container.ListContainer" title="pyomo.core.kernel.list_container.ListContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.list_container.ListContainer</span></code></a></p>
+<p>A list-style container for objects with category type IConstraint</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.constraint.constraint_dict">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.constraint.</code><code class="descname">constraint_dict</code><span class="sig-paren">(</span><em><span class="o">*</span><span class="n">args</span></em>, <em><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyomo.core.kernel.constraint.constraint_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dict_container.html#pyomo.core.kernel.dict_container.DictContainer" title="pyomo.core.kernel.dict_container.DictContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.dict_container.DictContainer</span></code></a></p>
+<p>A dict-style container for objects with category type IConstraint</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint">
+<em class="property">class </em><code class="descclassname">pyomo.core.kernel.matrix_constraint.</code><code class="descname">matrix_constraint</code><span class="sig-paren">(</span><em><span class="n">A</span></em>, <em><span class="n">lb</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">ub</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">rhs</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">sparse</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/kernel/matrix_constraint.html#matrix_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyomo.core.kernel.constraint.constraint_tuple" title="pyomo.core.kernel.constraint.constraint_tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyomo.core.kernel.constraint.constraint_tuple</span></code></a></p>
+<p>A container for constraints of the form lb &lt;= Ax &lt;= ub.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>A</strong> – A scipy sparse matrix or 2D numpy array (always
+copied)</li>
+<li><strong>lb</strong> – A scalar or array with the same number of rows
+as A that defines the lower bound of the
+constraints</li>
+<li><strong>ub</strong> – A scalar or array with the same number of rows
+as A that defines the upper bound of the
+constraints</li>
+<li><strong>rhs</strong> – A scalar or array with the same number of rows
+as A that defines the right-hand side of the
+constraints (implies equality constraints)</li>
+<li><strong>x</strong> – A list with the same number of columns as A that
+stores the variable associated with each column</li>
+<li><strong>sparse</strong> – Indicates whether or not sparse storage (CSR
+format) should be used to store A. Default is
+<code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.A">
+<em class="property">property </em><code class="descname">A</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.A" title="Permalink to this definition">¶</a></dt>
+<dd><p>A read-only view of the constraint matrix</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.equality">
+<em class="property">property </em><code class="descname">equality</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.equality" title="Permalink to this definition">¶</a></dt>
+<dd><p>The array of boolean entries indicating the
+indices that are equality constraints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.lb">
+<em class="property">property </em><code class="descname">lb</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.lb" title="Permalink to this definition">¶</a></dt>
+<dd><p>The array of constraint lower bounds</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.lslack">
+<em class="property">property </em><code class="descname">lslack</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.lslack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower slack (body - lb)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.rhs">
+<em class="property">property </em><code class="descname">rhs</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.rhs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The array of constraint right-hand sides. Can be
+set to a scalar or a numpy array of the same
+dimension. This property can only be read when the
+equality property is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> on every
+index. Assigning to this property implicitly sets
+the equality property to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> on every
+index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.slack">
+<em class="property">property </em><code class="descname">slack</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.slack" title="Permalink to this definition">¶</a></dt>
+<dd><p>min(lslack, uslack)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.sparse">
+<em class="property">property </em><code class="descname">sparse</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether or not the underlying
+matrix uses sparse storage</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.ub">
+<em class="property">property </em><code class="descname">ub</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.ub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The array of constraint upper bounds</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.uslack">
+<em class="property">property </em><code class="descname">uslack</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.uslack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upper slack (ub - body)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyomo.core.kernel.matrix_constraint.matrix_constraint.x">
+<em class="property">property </em><code class="descname">x</code><a class="headerlink" href="#pyomo.core.kernel.matrix_constraint.matrix_constraint.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of variables associated with the columns
+of the constraint matrix</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="parameter.html" class="btn btn-neutral float-right" title="Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="variable.html" class="btn btn-neutral float-left" title="Variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

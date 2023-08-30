@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.incidence_analysis.triangularize &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.incidence_analysis.triangularize</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.incidence_analysis.triangularize</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.incidence_analysis.matching</span> <span class="kn">import</span> <span class="n">maximum_matching</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.incidence_analysis.common.dulmage_mendelsohn</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="c1"># TODO: The fact that we import this function here suggests it should be</span>
+    <span class="c1"># promoted.</span>
+    <span class="n">_get_projected_digraph</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">networkx</span> <span class="k">as</span> <span class="n">nx</span>
+
+
+<span class="k">def</span> <span class="nf">_get_scc_dag_of_projection</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">top_nodes</span><span class="p">,</span> <span class="n">matching</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the DAG of strongly connected components of a bipartite graph,</span>
+<span class="sd">    projected with respect to a perfect matching</span>
+
+<span class="sd">    This data structure can be used, for instance, to identify the minimal</span>
+<span class="sd">    subsystem of constraints and variables necessary to solve a given variable</span>
+<span class="sd">    or constraint.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nxc</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">components</span>
+    <span class="c1"># _get_projected_digraph treats matched edges as &quot;in-edges&quot;, so we</span>
+    <span class="c1"># reverse the direction of edges here.</span>
+    <span class="n">dg</span> <span class="o">=</span> <span class="n">_get_projected_digraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">matching</span><span class="p">,</span> <span class="n">top_nodes</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+    <span class="n">scc_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nxc</span><span class="o">.</span><span class="n">strongly_connected_components</span><span class="p">(</span><span class="n">dg</span><span class="p">))</span>
+    <span class="n">n_scc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scc_list</span><span class="p">)</span>
+    <span class="n">node_scc_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">scc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scc_list</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">}</span>
+
+    <span class="c1"># Now we need to put the SCCs in the right order. We do this by performing</span>
+    <span class="c1"># a topological sort on the DAG of SCCs.</span>
+    <span class="n">dag</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">dag</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_scc</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">dg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">source_scc</span> <span class="o">=</span> <span class="n">node_scc_map</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">dg</span><span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+            <span class="n">target_scc</span> <span class="o">=</span> <span class="n">node_scc_map</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">target_scc</span> <span class="o">!=</span> <span class="n">source_scc</span><span class="p">:</span>
+                <span class="n">dag</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">source_scc</span><span class="p">,</span> <span class="n">target_scc</span><span class="p">)</span>
+
+    <span class="c1"># Note that the matching is required to fully interpret scc_list (as it</span>
+    <span class="c1"># only contains the &quot;top nodes&quot;)</span>
+    <span class="k">return</span> <span class="n">scc_list</span><span class="p">,</span> <span class="n">dag</span>
+
+
+<div class="viewcode-block" id="get_scc_of_projection"><a class="viewcode-back" href="../../../../contributed_packages/incidence/triangularize.html#pyomo.contrib.incidence_analysis.triangularize.get_scc_of_projection">[docs]</a><span class="k">def</span> <span class="nf">get_scc_of_projection</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">top_nodes</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the topologically ordered strongly connected components of a</span>
+<span class="sd">    bipartite graph, projected with respect to a perfect matching</span>
+
+<span class="sd">    The provided undirected bipartite graph is projected into a directed graph</span>
+<span class="sd">    on the set of &quot;top nodes&quot; by treating &quot;matched edges&quot; as out-edges and</span>
+<span class="sd">    &quot;unmatched edges&quot; as in-edges. Then the strongly connected components of</span>
+<span class="sd">    the directed graph are computed. These strongly connected components are</span>
+<span class="sd">    unique, regardless of the choice of perfect matching. The strongly connected</span>
+<span class="sd">    components form a directed acyclic graph, and are returned in a topological</span>
+<span class="sd">    order. The order is unique, as ambiguities are resolved &quot;lexicographically&quot;.</span>
+
+<span class="sd">    The &quot;direction&quot; of the projection (where matched edges are out-edges)</span>
+<span class="sd">    leads to a block *lower* triangular permutation when the top nodes</span>
+<span class="sd">    correspond to *rows* in the bipartite graph of a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph: NetworkX Graph</span>
+<span class="sd">        A bipartite graph</span>
+<span class="sd">    top_nodes: list</span>
+<span class="sd">        One of the bipartite sets in the graph</span>
+<span class="sd">    matching: dict</span>
+<span class="sd">        Maps each node in ``top_nodes`` to its matched node</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of lists</span>
+<span class="sd">        The outer list is a list of strongly connected components. Each</span>
+<span class="sd">        strongly connected component is a list of tuples of matched nodes.</span>
+<span class="sd">        The first node is a &quot;top node&quot;, and the second is an &quot;other node&quot;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nxb</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">bipartite</span>
+    <span class="n">nxd</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">dag</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nxb</span><span class="o">.</span><span class="n">is_bipartite</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Provided graph is not bipartite.&quot;</span><span class="p">)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top_nodes</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="n">M</span>
+    <span class="k">if</span> <span class="n">M</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;get_scc_of_projection does not support bipartite graphs with&quot;</span>
+            <span class="s2">&quot; bipartite sets of different cardinalities. Got sizes </span><span class="si">%s</span><span class="s2"> and&quot;</span>
+            <span class="s2">&quot; </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">matching</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># This matching maps top nodes to &quot;other nodes&quot; *and* other nodes</span>
+        <span class="c1"># back to top nodes.</span>
+        <span class="n">matching</span> <span class="o">=</span> <span class="n">nxb</span><span class="o">.</span><span class="n">maximum_matching</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">top_nodes</span><span class="o">=</span><span class="n">top_nodes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;get_scc_of_projection does not support bipartite graphs without&quot;</span>
+            <span class="s2">&quot; a perfect matching. Got a graph with </span><span class="si">%s</span><span class="s2"> nodes per bipartite set&quot;</span>
+            <span class="s2">&quot; and a matching of cardinality </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="p">)</span>
+
+    <span class="n">scc_list</span><span class="p">,</span> <span class="n">dag</span> <span class="o">=</span> <span class="n">_get_scc_dag_of_projection</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">top_nodes</span><span class="p">,</span> <span class="n">matching</span><span class="p">)</span>
+    <span class="n">scc_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nxd</span><span class="o">.</span><span class="n">lexicographical_topological_sort</span><span class="p">(</span><span class="n">dag</span><span class="p">))</span>
+
+    <span class="c1"># The &quot;natural&quot; return type, here, is a list of lists. Each inner list</span>
+    <span class="c1"># is an SCC, and contains tuples of nodes. The &quot;top node&quot;, and its matched</span>
+    <span class="c1"># &quot;bottom node&quot;.</span>
+    <span class="n">ordered_node_subsets</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span> <span class="n">matching</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">scc_list</span><span class="p">[</span><span class="n">scc_idx</span><span class="p">]])</span> <span class="k">for</span> <span class="n">scc_idx</span> <span class="ow">in</span> <span class="n">scc_order</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">ordered_node_subsets</span></div>
+
+
+<div class="viewcode-block" id="block_triangularize"><a class="viewcode-back" href="../../../../contributed_packages/incidence/triangularize.html#pyomo.contrib.incidence_analysis.triangularize.block_triangularize">[docs]</a><span class="k">def</span> <span class="nf">block_triangularize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute ordered partitions of the matrix&#39;s rows and columns that</span>
+<span class="sd">    permute the matrix to block lower triangular form</span>
+
+<span class="sd">    Subsets in the partition correspond to diagonal blocks in the block</span>
+<span class="sd">    triangularization. The order is topological, with ties broken</span>
+<span class="sd">    &quot;lexicographically&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    matrix: ``scipy.sparse.coo_matrix``</span>
+<span class="sd">        Matrix whose rows and columns will be permuted</span>
+<span class="sd">    matching: ``dict``</span>
+<span class="sd">        A perfect matching. Maps rows to columns *and* columns back to rows.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    row_partition: list of lists</span>
+<span class="sd">        A partition of rows. The inner lists hold integer row coordinates.</span>
+<span class="sd">    col_partition: list of lists</span>
+<span class="sd">        A partition of columns. The inner lists hold integer column coordinates.</span>
+
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       **Breaking change in Pyomo 6.5.0**</span>
+
+<span class="sd">       The pre-6.5.0 ``block_triangularize`` function returned maps from</span>
+<span class="sd">       each row or column to the index of its block in a block</span>
+<span class="sd">       lower triangularization as the original intent of this function</span>
+<span class="sd">       was to identify when coordinates do or don&#39;t share a diagonal block</span>
+<span class="sd">       in this partition. Since then, the dominant use case of</span>
+<span class="sd">       ``block_triangularize`` has been to partition variables and</span>
+<span class="sd">       constraints into these blocks and inspect or solve each block</span>
+<span class="sd">       individually. A natural return type for this functionality is the</span>
+<span class="sd">       ordered partition of rows and columns, as lists of lists.</span>
+<span class="sd">       This functionality was previously available via the</span>
+<span class="sd">       ``get_diagonal_blocks`` method, which was confusing as it did not</span>
+<span class="sd">       capture that the partition was the diagonal of a block</span>
+<span class="sd">       *triangularization* (as opposed to diagonalization). The pre-6.5.0</span>
+<span class="sd">       functionality of ``block_triangularize`` is still available via the</span>
+<span class="sd">       ``map_coords_to_block_triangular_indices`` function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nxb</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">bipartite</span>
+    <span class="n">nxc</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">components</span>
+    <span class="n">nxd</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">dag</span>
+    <span class="n">from_biadjacency_matrix</span> <span class="o">=</span> <span class="n">nxb</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">from_biadjacency_matrix</span>
+    <span class="n">M</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">M</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;block_triangularize does not currently support non-square&quot;</span>
+            <span class="s2">&quot; matrices. Got matrix with shape </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">),)</span>
+        <span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">from_biadjacency_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="n">row_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">sccs</span> <span class="o">=</span> <span class="n">get_scc_of_projection</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">row_nodes</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="n">matching</span><span class="p">)</span>
+    <span class="n">row_partition</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">]</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">sccs</span><span class="p">]</span>
+    <span class="n">col_partition</span> <span class="o">=</span> <span class="p">[[</span><span class="n">j</span> <span class="o">-</span> <span class="n">M</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">]</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">sccs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">row_partition</span><span class="p">,</span> <span class="n">col_partition</span></div>
+
+
+<span class="k">def</span> <span class="nf">map_coords_to_block_triangular_indices</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">row_blocks</span><span class="p">,</span> <span class="n">col_blocks</span> <span class="o">=</span> <span class="n">block_triangularize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="n">matching</span><span class="p">)</span>
+    <span class="n">row_idx_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">rblock</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_blocks</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rblock</span><span class="p">}</span>
+    <span class="n">col_idx_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">cblock</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_blocks</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cblock</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">row_idx_map</span><span class="p">,</span> <span class="n">col_idx_map</span>
+
+
+<div class="viewcode-block" id="get_blocks_from_maps"><a class="viewcode-back" href="../../../../contributed_packages/incidence/triangularize.html#pyomo.contrib.incidence_analysis.triangularize.get_blocks_from_maps">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">msg</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;``get_blocks_from_maps`` is deprecated. This functionality has been&quot;</span>
+        <span class="s2">&quot; incorporated into ``block_triangularize``.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;6.5.0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_blocks_from_maps</span><span class="p">(</span><span class="n">row_block_map</span><span class="p">,</span> <span class="n">col_block_map</span><span class="p">):</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">row_block_map</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">assert</span> <span class="n">blocks</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">col_block_map</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">n_blocks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
+    <span class="n">block_rows</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_blocks</span><span class="p">)]</span>
+    <span class="n">block_cols</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_blocks</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">row_block_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">block_rows</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">col_block_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">block_cols</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">block_rows</span><span class="p">,</span> <span class="n">block_cols</span></div>
+
+
+<div class="viewcode-block" id="get_diagonal_blocks"><a class="viewcode-back" href="../../../../contributed_packages/incidence/triangularize.html#pyomo.contrib.incidence_analysis.triangularize.get_diagonal_blocks">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">msg</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;``get_diagonal_blocks`` has been deprecated. Please use&quot;</span>
+        <span class="s2">&quot; ``block_triangularize`` instead.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;6.5.0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_diagonal_blocks</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">block_triangularize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matching</span><span class="o">=</span><span class="n">matching</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

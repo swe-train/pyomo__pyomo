@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.core.kernel.variable &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.core.kernel.variable</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.core.kernel.variable</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  ___________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1">#  Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1">#  Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1">#  Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1">#  Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1">#  rights in this software.</span>
+<span class="c1">#  This software is distributed under the 3-clause BSD License.</span>
+<span class="c1">#  ___________________________________________________________________________</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">NoArgumentGiven</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.staleflag</span> <span class="kn">import</span> <span class="n">StaleFlagManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.numvalue</span> <span class="kn">import</span> <span class="n">NumericValue</span><span class="p">,</span> <span class="n">is_numeric_data</span><span class="p">,</span> <span class="n">value</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.base</span> <span class="kn">import</span> <span class="n">ICategorizedObject</span><span class="p">,</span> <span class="n">_abstract_readwrite_property</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.container_utils</span> <span class="kn">import</span> <span class="n">define_simple_containers</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.kernel.set_types</span> <span class="kn">import</span> <span class="n">RealSet</span><span class="p">,</span> <span class="n">IntegerSet</span>
+
+<span class="n">_pos_inf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+<span class="n">_neg_inf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_domain_type_and_bounds</span><span class="p">(</span><span class="n">domain_type</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">domain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">domain_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;At most one of the &#39;domain&#39; and &quot;</span>
+                <span class="s2">&quot;&#39;domain_type&#39; keywords can be changed &quot;</span>
+                <span class="s2">&quot;from their default value when &quot;</span>
+                <span class="s2">&quot;initializing a variable.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">domain_lb</span><span class="p">,</span> <span class="n">domain_ub</span><span class="p">,</span> <span class="n">domain_step</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">get_interval</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">domain_step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">domain_type</span> <span class="o">=</span> <span class="n">RealSet</span>
+        <span class="k">elif</span> <span class="n">domain_step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">domain_type</span> <span class="o">=</span> <span class="n">IntegerSet</span>
+        <span class="c1"># else: domain_type will remain None and generate an exception below</span>
+        <span class="k">if</span> <span class="n">domain_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The &#39;lb&#39; keyword can not be used &quot;</span>
+                    <span class="s2">&quot;to initialize a variable when the &quot;</span>
+                    <span class="s2">&quot;domain lower bound is finite.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">domain_lb</span>
+        <span class="k">if</span> <span class="n">domain_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The &#39;ub&#39; keyword can not be used &quot;</span>
+                    <span class="s2">&quot;to initialize a variable when the &quot;</span>
+                    <span class="s2">&quot;domain upper bound is finite.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">domain_ub</span>
+    <span class="k">elif</span> <span class="n">domain_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">domain_type</span> <span class="o">=</span> <span class="n">RealSet</span>
+    <span class="k">if</span> <span class="n">domain_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">IVariable</span><span class="o">.</span><span class="n">_valid_domain_types</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Domain type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not valid. Must be &quot;</span>
+            <span class="s2">&quot;one of: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">domain_type</span><span class="p">,</span> <span class="n">IVariable</span><span class="o">.</span><span class="n">_valid_domain_types</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">domain_type</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+
+
+<span class="k">class</span> <span class="nc">IVariable</span><span class="p">(</span><span class="n">ICategorizedObject</span><span class="p">,</span> <span class="n">NumericValue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The interface for decision variables&quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="n">_valid_domain_types</span> <span class="o">=</span> <span class="p">(</span><span class="n">RealSet</span><span class="p">,</span> <span class="n">IntegerSet</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Implementations can choose to define these</span>
+    <span class="c1"># properties as using __slots__, __dict__, or</span>
+    <span class="c1"># by overriding the @property method</span>
+    <span class="c1">#</span>
+
+    <span class="n">domain_type</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span>
+        <span class="n">doc</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;The domain type of the variable &quot;</span>
+            <span class="s2">&quot;(:class:`RealSet` or :class:`IntegerSet`)&quot;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">lb</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The lower bound of the variable&quot;</span><span class="p">)</span>
+    <span class="n">ub</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The upper bound of the variable&quot;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The value of the variable&quot;</span><span class="p">)</span>
+    <span class="n">fixed</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The fixed status of the variable&quot;</span><span class="p">)</span>
+    <span class="n">stale</span> <span class="o">=</span> <span class="n">_abstract_readwrite_property</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The stale status of the variable&quot;</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Interface</span>
+    <span class="c1">#</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get/Set the bounds as a tuple (lb, ub).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds_tuple</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="o">=</span> <span class="n">bounds_tuple</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the numeric value of the variable lower bound.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+
+    <span class="nd">@lb</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the numeric value of the variable upper bound.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+
+    <span class="nd">@ub</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">fix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">NoArgumentGiven</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fix the variable. Sets the fixed indicator to</span>
+<span class="sd">        :const:`True`. An optional value argument will</span>
+<span class="sd">        update the variable&#39;s value before fixing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">NoArgumentGiven</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">unfix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Free the variable. Sets the fixed indicator to</span>
+<span class="sd">        :const:`False`.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">free</span> <span class="o">=</span> <span class="n">unfix</span>
+
+    <span class="k">def</span> <span class="nf">has_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` when the lower bound is</span>
+<span class="sd">        :const:`None` or negative infinity&quot;&quot;&quot;</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">lb</span> <span class="o">!=</span> <span class="n">_neg_inf</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_ub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` when the upper bound is</span>
+<span class="sd">        :const:`None` or positive infinity&quot;&quot;&quot;</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ub</span> <span class="o">!=</span> <span class="n">_pos_inf</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lslack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Lower slack (value - lb). Returns :const:`None` if</span>
+<span class="sd">        the variable value is :const:`None`.&quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span>
+        <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">_neg_inf</span>
+        <span class="k">return</span> <span class="n">val</span> <span class="o">-</span> <span class="n">lb</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">uslack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Upper slack (ub - value). Returns :const:`None` if</span>
+<span class="sd">        the variable value is :const:`None`.&quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span>
+        <span class="k">if</span> <span class="n">ub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="n">_pos_inf</span>
+        <span class="k">return</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">val</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">slack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;min(lslack, uslack). Returns :const:`None` if</span>
+<span class="sd">        the variable value is :const:`None`.&quot;&quot;&quot;</span>
+        <span class="c1"># this method is written so that constraint</span>
+        <span class="c1"># types that build the body expression on the</span>
+        <span class="c1"># fly do not have to here</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lslack</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uslack</span><span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Convenience methods mainly used by the solver</span>
+    <span class="c1"># interfaces</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="nf">is_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` when the domain type is</span>
+<span class="sd">        :class:`RealSet`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="o">.</span><span class="n">get_interval</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="c1"># this could be expanded to include semi-continuous</span>
+    <span class="c1"># where as is_integer would not</span>
+    <span class="k">def</span> <span class="nf">is_discrete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` when the domain type is</span>
+<span class="sd">        :class:`IntegerSet`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="o">.</span><span class="n">get_interval</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_integer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` when the domain type is</span>
+<span class="sd">        :class:`IntegerSet`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="o">.</span><span class="n">get_interval</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">is_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` when the domain type is</span>
+<span class="sd">        :class:`IntegerSet` and the bounds are within</span>
+<span class="sd">        [0,1].&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="o">.</span><span class="n">get_interval</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">}</span>
+
+    <span class="c1"># TODO?</span>
+    <span class="c1">#    def is_semicontinuous(self):</span>
+    <span class="c1">#        &quot;&quot;&quot;Returns :const:`True` when the domain class is</span>
+    <span class="c1">#        SemiContinuous.&quot;&quot;&quot;</span>
+    <span class="c1">#        return issubclass(self.domain_type, SemiRealSet)</span>
+
+    <span class="c1">#    def is_semiinteger(self):</span>
+    <span class="c1">#        &quot;&quot;&quot;Returns :const:`True` when the domain class is</span>
+    <span class="c1">#        SemiInteger.&quot;&quot;&quot;</span>
+    <span class="c1">#        return issubclass(self.domain_type, SemiIntegerSet)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># Implement the NumericValue abstract methods</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="nf">is_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` if this variable is fixed,</span>
+<span class="sd">        otherwise returns :const:`False`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span>
+
+    <span class="k">def</span> <span class="nf">is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` because this is not a</span>
+<span class="sd">        constant in an expression.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_parameter_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`False` because this is not a</span>
+<span class="sd">        parameter object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` because this is a</span>
+<span class="sd">        variable object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_potentially_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns :const:`True` because this is a</span>
+<span class="sd">        variable.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">polynomial_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the polynomial degree of this</span>
+<span class="sd">        expression&quot;&quot;&quot;</span>
+        <span class="c1"># If the variable is fixed, it represents a constant;</span>
+        <span class="c1"># otherwise, it has degree 1.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the value of this variable.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">exception</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;value is None&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+
+<div class="viewcode-block" id="variable"><a class="viewcode-back" href="../../../../library_reference/kernel/variable.html#pyomo.core.kernel.variable.variable">[docs]</a><span class="k">class</span> <span class="nc">variable</span><span class="p">(</span><span class="n">IVariable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A decision variable</span>
+
+<span class="sd">    Decision variables are used in objectives and</span>
+<span class="sd">    constraints to define an optimization problem.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        domain_type: Sets the domain type of the</span>
+<span class="sd">            variable. Must be one of :const:`RealSet` or</span>
+<span class="sd">            :const:`IntegerSet`. Can be updated later by</span>
+<span class="sd">            assigning to the :attr:`domain_type`</span>
+<span class="sd">            property. The default value of :const:`None` is</span>
+<span class="sd">            equivalent to :const:`RealSet`, unless the</span>
+<span class="sd">            :attr:`domain` keyword is used.</span>
+<span class="sd">        domain: Sets the domain of the variable. This</span>
+<span class="sd">            updates the :attr:`domain_type`, :attr:`lb`, and</span>
+<span class="sd">            :attr:`ub` properties of the variable. The</span>
+<span class="sd">            default value of :const:`None` implies that this</span>
+<span class="sd">            keyword is ignored. This keyword can not be used</span>
+<span class="sd">            in combination with the :attr:`domain_type`</span>
+<span class="sd">            keyword.</span>
+<span class="sd">        lb: Sets the lower bound of the variable. Can be</span>
+<span class="sd">            updated later by assigning to the :attr:`lb`</span>
+<span class="sd">            property on the variable. Default is</span>
+<span class="sd">            :const:`None`, which is equivalent to</span>
+<span class="sd">            :const:`-inf`.</span>
+<span class="sd">        ub: Sets the upper bound of the variable. Can be</span>
+<span class="sd">            updated later by assigning to the :attr:`ub`</span>
+<span class="sd">            property on the variable. Default is</span>
+<span class="sd">            :const:`None`, which is equivalent to</span>
+<span class="sd">            :const:`+inf`.</span>
+<span class="sd">        value: Sets the value of the variable. Can be</span>
+<span class="sd">            updated later by assigning to the :attr:`value`</span>
+<span class="sd">            property on the variable. Default is</span>
+<span class="sd">            :const:`None`.</span>
+<span class="sd">        fixed (bool): Sets the fixed status of the</span>
+<span class="sd">            variable. Can be updated later by assigning to</span>
+<span class="sd">            the :attr:`fixed` property or by calling the</span>
+<span class="sd">            :meth:`fix` method. Default is :const:`False`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import pyomo.kernel as pmo</span>
+<span class="sd">        &gt;&gt;&gt; # A continuous variable with infinite bounds</span>
+<span class="sd">        &gt;&gt;&gt; x = pmo.variable()</span>
+<span class="sd">        &gt;&gt;&gt; # A binary variable</span>
+<span class="sd">        &gt;&gt;&gt; x = pmo.variable(domain=pmo.Binary)</span>
+<span class="sd">        &gt;&gt;&gt; # Also a binary variable</span>
+<span class="sd">        &gt;&gt;&gt; x = pmo.variable(domain_type=pmo.IntegerSet, lb=0, ub=1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_ctype</span> <span class="o">=</span> <span class="n">IVariable</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;_parent&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_storage_key&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_domain_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_active&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_lb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_ub&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_fixed&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_stale&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;__weakref__&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">domain_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_storage_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span> <span class="o">=</span> <span class="n">RealSet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span> <span class="o">=</span> <span class="n">lb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span> <span class="o">=</span> <span class="n">ub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed</span> <span class="o">=</span> <span class="n">fixed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># True</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">domain_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">domain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span> <span class="o">=</span> <span class="n">_extract_domain_type_and_bounds</span><span class="p">(</span>
+                <span class="n">domain_type</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The lower bound of the variable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span>
+
+    <span class="nd">@lower</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_numeric_data</span><span class="p">(</span><span class="n">lb</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Variable lower bounds must be numbers or &quot;</span>
+                <span class="s2">&quot;expressions restricted to numeric data.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lb</span> <span class="o">=</span> <span class="n">lb</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The upper bound of the variable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span>
+
+    <span class="nd">@upper</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_numeric_data</span><span class="p">(</span><span class="n">ub</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Variable upper bounds must be numbers or &quot;</span>
+                <span class="s2">&quot;expressions restricted to numeric data.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ub</span> <span class="o">=</span> <span class="n">ub</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The value of the variable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stale</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The fixed status of the variable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixed</span>
+
+    <span class="nd">@fixed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fixed</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed</span> <span class="o">=</span> <span class="n">fixed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">stale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The stale status of the variable&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">is_stale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stale</span><span class="p">)</span>
+
+    <span class="nd">@stale</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stale</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stale</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="n">StaleFlagManager</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">domain_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The domain type of the variable (:class:`RealSet`</span>
+<span class="sd">        or :class:`IntegerSet`)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span>
+
+    <span class="nd">@domain_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">domain_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">domain_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">IVariable</span><span class="o">.</span><span class="n">_valid_domain_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Domain type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not valid. Must be &quot;</span>
+                <span class="s2">&quot;one of: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="p">,</span> <span class="n">IVariable</span><span class="o">.</span><span class="n">_valid_domain_types</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span> <span class="o">=</span> <span class="n">domain_type</span>
+
+    <span class="k">def</span> <span class="nf">_set_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the domain of the variable. This method</span>
+<span class="sd">        updates the :attr:`domain_type` property and</span>
+<span class="sd">        overwrites the :attr:`lb` and :attr:`ub` properties</span>
+<span class="sd">        with the domain bounds.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ub</span> <span class="o">=</span> <span class="n">_extract_domain_type_and_bounds</span><span class="p">(</span>
+            <span class="kc">None</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+    <span class="n">domain</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fset</span><span class="o">=</span><span class="n">_set_domain</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">_set_domain</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span></div>
+
+
+<span class="c1"># inserts class definitions for simple _tuple, _list, and</span>
+<span class="c1"># _dict containers into this module</span>
+<span class="n">define_simple_containers</span><span class="p">(</span><span class="nb">globals</span><span class="p">(),</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">IVariable</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

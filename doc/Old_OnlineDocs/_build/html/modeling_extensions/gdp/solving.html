@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Solving Logic-based Models with Pyomo.GDP &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MPEC" href="../mpec.html" />
+    <link rel="prev" title="Modeling in Pyomo.GDP" href="modeling.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Modeling Extensions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bilevel.html">Bilevel Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html">Dynamic Optimization with pyomo.DAE</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Generalized Disjunctive Programming</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="concepts.html">Key Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modeling.html">Modeling in Pyomo.GDP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Solving Logic-based Models with Pyomo.GDP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flexible-solution-suite">Flexible Solution Suite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reformulations">Reformulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direct-gdp-solvers">Direct GDP solvers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#literature-references">Literature References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mpec.html">MPEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stochastic_programming.html">Stochastic Programming in Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network.html">Pyomo Network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Modeling Extensions</a> &raquo;</li>
+        
+          <li><a href="index.html">Generalized Disjunctive Programming</a> &raquo;</li>
+        
+      <li>Solving Logic-based Models with Pyomo.GDP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/modeling_extensions/gdp/solving.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <img alt="../../_images/Pyomo-GDP-150.png" class="no-scaled-link align-right" src="../../_images/Pyomo-GDP-150.png" style="width: 200.8px; height: 64.2px;" />
+<div class="section" id="solving-logic-based-models-with-pyomo-gdp">
+<h1>Solving Logic-based Models with Pyomo.GDP<a class="headerlink" href="#solving-logic-based-models-with-pyomo-gdp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="flexible-solution-suite">
+<h2>Flexible Solution Suite<a class="headerlink" href="#flexible-solution-suite" title="Permalink to this headline">¶</a></h2>
+<p>Once a model is formulated as a GDP model, a range of solution
+strategies are available to manipulate and solve it.</p>
+<p>The traditional approach is reformulation to a MI(N)LP, but various
+other techniques are possible, including direct solution via the
+<a class="reference internal" href="../../contributed_packages/gdpopt.html#gdpopt-main-page"><span class="std std-ref">GDPopt solver</span></a>.  Below, we describe some of
+these capabilities.</p>
+</div>
+<div class="section" id="reformulations">
+<span id="gdp-reformulations"></span><h2>Reformulations<a class="headerlink" href="#reformulations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="logical-constraints">
+<h3>Logical constraints<a class="headerlink" href="#logical-constraints" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Historically users needed to explicitly convert logical propositions
+to algebraic form prior to invoking the GDP MI(N)LP reformulations
+or the GDPopt solver. However, this is mathematically incorrect
+since the GDP MI(N)LP reformulations themselves convert logical
+formulations to algebraic formulations.  The current recommended
+practice is to pass the entire (mixed logical / algebraic) model to
+the MI(N)LP reformulations or GDPopt directly.</p>
+</div>
+<p>There are several approaches to convert logical constraints into
+algebraic form.</p>
+<div class="section" id="conjunctive-normal-form">
+<h4>Conjunctive Normal Form<a class="headerlink" href="#conjunctive-normal-form" title="Permalink to this headline">¶</a></h4>
+<p>The first transformation (<cite>core.logical_to_linear</cite>) leverages the
+<cite>sympy</cite> package to generate the conjunctive normal form of the logical
+constraints and then adds the equivalent as a list algebraic
+constraints.  The following transforms logical propositions on the model
+to algebraic form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;core.logical_to_linear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The transformation creates a constraint list with a unique name starting
+with <code class="docutils literal notranslate"><span class="pre">logic_to_linear</span></code>, within which the algebraic equivalents of the
+logical constraints are placed.  If not already associated with a binary
+variable, each <code class="docutils literal notranslate"><span class="pre">BooleanVar</span></code> object will receive a generated binary
+counterpart.  These associated binary variables may be accessed via the
+<code class="docutils literal notranslate"><span class="pre">get_associated_binary()</span></code> method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_associated_binary</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Additional augmented variables and their corresponding constraints may
+also be created, as described in <a class="reference internal" href="modeling.html#gdp-advanced-examples"><span class="std std-ref">Advanced LogicalConstraint Examples</span></a>.</p>
+<p>Following solution of the GDP model, values of the Boolean variables may be updated from their algebraic binary counterparts using the <code class="docutils literal notranslate"><span class="pre">update_boolean_vars_from_binary()</span></code> function.</p>
+<dl class="py function">
+<dt id="pyomo.core.plugins.transform.logical_to_linear.update_boolean_vars_from_binary">
+<code class="descclassname">pyomo.core.plugins.transform.logical_to_linear.</code><code class="descname">update_boolean_vars_from_binary</code><span class="sig-paren">(</span><em><span class="n">model</span></em>, <em><span class="n">integer_tolerance</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyomo/core/plugins/transform/logical_to_linear.html#update_boolean_vars_from_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyomo.core.plugins.transform.logical_to_linear.update_boolean_vars_from_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates all Boolean variables based on the value of their linked binary
+variables.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="factorable-programming">
+<h4>Factorable Programming<a class="headerlink" href="#factorable-programming" title="Permalink to this headline">¶</a></h4>
+<p>The second transformation (<cite>contrib.logical_to_disjunctive</cite>) leverages
+ideas from factorable programming to first generate an equivalent set of
+“factored” logical constraints form by traversing each logical
+proposition and replacing each logical operator with an additional
+Boolean variable and then adding the “simple” logical constraint that
+equates the new Boolean variable with the single logical operator.</p>
+<p>The resulting “simple” logical constraints are converted to either MIP
+or GDP form: if the constraint contains only Boolean variables, then
+then MIP representation is emitted.  Logical constraints with mixed
+integer-Boolean arguments (e.g., <cite>atmost</cite>, <cite>atleast</cite>, <cite>exactly</cite>, etc.)
+are converted to a disjunctive representation.</p>
+<p>As this transformation both avoids the conversion into <cite>sympy</cite> and only
+requires a single traversal of each logical constraint,
+<cite>contrib.logical_to_disjunctive</cite> is significantly faster than
+<cite>core.logical_to_linear</cite> at the cost of a larger model.  In practice,
+the cost of the larger model is negated by the effectiveness of the MIP
+presolve in most solvers.</p>
+</div>
+</div>
+<div class="section" id="reformulation-to-mi-n-lp">
+<h3>Reformulation to MI(N)LP<a class="headerlink" href="#reformulation-to-mi-n-lp" title="Permalink to this headline">¶</a></h3>
+<p>To use standard commercial solvers, you must convert the disjunctive
+model to a standard MILP/MINLP model.  The two classical strategies for
+doing so are the (included) Big-M and Hull reformulations.</p>
+<div class="section" id="big-m-bm-reformulation">
+<h4>Big-M (BM) Reformulation<a class="headerlink" href="#big-m-bm-reformulation" title="Permalink to this headline">¶</a></h4>
+<p>The Big-M reformulation<a class="footnote-reference" href="#gdp-bm" id="id1">[5]</a> results in a smaller transformed model, avoiding the need to add extra variables; however, it yields a looser continuous relaxation.
+By default, the BM transformation will estimate reasonably tight M values for you if variables are bounded.
+For nonlinear models where finite expression bounds may be inferred from variable bounds, the BM transformation may also be able to automatically compute M values for you.
+For all other models, you will need to provide the M values through a “BigM” Suffix, or through the <cite>bigM</cite> argument to the transformation.
+We will raise a <code class="docutils literal notranslate"><span class="pre">GDP_Error</span></code> for missing M values.</p>
+<p>To apply the BM reformulation within a python script, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;gdp.bigm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the Pyomo command line, include the <code class="docutils literal notranslate"><span class="pre">--transform</span> <span class="pre">pyomo.gdp.bigm</span></code> option.</p>
+</div>
+<div class="section" id="multiple-big-m-mbm-reformulation">
+<h4>Multiple Big-M (MBM) Reformulation<a class="headerlink" href="#multiple-big-m-mbm-reformulation" title="Permalink to this headline">¶</a></h4>
+<p>We also implement the multiple-parameter Big-M (MBM) approach described in literature<a class="footnote-reference" href="#gdp-mbm" id="id2">[4]</a>.
+By default, the MBM transformation will solve continuous subproblems in order to calculate M values.
+This process can be time-consuming, so the transformation also provides a method to export the M values used as a dictionary and allows for M values to be provided through the <cite>bigM</cite> argument.</p>
+<p>For example, to apply the transformation and store the M values, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mbigm</span> <span class="o">=</span> <span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;gdp.mbigm&#39;</span><span class="p">)</span>
+<span class="n">mbigm</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># These can be stored...</span>
+<span class="n">M_values</span> <span class="o">=</span> <span class="n">mbigm</span><span class="o">.</span><span class="n">get_all_M_values</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="c1"># ...so that in future runs, you can write:</span>
+<span class="n">mbigm</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">bigM</span><span class="o">=</span><span class="n">M_values</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the Pyomo command line, include the <code class="docutils literal notranslate"><span class="pre">--transform</span> <span class="pre">pyomo.gdp.mbigm</span></code> option.</p>
+</div>
+<div class="section" id="hull-reformulation-hr">
+<h4>Hull Reformulation (HR)<a class="headerlink" href="#hull-reformulation-hr" title="Permalink to this headline">¶</a></h4>
+<p>The Hull Reformulation requires a lifting into a higher-dimensional space and consequently introduces disaggregated variables and their corresponding constraints.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All variables that appear in disjuncts need upper and lower bounds.</li>
+<li>The hull reformulation is an exact reformulation at the solution
+points even for nonconvex GDP models, but the resulting MINLP will
+also be nonconvex.</li>
+</ul>
+</div>
+<p>To apply the Hull reformulation within a python script, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;gdp.hull&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the Pyomo command line, include the <code class="docutils literal notranslate"><span class="pre">--transform</span> <span class="pre">pyomo.gdp.hull</span></code> option.</p>
+</div>
+<div class="section" id="hybrid-bm-hr-reformulation">
+<h4>Hybrid BM/HR Reformulation<a class="headerlink" href="#hybrid-bm-hr-reformulation" title="Permalink to this headline">¶</a></h4>
+<p>An experimental (for now) implementation of the cutting plane approach described in literature<a class="footnote-reference" href="#gdp-cuttingplanes" id="id3">[6]</a> is provided for linear GDP models.
+The transformation augments the BM reformulation by a set of cutting planes generated from the HR model by solving separation problems.
+This gives a model that is not as large as the HR, but with a stronger continuous relaxation than the BM.</p>
+<p>This transformation is accessible via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;gdp.cuttingplane&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="direct-gdp-solvers">
+<h2>Direct GDP solvers<a class="headerlink" href="#direct-gdp-solvers" title="Permalink to this headline">¶</a></h2>
+<p>Pyomo includes the contributed GDPopt solver, which can directly solve
+GDP models.  Its usage is described within the <a class="reference internal" href="../../contributed_packages/gdpopt.html#gdpopt-main-page"><span class="std std-ref">contributed
+packages documentation</span></a>.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="gdp-pse-paper" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Chen, Q., Johnson, E. S., Siirola, J. D., &amp; Grossmann, I. E. (2018). Pyomo.GDP: Disjunctive Models in Python. In M. R. Eden, M. G. Ierapetritou, &amp; G. P. Towler (Eds.), <em>Proceedings of the 13th International Symposium on Process Systems Engineering</em> (pp. 889–894). San Diego: Elsevier B.V. <a class="reference external" href="https://doi.org/10.1016/B978-0-444-64241-7.50143-9">https://doi.org/10.1016/B978-0-444-64241-7.50143-9</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="gdp-main-paper" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>Chen, Q., Johnson, E. S., Bernal, D. E., Valentin, R., Kale, S., Bates, J., Siirola, J. D. and Grossmann, I. E. (2021). Pyomo.GDP: an ecosystem for logic based modeling and optimization development, <em>Optimization and Engineering</em> (pp. 1-36).https://doi.org/10.1007/s11081-021-09601-7</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="gdp-review-2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>Grossmann, I. E., &amp; Trespalacios, F. (2013). Systematic modeling of discrete-continuous optimization models through generalized disjunctive programming. <em>AIChE Journal</em>, 59(9), 3276–3295. <a class="reference external" href="https://doi.org/10.1002/aic.14088">https://doi.org/10.1002/aic.14088</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="gdp-mbm" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[4]</a></td><td>Trespalacios, F., &amp; Grossmann, I. E. (2015). Improved Big-M reformulation for generalized disjunctive programs. <em>Computers and Chemical Engineering</em>, 76, 98–103. <a class="reference external" href="https://doi.org/10.1016/j.compchemeng.2015.02.013">https://doi.org/10.1016/j.compchemeng.2015.02.013</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="gdp-bm" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[5]</a></td><td>Nemhauser, G. L., &amp; Wolsey, L. A. (1988). <em>Integer and combinatorial optimization</em>. New York: Wiley.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="gdp-cuttingplanes" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[6]</a></td><td>Sawaya, N. W., &amp; Grossmann, I. E. (2003). A cutting plane method for solving linear generalized disjunctive programming problems. <em>Computer Aided Chemical Engineering</em>, 15(C), 1032–1037. <a class="reference external" href="https://doi.org/10.1016/S1570-7946(03)80444-3">https://doi.org/10.1016/S1570-7946(03)80444-3</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../mpec.html" class="btn btn-neutral float-right" title="MPEC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modeling.html" class="btn btn-neutral float-left" title="Modeling in Pyomo.GDP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

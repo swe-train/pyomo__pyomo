@@ -1,0 +1,1014 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyomo.contrib.sensitivity_toolbox.sens &mdash; Pyomo 6.5.1.dev0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Pyomo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.5.1.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing_pyomo.html">Citing Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_overview/index.html">Pyomo Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pyomo_modeling_components/index.html">Pyomo Modeling Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solving_pyomo_models.html">Solving Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_models.html">Working with Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../working_abstractmodels/index.html">Working with Abstract Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_transformations/index.html">Model Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modeling_extensions/index.html">Modeling Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial_examples.html">Pyomo Tutorial Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model_debugging/index.html">Debugging Pyomo Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced_topics/index.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../errors.html">Common Warnings/Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_reference/index.html">Developer Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../library_reference/index.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">Contributing to Pyomo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributed_packages/index.html">Third-Party Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../related_packages.html">Related Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pyomo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyomo.contrib.sensitivity_toolbox.sens</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyomo.contrib.sensitivity_toolbox.sens</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ______________________________________________________________________________</span>
+<span class="c1">#</span>
+<span class="c1"># Pyomo: Python Optimization Modeling Objects</span>
+<span class="c1"># Copyright (c) 2008-2022</span>
+<span class="c1">#  National Technology and Engineering Solutions of Sandia, LLC</span>
+<span class="c1"># Under the terms of Contract DE-NA0003525 with National Technology and</span>
+<span class="c1"># Engineering Solutions of Sandia, LLC, the U.S. Government retains certain</span>
+<span class="c1"># rights in this software.</span>
+<span class="c1"># This software is distributed under the 3-clause BSD License</span>
+<span class="c1"># ______________________________________________________________________________</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Param</span><span class="p">,</span>
+    <span class="n">Var</span><span class="p">,</span>
+    <span class="n">Block</span><span class="p">,</span>
+    <span class="n">ComponentMap</span><span class="p">,</span>
+    <span class="n">Objective</span><span class="p">,</span>
+    <span class="n">Constraint</span><span class="p">,</span>
+    <span class="n">ConstraintList</span><span class="p">,</span>
+    <span class="n">Suffix</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">ComponentUID</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.sorting</span> <span class="kn">import</span> <span class="n">sorted_robust</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.current</span> <span class="kn">import</span> <span class="n">ExpressionReplacementVisitor</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.modeling</span> <span class="kn">import</span> <span class="n">unique_component_name</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tempfiles</span> <span class="kn">import</span> <span class="n">TempfileManager</span>
+<span class="kn">from</span> <span class="nn">pyomo.opt</span> <span class="kn">import</span> <span class="n">SolverFactory</span><span class="p">,</span> <span class="n">SolverStatus</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.sensitivity_toolbox.k_aug</span> <span class="kn">import</span> <span class="n">K_augInterface</span><span class="p">,</span> <span class="n">InTempDir</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="p">,</span> <span class="n">numpy_available</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.dependencies</span> <span class="kn">import</span> <span class="n">scipy</span><span class="p">,</span> <span class="n">scipy_available</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyomo.contrib.sensitivity_toolbox&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">&quot;The sipopt function has been deprecated. Use the sensitivity_calculation() &quot;</span>
+    <span class="s2">&quot;function with method=&#39;sipopt&#39; to access this functionality.&quot;</span><span class="p">,</span>
+    <span class="n">logger</span><span class="o">=</span><span class="s1">&#39;pyomo.contrib.sensitivity_toolbox&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.1&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">sipopt</span><span class="p">(</span>
+    <span class="n">instance</span><span class="p">,</span>
+    <span class="n">paramSubList</span><span class="p">,</span>
+    <span class="n">perturbList</span><span class="p">,</span>
+    <span class="n">cloneModel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">tee</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">keepfiles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">streamSoln</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">sensitivity_calculation</span><span class="p">(</span>
+        <span class="s1">&#39;sipopt&#39;</span><span class="p">,</span>
+        <span class="n">instance</span><span class="p">,</span>
+        <span class="n">paramSubList</span><span class="p">,</span>
+        <span class="n">perturbList</span><span class="p">,</span>
+        <span class="n">cloneModel</span><span class="p">,</span>
+        <span class="n">tee</span><span class="p">,</span>
+        <span class="n">keepfiles</span><span class="p">,</span>
+        <span class="n">solver_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="s2">&quot;The kaug function has been deprecated. Use the sensitivity_calculation() &quot;</span>
+    <span class="s2">&quot;function with method=&#39;k_aug&#39; to access this functionality.&quot;</span><span class="p">,</span>
+    <span class="n">logger</span><span class="o">=</span><span class="s1">&#39;pyomo.contrib.sensitivity_toolbox&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;6.1&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">kaug</span><span class="p">(</span>
+    <span class="n">instance</span><span class="p">,</span>
+    <span class="n">paramSubList</span><span class="p">,</span>
+    <span class="n">perturbList</span><span class="p">,</span>
+    <span class="n">cloneModel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">tee</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">keepfiles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">solver_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">streamSoln</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">sensitivity_calculation</span><span class="p">(</span>
+        <span class="s1">&#39;k_aug&#39;</span><span class="p">,</span>
+        <span class="n">instance</span><span class="p">,</span>
+        <span class="n">paramSubList</span><span class="p">,</span>
+        <span class="n">perturbList</span><span class="p">,</span>
+        <span class="n">cloneModel</span><span class="p">,</span>
+        <span class="n">tee</span><span class="p">,</span>
+        <span class="n">keepfiles</span><span class="p">,</span>
+        <span class="n">solver_options</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="n">_SIPOPT_SUFFIXES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;sens_state_0&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="c1"># ^ Not sure what this suffix does -RBP</span>
+    <span class="s1">&#39;sens_state_1&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;sens_state_value_1&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;sens_init_constr&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;sens_sol_state_1&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">,</span>
+    <span class="s1">&#39;sens_sol_state_1_z_L&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">,</span>
+    <span class="s1">&#39;sens_sol_state_1_z_U&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_K_AUG_SUFFIXES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ipopt_zL_out&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">,</span>
+    <span class="s1">&#39;ipopt_zU_out&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">,</span>
+    <span class="s1">&#39;ipopt_zL_in&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;ipopt_zU_in&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;dual&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT_EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;dcdp&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+    <span class="s1">&#39;DeltaP&#39;</span><span class="p">:</span> <span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_add_sensitivity_suffixes</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+    <span class="n">suffix_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">suffix_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_SIPOPT_SUFFIXES</span><span class="p">)</span>
+    <span class="n">suffix_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_K_AUG_SUFFIXES</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">suffix_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Only add suffix if it doesn&#39;t already exist.</span>
+            <span class="c1"># If something of this name does already exist, just</span>
+            <span class="c1"># assume it is the proper suffix and move on.</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_NotAnIndex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_component_items</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">}:</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">,)</span>
+    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sorted_robust</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">idx</span><span class="p">,</span> <span class="n">comp</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">_NotAnIndex</span><span class="p">,</span> <span class="n">comp</span>
+
+
+<div class="viewcode-block" id="sensitivity_calculation"><a class="viewcode-back" href="../../../../contributed_packages/sensitivity_toolbox.html#pyomo.contrib.sensitivity_toolbox.sens.sensitivity_calculation">[docs]</a><span class="k">def</span> <span class="nf">sensitivity_calculation</span><span class="p">(</span>
+    <span class="n">method</span><span class="p">,</span>
+    <span class="n">instance</span><span class="p">,</span>
+    <span class="n">paramList</span><span class="p">,</span>
+    <span class="n">perturbList</span><span class="p">,</span>
+    <span class="n">cloneModel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">tee</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">keepfiles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">solver_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function accepts a Pyomo ConcreteModel, a list of parameters, and</span>
+<span class="sd">    their corresponding perturbation list. The model is then augmented with</span>
+<span class="sd">    dummy constraints required to call sipopt or k_aug to get an approximation</span>
+<span class="sd">    of the perturbed solution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    method: string</span>
+<span class="sd">        &#39;sipopt&#39; or &#39;k_aug&#39;</span>
+<span class="sd">    instance: Block</span>
+<span class="sd">        pyomo block or model object</span>
+<span class="sd">    paramSubList: list</span>
+<span class="sd">        list of mutable parameters or fixed variables</span>
+<span class="sd">    perturbList: list</span>
+<span class="sd">        list of perturbed parameter values</span>
+<span class="sd">    cloneModel: bool, optional</span>
+<span class="sd">        indicator to clone the model. If set to False, the original</span>
+<span class="sd">        model will be altered</span>
+<span class="sd">    tee: bool, optional</span>
+<span class="sd">        indicator to stream solver log</span>
+<span class="sd">    keepfiles: bool, optional</span>
+<span class="sd">        preserve solver interface files</span>
+<span class="sd">    solver_options: dict, optional</span>
+<span class="sd">        Provides options to the solver (also the name of an attribute)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    The model that was manipulated by the sensitivity interface</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sens</span> <span class="o">=</span> <span class="n">SensitivityInterface</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">clone_model</span><span class="o">=</span><span class="n">cloneModel</span><span class="p">)</span>
+    <span class="n">sens</span><span class="o">.</span><span class="n">setup_sensitivity</span><span class="p">(</span><span class="n">paramList</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">sens</span><span class="o">.</span><span class="n">model_instance</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;k_aug&quot;</span><span class="p">,</span> <span class="s2">&quot;sipopt&quot;</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only methods &#39;k_aug&#39; and &#39;sipopt&#39; are supported&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;k_aug&#39;</span><span class="p">:</span>
+        <span class="n">k_aug</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;k_aug&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+        <span class="n">dot_sens</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;dot_sens&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+        <span class="n">ipopt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+
+        <span class="n">k_aug_interface</span> <span class="o">=</span> <span class="n">K_augInterface</span><span class="p">(</span><span class="n">k_aug</span><span class="o">=</span><span class="n">k_aug</span><span class="p">,</span> <span class="n">dot_sens</span><span class="o">=</span><span class="n">dot_sens</span><span class="p">)</span>
+
+        <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">ipopt_zL_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">ipopt_zL_out</span><span class="p">)</span>  <span class="c1">#: important!</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">ipopt_zU_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">ipopt_zU_out</span><span class="p">)</span>  <span class="c1">#: important!</span>
+
+        <span class="n">k_aug</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;dsdp_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1">#: sensitivity mode!</span>
+        <span class="n">k_aug_interface</span><span class="o">.</span><span class="n">k_aug</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+
+    <span class="n">sens</span><span class="o">.</span><span class="n">perturb_parameters</span><span class="p">(</span><span class="n">perturbList</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sipopt&#39;</span><span class="p">:</span>
+        <span class="n">ipopt_sens</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt_sens&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+        <span class="n">ipopt_sens</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;run_sens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+        <span class="k">if</span> <span class="n">solver_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ipopt_sens</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;linear_solver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver_options</span>
+
+        <span class="c1"># Send the model to ipopt_sens and collect the solution</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">ipopt_sens</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">keepfiles</span><span class="o">=</span><span class="n">keepfiles</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;k_aug&#39;</span><span class="p">:</span>
+        <span class="n">dot_sens</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;dsdp_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">k_aug_interface</span><span class="o">.</span><span class="n">dot_sens</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_dsdp</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">theta_names</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function calculates gradient vector of the variables</span>
+<span class="sd">        with respect to the parameters (theta_names).</span>
+
+<span class="sd">    e.g) min f:  p1*x1+ p2*(x2^2) + p1*p2</span>
+<span class="sd">         s.t  c1: x1 + x2 = p1</span>
+<span class="sd">              c2: x2 + x3 = p2</span>
+<span class="sd">              0 &lt;= x1, x2, x3 &lt;= 10</span>
+<span class="sd">              p1 = 10</span>
+<span class="sd">              p2 = 5</span>
+<span class="sd">    the function returns dx/dp and dp/dp, and column orders.</span>
+
+<span class="sd">    The following terms are used to define the output dimensions:</span>
+<span class="sd">    Ncon   = number of constraints</span>
+<span class="sd">    Nvar   = number of variables (Nx + Ntheta)</span>
+<span class="sd">    Nx     = number of decision (primal) variables</span>
+<span class="sd">    Ntheta = number of uncertain parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: Pyomo ConcreteModel</span>
+<span class="sd">        model should include an objective function</span>
+<span class="sd">    theta_names: list of strings</span>
+<span class="sd">        List of Var names</span>
+<span class="sd">    theta: dict</span>
+<span class="sd">        Estimated parameters e.g) from parmest</span>
+<span class="sd">    tee: bool, optional</span>
+<span class="sd">        Indicates that ef solver output should be teed</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dsdp: scipy.sparse.csr.csr_matrix</span>
+<span class="sd">        Ntheta by Nvar size sparse matrix. A Jacobian matrix of the</span>
+<span class="sd">        (decision variables, parameters) with respect to parameters</span>
+<span class="sd">        (theta_names). number of rows = len(theta_name), number of</span>
+<span class="sd">        columns = len(col)</span>
+<span class="sd">    col: list</span>
+<span class="sd">        List of variable names</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get parameters from names. In SensitivityInterface, we expect</span>
+    <span class="c1"># these to be parameters on the original model.</span>
+    <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">theta_names</span><span class="p">:</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">find_component</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot find component </span><span class="si">%s</span><span class="s2"> on model&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">Var</span><span class="p">:</span>
+            <span class="c1"># If theta_names correspond to Vars in the model, these vars</span>
+            <span class="c1"># need to be fixed.</span>
+            <span class="n">comp</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+        <span class="n">param_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+    <span class="n">sens</span> <span class="o">=</span> <span class="n">SensitivityInterface</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">clone_model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">sens</span><span class="o">.</span><span class="n">model_instance</span>
+
+    <span class="c1"># Setup model and calculate sensitivity matrix with k_aug</span>
+    <span class="n">sens</span><span class="o">.</span><span class="n">setup_sensitivity</span><span class="p">(</span><span class="n">param_list</span><span class="p">)</span>
+    <span class="n">k_aug</span> <span class="o">=</span> <span class="n">K_augInterface</span><span class="p">()</span>
+    <span class="n">k_aug</span><span class="o">.</span><span class="n">k_aug</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+
+    <span class="c1"># Write row and col files in a temp dir, then immediately</span>
+    <span class="c1"># read into a Python data structure.</span>
+    <span class="n">nl_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="n">InTempDir</span><span class="p">():</span>
+        <span class="n">base_fname</span> <span class="o">=</span> <span class="s2">&quot;col_row&quot;</span>
+        <span class="n">nl_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;nl&quot;</span><span class="p">))</span>
+        <span class="n">row_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;row&quot;</span><span class="p">))</span>
+        <span class="n">col_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nl_file</span><span class="p">,</span> <span class="n">io_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;symbolic_solver_labels&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nl_file</span><span class="p">,</span> <span class="n">row_file</span><span class="p">,</span> <span class="n">col_file</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">nl_data</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="c1"># Create more useful data structures from strings</span>
+    <span class="n">dsdp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">k_aug</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dsdp_in_.in&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">nl_data</span><span class="p">[</span><span class="n">col_file</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">nl_data</span><span class="p">[</span><span class="n">row_file</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">dsdp</span> <span class="o">=</span> <span class="n">dsdp</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">theta_names</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dsdp</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta_names</span><span class="p">))))</span>
+    <span class="n">dsdp</span> <span class="o">=</span> <span class="n">dsdp</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta_names</span><span class="p">),</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)]</span>
+
+    <span class="n">col</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">col</span> <span class="k">if</span> <span class="n">sens</span><span class="o">.</span><span class="n">get_default_block_name</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">dsdp_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">theta_names</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theta_names</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">sens</span><span class="o">.</span><span class="n">get_default_block_name</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                <span class="n">dsdp_out</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">dsdp</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>  <span class="c1"># e.g) k_aug dsdp returns -dx1/dx1 = -1.0</span>
+
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">dsdp_out</span><span class="p">),</span> <span class="n">col</span>
+
+
+<span class="k">def</span> <span class="nf">get_dfds_dcds</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">theta_names</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">solver_options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function calculates gradient vector of the objective function</span>
+<span class="sd">       and constraints with respect to the variables and parameters.</span>
+
+<span class="sd">    e.g) min f:  p1*x1+ p2*(x2^2) + p1*p2</span>
+<span class="sd">         s.t  c1: x1 + x2 = p1</span>
+<span class="sd">              c2: x2 + x3 = p2</span>
+<span class="sd">              0 &lt;= x1, x2, x3 &lt;= 10</span>
+<span class="sd">              p1 = 10</span>
+<span class="sd">              p2 = 5</span>
+<span class="sd">    - Variables = (x1, x2, x3, p1, p2)</span>
+<span class="sd">    - Fix p1 and p2 with estimated values</span>
+
+<span class="sd">    The following terms are used to define the output dimensions:</span>
+<span class="sd">    Ncon   = number of constraints</span>
+<span class="sd">    Nvar   = number of variables (Nx + Ntheta)</span>
+<span class="sd">    Nx     = number of decision (primal) variables</span>
+<span class="sd">    Ntheta = number of uncertain parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: Pyomo ConcreteModel</span>
+<span class="sd">        model should include an objective function</span>
+<span class="sd">    theta_names: list of strings</span>
+<span class="sd">        List of Var names</span>
+<span class="sd">    tee: bool, optional</span>
+<span class="sd">        Indicates that ef solver output should be teed</span>
+<span class="sd">    solver_options: dict, optional</span>
+<span class="sd">        Provides options to the solver (also the name of an attribute)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    gradient_f: numpy.ndarray</span>
+<span class="sd">        Length Nvar array. A gradient vector of the objective function</span>
+<span class="sd">        with respect to the (decision variables, parameters) at the optimal</span>
+<span class="sd">        solution</span>
+<span class="sd">    gradient_c: scipy.sparse.csr.csr_matrix</span>
+<span class="sd">        Ncon by Nvar size sparse matrix. A Jacobian matrix of the</span>
+<span class="sd">        constraints with respect to the (decision variables, parameters)</span>
+<span class="sd">        at the optimal solution. Each row contains [row number,</span>
+<span class="sd">        column number, and value], column order follows variable order in col</span>
+<span class="sd">        and index starts from 0. Note that it follows k_aug.</span>
+<span class="sd">        If no constraint exists, return []</span>
+<span class="sd">    col: list</span>
+<span class="sd">        Size Nvar list of variable names</span>
+<span class="sd">    row: list</span>
+<span class="sd">        Size Ncon+1 list of constraints and objective function names.</span>
+<span class="sd">        The final element is the objective function name.</span>
+<span class="sd">    line_dic: dict</span>
+<span class="sd">        column numbers of the theta_names in the model. Index starts from 1</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        When ipopt or k_aug or dotsens is not available</span>
+<span class="sd">    Exception</span>
+<span class="sd">        When ipopt fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create the solver plugin using the ASL interface</span>
+    <span class="n">ipopt</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">solver_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ipopt</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">solver_options</span>
+    <span class="n">k_aug</span> <span class="o">=</span> <span class="n">SolverFactory</span><span class="p">(</span><span class="s1">&#39;k_aug&#39;</span><span class="p">,</span> <span class="n">solver_io</span><span class="o">=</span><span class="s1">&#39;nl&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;ipopt is not available&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">k_aug</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;k_aug is not available&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Declare Suffixes</span>
+    <span class="n">_add_sensitivity_suffixes</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="c1"># K_AUG SUFFIXES</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">dof_v</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>  <span class="c1">#: SUFFIX FOR K_AUG</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">rh_name</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>  <span class="c1">#: SUFFIX FOR K_AUG AS WELL</span>
+    <span class="n">k_aug</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;print_kkt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+
+    <span class="c1"># Raise exception if ipopt fails</span>
+    <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">SolverStatus</span><span class="o">.</span><span class="n">warning</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">Message</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">component_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">f_mean</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ipopt_zL_out</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_in</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ipopt_zU_out</span><span class="p">)</span>
+
+    <span class="c1"># run k_aug</span>
+    <span class="n">k_aug_interface</span> <span class="o">=</span> <span class="n">K_augInterface</span><span class="p">(</span><span class="n">k_aug</span><span class="o">=</span><span class="n">k_aug</span><span class="p">)</span>
+    <span class="n">k_aug_interface</span><span class="o">.</span><span class="n">k_aug</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>  <span class="c1">#: always call k_aug AFTER ipopt.</span>
+
+    <span class="n">nl_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="n">InTempDir</span><span class="p">():</span>
+        <span class="n">base_fname</span> <span class="o">=</span> <span class="s2">&quot;col_row&quot;</span>
+        <span class="n">nl_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;nl&quot;</span><span class="p">))</span>
+        <span class="n">row_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;row&quot;</span><span class="p">))</span>
+        <span class="n">col_file</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base_fname</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">))</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nl_file</span><span class="p">,</span> <span class="n">io_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;symbolic_solver_labels&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nl_file</span><span class="p">,</span> <span class="n">row_file</span><span class="p">,</span> <span class="n">col_file</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">nl_data</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">col</span> <span class="o">=</span> <span class="n">nl_data</span><span class="p">[</span><span class="n">col_file</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">nl_data</span><span class="p">[</span><span class="n">row_file</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># get the column numbers of &quot;parameters&quot;</span>
+    <span class="n">line_dic</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">theta_names</span><span class="p">}</span>
+
+    <span class="n">grad_f_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;GJH&quot;</span><span class="p">,</span> <span class="s2">&quot;gradient_f_print.txt&quot;</span><span class="p">)</span>
+    <span class="n">grad_f_string</span> <span class="o">=</span> <span class="n">k_aug_interface</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">grad_f_file</span><span class="p">]</span>
+    <span class="n">gradient_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">grad_f_string</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">col</span> <span class="k">if</span> <span class="n">SensitivityInterface</span><span class="o">.</span><span class="n">get_default_block_name</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
+
+    <span class="n">grad_c_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;GJH&quot;</span><span class="p">,</span> <span class="s2">&quot;A_print.txt&quot;</span><span class="p">)</span>
+    <span class="n">grad_c_string</span> <span class="o">=</span> <span class="n">k_aug_interface</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">grad_c_file</span><span class="p">]</span>
+    <span class="n">gradient_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">grad_c_string</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Jacobian file is in &quot;COO format,&quot; i.e. an nnz-by-3 array.</span>
+    <span class="c1"># Reshape to a numpy array that matches this format.</span>
+    <span class="n">gradient_c</span> <span class="o">=</span> <span class="n">gradient_c</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="n">num_constraints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Objective is included as a row</span>
+    <span class="k">if</span> <span class="n">num_constraints</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">row_idx</span> <span class="o">=</span> <span class="n">gradient_c</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">col_idx</span> <span class="o">=</span> <span class="n">gradient_c</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">gradient_c</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">gradient_c</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_constraints</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gradient_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="k">return</span> <span class="n">gradient_f</span><span class="p">,</span> <span class="n">gradient_c</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">line_dic</span>
+
+
+<span class="k">def</span> <span class="nf">line_num</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function returns the line number that contains &#39;target&#39; in the</span>
+<span class="sd">    file_name. This function identifies constraints that have variables</span>
+<span class="sd">    in theta_names.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name: string</span>
+<span class="sd">        file includes the variable order (i.e. col file)</span>
+<span class="sd">    target: string</span>
+<span class="sd">        variable name to check</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    count: int</span>
+<span class="sd">        line number of target in the file</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        When file does not include target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot; does not include &quot;</span> <span class="o">+</span> <span class="n">target</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SensitivityInterface</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">clone_model</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor clones model if necessary and attaches</span>
+<span class="sd">        to this object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_model</span> <span class="o">=</span> <span class="n">instance</span>
+
+        <span class="k">if</span> <span class="n">clone_model</span><span class="p">:</span>
+            <span class="c1"># Note that we are not &quot;cloning&quot; the user&#39;s parameters</span>
+            <span class="c1"># or perturbations.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span> <span class="o">=</span> <span class="n">instance</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_default_block_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;_SENSITIVITY_TOOLBOX_DATA&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_default_var_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="c1"># return &#39;_&#39;.join((&#39;sens_var&#39;, name))</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_default_param_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="c1"># return &#39;_&#39;.join((&#39;sens_param&#39;, name))</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">_process_param_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paramList</span><span class="p">):</span>
+        <span class="c1"># We need to translate the components in paramList into</span>
+        <span class="c1"># components in our possibly cloned model.</span>
+        <span class="n">orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_model</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span>
+        <span class="k">if</span> <span class="n">orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">instance</span><span class="p">:</span>
+            <span class="n">paramList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">ComponentUID</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">orig</span><span class="p">)</span><span class="o">.</span><span class="n">find_component_on</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">paramList</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">paramList</span>
+
+    <span class="k">def</span> <span class="nf">_add_data_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">existing_block</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># If a sensitivity block already exists, and we have not done</span>
+        <span class="c1"># any expression replacement, we delete the old block, re-fix the</span>
+        <span class="c1"># sensitivity variables, and start again.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Don&#39;t do this in the constructor as we could want to call</span>
+        <span class="c1"># the constructor once, then perform multiple sensitivity</span>
+        <span class="c1"># calculations with the same model instance.</span>
+        <span class="k">if</span> <span class="n">existing_block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">existing_block</span><span class="p">,</span> <span class="s1">&#39;_has_replaced_expressions&#39;</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">existing_block</span><span class="o">.</span><span class="n">_has_replaced_expressions</span>
+            <span class="p">):</span>
+                <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">existing_block</span><span class="o">.</span><span class="n">_sens_data_list</span><span class="p">:</span>
+                    <span class="c1"># Re-fix variables that the previous block was</span>
+                    <span class="c1"># treating as parameters.</span>
+                    <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span><span class="o">.</span><span class="n">del_component</span><span class="p">(</span><span class="n">existing_block</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Re-using sensitivity interface is not supported &quot;</span>
+                    <span class="s2">&quot;when calculating sensitivity for mutable parameters. &quot;</span>
+                    <span class="s2">&quot;Used fixed vars instead if you want to do this.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># Add a block to keep track of model components necessary for this</span>
+        <span class="c1"># sensitivity calculation.</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_default_block_name</span><span class="p">(),</span> <span class="n">block</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
+
+        <span class="c1"># If the user tells us they will perturb a set of parameters, we will</span>
+        <span class="c1"># need to replace these parameters in the user&#39;s model&#39;s constraints.</span>
+        <span class="c1"># This affects what we can do with the model later, so we add a flag.</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_has_replaced_expressions</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># This is the main data structure for keeping track of &quot;sensitivity</span>
+        <span class="c1"># vars&quot; and their associated params. It will be a list of tuples of</span>
+        <span class="c1"># (vardata, paramdata, list_index, comp_index)</span>
+        <span class="c1"># where:</span>
+        <span class="c1">#     vardata is the &quot;sensitivity variable&quot; data object,</span>
+        <span class="c1">#     paramdata is the associated parameter,</span>
+        <span class="c1">#     list_index is its index in the user-provided list, and</span>
+        <span class="c1">#     comp_index is its index in the component provided by the user.</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_sens_data_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># This will hold the user-provided list of</span>
+        <span class="c1"># variables and/or parameters to perturb</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_paramList</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># This will hold any constraints where we have replaced</span>
+        <span class="c1"># parameters with variables.</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">constList</span> <span class="o">=</span> <span class="n">ConstraintList</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">block</span>
+
+    <span class="k">def</span> <span class="nf">_add_sensitivity_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_list</span><span class="p">):</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span>
+        <span class="n">sens_data_list</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">_sens_data_list</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">Param</span><span class="p">:</span>
+                <span class="n">parent</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">mutable</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Parameters within paramList must be mutable. &quot;</span>
+                        <span class="s2">&quot;Got </span><span class="si">%s</span><span class="s2">, which is not mutable.&quot;</span> <span class="o">%</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                <span class="c1"># Add a Var:</span>
+                <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">value</span><span class="p">(</span><span class="n">comp</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">index_set</span><span class="p">()}</span>
+                    <span class="n">var</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">index_set</span><span class="p">(),</span> <span class="n">initialize</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+                    <span class="n">var</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_var_name</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">local_name</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">unique_component_name</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">sens_data_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">param</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">_generate_component_items</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sens_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">var</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">_NotAnIndex</span><span class="p">))</span>
+
+            <span class="k">elif</span> <span class="n">comp</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">Var</span><span class="p">:</span>
+                <span class="n">parent</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">_generate_component_items</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;Specified </span><span class="se">\&quot;</span><span class="s2">parameter</span><span class="se">\&quot;</span><span class="s2"> variables must be &quot;</span>
+                            <span class="s2">&quot;fixed. Got </span><span class="si">%s</span><span class="s2">, which is not fixed.&quot;</span> <span class="o">%</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span>
+                        <span class="p">)</span>
+                <span class="c1"># Add a Param:</span>
+                <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">value</span><span class="p">(</span><span class="n">comp</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">index_set</span><span class="p">()}</span>
+                    <span class="n">param</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">index_set</span><span class="p">(),</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+                    <span class="n">param</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_param_name</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">local_name</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">unique_component_name</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">sens_data_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">param</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">_generate_component_items</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sens_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">comp</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">_NotAnIndex</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_replace_parameters_in_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variableSubMap</span><span class="p">):</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span>
+        <span class="c1"># Visitor that we will use to replace user-provided parameters</span>
+        <span class="c1"># in the objective and the constraints.</span>
+        <span class="n">param_replacer</span> <span class="o">=</span> <span class="n">ExpressionReplacementVisitor</span><span class="p">(</span>
+            <span class="n">substitute</span><span class="o">=</span><span class="n">variableSubMap</span><span class="p">,</span> <span class="n">remove_named_expressions</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="c1"># TODO: Flag to ExpressionReplacementVisitor to only replace</span>
+        <span class="c1"># named expressions if a node has been replaced within that</span>
+        <span class="c1"># expression.</span>
+
+        <span class="n">new_old_comp_map</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+
+        <span class="c1"># clone Objective, add to Block, and update any Expressions</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Objective</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">tempName</span> <span class="o">=</span> <span class="n">unique_component_name</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">local_name</span><span class="p">)</span>
+            <span class="n">new_expr</span> <span class="o">=</span> <span class="n">param_replacer</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">expr</span><span class="p">)</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">tempName</span><span class="p">,</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">new_expr</span><span class="p">))</span>
+            <span class="n">new_old_comp_map</span><span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">tempName</span><span class="p">)]</span> <span class="o">=</span> <span class="n">obj</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+        <span class="c1"># clone Constraints, add to Block, and update any Expressions</span>
+        <span class="c1">#</span>
+        <span class="c1"># Unfortunate that this deactivates and replaces constraints</span>
+        <span class="c1"># even if they don&#39;t contain the parameters.</span>
+        <span class="c1">#</span>
+        <span class="n">old_con_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Constraint</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">last_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">old_con_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">con</span><span class="o">.</span><span class="n">equality</span> <span class="ow">or</span> <span class="n">con</span><span class="o">.</span><span class="n">lower</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">con</span><span class="o">.</span><span class="n">upper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_expr</span> <span class="o">=</span> <span class="n">param_replacer</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">expr</span><span class="p">)</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">new_expr</span><span class="p">)</span>
+                <span class="n">last_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">new_old_comp_map</span><span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="p">[</span><span class="n">last_idx</span><span class="p">]]</span> <span class="o">=</span> <span class="n">con</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Constraint must be a ranged inequality, break into</span>
+                <span class="c1"># separate constraints</span>
+                <span class="n">new_body</span> <span class="o">=</span> <span class="n">param_replacer</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+                <span class="n">new_lower</span> <span class="o">=</span> <span class="n">param_replacer</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+                <span class="n">new_upper</span> <span class="o">=</span> <span class="n">param_replacer</span><span class="o">.</span><span class="n">walk_expression</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+
+                <span class="c1"># Add constraint for lower bound</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="n">new_lower</span> <span class="o">&lt;=</span> <span class="n">new_body</span><span class="p">))</span>
+                <span class="n">last_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">new_old_comp_map</span><span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="p">[</span><span class="n">last_idx</span><span class="p">]]</span> <span class="o">=</span> <span class="n">con</span>
+
+                <span class="c1"># Add constraint for upper bound</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="n">new_body</span> <span class="o">&lt;=</span> <span class="n">new_upper</span><span class="p">))</span>
+                <span class="n">last_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">new_old_comp_map</span><span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">constList</span><span class="p">[</span><span class="n">last_idx</span><span class="p">]]</span> <span class="o">=</span> <span class="n">con</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">new_old_comp_map</span>
+
+    <span class="k">def</span> <span class="nf">setup_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paramList</span><span class="p">):</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span>
+        <span class="n">paramList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_param_list</span><span class="p">(</span><span class="n">paramList</span><span class="p">)</span>
+
+        <span class="n">existing_block</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_default_block_name</span><span class="p">())</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_data_block</span><span class="p">(</span><span class="n">existing_block</span><span class="o">=</span><span class="n">existing_block</span><span class="p">)</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_sens_data_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">_paramList</span> <span class="o">=</span> <span class="n">paramList</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_sensitivity_data</span><span class="p">(</span><span class="n">paramList</span><span class="p">)</span>
+        <span class="n">sens_data_list</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">_sens_data_list</span>
+
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sens_data_list</span><span class="p">:</span>
+            <span class="c1"># This unfixes all variables, not just those the user added.</span>
+            <span class="n">var</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+
+        <span class="c1"># Map used to replace user-provided parameters.</span>
+        <span class="n">variableSubMap</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">param</span><span class="p">),</span> <span class="n">var</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">list_idx</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sens_data_list</span>
+            <span class="k">if</span> <span class="n">paramList</span><span class="p">[</span><span class="n">list_idx</span><span class="p">]</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">is</span> <span class="n">Param</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">variableSubMap</span><span class="p">:</span>
+            <span class="c1"># We now replace the provided parameters in the user&#39;s</span>
+            <span class="c1"># expressions. Only do this if we have to, i.e. the</span>
+            <span class="c1"># user provided some parameters rather than all vars.</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">_replaced_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replace_parameters_in_constraints</span><span class="p">(</span>
+                <span class="n">variableSubMap</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Assume that we just replaced some params</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">_has_replaced_expressions</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">block</span><span class="o">.</span><span class="n">paramConst</span> <span class="o">=</span> <span class="n">ConstraintList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sens_data_list</span><span class="p">:</span>
+            <span class="c1"># block.paramConst.add(param - var == 0)</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">paramConst</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span> <span class="o">-</span> <span class="n">param</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Declare Suffixes</span>
+        <span class="n">_add_sensitivity_suffixes</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sens_data_list</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">paramConst</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+            <span class="c1"># sipopt</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">sens_state_0</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">sens_state_1</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">sens_init_constr</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+            <span class="c1"># k_aug</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">dcdp</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">def</span> <span class="nf">perturb_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perturbList</span><span class="p">):</span>
+        <span class="c1"># Note that entries of perturbList need not be components</span>
+        <span class="c1"># of the cloned model. All we need are the values.</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instance</span>
+        <span class="n">sens_data_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">_sens_data_list</span>
+        <span class="n">paramConst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">paramConst</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">_paramList</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">perturbList</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Length of paramList argument does not equal length of perturbList&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">list_idx</span><span class="p">,</span> <span class="n">comp_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sens_data_list</span><span class="p">):</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="n">paramConst</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">comp_idx</span> <span class="ow">is</span> <span class="n">_NotAnIndex</span><span class="p">:</span>
+                <span class="n">ptb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">perturbList</span><span class="p">[</span><span class="n">list_idx</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ptb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">perturbList</span><span class="p">[</span><span class="n">list_idx</span><span class="p">][</span><span class="n">comp_idx</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="c1"># If the user provided a scalar value to perturb</span>
+                    <span class="c1"># an indexed component.</span>
+                    <span class="n">ptb</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">perturbList</span><span class="p">[</span><span class="n">list_idx</span><span class="p">])</span>
+
+            <span class="c1"># sipopt</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">sens_state_value_1</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ptb</span>
+
+            <span class="c1"># k_aug</span>
+            <span class="c1"># instance.DeltaP[con] = value(ptb - var)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">DeltaP</span><span class="p">[</span><span class="n">con</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">var</span> <span class="o">-</span> <span class="n">ptb</span><span class="p">)</span>
+            <span class="c1"># FIXME: ^ This is incorrect. DeltaP should be (ptb - current).</span>
+            <span class="c1"># But at least one test doesn&#39;t pass unless I use (current - ptb).</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2008-2023, Sandia National Laboratories.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
