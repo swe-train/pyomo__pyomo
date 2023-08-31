@@ -1,5 +1,9 @@
 Reference Guide
 ===============
 
-TOOO
+Bibliography
+------------
+
+:doc:`Bibliography <reference_guide/bibliography>`
+
 

@@ -1,8 +1,11 @@
 Related Packages
 ================
 
-The following is list of software packages that utilize or build off
-of Pyomo. This is certainly not a comprehensive list. [#f1]_
+The following is list of software packages that utilize or build off of
+Pyomo. This is not a comprehensive list and the Pyomo team does not
+evaluate or endorse the packages listed below. If you would like to add
+your package to this list please click the "Edit on GitHub" link at the
+top of this page and open a pull request.
 
 Modeling Extensions
 -------------------
@@ -12,6 +15,9 @@ Modeling Extensions
 +==========================+=========================================================+=============================================+
 |  Coramin                 | https://github.com/coramin/coramin                      |  A suite of tools for developing MINLP      |
 |                          |                                                         |  algorithms                                 |
++--------------------------+---------------------------------------------------------+---------------------------------------------+
+|  OMLT                    | https://github.com/cog-imperial/OMLT                    |  Represent machine learning models within   |
+|                          |                                                         |  an optimization formulation                |
 +--------------------------+---------------------------------------------------------+---------------------------------------------+
 |  PAO                     | https://github.com/or-fusion/pao                        |  Formulation and solution of multilevel     |
 |                          |                                                         |  optimization problems                      |
@@ -55,8 +61,3 @@ Domain-Specific Applications
 +--------------------------+---------------------------------------------------------+---------------------------------------------+
 |  PyPSA                   | https://github.com/pypsa/pypsa                          |  Python for Power system Analysis           |
 +--------------------------+---------------------------------------------------------+---------------------------------------------+
-
-
-.. rubric:: Footnotes
-
-.. [#f1] Please note that the Pyomo team does not evaluate or endorse the packages listed above.
